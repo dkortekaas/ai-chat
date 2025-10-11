@@ -1,0 +1,433 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [vector]
+}
+
+model User {
+  id                    String             @id @default(cuid())
+  name                  String?
+  email                 String             @unique
+  emailVerified         DateTime?
+  image                 String?
+  password              String?
+  role                  UserRole           @default(ADMIN)
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+  resetToken            String?            @unique
+  resetTokenExpiry      DateTime?
+  twoFactorEnabled      Boolean            @default(false)
+  twoFactorMethod       String?
+  twoFactorSecret       String?
+  twoFactorBackupCodes  String?
+  twoFactorVerified     Boolean            @default(false)
+  subscriptionStatus    SubscriptionStatus @default(TRIAL)
+  subscriptionPlan      SubscriptionPlan?
+  stripeCustomerId      String?            @unique
+  stripeSubscriptionId  String?            @unique
+  trialStartDate        DateTime?
+  trialEndDate          DateTime?
+  subscriptionStartDate DateTime?
+  subscriptionEndDate   DateTime?
+  subscriptionCancelAt  DateTime?
+  subscriptionCanceled  Boolean            @default(false)
+  isActive              Boolean            @default(true)
+  companyId             String?
+  accounts              Account[]
+  chatbot_settings      ChatbotSettings[]
+  sessions              Session[]
+  notifications         Notification[]
+
+  @@index([isActive])
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+model Document {
+  id                  String               @id @default(cuid())
+  name                String
+  originalName        String
+  type                DocumentType
+  mimeType            String?
+  fileSize            Int?
+  filePath            String?
+  url                 String?
+  contentText         String
+  metadata            Json?
+  status              DocumentStatus       @default(PROCESSING)
+  errorMessage        String?
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  conversationSources ConversationSource[]
+  chunks              DocumentChunk[]
+
+  @@index([type])
+  @@index([status])
+  @@index([createdAt])
+  @@map("documents")
+}
+
+model DocumentChunk {
+  id         String                 @id @default(cuid())
+  documentId String
+  chunkIndex Int
+  content    String
+  embedding  Unsupported("vector")?
+  tokenCount Int?
+  metadata   Json?
+  createdAt  DateTime               @default(now())
+  document   Document               @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@index([documentId])
+  @@map("document_chunks")
+}
+
+model Conversation {
+  id           String               @id @default(cuid())
+  sessionId    String
+  ipAddress    String?
+  userAgent    String?
+  referrer     String?
+  question     String
+  answer       String
+  responseTime Int?
+  rating       Int?                 @db.SmallInt
+  ratingNotes  String?
+  ratedAt      DateTime?
+  ratedBy      String?
+  model        String?
+  tokensUsed   Int?
+  confidence   Float?
+  createdAt    DateTime             @default(now())
+  sources      ConversationSource[]
+
+  @@index([sessionId])
+  @@index([rating])
+  @@index([createdAt])
+  @@map("conversations")
+}
+
+model ConversationSource {
+  id             String       @id @default(cuid())
+  conversationId String
+  documentId     String
+  chunkContent   String
+  relevanceScore Float?
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  document       Document     @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId])
+  @@map("conversation_sources")
+}
+
+model SystemLog {
+  id        String   @id @default(cuid())
+  level     LogLevel
+  message   String
+  context   Json?
+  userId    String?
+  createdAt DateTime @default(now())
+
+  @@index([level])
+  @@index([createdAt])
+  @@map("system_logs")
+}
+
+model Website {
+  id           String        @id @default(cuid())
+  assistantId  String?
+  url          String
+  name         String?
+  description  String?
+  pageCount    Int           @default(0)
+  syncSpeed    Float?        @default(0)
+  syncInterval String        @default("never")
+  lastSync     DateTime?
+  status       WebsiteStatus @default(PENDING)
+  errorMessage String?
+  scrapedContent String?     // Main content text from scraping
+  scrapedLinks   Json?       // Array of found links
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  pages        WebsitePage[]
+
+  @@index([status])
+  @@index([createdAt])
+  @@index([assistantId])
+  @@unique([assistantId, url])
+  @@map("websites")
+}
+
+model WebsitePage {
+  id          String        @id @default(cuid())
+  websiteId   String
+  url         String
+  title       String?
+  content     String        // Scraped content text
+  links       Json?         // Links found on this page
+  status      WebsiteStatus @default(PENDING)
+  errorMessage String?
+  scrapedAt   DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  website     Website       @relation(fields: [websiteId], references: [id], onDelete: Cascade)
+
+  @@index([websiteId])
+  @@index([status])
+  @@index([scrapedAt])
+  @@map("website_pages")
+}
+
+model FAQ {
+  id          String   @id @default(cuid())
+  assistantId String?
+  question    String
+  answer      String
+  enabled     Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([enabled])
+  @@index([order])
+  @@index([assistantId])
+  @@map("faqs")
+}
+
+model KnowledgeFile {
+  id           String     @id @default(cuid())
+  // Owner of this file (for multi-tenant scoping)
+  userId       String?
+  // Optional scoping to a specific assistant
+  assistantId  String?
+  originalName String
+  fileName     String
+  filePath     String
+  mimeType     String
+  fileSize     Int
+  enabled      Boolean    @default(true)
+  status       FileStatus @default(PROCESSING)
+  errorMessage String?
+  description  String?
+  metadata     Json?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@index([userId])
+  @@index([assistantId])
+  @@index([status])
+  @@index([enabled])
+  @@index([createdAt])
+  @@map("knowledge_files")
+}
+
+model ContactForm {
+  id           String   @id @default(cuid())
+  assistantId  String?
+  name         String
+  description  String   @default("")
+  enabled      Boolean  @default(true)
+  redirectUrl  String?
+  fields       Json     @default("[]")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([assistantId])
+  @@index([createdAt])
+  @@map("forms")
+}
+
+model ChatbotSettings {
+  id                String   @id
+  userId            String
+  name              String   @default("AI Assistent")
+  welcomeMessage    String   @default("Hallo! Hoe kan ik je helpen?")
+  placeholderText   String   @default("Stel een vraag...")
+  primaryColor      String   @default("#3B82F6")
+  secondaryColor    String   @default("#1E40AF")
+  tone              String   @default("professional")
+  language          String   @default("nl")
+  maxResponseLength Int      @default(500)
+  temperature       Float    @default(0.7)
+  fallbackMessage   String   @default("Sorry, ik kan deze vraag niet beantwoorden op basis van de beschikbare informatie.")
+  position          String   @default("bottom-right")
+  showBranding      Boolean  @default(true)
+  isActive          Boolean  @default(true)
+  apiKey            String   @unique
+  allowedDomains    String[]
+  rateLimit         Int      @default(10)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime
+  users             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  actionButtons     ActionButton[]
+}
+
+model ActionButton {
+  id          String            @id @default(cuid())
+  assistantId String
+  buttonText  String
+  question    String
+  priority    Int               @default(50)
+  enabled     Boolean           @default(true)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  // Link to assistant settings for ownership scoping
+  assistant   ChatbotSettings  @relation(fields: [assistantId], references: [id], onDelete: Cascade)
+
+  @@index([assistantId])
+  @@map("action_buttons")
+}
+
+model Notification {
+  id            String           @id @default(cuid())
+  title         String
+  message       String
+  type          NotificationType @default(INFO)
+  priority      NotificationPriority @default(MEDIUM)
+  targetUsers   String[]         @default([]) // Empty array means all users
+  isActive      Boolean          @default(true)
+  isRead        Boolean          @default(false)
+  expiresAt     DateTime?
+  createdBy     String
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  createdByUser User             @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+
+  @@index([isActive])
+  @@index([isRead])
+  @@index([createdAt])
+  @@index([expiresAt])
+  @@map("notifications")
+}
+
+enum UserRole {
+  SUPERUSER
+  ADMIN
+  USER
+}
+
+enum SubscriptionStatus {
+  TRIAL
+  ACTIVE
+  CANCELED
+  PAST_DUE
+  UNPAID
+  INCOMPLETE
+  INCOMPLETE_EXPIRED
+  PAUSED
+}
+
+enum SubscriptionPlan {
+  STARTER
+  PROFESSIONAL
+  BUSINESS
+  ENTERPRISE
+}
+
+enum DocumentType {
+  PDF
+  DOCX
+  TXT
+  URL
+  IMAGE
+}
+
+enum DocumentStatus {
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum LogLevel {
+  INFO
+  WARNING
+  ERROR
+  CRITICAL
+}
+
+enum WebsiteStatus {
+  PENDING
+  SYNCING
+  COMPLETED
+  ERROR
+}
+
+enum FileStatus {
+  PROCESSING
+  COMPLETED
+  ERROR
+}
+
+enum NotificationType {
+  INFO
+  WARNING
+  ERROR
+  SUCCESS
+}
+
+enum NotificationPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+model SecurityAuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  companyId String?
+  eventType String
+  ipAddress String
+  userAgent String
+  details   String?
+  timestamp DateTime @default(now())
+
+  @@index([userId])
+  @@index([companyId])
+  @@index([eventType])
+  @@index([timestamp])
+  @@map("security_audit_logs")
+}

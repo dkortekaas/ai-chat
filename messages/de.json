@@ -1,0 +1,1200 @@
+{
+  "common": {
+    "searchPlaceholder": "Suchen...",
+    "search": "Suchen",
+    "menu": "Menü",
+    "management": "Verwaltung",
+    "closeSidebar": "Seitenleiste schließen",
+    "openSidebar": "Seitenleiste öffnen",
+    "toggleTheme": "Thema wechseln",
+    "version": "Version",
+    "commentPlaceholder": "Kommentar eingeben",
+    "processing": "Wird verarbeitet...",
+    "readOnlyView": "Nur-Lese-Ansicht",
+    "readOnlyDescription": "Sie haben keinen Zugriff auf diese Seite",
+    "selectAll": "Alle auswählen",
+    "selectRow": "Zeile auswählen",
+    "actions": "Aktionen",
+    "noResults": "Keine Ergebnisse gefunden",
+    "save": "Speichern",
+    "saving": "Wird gespeichert...",
+    "changePassword": "Passwort ändern",
+    "add": "Hinzufügen",
+    "addNew": "Neu hinzufügen",
+    "inactive": "Inaktiv",
+    "active": "Aktiv",
+    "cancel": "Abbrechen",
+    "next": "Weiter",
+    "previous": "Zurück",
+    "verify": "Überprüfen",
+    "verifying": "Wird überprüft...",
+    "complete": "Abschließen",
+    "confirm": "Bestätigen",
+    "enabled": "Aktiviert",
+    "disabled": "Deaktiviert",
+    "select": "Auswählen",
+    "required": "erforderlich",
+    "filters": "Filter",
+    "all": "Alle",
+    "navigation": {
+      "menu": "Menü",
+      "dashboard": "Dashboard",
+      "declarations": "Spesenabrechnungen",
+      "declarationsList": "Liste",
+      "newDeclaration": "Neue Spesenabrechnung",
+      "new": "Neu",
+      "notifications": "Benachrichtigungen",
+      "settings": "Einstellungen",
+      "users": "Benutzer",
+      "company": "Unternehmen",
+      "profile": "Profil",
+      "logout": "Abmelden",
+      "invitations": "Einladungen",
+      "subscription": "Abonnement",
+      "admin": "Admin",
+      "adminDashboard": "Admin Dashboard"
+    },
+    "buttons": {
+      "confirm": "Bestätigen",
+      "save": "Speichern",
+      "cancel": "Abbrechen",
+      "delete": "Löschen",
+      "edit": "Bearbeiten",
+      "submit": "Absenden",
+      "back": "Zurück",
+      "next": "Weiter",
+      "create": "Erstellen"
+    },
+    "status": {
+      "loading": "Wird geladen...",
+      "processing": "Wird verarbeitet...",
+      "deleting": "Wird gelöscht...",
+      "success": "Erfolgreich",
+      "error": "Fehler",
+      "noResults": "Keine Ergebnisse gefunden",
+      "required": "Erforderlich"
+    }
+  },
+  "metadata": {
+    "title": "Declair - Weniger Aufwand, mehr Klarheit. Das ist Declair.",
+    "description": "Machen Sie das Einreichen und Verwalten von Spesenabrechnungen einfach mit Declair. Einfache Verarbeitung, Echtzeit-Genehmigung und vollständige Transparenz.",
+    "keywords": "Spesenabrechnungen, Ausgabenabrechnung, Unternehmensverwaltung, Automatisierung, Declair",
+    "og": {
+      "title": "Declair - Weniger Aufwand, mehr Klarheit. Das ist Declair.",
+      "description": "Machen Sie das Einreichen und Verwalten von Spesenabrechnungen einfach mit Declair. Einfache Verarbeitung, Echtzeit-Genehmigung und vollständige Transparenz."
+    },
+    "twitter": {
+      "title": "Declair - Weniger Aufwand, mehr Klarheit. Das ist Declair.",
+      "description": "Machen Sie das Einreichen und Verwalten von Spesenabrechnungen einfach mit Declair. Einfache Verarbeitung, Echtzeit-Genehmigung und vollständige Transparenz."
+    }
+  },
+  "notFound": {
+    "title": "Seite nicht gefunden",
+    "description": "Die gesuchte Seite existiert nicht",
+    "backToPortal": "Zurück zum Dashboard"
+  },
+  "error": {
+    "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+    "roleInvalid": "Bitte wählen Sie eine gültige Rolle",
+    "passwordInvalid": "Passwort muss mindestens 8 Zeichen lang sein",
+    "passwordMismatch": "Passwörter stimmen nicht überein",
+    "emailRequired": "E-Mail-Adresse ist erforderlich",
+    "loginRequired": "Sie müssen angemeldet sein, um Einladungen zu senden",
+    "userExists": "Dieser Benutzer existiert bereits",
+    "companyRequired": "Sie sind keinem Unternehmen zugeordnet",
+    "inviteAuthRequired": "Sie haben keine Berechtigung, Benutzer einzuladen",
+    "invalidInput": "Ungültige Eingabe",
+    "userExistsInvite": "Es existiert bereits ein Benutzer mit dieser E-Mail-Adresse",
+    "inviteExistsEmail": "An diese E-Mail-Adresse wurde bereits eine Einladung gesendet",
+    "companyNotFound": "Unternehmen nicht gefunden",
+    "internalServerError": "Ein interner Serverfehler ist aufgetreten",
+    "checkUser": "Bei der Überprüfung der E-Mail-Adresse ist ein Fehler aufgetreten",
+    "inviteFailed": "Beim Senden der Einladung ist ein Fehler aufgetreten",
+    "unauthorized": "Nicht autorisiert",
+    "somethingWentWrong": "Etwas ist schiefgelaufen",
+    "nameRequired": "Name ist erforderlich",
+    "invalidEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+    "currentPasswordRequired": "Aktuelles Passwort ist erforderlich",
+    "newPasswordRequired": "Passwort muss mindestens 8 Zeichen lang sein",
+    "passwordsDoNotMatch": "Passwörter stimmen nicht überein",
+    "failedToFetchNotifications": "Beim Abrufen der Benachrichtigungen ist ein Fehler aufgetreten",
+    "passwordRequired": "Passwort ist erforderlich",
+    "receiptRequired": "Beleg ist für diese Kategorie erforderlich",
+    "receiptRequiredDescription": "Sie müssen einen Beleg für diese Spesenabrechnung hinzufügen",
+    "titleRequired": "Titel ist erforderlich",
+    "amountRequired": "Betrag muss eine positive Zahl sein",
+    "dateRequired": "Datum ist erforderlich",
+    "categoryRequired": "Kategorie ist erforderlich",
+    "approverRequired": "Genehmiger ist erforderlich",
+    "expenseTypeRequired": "Kostenstelle ist erforderlich",
+    "noCategories": "Keine Kategorien gefunden",
+    "categoryRequired2": "Kategorie ist erforderlich",
+    "submissionFailed": "Beim Einreichen der Spesenabrechnung ist ein Fehler aufgetreten",
+    "noApprovers": "Keine Genehmiger gefunden",
+    "categoryListUpdateError": "Beim Aktualisieren der Kategorieliste ist ein Fehler aufgetreten",
+    "exportCategoryItemsError": "Beim Exportieren der Kategorieeinträge ist ein Fehler aufgetreten",
+    "errorLoading2FASettings": "Beim Laden der 2FA-Einstellungen ist ein Fehler aufgetreten",
+    "errorLoading2FASettingsDescription": "Beim Laden der 2FA-Einstellungen ist ein Fehler aufgetreten",
+    "errorLoadingCategories": "Beim Laden der Kategorien ist ein Fehler aufgetreten",
+    "noCategoriesFound": "Keine Kategorien gefunden",
+    "invalidCredentials": "Ungültige Anmeldedaten",
+    "verificationFailed": "Überprüfung fehlgeschlagen",
+    "required": "Erforderlich",
+    "errorUpdatingPassword": "Beim Ändern des Passworts ist ein Fehler aufgetreten",
+    "generic": "Ein Fehler ist aufgetreten",
+    "invalidOrExpiredInvitation": "Ungültige oder abgelaufene Einladung",
+    "approveError": "Bei der Genehmigung der Spesenabrechnung ist ein Fehler aufgetreten",
+    "betaRegistration": "Bei der Registrierung für die Beta ist ein Fehler aufgetreten",
+    "companyNameMin": "Bitte geben Sie einen gültigen Unternehmensnamen ein",
+    "inviteError": "Beim Einladen des Benutzers ist ein Fehler aufgetreten",
+    "passwordTooLong": "Passwort muss weniger als 128 Zeichen lang sein",
+    "nameTooLong": "Name muss weniger als 128 Zeichen lang sein",
+    "rateLimit": "Zu viele fehlgeschlagene Versuche. Bitte versuchen Sie es später erneut.",
+    "userNotFoundOr2FANotEnabled": "Benutzer nicht gefunden oder 2FA nicht aktiviert",
+    "noRecoveryCodesAvailable": "Keine Wiederherstellungscodes verfügbar",
+    "2FANotConfigured": "2FA ist nicht korrekt konfiguriert",
+    "invalidRecoveryCode": "Ungültiger Wiederherstellungscode",
+    "invalidTOTPCode": "Ungültiger TOTP-Code",
+    "invalidVerificationCode": "Ungültiger Überprüfungscode",
+    "2FAVerificationError": "Bei der Überprüfung von 2FA ist ein Fehler aufgetreten",
+    "atLeastOneItem": "Sie müssen mindestens einen Eintrag hinzufügen"
+  },
+  "success": {
+    "inviteSent": "Einladung erfolgreich gesendet",
+    "invitationRevoked": "Einladung erfolgreich zurückgezogen",
+    "invitationResent": "Einladung erfolgreich erneut gesendet",
+    "preferencesUpdated": "Benachrichtigungseinstellungen aktualisiert",
+    "preferencesUpdatedDescription": "Ihre Benachrichtigungseinstellungen wurden erfolgreich aktualisiert",
+    "profileUpdated": "Profil aktualisiert",
+    "profileUpdatedDescription": "Ihr Profil wurde erfolgreich aktualisiert",
+    "declarationSubmitted": "Spesenabrechnung erfolgreich eingereicht",
+    "declarationUpdated": "Spesenabrechnung erfolgreich aktualisiert",
+    "categoryListUpdated": "Kategorie erfolgreich aktualisiert",
+    "categoryListActivated": "Kategorie erfolgreich aktiviert",
+    "categoryListDeactivated": "Kategorie erfolgreich deaktiviert",
+    "categoryListDeleted": "Kategorie erfolgreich gelöscht",
+    "updatedCategoryItem": "Kategorieeintrag erfolgreich aktualisiert",
+    "declarationCreated": "Spesenabrechnung erfolgreich erstellt",
+    "twoFactorSetupSuccess": "Zwei-Faktor-Authentifizierung erfolgreich eingerichtet",
+    "twoFactorSetupSuccessDescription": "Ihre Zwei-Faktor-Authentifizierung wurde erfolgreich eingerichtet",
+    "codeCopied": "Code kopiert",
+    "categoryListCreated": "Kategorie erfolgreich erstellt",
+    "createdCategoryItem": "Kategorieeintrag erfolgreich erstellt",
+    "passwordUpdated": "Passwort erfolgreich geändert",
+    "forgotPassword": "Passwort-Reset-Link erfolgreich gesendet",
+    "updated": "Erfolgreich aktualisiert",
+    "approveSuccess": "Spesenabrechnung erfolgreich genehmigt",
+    "betaRegistration": "Registrierung erfolgreich eingereicht",
+    "authenticatedWithRecoveryCode": "Mit Wiederherstellungscode authentifiziert",
+    "authenticatedWithTOTP": "Mit TOTP authentifiziert",
+    "resetPassword": "Passwort erfolgreich zurückgesetzt",
+    "rejectSuccess": "Spesenabrechnung erfolgreich abgelehnt",
+    "rejectSuccessDescription": "Ihre Spesenabrechnung wurde erfolgreich abgelehnt"
+  },
+  "actions": {
+    "openMenu": "Menü öffnen",
+    "add": "Hinzufügen",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "submit": "Absenden",
+    "remove": "Entfernen",
+    "processing": "Wird verarbeitet...",
+    "editRole": "Rolle ändern",
+    "saveChanges": "Änderungen speichern",
+    "update": "Aktualisieren",
+    "view": "Anzeigen",
+    "approve": "Genehmigen",
+    "reject": "Ablehnen",
+    "create": "Erstellen",
+    "creating": "Wird erstellt...",
+    "activate": "Aktivieren",
+    "submitting": "Wird eingereicht...",
+    "deactivate": "Deaktivieren",
+    "items": "Einträge",
+    "export": "Exportieren",
+    "import": "Importieren",
+    "send": "Senden",
+    "sending": "Wird gesendet...",
+    "loading": "Wird geladen...",
+    "saving": "Wird gespeichert...",
+    "viewAll": "Alle anzeigen",
+    "verifying": "Wird überprüft...",
+    "verify": "Überprüfen",
+    "register": "Registrieren",
+    "skipForNow": "Später",
+    "continue": "Weiter",
+    "finish": "Abschließen",
+    "previous": "Zurück",
+    "next": "Weiter",
+    "completeRequired": "Vervollständigen Sie die erforderlichen Schritte",
+    "sendInvite": "Einladung senden",
+    "createAndContinue": "Kategorieliste erstellen und fortfahren",
+    "close": "Schließen"
+  },
+  "roles": {
+    "selectRole": "Rolle auswählen",
+    "admin": "Administrator",
+    "approver": "Genehmiger",
+    "user": "Benutzer",
+    "finance": "Finanzen"
+  },
+  "status": {
+    "pending": "In Bearbeitung",
+    "approved": "Genehmigt",
+    "rejected": "Abgelehnt",
+    "expired": "Abgelaufen"
+  },
+  "tooltips": {
+    "clickToView": "Klicken zum Anzeigen"
+  },
+  "userMenu": {
+    "myAccount": "Mein Konto",
+    "team": "Team",
+    "changePassword": "Passwort ändern",
+    "logout": "Abmelden"
+  },
+  "auth": {
+    "name": "Name",
+    "companyName": "Unternehmensname",
+    "email": "E-Mail-Adresse",
+    "password": "Passwort",
+    "newPassword": "Neues Passwort",
+    "confirmPassword": "Passwort bestätigen",
+    "forgotPassword": "Passwort vergessen?",
+    "rememberMe": "Angemeldet bleiben",
+    "showPassword": "Passwort anzeigen",
+    "hidePassword": "Passwort ausblenden",
+    "registrationSuccess": "Erfolgreich registriert. Bitte melden Sie sich jetzt an.",
+    "passwordStrength": {
+      "label": "Passwortstärke",
+      "weak": "Schwach",
+      "medium": "Mittel",
+      "strong": "Stark"
+    },
+    "loginForm": {
+      "title": "Anmelden",
+      "description": "Bei Declair anmelden",
+      "loginButton": "Anmelden",
+      "orRegister": "oder registrieren Sie sich",
+      "registerButton": "Registrieren"
+    },
+    "forgotpassword": {
+      "title": "Passwort vergessen?",
+      "description": "Geben Sie Ihre E-Mail-Adresse ein, um einen Passwort-Reset-Link zu erhalten",
+      "submitButton": "Reset-Link senden",
+      "orLogin": "oder",
+      "backToLogin": "Anmelden"
+    },
+    "resetpassword": {
+      "title": "Passwort zurücksetzen",
+      "description": "Geben Sie Ihr neues Passwort ein, um es zurückzusetzen",
+      "submitButton": "Passwort zurücksetzen",
+      "orLogin": "oder",
+      "backToLogin": "Anmelden"
+    },
+    "register": {
+      "title": "Registrieren",
+      "registerButton": "Registrieren",
+      "alreadyAccount": "bereits ein Konto?",
+      "loginButton": "Anmelden"
+    },
+    "twoFactorVerification": {
+      "title": "Geben Sie den Zwei-Faktor-Authentifizierungscode aus Ihrer Authenticator-App ein",
+      "recoveryTitle": "Geben Sie einen Wiederherstellungscode ein",
+      "recoveryPlaceholder": "Geben Sie Ihren Wiederherstellungscode ein (mindestens 10 Zeichen)",
+      "useAuthenticator": "Authenticator-App verwenden",
+      "useRecoveryCode": "Wiederherstellungscode verwenden"
+    },
+    "betaRegistration": {
+      "title": "Für die Beta registrieren",
+      "description": "Für die Beta registrieren",
+      "companyName": "Unternehmensname",
+      "email": "E-Mail-Adresse",
+      "registerButton": "Registrieren",
+      "or": "oder",
+      "backToLogin": "Anmelden"
+    }
+  },
+  "account": {
+    "myAccount": "Mein Konto",
+    "changePassword": "Passwort ändern",
+    "newPassword": "Neues Passwort",
+    "confirmNewPassword": "Passwort bestätigen",
+    "currentPassword": "Aktuelles Passwort",
+    "changeEmail": "E-Mail ändern",
+    "newEmail": "Neue E-Mail",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "personalDetails": "Persönliche Details",
+    "emailSettings": "E-Mail-Einstellungen",
+    "subscription": "Abonnement",
+    "team": "Team",
+    "save": "Speichern",
+    "tabs": {
+      "personalDetails": "Persönliche Details",
+      "emailSettings": "E-Mail-Einstellungen",
+      "changePassword": "Passwort ändern",
+      "subscription": "Abonnement",
+      "team": "Team"
+    }
+  },
+  "emptyState": {
+    "title": "Keine Ergebnisse gefunden",
+    "description": "Es wurden keine Ergebnisse gefunden"
+  },
+  "onboarding": {
+    "title": "Willkommen bei Declair",
+    "subtitle": "Lassen Sie uns Ihr Konto in wenigen Schritten einrichten",
+    "progress": "Fortschritt",
+    "completed": "abgeschlossen",
+    "continue": "Weiter",
+    "minimize": "Minimieren",
+    "optional": "optional",
+    "previous": "Zurück",
+    "next": "Weiter",
+    "steps": {
+      "company": {
+        "title": "Unternehmen einrichten",
+        "description": "Fügen Sie Ihre Unternehmensdaten hinzu",
+        "heading": "Richten Sie Ihr Unternehmen ein",
+        "subheading": "Wir benötigen einige grundlegende Informationen, um zu beginnen",
+        "createCompany": "Unternehmen erstellen",
+        "creating": "Unternehmen wird erstellt...",
+        "fields": {
+          "name": "Unternehmensname",
+          "email": "E-Mail-Adresse",
+          "vatNumber": "USt-IdNr.",
+          "address": "Adresse",
+          "city": "Stadt",
+          "zipCode": "Postleitzahl",
+          "country": "Land"
+        }
+      },
+      "invite": {
+        "title": "Benutzer einladen",
+        "description": "Laden Sie Benutzer ein, um zu beginnen",
+        "heading": "Benutzer einladen",
+        "subheading": "Laden Sie Benutzer ein, um zu beginnen",
+        "inviteHint": "Sie können Benutzer einladen, indem Sie ihre E-Mail-Adresse eingeben",
+        "sentInvitations": "Einladungen gesendet",
+        "fields": {
+          "name": "Name",
+          "email": "E-Mail-Adresse",
+          "role": "Rolle",
+          "selectRole": "Rolle auswählen"
+        },
+        "inviteUsers": "Benutzer einladen"
+      },
+      "categories": {
+        "title": "Kategorien einrichten",
+        "description": "Fügen Sie Kategorien hinzu, um zu beginnen",
+        "heading": "Kategorien einrichten",
+        "subheading": "Fügen Sie Kategorien hinzu, um zu beginnen",
+        "createList": "Kategorieliste erstellen",
+        "usePredefinedCategories": "Beispielkategorien verwenden",
+        "predefinedPreview": "Beispielkategorien",
+        "creating": "Kategorieliste wird erstellt...",
+        "fields": {
+          "listName": "Name",
+          "listDescription": "Beschreibung",
+          "listType": "Kategorietyp",
+          "listTypeDescription": "Wählen Sie den Kategorietyp"
+        }
+      }
+    }
+  },
+  "notifications": {
+    "title": "Berichten",
+    "description": "Berichten beheren",
+    "new": "Nieuw",
+    "noNotifications": "Geen berichten gevonden",
+    "markAllAsRead": "Alle berichten als gelezen markeren",
+    "yesterday": "Gisteren",
+    "today": "Vandaag",
+    "thisWeek": "Deze week",
+    "thisMonth": "Deze maand",
+    "thisYear": "Dit jaar"
+  },
+  "notification": {
+    "approveDeclaration": "Declaratie \"{declarationTitle}\" is ingediend en wacht op goedkeuring",
+    "declarationCreated": "Declaratie \"{declarationTitle}\" is ingediend"
+  },
+  "pagination": {
+    "selectedRows": "Geselecteerde rijen",
+    "rowsPerPage": "Rijen per pagina",
+    "page": "Pagina",
+    "of": "van",
+    "rows": "rijen",
+    "goToFirstPage": "Naar eerste pagina",
+    "goToLastPage": "Naar laatste pagina",
+    "goToPreviousPage": "Naar vorige pagina",
+    "goToNextPage": "Naar volgende pagina"
+  },
+  "deleteDialog": {
+    "title": "Verwijderen",
+    "description": "Weet je zeker dat je deze declaratie wilt verwijderen?",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "confirmation": "Bestätigung"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welkom bij Declair",
+    "newDeclaration": "Nieuwe Declaratie",
+    "new": "Neu",
+    "users": "Benutzer",
+    "topCompaniesByUsers": "Top Unternehmen per Benutzer",
+    "totalCompanies": "Gesamte Unternehmen",
+    "totalUsers": "Gesamte Benutzer",
+    "stats": {
+      "totalDeclarations": "Gesamte Anzahl Spesenabrechnungen",
+      "pendingDeclarations": "In Bearbeitung",
+      "approvedDeclarations": "Genehmigt",
+      "totalAmount": "Gesamter Betrag",
+      "amountChange": "Betrag Änderung",
+      "vsPreviousPeriod": "vs vorheriger Zeitraum"
+    }
+  },
+  "declarations": {
+    "title": "Spesenabrechnungen",
+    "description": "Spesenabrechnungen verwalten",
+    "recentDeclarations": "Neue Spesenabrechnungen",
+    "searchPlaceholder": "Spesenabrechnung suchen",
+    "newDeclaration": "Neue Spesenabrechnung",
+    "backToOverview": "Zurück zur Übersicht",
+    "viewDeclaration": "Spesenabrechnung anzeigen",
+    "rejectReason": "Ablehnungsgrund",
+    "columns": {
+      "user": "Benutzer",
+      "title": "Titel",
+      "amount": "Betrag",
+      "submittedAt": "Eingereicht am",
+      "date": "Datum",
+      "category": "Kategorie",
+      "company": "Unternehmen",
+      "status": "Status",
+      "actions": "Aktionen",
+      "selectRow": "Zeile auswählen",
+      "selectAll": "Alle auswählen"
+    },
+    "actions": {
+      "viewAll": "Alle Spesenabrechnungen anzeigen"
+    },
+    "emptyState": {
+      "title": "Keine Spesenabrechnungen gefunden",
+      "description": "Erstellen Sie eine neue Spesenabrechnung, um zu beginnen"
+    },
+    "declarationForm": {
+      "title": "Spesenabrechnung",
+      "titlePlaceholder": "Titel der Spesenabrechnung",
+      "amount": "Betrag",
+      "date": "Datum",
+      "category": "Kategorie",
+      "approver": "Genehmiger",
+      "selectApprover": "Genehmiger auswählen",
+      "descriptionAndAttachments": "Beschreibung und Anhänge",
+      "description": "Beschreibung",
+      "addReceipt": "Bonnetje hinzufügen",
+      "attachment": "Anhang",
+      "viewAttachment": "Anhang anzeigen",
+      "basicInformation": "Grundinformationen",
+      "next": "Weiter",
+      "previous": "Zurück",
+      "amountAndApproval": "Betrag und Genehmigung",
+      "items": "Spesenabrechnungszeilen",
+      "addItem": "Spesenabrechnungszeile hinzufügen",
+      "item": "Spesenabrechnungszeile",
+      "itemDescription": "Beschreibung",
+      "itemAmount": "Betrag",
+      "itemDate": "Datum",
+      "itemCategory": "Kategorie",
+      "removeItem": "Spesenabrechnungszeile löschen",
+      "totalAmount": "Gesamter Betrag",
+      "selectCategory": "Kategorie auswählen",
+      "file": "Rechnung/bon",
+      "receiptRequired": "Rechnung/bon erforderlich",
+      "receiptRequiredDescription": "Sie müssen eine Rechnung/bon zu dieser Spesenabrechnung hinzufügen"
+    },
+    "approverDeclarations": "Spesenabrechnungen genehmigen",
+    "approveConfirmationTitle": "Spesenabrechnung genehmigen",
+    "approveConfirmationDescription": "Sind Sie sicher, dass Sie diese Spesenabrechnung genehmigen möchten?",
+    "rejectConfirmationTitle": "Spesenabrechnung ablehnen",
+    "rejectConfirmationDescription": "Sind Sie sicher, dass Sie diese Spesenabrechnung ablehnen möchten?",
+    "editDeclaration": "Spesenabrechnung bearbeiten"
+  },
+  "fileUpload": {
+    "chooseMethod": "Wählen Sie eine Methode",
+    "dragAndDrop": "Ziehen und ablegen hier",
+    "browseFiles": "Oder wählen Sie eine Datei",
+    "supportedFormats": "Unterstützte Formate: PDF, JPG, PNG",
+    "maxSize": "Maximale Größe: 10MB",
+    "removeFile": "Datei löschen",
+    "makePhoto": "Foto machen",
+    "gallery": "Foto auswählen"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "description": "Einstellungen verwalten",
+    "noSettingsFound": "Keine Einstellungen gefunden",
+    "profile": {
+      "title": "Profil",
+      "description": "Profil verwalten",
+      "language": "Sprache",
+      "languageDescription": "Sprache einstellen",
+      "selectLanguage": "Wählen Sie eine Sprache",
+      "name": "Name",
+      "email": "E-mailadres",
+      "emailCannotBeChanged": "E-mailadres kann nicht geändert werden",
+      "department": "Abteilung"
+    },
+    "password": {
+      "title": "Passwort",
+      "description": "Passwort einstellen",
+      "currentPassword": "Aktuelles Passwort",
+      "newPassword": "Neues Passwort",
+      "confirmPassword": "Passwort bestätigen"
+    },
+    "twoFactorAuthentication": "Zweifaktor-Authentifizierung",
+    "twoFactorAuthenticationDescription": "Zweifaktor-Authentifizierung einstellen",
+    "enable2FA": "2FA aktivieren",
+    "disable2FA": "2FA deaktivieren",
+    "disable2FADescription": "Sie können 2FA deaktivieren, wenn Sie es nicht mehr benötigen",
+    "secureAccount": "Sicheres Konto",
+    "twoFactorSetupDescription": "Sicheres Konto mit Zweifaktor-Authentifizierung",
+    "scanQRCode": "QR-Code scannen",
+    "scanQRCodeDescription": "QR-Code mit der Authenticator-App auf Ihrem Smartphone scannen",
+    "scanQRCodeManual": "Oder geben Sie den Code ein",
+    "qrCodeAlt": "QR-Code",
+    "enterCode": "Geben Sie den Code ein",
+    "enterCodeDescription": "Geben Sie den Code ein, den Sie per E-Mail erhalten",
+    "copyCode": "Code kopieren",
+    "verifySetup": "Setup überprüfen",
+    "verifySetupDescription": "Überprüfen Sie die Einrichtung Ihrer Authenticator-App",
+    "saveRecoveryCodes": "Wiederherstellungscode speichern",
+    "recoveryCodesDescription": "Speichern Sie diese Codes an einem sicheren Ort",
+    "copyRecoveryCodes": "Codes kopieren",
+    "downloadRecoveryCodes": "Codes herunterladen",
+    "backToSettings": "Zurück zu Einstellungen",
+    "trustedDevices": "Vertrauenswürdige Geräte",
+    "trustedDevicesDescription": "Vertrauenswürdige Geräte verwalten",
+    "noTrustedDevices": "Keine vertrauenswürdigen Geräte gefunden",
+    "notifications": {
+      "title": "Benachrichtigung",
+      "description": "Benachrichtigungen verwalten",
+      "emailNotifications": "E-Mail-Benachrichtigungen",
+      "emailNotificationsDesc": "E-Mail-Benachrichtigungen einstellen",
+      "declarationUpdates": "Deklarationen aktualisieren",
+      "declarationUpdatesDesc": "Deklarationen aktualisieren einstellen",
+      "securityAlerts": "Sicherheitshinweise",
+      "securityAlertsDesc": "Sicherheitshinweise einstellen"
+    },
+    "subscription": {
+      "title": "Abonnement",
+      "description": "Abonnement verwalten",
+      "plan": "Aktuelles Abonnement",
+      "status": "Status",
+      "trialEnds": "Testperiode endet am",
+      "nextBilling": "Nächste Rechnung",
+      "upgrade": "Upgraden",
+      "noSubscription": "Kein Abonnement gefunden",
+      "changePlan": "Abonnement ändern",
+      "cancel": "Abbrechen",
+      "cancelConfirmTitle": "Abonnement abbrechen",
+      "cancelConfirmDescription": "Sind Sie sicher, dass Sie Ihr Abonnement abbrechen möchten?",
+      "confirmCancel": "Abbrechen",
+      "success": {
+        "title": "Abonnement erfolgreich geüpgraded",
+        "description": "Ihr Abonnement wurde erfolgreich geüpgraded",
+        "backToSettings": "Zurück zu Einstellungen"
+      }
+    }
+  },
+  "company": {
+    "user": "Benutzer",
+    "department": "Abteilung",
+    "role": "Rolle",
+    "memberSince": "Mitglied seit",
+    "settings": {
+      "title": "Unternehmen Einstellungen",
+      "description": "Unternehmen Einstellungen verwalten",
+      "addressData": "Adressdaten",
+      "categories": "Kategorien",
+      "name": "Name",
+      "vatNumber": "BTW-Nummer",
+      "vatNumberOptional": "Optional",
+      "address": "Adresse",
+      "city": "Ort",
+      "zipCode": "Postleitzahl",
+      "country": "Land",
+      "subscription": {
+        "tab": "Abonnement",
+        "title": "Abonnement",
+        "description": "Abonnement verwalten"
+      },
+      "invoices": {
+        "tab": "Rechnungen",
+        "title": "Rechnungen",
+        "noInvoices": "Keine Rechnungen gefunden",
+        "description": "Rechnungen verwalten"
+      }
+    },
+    "users": {
+      "title": "Benutzer",
+      "description": "Benutzer verwalten",
+      "invite": "Einladen",
+      "searchUsers": "Benutzer suchen",
+      "removeUserWarning": "Benutzer löschen",
+      "removeUserConfirmation": "Benutzer löschen",
+      "removeUserConfirmationTitle": "Benutzer löschen",
+      "removeUserConfirmationDescription": "Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?"
+    },
+    "invitations": {
+      "title": "Einladungen",
+      "description": "Einladungen verwalten",
+      "email": "E-mailadres",
+      "role": "Rolle",
+      "selectRole": "Rolle auswählen",
+      "send": "Einladung senden",
+      "sentInvitations": "Einladungen gesendet",
+      "sentInvitationsDescription": "Einladungen gesendet an die Benutzer",
+      "searchPlaceholder": "Einladung suchen",
+      "status": "Status",
+      "invitedBy": "Eingeladen von",
+      "expiresOn": "Läuft ab am",
+      "resend": "Erneut senden",
+      "revokeInvitation": "Einladung zurückziehen",
+      "revokeInvitationDescription": "Sie können die Einladung zurückziehen, wenn der Benutzer die Einladung nicht akzeptiert",
+      "revoke": "Zurückziehen",
+      "cancel": "Abbrechen"
+    }
+  },
+  "categories": {
+    "lists": {
+      "title": "Kategorien",
+      "description": "Beschreibung",
+      "name": "Name",
+      "status": "Status",
+      "items": "Gegenstände",
+      "actions": "Aktionen",
+      "deleteConfirmTitle": "Kategorie-Liste löschen",
+      "deleteConfirmDescription": "Sind Sie sicher, dass Sie diese Kategorie-Liste löschen möchten?",
+      "createTitle": "Kategorie-Liste erstellen",
+      "createDescription": "Kategorie-Liste erstellen",
+      "nameLabel": "Name",
+      "descriptionLabel": "Beschreibung",
+      "descriptionHelper": "Beschreibung der Kategorie",
+      "isActiveLabel": "Aktiv",
+      "isActiveDescription": "Die Kategorie wird in Spesenabrechnungen verwendet",
+      "editTitle": "Kategorie-Liste bearbeiten",
+      "editDescription": "",
+      "descriptionHelp": "Beschreibung der Kategorie"
+    },
+    "items": {
+      "empty": "Keine Kategoriegegenstände gefunden",
+      "tableTitle": "Kategoriegegenstände",
+      "code": "Code",
+      "name": "Name",
+      "descriptionLabel": "Beschreibung",
+      "editTitle": "Kategoriegegenstand bearbeiten",
+      "editDescription": "Kategoriegegenstand bearbeiten",
+      "codeLabel": "Code",
+      "codeHelp": "Code des Kategoriegegenstands",
+      "nameLabel": "Name",
+      "descriptionHelp": "Beschreibung des Kategoriegegenstands",
+      "deleteConfirmTitle": "Kategoriegegenstand löschen",
+      "deleteConfirmDescription": "Sind Sie sicher, dass Sie diesen Kategoriegegenstand löschen möchten?",
+      "createTitle": "Kategoriegegenstand erstellen",
+      "createDescription": "Kategoriegegenstand erstellen",
+      "importTitle": "Kategoriegegenstände importieren",
+      "importDescription": "Kategoriegegenstände importieren",
+      "importFileLabel": "Wählen Sie eine Datei",
+      "importFileHelp": "Wählen Sie eine Datei mit den Kategoriegegenständen",
+      "importManualLabel": "oder geben Sie die Kategoriegegenstände manuell ein",
+      "importFormatTitle": "Importformat",
+      "importFormatDescription": "Wählen Sie das Format der Kategoriegegenstände",
+      "importFormatHelp": "Wählen Sie das Format der Kategoriegegenstände",
+      "importImport": "Importieren",
+      "importManualPlaceholder": "oder geben Sie die Kategoriegegenstände manuell ein",
+      "importManualHelp": "Geben Sie die Kategoriegegenstände manuell ein"
+    }
+  },
+  "subscription": {
+    "upgradeSubscription": "Upgrade um Zugriff auf alle Funktionen zu erhalten",
+    "noValidSubscription": "Es ist kein gültiges Abonnement. Sie sind jetzt in Nur-Lese-Modus.",
+    "upgrade": {
+      "title": "Upgraden",
+      "description": "Upgraden zu einem anderen Abonnement",
+      "month": "Monat",
+      "year": "Jahr",
+      "currentPlan": "Aktuelles Abonnement",
+      "newPlan": "Neues Abonnement",
+      "changePlan": "Abonnement ändern",
+      "cancelSubscription": "Abonnement abbrechen",
+      "cancelSubscriptionDescription": "Sie können Ihr Abonnement in den nächsten 30 Tagen ohne zusätzliche Kosten abbrechen",
+      "upgrade": "Upgraden"
+    }
+  },
+  "export": {
+    "title": "Exportieren",
+    "description": "Spesenabrechnungen exportieren",
+    "format": "Format",
+    "formatDescription": "Wählen Sie das Format der Spesenabrechnungen",
+    "formatHelp": "Wählen Sie das Format der Spesenabrechnungen",
+    "formatImport": "Importieren",
+    "from": "Von",
+    "to": "Bis",
+    "inkoop": "Exact Online - Einkauf",
+    "verkoop": "Exact Online - Verkauf",
+    "export": "Exportieren",
+    "formatPlaceholder": "Format wählen",
+    "filename": "Spesenabrechnungen",
+    "columns": {
+      "invoiceNumber": "Rechnungsnummer",
+      "invoiceDate": "Rechnungsdatum",
+      "customerCode": "Kundenkode",
+      "supplierCode": "Lieferantenkode",
+      "description": "Beschreibung",
+      "amount": "Betrag",
+      "vat": "MwSt.",
+      "currency": "Währung"
+    }
+  },
+  "header": {
+    "features": "Funktionen",
+    "pricing": "Preise",
+    "testimonials": "Bewertungen",
+    "login": "Anmelden",
+    "tryFree": "Kostenlos ausprobieren"
+  },
+  "hero": {
+    "title": "Spesenabrechnungen verwalten",
+    "subtitle": "in Minuten, nicht Stunden",
+    "description": "Maak declaraties indienen en beheren eenvoudig met Declair. Eenvoudige verwerking, real-time goedkeuring en volledige transparantie.",
+    "tryFree": "Kostenlos ausprobieren",
+    "watchDemo": "Demo ansehen",
+    "free_trial": "Kostenlos ausprobieren - Keine Kreditkarte erforderlich",
+    "secure": "100% sicher",
+    "gdpr_compliant": "GDPR-konform"
+  },
+  "features": {
+    "title": "Warum wählen Sie Declair?",
+    "subtitle": "Sparen Sie Zeit und arbeiten Sie effizienter mit unserer geavancierteren Deklarationslösung.",
+    "items": [
+      {
+        "title": "Schnelle Verarbeitung",
+        "description": "Spesenabrechnungen werden einfach verarbeitet und genehmigt."
+      },
+      {
+        "title": "Einfache Einreichung",
+        "description": "Laden Sie ein Foto von Ihrer Rechnung hoch oder machen Sie ein Foto und füllen Sie ein Formular aus."
+      },
+      {
+        "title": "Einsichtige Berichterstattung",
+        "description": "Holen Sie direkt Einblick in alle Ihre Spesenabrechnungen pro Monat."
+      },
+      {
+        "title": "Sicher und konform",
+        "description": "GDPR-konform und SSL-Verschlüsselung für alle Ihre Daten."
+      },
+      {
+        "title": "Überall zugänglich",
+        "description": "Verwenden Sie Declair auf Desktop, Tablet oder Smartphone."
+      },
+      {
+        "title": "Automatische Auszahlung",
+        "description": "Holen Sie Ihre Vergütung direkt auf Ihrem Konto."
+      }
+    ]
+  },
+  "how_it_works": {
+    "title": "Wie es funktioniert",
+    "description": "In vier einfachen Schritten von Rechnung zu Vergütung.",
+    "step_1": "Machen Sie ein Foto",
+    "step_1_description": "Scannen Sie Ihre Rechnung mit der Kamera Ihres Smartphones",
+    "step_2": "Geben Sie Daten ein",
+    "step_2_description": "Fügen Sie eine kurze Beschreibung und Kategorie hinzu",
+    "step_3": "Warten Sie auf Genehmigung",
+    "step_3_description": "Ihr Manager genehmigt die Spesenabrechnung"
+  },
+  "pricing": {
+    "title": "Einfache, transparente Preise",
+    "subtitle": "Wählen Sie das Plan, das zu Ihrem Unternehmen passt. Jederzeit kündbar, keine versteckten Kosten.",
+    "popular": "Beliebteste Wahl",
+    "plans": {
+      "starter": {
+        "name": "Starter",
+        "price": "€9,99",
+        "period": "/Monat",
+        "description": "Perfekt für Start-ups und kleine Teams",
+        "features": [
+          "Bis zu 10 Benutzer",
+          "Basis-Deklarationsverwaltung",
+          "E-Mail-Support",
+          "Mobile App",
+          "CSV und XML Export"
+        ],
+        "cta": "Starten Sie die kostenlose Testphase",
+        "href": "/register"
+      },
+      "professional": {
+        "name": "Professional",
+        "price": "€29,99",
+        "period": "/Monat",
+        "description": "Ideal für wachsende Unternehmen",
+        "features": [
+          "Bis zu 25 Benutzer",
+          "Basis-Deklarationsverwaltung",
+          "E-Mail- und Chat-Support",
+          "Mobile App",
+          "CSV und XML Export"
+        ],
+        "cta": "Starten Sie die kostenlose Testphase",
+        "href": "/register"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "€59,99",
+        "period": "/Monat",
+        "description": "Für große Organisationen",
+        "features": [
+          "Unbegrenzte Benutzer",
+          "Umfangreiche Deklarationsverwaltung",
+          "SLA-Garantie",
+          "Mobile App",
+          "API-Integration mit Buchhaltungssystemen (Exact, Moneybird, etc.)"
+        ],
+        "cta": "Starten Sie die kostenlose Testphase",
+        "href": "/register"
+      }
+    }
+  },
+  "faq": {
+    "title": "Häufig gestellte Fragen",
+    "description": "Entdecken Sie, wie Declair funktioniert und was es für Sie bedeuten kann.",
+    "question_1": "Was ist Declair?",
+    "answer_1": "Declair ist ein Online-Deklarationsverarbeitungsplattform, die Unternehmen bei der Einreichung und Verwaltung von Deklarationen unterstützt.",
+    "question_2": "Wie lange dauert es, bis meine Deklaration genehmigt wird?",
+    "answer_2": "Dies hängt von der Genehmigung ab, aber die meisten Deklarationen werden innerhalb von 24 Stunden genehmigt. Für komplexere Deklarationen kann dies bis zu 48 Stunden dauern.",
+    "question_3": "Gibt es Kosten für die Verwendung von Declair?",
+    "answer_3": "Unser Starter-Plan kostet €19 pro Monat. Für mehr Volumen und erweiterte Funktionen haben wir kostenpflichtige Pläne ab €39 pro Monat.",
+    "question_4": "Ist meine Daten sicher bei Declair?",
+    "answer_4": "Ja, wir nehmen Privatsphäre und Sicherheit sehr ernst. Alle Ihre Daten sind verschlüsselt und wir sind vollständig GDPR-konform.",
+    "question_5": "Kann ich Declair mit meinem bestehenden Buchhaltungssystem integrieren?",
+    "answer_5": "Ja, Declair integriert mit den meisten beliebten Buchhaltungssystemen wie Exact, Moneybird und mehr über unsere API.",
+    "question_6": "Welche Art von Deklarationen kann ich einreichen?",
+    "answer_6": "Sie können alle geschäftlichen Ausgaben deklarieren, wie Reisekosten, Mahlzeiten, Bürobedarf und mehr."
+  },
+  "cta": {
+    "title": "Bereit zum Beginnen?",
+    "description": "Probieren Sie Declair kostenlos aus und entdecken Sie, wie einfach Deklarationsverarbeitung sein kann.",
+    "cta": "Kostenlos beginnen",
+    "contact": "Kontakt aufnehmen",
+    "free_trial": "Keine Kreditkarte - 1 Monat kostenlose Testphase"
+  },
+  "testimonials": {
+    "title": "Was unsere Kunden sagen",
+    "description": "Entdecken Sie, warum Unternehmen zu Declair wechseln, um ihre Deklarationsverarbeitung zu verbessern.",
+    "role_1": "Finance Manager bei TechStart",
+    "content_1": "Declair hat unsere Deklarationsprozedur vollständig transformiert. Was vorher Wochen dauerte, ist jetzt in einigen Tagen geregelt.",
+    "role_2": "CEO bei GrowthLabs",
+    "content_2": "Die Automatisierung und Transparenz, die Declair bietet, ist unerreichbar. Unsere Mitarbeiter lieben es!",
+    "role_3": "HR-Direktor bei Innovate BV",
+    "content_3": "Endlich ein System, das wie Sie es erwarten würden. Die App ist intuitiv und die Kundenservice ist ausgezeichnet."
+  },
+  "footer": {
+    "description": "Holen Sie Ihr Geld zurück, ohne großartig zu tun. Declair es.",
+    "email": "hello@declair.app",
+    "address": "Holz, Niederlande",
+    "product": "Produkt",
+    "features": "Funktionen",
+    "pricing": "Preise",
+    "api": "API",
+    "integrations": "Integrationen",
+    "company": "Unternehmen",
+    "about": "Über uns",
+    "careers": "Stellenangebote",
+    "press": "Presse",
+    "contact": "Kontakt",
+    "rights": "Alle Rechte vorbehalten.",
+    "privacy": "Datenschutzrichtlinie",
+    "terms": "Allgemeine Geschäftsbedingungen",
+    "register": "Registrieren"
+  },
+  "mail": {
+    "welcome": {
+      "title": "Willkommen bei Declair! 🙌",
+      "description": "Ihr Konto wurde erfolgreich erstellt und Sie können jetzt mit der einfachen Verwaltung Ihrer Spesenabrechnungen beginnen. Wir freuen uns, dass Sie sich für unsere Lösung entschieden haben, um Ihren Spesenabrechnungsprozess zu digitalisieren und zu optimieren.",
+      "whatYouCanDo": "🚀 Was können Sie jetzt tun?",
+      "features": {
+        "submit": "✅ Spesenabrechnungen einreichen - Laden Sie Ihre Belege hoch und reichen Sie Spesenabrechnungen mit wenigen Klicks ein",
+        "overview": "✅ Überblick behalten - Sehen Sie den Status aller Ihrer Spesenabrechnungen an einem Ort",
+        "approval": "✅ Schnelle Genehmigung - Erhalten Sie schnellere Genehmigungen durch unseren optimierten Workflow",
+        "export": "✅ Automatischer Export - Exportieren Sie Ihre Daten in Ihre Buchhaltungssoftware"
+      },
+      "tips": {
+        "title": "💡 Tipps für den Start:",
+        "login": "Melden Sie sich in Ihrem Konto an: {loginLink}",
+        "profile": "Vervollständigen Sie Ihr Profil: Fügen Sie Ihre Abteilung und weitere Details hinzu",
+        "firstDeclaration": "Reichen Sie Ihre erste Spesenabrechnung ein: Klicken Sie auf \"Neue Spesenabrechnung\" um zu beginnen",
+        "invite": "Laden Sie Kollegen ein: Als Administrator können Sie Teammitglieder einladen"
+      },
+      "companyInfo": {
+        "title": "🏢 Unternehmensinformationen",
+        "admin": {
+          "title": "Als Administrator von {companyName} können Sie:",
+          "invite": "Teammitglieder über die Benutzerverwaltung einladen",
+          "settings": "Unternehmenseinstellungen anpassen",
+          "approve": "Spesenabrechnungen Ihres Teams genehmigen",
+          "reports": "Berichte und Exporte generieren"
+        }
+      },
+      "help": {
+        "title": "📚 Hilfe benötigt?",
+        "faq": "Häufig gestellte Fragen: {faqLink}",
+        "manual": "Handbuch: {manualLink}",
+        "support": "Support: Senden Sie eine E-Mail an support@declair.app",
+        "phone": "Rufen Sie uns an: +31 (0)20 123 4567 (Mo-Fr 9:00-17:00)"
+      },
+      "nextSteps": {
+        "title": "🎯 Nächste Schritte",
+        "confirmEmail": "Bestätigen Sie Ihre E-Mail-Adresse durch Anmeldung",
+        "setup2FA": "Richten Sie 2FA (Zwei-Faktor-Authentifizierung) für zusätzliche Sicherheit ein",
+        "uploadReceipt": "Laden Sie Ihren ersten Beleg hoch und erleben Sie, wie einfach Spesenabrechnungen sein können!"
+      },
+      "signature": "Viel Erfolg mit Declair!\nDas Declair Team",
+      "social": {
+        "title": "P.S. Folgen Sie uns in den sozialen Medien für Tipps, Updates und Neuigkeiten:",
+        "linkedin": "LinkedIn",
+        "twitter": "Twitter"
+      },
+      "footer": {
+        "sentTo": "Diese E-Mail wurde an {email} gesendet, weil Sie ein Konto bei Declair erstellt haben.",
+        "unsubscribe": "Nicht mehr interessiert? Sie können sich hier abmelden.",
+        "address": "Declair B.V.\nBeispielstraße 123\n1234 AB Amsterdam\nNiederlande"
+      }
+    },
+    "invitation": {
+      "subject": "Sie wurden zu Declair bei {companyName} eingeladen 💼",
+      "greeting": "Hallo,",
+      "intro": "Sie wurden eingeladen, Declair, dem Spesenabrechnungsportal von {companyName}, beizutreten! 🎉",
+      "inviter": "{inviterName} hat Sie eingeladen, dem Team beizutreten und gemeinsam den Spesenabrechnungsprozess zu verbessern.",
+      "createAccountLink": "Konto erstellen",
+      "role": {
+        "title": "👤 Ihre Rolle bei {companyName}",
+        "invitedAs": "Sie wurden eingeladen als: {role}",
+        "user": {
+          "title": "Als Benutzer können Sie:",
+          "features": [
+            "✅ Spesenabrechnungen einreichen und verwalten",
+            "✅ Den Status Ihrer Spesenabrechnungen verfolgen",
+            "✅ Belege hochladen und kategorisieren",
+            "✅ Exportfunktionen nutzen"
+          ]
+        },
+        "approver": {
+          "title": "Als Genehmiger können Sie:",
+          "features": [
+            "✅ Alle Benutzerfunktionen",
+            "✅ Spesenabrechnungen von Teammitgliedern genehmigen/ablehnen",
+            "✅ Kommentare während der Bearbeitung hinzufügen",
+            "✅ Übersichten über zu bearbeitende Spesenabrechnungen"
+          ]
+        },
+        "admin": {
+          "title": "Als Administrator können Sie:",
+          "features": [
+            "✅ Alle Benutzer- und Genehmigerfunktionen",
+            "✅ Neue Teammitglieder einladen",
+            "✅ Unternehmenseinstellungen verwalten",
+            "✅ Vollständige Berichte und Analysen einsehen",
+            "✅ Kategorien und Ausgabentypen einrichten"
+          ]
+        },
+        "finance": {
+          "title": "Als Financier können Sie:",
+          "features": [
+            "✅ Alle Benutzer- und Genehmigerfunktionen",
+            "✅ Declaraties exportieren in Ihre Buchhaltungssoftware",
+            "✅ Finanzanalysen durchführen",
+            "✅ Budgets verwalten",
+            "✅ Berichte und Analysen ansehen"
+          ]
+        }
+      },
+      "whatIsDeclair": {
+        "title": "🚀 Was ist Declair?",
+        "description": "Declair macht Spesenabrechnungen einfach, schnell und transparent:",
+        "features": [
+          "📱 Mobile-First - Spesenabrechnungen unterwegs mit Ihrem Smartphone",
+          "🤖 Automatische Erkennung - KI liest Ihre Belege automatisch",
+          "⚡ Schnelle Genehmigung - Optimierter Workflow für schnelle Bearbeitung",
+          "📊 Echtzeit-Einblick - Immer aktuelle Übersichten",
+          "🔗 Integrationen - Verbindung mit Ihrer bevorzugten Buchhaltungssoftware",
+          "🔒 Sicher - Unternehmenssicherheit und 2FA-Unterstützung"
+        ]
+      },
+      "activation": {
+        "title": "🎯 Konto aktivieren",
+        "steps": [
+          "Schritt 1: Einladung annehmen",
+          "Schritt 2: Passwort erstellen und Profil ausfüllen",
+          "Schritt 3: Sofort mit Spesenabrechnungen beginnen!"
+        ]
+      },
+      "important": {
+        "title": "⏰ Wichtige Informationen",
+        "items": [
+          "⚠️ Diese Einladung ist 7 Tage gültig",
+          "🔐 Sie erhalten automatisch Zugriff auf das {companyName}-Konto",
+          "📧 Nach der Kontoaktivierung erhalten Sie eine Willkommens-E-Mail",
+          "💬 Bei Fragen können Sie {inviterName} oder unser Support-Team kontaktieren"
+        ]
+      },
+      "gettingStarted": {
+        "title": "🎓 Sofort loslegen",
+        "beginners": {
+          "title": "Für Anfänger:",
+          "items": [
+            "Schauen Sie sich das Onboarding an - Wir führen Sie Schritt für Schritt durch die Anwendung",
+            "Laden Sie Ihren ersten Beleg hoch - Testen Sie, wie einfach es funktioniert",
+            "Entdecken Sie die Funktionen - Erkunden Sie alle Möglichkeiten in Ihrem eigenen Tempo"
+          ]
+        },
+        "experienced": {
+          "title": "Für erfahrene Benutzer:",
+          "items": [
+            "Bestehende Daten importieren - Übertragen Sie Ihre aktuellen Spesenabrechnungen",
+            "Einstellungen anpassen - Personalisieren Sie Ihr Dashboard",
+            "Benachrichtigungen konfigurieren - Bleiben Sie auf Ihre bevorzugte Weise informiert"
+          ]
+        }
+      },
+      "support": {
+        "title": "📞 Hilfe benötigt?",
+        "team": {
+          "title": "Support-Team:",
+          "email": "📧 E-Mail: support@declair.app",
+          "phone": "📱 Telefon: +31 (0)20 123 4567 (Mo-Fr 9:00-17:00)",
+          "chat": "💬 Live-Chat: in der Anwendung verfügbar"
+        },
+        "contact": {
+          "title": "Ihr Ansprechpartner:",
+          "info": "👤 {inviterName} - {inviterEmail}\n💼 {inviterRole} bei {companyName}"
+        }
+      },
+      "security": {
+        "title": "🔐 Sicherheit & Datenschutz",
+        "description": "Wir nehmen Ihre Privatsphäre ernst:",
+        "features": [
+          "🛡️ DSGVO-konform - Ihre Daten sind bei uns sicher",
+          "🔒 Ende-zu-Ende-Verschlüsselung - Maximale Sicherheit für Ihre Daten",
+          "👥 Teamzugriff - Nur Ihre Teammitglieder können Ihre Spesenabrechnungen sehen",
+          "🔑 2FA-Unterstützung - Zusätzliche Sicherheit für Ihr Konto"
+        ]
+      },
+      "closing": {
+        "welcome": "Willkommen im Team! 👋",
+        "message": "Wir freuen uns darauf, Ihnen bei der Optimierung Ihres Spesenabrechnungsprozesses zu helfen. Gemeinsam machen wir Spesenabrechnungen zum Kinderspiel!",
+        "signature": "Mit freundlichen Grüßen,\nDas Declair Team\n& {inviterName} von {companyName}",
+        "ps": "P.S. Fragen zur Einladung? Senden Sie eine Nachricht an {inviterEmail} oder unser Support-Team. Wir helfen Ihnen gerne!"
+      },
+      "footer": {
+        "sentTo": "Sie erhalten diese E-Mail, weil {inviterName} von {companyName} Sie zu Declair eingeladen hat.",
+        "unsubscribe": "Nicht interessiert? Ignorieren Sie diese E-Mail einfach."
+      }
+    },
+    "resetPassword": {
+      "title": "Passwort zurücksetzen",
+      "description": "Klicken Sie auf den Link unten, um Ihr Passwort zurückzusetzen:",
+      "link": "Passwort zurücksetzen",
+      "ignore": "Wenn Sie dies nicht angefordert haben, können Sie diese E-Mail ignorieren.",
+      "expiration": "Dieser Link ist 1 Stunde gültig."
+    },
+    "declarationStatus": {
+      "declaration": "Spesenabrechnung",
+      "yourDeclaration": "Ihre Spesenabrechnung",
+      "hasBeen": "wurde",
+      "viewDeclarationIn": "Sehen Sie Ihre Spesenabrechnung in",
+      "viewDeclaration": "Spesenabrechnung anzeigen",
+      "comment": "Kommentar",
+      "status": {
+        "approved": "Genehmigt",
+        "rejected": "Abgelehnt",
+        "processing": "In Bearbeitung"
+      }
+    },
+    "declarationCreated": {
+      "title": "Neue Spesenabrechnung erstellt",
+      "description": "Sie haben eine neue Spesenabrechnung \"{declarationTitle}\" erstellt.",
+      "processing": "Die Spesenabrechnung wird bearbeitet und wartet auf Genehmigung.",
+      "viewDeclaration": "Sehen Sie Ihre Spesenabrechnung hier",
+      "viewDeclarationLink": "Sehen Sie Ihre Spesenabrechnung hier"
+    },
+    "declarationToApprove": {
+      "title": "Spesenabrechnung zur Genehmigung",
+      "description": "Sie haben eine neue Spesenabrechnung \"{declarationTitle}\" zur Genehmigung.",
+      "processing": "Die Spesenabrechnung wurde eingereicht und wartet auf Genehmigung.",
+      "viewDeclaration": "Spesenabrechnung anzeigen",
+      "viewDeclarationLink": "Spesenabrechnung anzeigen"
+    },
+    "declarationDeleted": {
+      "title": "Spesenabrechnung gelöscht",
+      "description": "Ihre Spesenabrechnung \"{declarationTitle}\" wurde gelöscht.",
+      "contact": "Bei Fragen wenden Sie sich bitte an Ihren Administrator."
+    },
+    "rights": "Alle Rechte vorbehalten."
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Dashboard",
+      "description": "Dashboard",
+      "users": "Benutzer",
+      "companies": "Unternehmen",
+      "declarations": "Spesenabrechnungen"
+    },
+    "companies": {
+      "name": "Unternehmen",
+      "address": "Adresse",
+      "city": "Ort",
+      "zipCode": "Postleitzahl",
+      "country": "Land",
+      "vatNumber": "BTW-Nummer",
+      "users": "Benutzer",
+      "createdAt": "Erstellt am",
+      "actions": "Aktionen",
+      "searchPlaceholder": "Unternehmen suchen",
+      "noResults": "Keine Unternehmen gefunden"
+    },
+    "users": {
+      "name": "Name",
+      "company": "Unternehmen",
+      "role": "Rolle",
+      "department": "Abteilung",
+      "email": "E-mail",
+      "password": "Passwort",
+      "status": "Status",
+      "actions": "Aktionen",
+      "searchPlaceholder": "Benutzer suchen",
+      "addNew": "Neuen Benutzer hinzufügen",
+      "selectCompany": "Unternehmen auswählen"
+    },
+    "plans": {
+      "name": "Abonnement",
+      "description": "Beschreibung",
+      "price": "Preis",
+      "interval": "Zeitraum",
+      "features": "Funktionen",
+      "status": "Status",
+      "actions": "Aktionen",
+      "searchPlaceholder": "Abonnement suchen",
+      "addNew": "Neues Abonnement hinzufügen",
+      "active": "Aktiv",
+      "inactive": "Inaktiv",
+      "featuresCount": "Anzahl von Funktionen",
+      "month": "Monat",
+      "year": "Jahr"
+    }
+  }
+}

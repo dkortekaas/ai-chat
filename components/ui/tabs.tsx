@@ -1,0 +1,85 @@
+"use client";
+
+import React, { createContext, useContext, useState } from "react";
+
+type TabsContextType = {
+  activeTab: string;
+  setActiveTab: (value: string) => void;
+};
+
+const TabsContext = createContext<TabsContextType | undefined>(undefined);
+
+export function Tabs({
+  children,
+  defaultValue,
+  className,
+  onValueChange,
+}: {
+  children: React.ReactNode;
+  defaultValue: string;
+  className?: string;
+  onValueChange?: (value: string) => void;
+}) {
+  const [activeTab, setActiveTab] = useState(defaultValue);
+
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    onValueChange?.(value);
+  };
+
+  return (
+    <TabsContext.Provider value={{ activeTab, setActiveTab: handleTabChange }}>
+      <div className={className}>{children}</div>
+    </TabsContext.Provider>
+  );
+}
+
+export function TabsList({ children }: { children: React.ReactNode }) {
+  return <div className='flex border-b border-gray-200 mb-4'>{children}</div>;
+}
+
+export function TabsTrigger({
+  value,
+  children,
+}: {
+  value: string;
+  children: React.ReactNode;
+}) {
+  const context = useContext(TabsContext);
+  if (!context)
+    throw new Error("TabsTrigger must be used within a Tabs component");
+
+  const { activeTab, setActiveTab } = context;
+  const isActive = activeTab === value;
+
+  return (
+    <button
+      className={`px-4 py-2 font-medium text-sm ${
+        isActive
+          ? "border-b-2 border-blue-500 text-declair-blue-400"
+          : "text-gray-500 hover:text-gray-700"
+      }`}
+      onClick={() => setActiveTab(value)}
+    >
+      {children}
+    </button>
+  );
+}
+
+export function TabsContent({
+  value,
+  children,
+}: {
+  value: string;
+  children: React.ReactNode;
+}) {
+  const context = useContext(TabsContext);
+  if (!context)
+    throw new Error("TabsContent must be used within a Tabs component");
+
+  const { activeTab } = context;
+
+  if (activeTab !== value) return null;
+
+  return <div>{children}</div>;
+}

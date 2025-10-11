@@ -1,0 +1,1202 @@
+{
+  "common": {
+    "searchPlaceholder": "Rechercher...",
+    "search": "Rechercher",
+    "menu": "Menu",
+    "management": "Gestion",
+    "closeSidebar": "Fermer la barre latérale",
+    "openSidebar": "Ouvrir la barre latérale",
+    "toggleTheme": "Changer de thème",
+    "version": "Version",
+    "commentPlaceholder": "Entrez un commentaire",
+    "processing": "Traitement en cours...",
+    "readOnlyView": "Vue en lecture seule",
+    "readOnlyDescription": "Vous n'avez pas accès à cette page",
+    "selectAll": "Tout sélectionner",
+    "selectRow": "Sélectionner la ligne",
+    "actions": "Actions",
+    "noResults": "Aucun résultat trouvé",
+    "save": "Enregistrer",
+    "saving": "Enregistrement...",
+    "changePassword": "Changer le mot de passe",
+    "add": "Ajouter",
+    "addNew": "Ajouter nouveau",
+    "inactive": "Inactif",
+    "active": "Actif",
+    "cancel": "Annuler",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "verify": "Vérifier",
+    "verifying": "Vérification...",
+    "complete": "Terminer",
+    "confirm": "Confirmer",
+    "enabled": "Activé",
+    "disabled": "Désactivé",
+    "select": "Sélectionner",
+    "required": "obligatoire",
+    "filters": "Filtres",
+    "all": "Tous",
+    "navigation": {
+      "menu": "Menu",
+      "dashboard": "Tableau de bord",
+      "declarations": "Notes de frais",
+      "declarationsList": "Liste",
+      "newDeclaration": "Nouvelle note de frais",
+      "new": "Nouveau",
+      "notifications": "Messages",
+      "settings": "Paramètres",
+      "users": "Utilisateurs",
+      "company": "Entreprise",
+      "profile": "Profil",
+      "logout": "Déconnexion",
+      "invitations": "Invitations",
+      "subscription": "Abonnement",
+      "admin": "Admin",
+      "adminDashboard": "Tableau de bord Admin"
+    },
+    "buttons": {
+      "confirm": "Confirmer",
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "delete": "Supprimer",
+      "edit": "Modifier",
+      "submit": "Soumettre",
+      "back": "Retour",
+      "next": "Suivant",
+      "create": "Créer"
+    },
+    "status": {
+      "loading": "Chargement...",
+      "processing": "Traitement...",
+      "deleting": "Suppression...",
+      "success": "Succès",
+      "error": "Erreur",
+      "noResults": "Aucun résultat trouvé",
+      "required": "Obligatoire"
+    }
+  },
+  "metadata": {
+    "title": "Declair - Moins de tracas, plus de clarté. C'est Declair.",
+    "description": "Simplifiez la soumission et la gestion des notes de frais avec Declair. Traitement simple, approbation en temps réel et transparence totale.",
+    "keywords": "notes de frais, remboursement de dépenses, administration d'entreprise, automatisation, Declair",
+    "og": {
+      "title": "Declair - Moins de tracas, plus de clarté. C'est Declair.",
+      "description": "Simplifiez la soumission et la gestion des notes de frais avec Declair. Traitement simple, approbation en temps réel et transparence totale."
+    },
+    "twitter": {
+      "title": "Declair - Moins de tracas, plus de clarté. C'est Declair.",
+      "description": "Simplifiez la soumission et la gestion des notes de frais avec Declair. Traitement simple, approbation en temps réel et transparence totale."
+    }
+  },
+  "notFound": {
+    "title": "Page non trouvée",
+    "description": "La page que vous essayez de consulter n'existe pas",
+    "backToPortal": "Retour au tableau de bord"
+  },
+  "error": {
+    "emailInvalid": "Veuillez entrer une adresse e-mail valide",
+    "roleInvalid": "Veuillez sélectionner un rôle valide",
+    "passwordInvalid": "Le mot de passe doit contenir au moins 8 caractères",
+    "passwordMismatch": "Les mots de passe ne correspondent pas",
+    "emailRequired": "L'adresse e-mail est obligatoire",
+    "loginRequired": "Vous devez être connecté pour envoyer des invitations",
+    "userExists": "Cet utilisateur existe déjà",
+    "companyRequired": "Vous n'êtes pas connecté à une entreprise",
+    "inviteAuthRequired": "Vous n'avez pas les droits pour inviter des utilisateurs",
+    "invalidInput": "Entrée invalide",
+    "userExistsInvite": "Un utilisateur avec cette adresse e-mail existe déjà",
+    "inviteExistsEmail": "Une invitation a déjà été envoyée à cette adresse e-mail",
+    "companyNotFound": "Entreprise non trouvée",
+    "internalServerError": "Une erreur interne du serveur s'est produite",
+    "checkUser": "Une erreur s'est produite lors de la vérification de l'adresse e-mail",
+    "inviteFailed": "Une erreur s'est produite lors de l'envoi de l'invitation",
+    "unauthorized": "Non autorisé",
+    "somethingWentWrong": "Une erreur s'est produite",
+    "nameRequired": "Le nom est obligatoire",
+    "invalidEmail": "Veuillez entrer une adresse e-mail valide",
+    "currentPasswordRequired": "Le mot de passe actuel est obligatoire",
+    "newPasswordRequired": "Le mot de passe doit contenir au moins 8 caractères",
+    "passwordsDoNotMatch": "Les mots de passe ne correspondent pas",
+    "failedToFetchNotifications": "Une erreur s'est produite lors de la récupération des notifications",
+    "passwordRequired": "Le mot de passe est obligatoire",
+    "receiptRequired": "Le reçu est obligatoire pour cette catégorie",
+    "receiptRequiredDescription": "Vous devez ajouter un reçu pour cette note de frais",
+    "titleRequired": "Le titre est obligatoire",
+    "amountRequired": "Le montant doit être un nombre positif",
+    "dateRequired": "La date est obligatoire",
+    "categoryRequired": "La catégorie est obligatoire",
+    "approverRequired": "L'approbateur est obligatoire",
+    "expenseTypeRequired": "Le centre de coût est obligatoire",
+    "noCategories": "Aucune catégorie trouvée",
+    "categoryRequired2": "La catégorie est obligatoire",
+    "submissionFailed": "Une erreur s'est produite lors de la soumission de la note de frais",
+    "noApprovers": "Aucun approbateur trouvé",
+    "categoryListUpdateError": "Une erreur s'est produite lors de la mise à jour de la liste des catégories",
+    "exportCategoryItemsError": "Une erreur s'est produite lors de l'exportation des éléments de catégorie",
+    "errorLoading2FASettings": "Une erreur s'est produite lors du chargement des paramètres 2FA",
+    "errorLoading2FASettingsDescription": "Une erreur s'est produite lors du chargement des paramètres 2FA",
+    "errorLoadingCategories": "Une erreur s'est produite lors du chargement des catégories",
+    "noCategoriesFound": "Aucune catégorie trouvée",
+    "invalidCredentials": "Identifiants invalides",
+    "verificationFailed": "Échec de la vérification",
+    "required": "Obligatoire",
+    "errorUpdatingPassword": "Une erreur s'est produite lors de la modification du mot de passe",
+    "generic": "Une erreur s'est produite",
+    "invalidOrExpiredInvitation": "Invitation invalide ou expirée",
+    "approveError": "Une erreur s'est produite lors de l'approbation de la note de frais",
+    "betaRegistration": "Une erreur s'est produite lors de l'inscription à la bêta",
+    "companyNameMin": "Veuillez entrer un nom d'entreprise valide",
+    "inviteError": "Une erreur s'est produite lors de l'invitation de l'utilisateur",
+    "passwordTooLong": "Le mot de passe doit contenir moins de 128 caractères",
+    "nameTooLong": "Le nom doit contenir moins de 128 caractères",
+    "rateLimit": "Trop de tentatives échouées. Veuillez réessayer plus tard.",
+    "userNotFoundOr2FANotEnabled": "Utilisateur non trouvé ou 2FA non activé",
+    "noRecoveryCodesAvailable": "Aucun code de récupération disponible",
+    "2FANotConfigured": "2FA n'est pas correctement configuré",
+    "invalidRecoveryCode": "Code de récupération invalide",
+    "invalidTOTPCode": "Code TOTP invalide",
+    "invalidVerificationCode": "Code de vérification invalide",
+    "2FAVerificationError": "Une erreur s'est produite lors de la vérification 2FA",
+    "atLeastOneItem": "Vous devez ajouter au moins un élément"
+  },
+  "success": {
+    "inviteSent": "Invitation envoyée avec succès",
+    "invitationRevoked": "Invitation révoquée avec succès",
+    "invitationResent": "Invitation renvoyée avec succès",
+    "preferencesUpdated": "Préférences de notification mises à jour",
+    "preferencesUpdatedDescription": "Vos préférences de notification ont été mises à jour avec succès",
+    "profileUpdated": "Profil mis à jour",
+    "profileUpdatedDescription": "Votre profil a été mis à jour avec succès",
+    "declarationSubmitted": "Note de frais soumise avec succès",
+    "declarationUpdated": "Note de frais mise à jour avec succès",
+    "categoryListUpdated": "Catégorie mise à jour avec succès",
+    "categoryListActivated": "Catégorie activée avec succès",
+    "categoryListDeactivated": "Catégorie désactivée avec succès",
+    "categoryListDeleted": "Catégorie supprimée avec succès",
+    "updatedCategoryItem": "Élément de catégorie mis à jour avec succès",
+    "declarationCreated": "Note de frais créée avec succès",
+    "twoFactorSetupSuccess": "Authentification à deux facteurs configurée avec succès",
+    "twoFactorSetupSuccessDescription": "Votre authentification à deux facteurs a été configurée avec succès",
+    "codeCopied": "Code copié",
+    "categoryListCreated": "Catégorie créée avec succès",
+    "createdCategoryItem": "Élément de catégorie créé avec succès",
+    "passwordUpdated": "Mot de passe modifié avec succès",
+    "forgotPassword": "Lien de réinitialisation du mot de passe envoyé avec succès",
+    "updated": "Mis à jour avec succès",
+    "approveSuccess": "Note de frais approuvée avec succès",
+    "betaRegistration": "Inscription soumise avec succès",
+    "authenticatedWithRecoveryCode": "Authentifié avec le code de récupération",
+    "authenticatedWithTOTP": "Authentifié avec TOTP",
+    "resetPassword": "Mot de passe réinitialisé avec succès",
+    "rejectSuccess": "Note de frais rejetée avec succès",
+    "rejectSuccessDescription": "Votre note de frais a été rejetée avec succès"
+  },
+  "actions": {
+    "openMenu": "Ouvrir le menu",
+    "add": "Ajouter",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "submit": "Soumettre",
+    "remove": "Supprimer",
+    "processing": "Traitement en cours...",
+    "editRole": "Modifier le rôle",
+    "saveChanges": "Enregistrer les modifications",
+    "update": "Mettre à jour",
+    "view": "Voir",
+    "approve": "Approuver",
+    "reject": "Rejeter",
+    "create": "Créer",
+    "creating": "Création en cours...",
+    "activate": "Activer",
+    "submitting": "Soumission en cours...",
+    "deactivate": "Désactiver",
+    "items": "Éléments",
+    "export": "Exporter",
+    "import": "Importer",
+    "send": "Envoyer",
+    "sending": "Envoi en cours...",
+    "loading": "Chargement en cours...",
+    "saving": "Enregistrement en cours...",
+    "viewAll": "Tout voir",
+    "verifying": "Vérification en cours...",
+    "verify": "Vérifier",
+    "register": "S'inscrire",
+    "skipForNow": "Plus tard",
+    "continue": "Continuer",
+    "finish": "Terminer",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "completeRequired": "Complétez les étapes requises",
+    "sendInvite": "Envoyer l'invitation",
+    "createAndContinue": "Créer la liste de catégories et continuer",
+    "close": "Fermer"
+  },
+  "roles": {
+    "selectRole": "Sélectionner un rôle",
+    "admin": "Administrateur",
+    "approver": "Approbateur",
+    "user": "Utilisateur",
+    "finance": "Finance"
+  },
+  "status": {
+    "pending": "En attente",
+    "approved": "Approuvé",
+    "rejected": "Rejeté",
+    "expired": "Expiré"
+  },
+  "tooltips": {
+    "clickToView": "Cliquez pour voir"
+  },
+  "userMenu": {
+    "myAccount": "Mon compte",
+    "team": "Équipe",
+    "changePassword": "Changer le mot de passe",
+    "logout": "Déconnexion"
+  },
+  "auth": {
+    "name": "Nom",
+    "companyName": "Nom de l'entreprise",
+    "email": "Adresse e-mail",
+    "password": "Mot de passe",
+    "newPassword": "Nouveau mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "forgotPassword": "Mot de passe oublié ?",
+    "rememberMe": "Se souvenir de moi",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe",
+    "registrationSuccess": "Inscription réussie. Connectez-vous maintenant.",
+    "passwordStrength": {
+      "label": "Force du mot de passe",
+      "weak": "Faible",
+      "medium": "Moyen",
+      "strong": "Fort"
+    },
+    "loginForm": {
+      "title": "Connexion",
+      "description": "Connectez-vous à Declair",
+      "loginButton": "Se connecter",
+      "orRegister": "ou inscrivez-vous",
+      "registerButton": "S'inscrire"
+    },
+    "forgotpassword": {
+      "title": "Mot de passe oublié ?",
+      "description": "Entrez votre adresse e-mail pour recevoir un lien de réinitialisation",
+      "submitButton": "Envoyer le lien de réinitialisation",
+      "orLogin": "ou",
+      "backToLogin": "Se connecter"
+    },
+    "resetpassword": {
+      "title": "Réinitialiser le mot de passe",
+      "description": "Entrez votre nouveau mot de passe pour le réinitialiser",
+      "submitButton": "Réinitialiser le mot de passe",
+      "orLogin": "ou",
+      "backToLogin": "Se connecter"
+    },
+    "register": {
+      "title": "S'inscrire",
+      "registerButton": "S'inscrire",
+      "alreadyAccount": "déjà un compte ?",
+      "loginButton": "Se connecter"
+    },
+    "twoFactorVerification": {
+      "title": "Entrez le code d'authentification à deux facteurs de votre application d'authentification",
+      "recoveryTitle": "Entrez un code de récupération",
+      "recoveryPlaceholder": "Entrez votre code de récupération (minimum 10 caractères)",
+      "useAuthenticator": "Utiliser l'application d'authentification",
+      "useRecoveryCode": "Utiliser le code de récupération"
+    },
+    "betaRegistration": {
+      "title": "S'inscrire à la bêta",
+      "description": "S'inscrire à la bêta",
+      "companyName": "Nom de l'entreprise",
+      "email": "Adresse e-mail",
+      "registerButton": "S'inscrire",
+      "or": "ou",
+      "backToLogin": "Se connecter"
+    }
+  },
+  "account": {
+    "myAccount": "Mon compte",
+    "changePassword": "Changer le mot de passe",
+    "newPassword": "Nouveau mot de passe",
+    "confirmNewPassword": "Confirmer le mot de passe",
+    "currentPassword": "Mot de passe actuel",
+    "changeEmail": "Changer l'e-mail",
+    "newEmail": "Nouvel e-mail",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "personalDetails": "Détails personnels",
+    "emailSettings": "Paramètres de messagerie",
+    "subscription": "Abonnement",
+    "team": "Équipe",
+    "save": "Enregistrer",
+    "tabs": {
+      "personalDetails": "Détails personnels",
+      "emailSettings": "Paramètres de messagerie",
+      "changePassword": "Changer le mot de passe",
+      "subscription": "Abonnement",
+      "team": "Équipe"
+    }
+  },
+  "emptyState": {
+    "title": "Aucun résultat trouvé",
+    "description": "Aucun résultat n'a été trouvé"
+  },
+  "onboarding": {
+    "title": "Bienvenue sur Declair",
+    "subtitle": "Configurons votre compte en quelques étapes",
+    "progress": "Progression",
+    "completed": "terminé",
+    "continue": "Continuer",
+    "minimize": "Réduire",
+    "optional": "optionnel",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "steps": {
+      "company": {
+        "title": "Configurer l'entreprise",
+        "description": "Ajoutez les informations de votre entreprise",
+        "heading": "Configurez votre entreprise",
+        "subheading": "Nous avons besoin de quelques informations de base pour commencer",
+        "createCompany": "Créer l'entreprise",
+        "creating": "Création de l'entreprise...",
+        "fields": {
+          "name": "Nom de l'entreprise",
+          "email": "Adresse e-mail",
+          "vatNumber": "Numéro de TVA",
+          "address": "Adresse",
+          "city": "Ville",
+          "zipCode": "Code postal",
+          "country": "Pays"
+        }
+      },
+      "invite": {
+        "title": "Inviter des utilisateurs",
+        "description": "Invitez des utilisateurs pour commencer",
+        "heading": "Inviter des utilisateurs",
+        "subheading": "Invitez des utilisateurs pour commencer",
+        "inviteHint": "Vous pouvez inviter des utilisateurs en entrant leur adresse e-mail",
+        "sentInvitations": "Invitations envoyées",
+        "fields": {
+          "name": "Nom",
+          "email": "Adresse e-mail",
+          "role": "Rôle",
+          "selectRole": "Sélectionner un rôle"
+        },
+        "inviteUsers": "Inviter des utilisateurs"
+      },
+      "categories": {
+        "title": "Configurer les catégories",
+        "description": "Ajoutez des catégories pour commencer",
+        "heading": "Configurer les catégories",
+        "subheading": "Ajoutez des catégories pour commencer",
+        "createList": "Créer une liste de catégories",
+        "usePredefinedCategories": "Utiliser les catégories prédéfinies",
+        "predefinedPreview": "Aperçu des catégories",
+        "creating": "Création de la liste de catégories...",
+        "fields": {
+          "listName": "Nom",
+          "listDescription": "Description",
+          "listType": "Type de catégorie",
+          "listTypeDescription": "Sélectionnez le type de catégorie"
+        }
+      }
+    }
+  },
+  "notifications": {
+    "title": "Messages",
+    "description": "Gérer les messages",
+    "new": "Nouveau",
+    "noNotifications": "Aucun message trouvé",
+    "markAllAsRead": "Marquer tous les messages comme lus",
+    "yesterday": "Hier",
+    "today": "Aujourd'hui",
+    "thisWeek": "Cette semaine",
+    "thisMonth": "Ce mois",
+    "thisYear": "Cette année"
+  },
+  "notification": {
+    "approveDeclaration": "La note de frais \"{declarationTitle}\" a été soumise et attend votre approbation",
+    "declarationCreated": "La note de frais \"{declarationTitle}\" a été soumise"
+  },
+  "pagination": {
+    "selectedRows": "Lignes sélectionnées",
+    "rowsPerPage": "Lignes par page",
+    "page": "Page",
+    "of": "sur",
+    "rows": "lignes",
+    "goToFirstPage": "Aller à la première page",
+    "goToLastPage": "Aller à la dernière page",
+    "goToPreviousPage": "Aller à la page précédente",
+    "goToNextPage": "Aller à la page suivante"
+  },
+  "deleteDialog": {
+    "title": "Supprimer",
+    "description": "Êtes-vous sûr de vouloir supprimer cette note de frais ?",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "confirmation": "Confirmation"
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "welcome": "Bienvenue sur Declair",
+    "newDeclaration": "Nouvelle note de frais",
+    "new": "Nouveau",
+    "users": "Utilisateurs",
+    "topCompaniesByUsers": "Top des entreprises par utilisateur",
+    "totalCompanies": "Total des entreprises",
+    "totalUsers": "Total des utilisateurs",
+    "stats": {
+      "totalDeclarations": "Nombre total de notes de frais",
+      "pendingDeclarations": "En attente",
+      "approvedDeclarations": "Approuvées",
+      "totalAmount": "Montant total",
+      "amountChange": "Variation du montant",
+      "vsPreviousPeriod": "vs période précédente"
+    }
+  },
+  "declarations": {
+    "title": "Notes de frais",
+    "description": "Gérer les notes de frais",
+    "recentDeclarations": "Notes de frais récentes",
+    "searchPlaceholder": "Rechercher une note de frais",
+    "newDeclaration": "Nouvelle note de frais",
+    "backToOverview": "Retour à l'aperçu",
+    "viewDeclaration": "Voir la note de frais",
+    "rejectReason": "Motif du rejet",
+    "columns": {
+      "user": "Utilisateur",
+      "title": "Titre",
+      "amount": "Montant",
+      "submittedAt": "Soumis le",
+      "date": "Date",
+      "category": "Catégorie",
+      "company": "Entreprise",
+      "status": "Statut",
+      "actions": "Actions",
+      "selectRow": "Sélectionner la ligne",
+      "selectAll": "Tout sélectionner"
+    },
+    "actions": {
+      "viewAll": "Voir toutes les notes de frais"
+    },
+    "emptyState": {
+      "title": "Aucune note de frais trouvée",
+      "description": "Créez une nouvelle note de frais pour commencer"
+    },
+    "declarationForm": {
+      "title": "Note de frais",
+      "titlePlaceholder": "Titre de la note de frais",
+      "amount": "Montant",
+      "date": "Date",
+      "category": "Catégorie",
+      "approver": "Approbateur",
+      "selectApprover": "Sélectionner un approbateur",
+      "descriptionAndAttachments": "Description et pièces jointes",
+      "description": "Description",
+      "addReceipt": "Ajouter un reçu",
+      "attachment": "Pièce jointe",
+      "viewAttachment": "Voir la pièce jointe",
+      "basicInformation": "Informations de base",
+      "next": "Suivant",
+      "previous": "Précédent",
+      "amountAndApproval": "Montant et approbation",
+      "items": "Lignes de dépenses",
+      "addItem": "Ajouter une ligne de dépense",
+      "item": "Ligne de dépense",
+      "itemDescription": "Description",
+      "itemAmount": "Montant",
+      "itemDate": "Date",
+      "itemCategory": "Catégorie",
+      "removeItem": "Supprimer la ligne de dépense",
+      "totalAmount": "Montant total",
+      "selectCategory": "Sélectionner une {category}",
+      "file": "Facture/reçu",
+      "receiptRequired": "Facture/reçu requis",
+      "receiptRequiredDescription": "Vous devez ajouter une facture ou un reçu à cette note de frais"
+    },
+    "approverDeclarations": "Approuver les notes de frais",
+    "approveConfirmationTitle": "Approuver la note de frais",
+    "approveConfirmationDescription": "Êtes-vous sûr de vouloir approuver cette note de frais ?",
+    "rejectConfirmationTitle": "Rejeter la note de frais",
+    "rejectConfirmationDescription": "Êtes-vous sûr de vouloir rejeter cette note de frais ?",
+    "editDeclaration": "Modifier la note de frais"
+  },
+  "fileUpload": {
+    "chooseMethod": "Choisir une méthode",
+    "dragAndDrop": "Glisser-déposer ici",
+    "browseFiles": "Ou choisir un fichier",
+    "supportedFormats": "Formats pris en charge: PDF, JPG, PNG",
+    "maxSize": "Taille maximale: 10MB",
+    "removeFile": "Supprimer le fichier",
+    "makePhoto": "Faire une photo",
+    "gallery": "Sélectionner une photo"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "description": "Gérer les paramètres",
+    "noSettingsFound": "Aucun paramètre trouvé",
+    "profile": {
+      "title": "Profil",
+      "description": "Gérer le profil",
+      "language": "Langue",
+      "languageDescription": "Définir la langue",
+      "selectLanguage": "Sélectionner une langue",
+      "name": "Nom",
+      "email": "Adresse e-mail",
+      "emailCannotBeChanged": "L'adresse e-mail ne peut pas être modifiée",
+      "department": "Département"
+    },
+    "password": {
+      "title": "Mot de passe",
+      "description": "Définir le mot de passe",
+      "currentPassword": "Mot de passe actuel",
+      "newPassword": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer le mot de passe"
+    },
+    "twoFactorAuthentication": "Authentification à deux facteurs",
+    "twoFactorAuthenticationDescription": "Configurer l'authentification à deux facteurs",
+    "enable2FA": "Activer 2FA",
+    "disable2FA": "Désactiver 2FA",
+    "disable2FADescription": "Vous pouvez désactiver 2FA si vous n'en avez plus besoin",
+    "secureAccount": "Sécuriser votre compte",
+    "twoFactorSetupDescription": "Sécuriser votre compte avec l'authentification à deux facteurs",
+    "scanQRCode": "Scanner le code QR",
+    "scanQRCodeDescription": "Scanner le code QR avec l'application Authenticator sur votre téléphone",
+    "scanQRCodeManual": "Ou entrer le code",
+    "qrCodeAlt": "Code QR",
+    "enterCode": "Entrer le code",
+    "enterCodeDescription": "Entrer le code que vous recevez par e-mail",
+    "copyCode": "Copier le code",
+    "verifySetup": "Vérifier la configuration",
+    "verifySetupDescription": "Vérifier la configuration de votre application Authenticator",
+    "saveRecoveryCodes": "Enregistrer les codes de récupération",
+    "recoveryCodesDescription": "Enregistrer ces codes dans un endroit sûr",
+    "copyRecoveryCodes": "Copier les codes",
+    "downloadRecoveryCodes": "Télécharger les codes",
+    "backToSettings": "Retour aux paramètres",
+    "trustedDevices": "Appareils de confiance",
+    "trustedDevicesDescription": "Gérer les appareils de confiance",
+    "noTrustedDevices": "Aucun appareil de confiance trouvé",
+    "notifications": {
+      "title": "Notification",
+      "description": "Gérer les notifications",
+      "emailNotifications": "Notifications e-mail",
+      "emailNotificationsDesc": "Configurer les notifications e-mail",
+      "declarationUpdates": "Mises à jour de la note de frais",
+      "declarationUpdatesDesc": "Configurer les mises à jour de la note de frais",
+      "securityAlerts": "Alertes de sécurité",
+      "securityAlertsDesc": "Configurer les alertes de sécurité"
+    },
+    "subscription": {
+      "title": "Abonnement",
+      "description": "Gérer l'abonnement",
+      "plan": "Abonnement actuel",
+      "status": "Statut",
+      "trialEnds": "Fin de période d'essai le",
+      "nextBilling": "Prochaine facturation",
+      "upgrade": "Mettre à niveau",
+      "noSubscription": "Aucun abonnement trouvé",
+      "changePlan": "Modifier l'abonnement",
+      "cancel": "Annuler",
+      "cancelConfirmTitle": "Annuler l'abonnement",
+      "cancelConfirmDescription": "Êtes-vous sûr de vouloir annuler votre abonnement?",
+      "confirmCancel": "Annuler",
+      "success": {
+        "title": "Abonnement mis à niveau avec succès",
+        "description": "Votre abonnement a été mis à niveau avec succès",
+        "backToSettings": "Retour aux paramètres"
+      }
+    }
+  },
+  "company": {
+    "user": "Utilisateur",
+    "department": "Département",
+    "role": "Rôle",
+    "memberSince": "Membre depuis",
+    "settings": {
+      "title": "Paramètres de l'entreprise",
+      "description": "Gérer les paramètres de l'entreprise",
+      "addressData": "Données d'adresse",
+      "categories": "Catégories",
+      "name": "Nom",
+      "vatNumber": "Numéro TVA",
+      "vatNumberOptional": "Facultatif",
+      "address": "Adresse",
+      "city": "Ville",
+      "zipCode": "Code postal",
+      "country": "Pays",
+      "subscription": {
+        "tab": "Abonnement",
+        "title": "Abonnement",
+        "description": "Gérer l'abonnement"
+      },
+      "invoices": {
+        "tab": "Factures",
+        "title": "Factures",
+        "noInvoices": "Aucune facture trouvée",
+        "description": "Gérer les factures"
+      }
+    },
+    "users": {
+      "title": "Utilisateurs",
+      "description": "Gérer les utilisateurs",
+      "invite": "Inviter",
+      "searchUsers": "Rechercher un utilisateur",
+      "removeUserWarning": "Supprimer l'utilisateur",
+      "removeUserConfirmation": "Supprimer l'utilisateur",
+      "removeUserConfirmationTitle": "Supprimer l'utilisateur",
+      "removeUserConfirmationDescription": "Êtes-vous sûr de vouloir supprimer cet utilisateur?"
+    },
+    "invitations": {
+      "title": "Invitations",
+      "description": "Gérer les invitations",
+      "email": "Adresse e-mail",
+      "role": "Rôle",
+      "selectRole": "Sélectionner un rôle",
+      "send": "Envoyer une invitation",
+      "sentInvitations": "Invitations envoyées",
+      "sentInvitationsDescription": "Invitations envoyées aux utilisateurs",
+      "searchPlaceholder": "Rechercher une invitation",
+      "status": "Statut",
+      "invitedBy": "Invité par",
+      "expiresOn": "Expire le",
+      "resend": "Renvoyer",
+      "revokeInvitation": "Révoquer l'invitation",
+      "revokeInvitationDescription": "Vous pouvez révoquer l'invitation si l'utilisateur n'accepte pas l'invitation",
+      "revoke": "Révoquer",
+      "cancel": "Annuler"
+    }
+  },
+  "categories": {
+    "lists": {
+      "title": "Catégories",
+      "description": "Description",
+      "name": "Nom",
+      "status": "Statut",
+      "items": "Éléments",
+      "actions": "Actions",
+      "deleteConfirmTitle": "Supprimer la liste des catégories",
+      "deleteConfirmDescription": "Êtes-vous sûr de vouloir supprimer cette liste des catégories?",
+      "createTitle": "Créer une liste de catégories",
+      "createDescription": "Créer une liste de catégories",
+      "nameLabel": "Nom",
+      "descriptionLabel": "Description",
+      "descriptionHelper": "Description de la catégorie",
+      "isActiveLabel": "Actif",
+      "isActiveDescription": "La catégorie est utilisée dans les notes de frais",
+      "editTitle": "Modifier la liste des catégories",
+      "editDescription": "",
+      "descriptionHelp": "Description de la catégorie"
+    },
+    "items": {
+      "empty": "Aucun élément de catégorie trouvé",
+      "tableTitle": "Éléments de catégorie",
+      "code": "Code",
+      "name": "Nom",
+      "descriptionLabel": "Description",
+      "editTitle": "Modifier l'élément de catégorie",
+      "editDescription": "Modifier l'élément de catégorie",
+      "codeLabel": "Code",
+      "codeHelp": "Code de l'élément de catégorie",
+      "nameLabel": "Nom",
+      "descriptionHelp": "Description de l'élément de catégorie",
+      "deleteConfirmTitle": "Supprimer l'élément de catégorie",
+      "deleteConfirmDescription": "Êtes-vous sûr de vouloir supprimer cet élément de catégorie?",
+      "createTitle": "Créer un élément de catégorie",
+      "createDescription": "Créer un élément de catégorie",
+      "importTitle": "Importer des éléments de catégorie",
+      "importDescription": "Importer des éléments de catégorie",
+      "importFileLabel": "Choisir un fichier",
+      "importFileHelp": "Choisir un fichier contenant les éléments de catégorie",
+      "importManualLabel": "ou entrer les éléments de catégorie manuellement",
+      "importFormatTitle": "Format d'importation",
+      "importFormatDescription": "Sélectionner le format des éléments de catégorie",
+      "importFormatHelp": "Choisir le format des éléments de catégorie",
+      "importImport": "Importer",
+      "importManualPlaceholder": "ou entrer les éléments de catégorie manuellement",
+      "importManualHelp": "Entrer les éléments de catégorie manuellement"
+    }
+  },
+  "subscription": {
+    "upgradeSubscription": "Mettre à niveau pour accéder à toutes les fonctionnalités",
+    "noValidSubscription": "Il n'y a pas de abonnement valide. Vous êtes maintenant en mode lecture seule.",
+    "upgrade": {
+      "title": "Mettre à niveau",
+      "description": "Mettre à niveau vers un autre abonnement",
+      "month": "mois",
+      "year": "année",
+      "currentPlan": "Abonnement actuel",
+      "newPlan": "Nouvel abonnement",
+      "changePlan": "Modifier l'abonnement",
+      "cancelSubscription": "Annuler l'abonnement",
+      "cancelSubscriptionDescription": "Vous pouvez annuler votre abonnement dans les 30 jours à venir sans frais supplémentaires",
+      "upgrade": "Mettre à niveau"
+    }
+  },
+  "export": {
+    "title": "Exporter",
+    "description": "Exporter les notes de frais",
+    "format": "Format",
+    "formatDescription": "Sélectionner le format des notes de frais",
+    "formatHelp": "Choisir le format des notes de frais",
+    "formatImport": "Importer",
+    "from": "De",
+    "to": "À",
+    "inkoop": "Exact Online - Achat",
+    "verkoop": "Exact Online - Vente",
+    "export": "Exporter",
+    "formatPlaceholder": "Choisir le format",
+    "filename": "Notes de frais",
+    "columns": {
+      "invoiceNumber": "Numéro de facture",
+      "invoiceDate": "Date de facture",
+      "customerCode": "Code client",
+      "supplierCode": "Code fournisseur",
+      "description": "Description",
+      "amount": "Montant",
+      "vat": "TVA",
+      "currency": "Devise"
+    }
+  },
+  "header": {
+    "features": "Fonctionnalités",
+    "pricing": "Prix",
+    "testimonials": "Avis",
+    "login": "Se connecter",
+    "tryFree": "Essayer gratuitement"
+  },
+  "hero": {
+    "title": "Gérer les notes de frais",
+    "subtitle": "En minutes, pas en heures",
+    "description": "Simplifiez la soumission et la gestion des notes de frais avec Declair. Traitement simple, approbation en temps réel et transparence totale.",
+    "tryFree": "Essayer gratuitement",
+    "watchDemo": "Regarder la démonstration",
+    "free_trial": "Essayer gratuitement - Pas de carte de crédit requise",
+    "secure": "100% sécurisé",
+    "gdpr_compliant": "Conforme à la GDPR"
+  },
+  "features": {
+    "title": "Pourquoi choisir Declair?",
+    "subtitle": "Économisez du temps et travailz plus efficacement avec notre solution de gestion de note de frais avancée.",
+    "items": [
+      {
+        "title": "Traitement rapide",
+        "description": "Les notes de frais sont traitées facilement et approuvées."
+      },
+      {
+        "title": "Soumission simple",
+        "description": "Téléchargez ou faites une photo de votre reçu et remplissez un formulaire."
+      },
+      {
+        "title": "Rapports intuitifs",
+        "description": "Obtenez directement des insights sur toutes vos notes de frais par mois."
+      },
+      {
+        "title": "Sécurisé et conforme",
+        "description": "GDPR-conforme et SSL-crypté pour toutes vos données."
+      },
+      {
+        "title": "Accessible partout",
+        "description": "Utilisez Declair sur ordinateur, tablette ou smartphone."
+      },
+      {
+        "title": "Paiement automatique",
+        "description": "Obtenez votre indemnité directement sur votre compte."
+      }
+    ]
+  },
+  "how_it_works": {
+    "title": "Comment ça marche",
+    "description": "En quatre étapes simples de reçu à indemnité.",
+    "step_1": "Faire une photo",
+    "step_1_description": "Scanner votre reçu avec la caméra de votre téléphone",
+    "step_2": "Remplir les données",
+    "step_2_description": "Ajouter une brève description et catégorie",
+    "step_3": "Attendre l'approbation",
+    "step_3_description": "Votre manager approuve la note de frais",
+    "step_4": "Recevoir l'indemnité",
+    "step_4_description": "Le montant est envoyé à votre compte"
+  },
+  "pricing": {
+    "title": "Prix simples et transparents",
+    "subtitle": "Choisissez le plan qui convient à votre entreprise. Toujours annulable, pas de frais cachés.",
+    "popular": "Meilleure option",
+    "plans": {
+      "starter": {
+        "name": "Starter",
+        "price": "€9,99",
+        "period": "/mois",
+        "description": "Parfait pour les start-ups et les petites équipes",
+        "features": [
+          "Jusqu'à 10 utilisateurs",
+          "Gestion de base des notes de frais",
+          "Support e-mail",
+          "Application mobile",
+          "Exportation CSV et XML"
+        ],
+        "cta": "Commencer la période d'essai gratuite",
+        "href": "/register"
+      },
+      "professional": {
+        "name": "Professional",
+        "price": "€29,99",
+        "period": "/mois",
+        "description": "Idéal pour les entreprises en croissance",
+        "features": [
+          "Jusqu'à 25 utilisateurs",
+          "Gestion de base des notes de frais",
+          "Support e-mail et chat",
+          "Application mobile",
+          "Exportation CSV et XML"
+        ],
+        "cta": "Commencer la période d'essai gratuite",
+        "href": "/register"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "€59,99",
+        "period": "/mois",
+        "description": "Pour les grandes organisations",
+        "features": [
+          "Utilisateurs illimités",
+          "Gestion étendue des notes de frais",
+          "Garantie SLA",
+          "Application mobile",
+          "Intégration API avec les systèmes de comptabilité (Exact, Moneybird, etc.)"
+        ],
+        "cta": "Commencer la période d'essai gratuite",
+        "href": "/register"
+      }
+    }
+  },
+  "faq": {
+    "title": "Questions fréquentes",
+    "description": "Découvrez comment Declair fonctionne et ce qu'il peut signifier pour vous.",
+    "question_1": "Qu'est-ce que Declair?",
+    "answer_1": "Declair est une plateforme de gestion de note de frais en ligne qui aide les entreprises à soumettre et gérer des notes de frais.",
+    "question_2": "Combien de temps faut-il pour que ma note de frais soit approuvée?",
+    "answer_2": "Cela dépend de l'approbateur, mais la plupart des notes de frais sont approuvées en moins de 24 heures. Pour les notes de frais plus complexes, cela peut prendre jusqu'à 48 heures.",
+    "question_3": "Y a-t-il des frais associés à l'utilisation de Declair?",
+    "answer_3": "Notre plan Starter coûte €19 par mois. Pour plus de volume et de fonctionnalités avancées, nous avons des plans payants à partir de €39 par mois.",
+    "question_4": "Ma donnée est-elle sûre chez Declair?",
+    "answer_4": "Oui, nous prenons la confidentialité et la sécurité très au sérieux. Toutes vos données sont cryptées et nous sommes entièrement conformes à la GDPR.",
+    "question_5": "Puis-je intégrer Declair avec mon système de comptabilité existant?",
+    "answer_5": "Oui, Declair intègre avec la plupart des systèmes de comptabilité populaires comme Exact, Moneybird, et plus via notre API.",
+    "question_6": "Quel type de notes de frais puis-je soumettre?",
+    "answer_6": "Vous pouvez déclarer toutes les dépenses commerciales telles que les frais de transport, les repas, les fournitures de bureau, et plus."
+  },
+  "cta": {
+    "title": "Prêt à commencer?",
+    "description": "Essayer Declair gratuitement et découvrez à quel point la gestion de la note de frais peut être simple.",
+    "cta": "Commencer gratuitement",
+    "contact": "Contacter",
+    "free_trial": "Pas de carte de crédit - 1 mois d'essai gratuit"
+  },
+  "testimonials": {
+    "title": "Ce que nos clients disent",
+    "description": "Découvrez pourquoi les entreprises changent pour Declair pour la gestion de la note de frais.",
+    "role_1": "Directeur financier chez TechStart",
+    "content_1": "Declair a transformé complètement notre processus de soumission de note de frais. Ce qui prenait des semaines, est maintenant réglé en quelques jours.",
+    "role_2": "CEO chez GrowthLabs",
+    "content_2": "La automatisation et la transparence que Declair offre est inégalée. Nos employés adorent!",
+    "role_3": "Directeur des ressources humaines chez Innovate BV",
+    "content_3": "Enfin un système qui fonctionne comme vous vous en attendiez. L'application est intuitive et le service client est excellent."
+  },
+  "footer": {
+    "description": "Obtenez votre argent sans effort. Declair le.",
+    "email": "hello@declair.app",
+    "address": "Houten, Pays-Bas",
+    "product": "Produit",
+    "features": "Fonctionnalités",
+    "pricing": "Prix",
+    "api": "API",
+    "integrations": "Intégrations",
+    "company": "Entreprise",
+    "about": "À propos de nous",
+    "careers": "Emplois",
+    "press": "Presse",
+    "contact": "Contact",
+    "rights": "Tous droits réservés.",
+    "privacy": "Politique de confidentialité",
+    "terms": "Termes généraux",
+    "register": "S'inscrire"
+  },
+  "mail": {
+    "welcome": {
+      "title": "Bienvenue sur Declair ! 🙌",
+      "description": "Votre compte a été créé avec succès et vous pouvez maintenant commencer à gérer vos notes de frais facilement. Nous sommes ravis que vous ayez choisi notre solution pour numériser et rationaliser votre processus de déclaration.",
+      "whatYouCanDo": "🚀 Que pouvez-vous faire maintenant ?",
+      "features": {
+        "submit": "✅ Soumettre des notes de frais - Téléchargez vos reçus et soumettez vos notes de frais en quelques clics",
+        "overview": "✅ Suivre - Consultez l'état de toutes vos notes de frais en un seul endroit",
+        "approval": "✅ Approbation rapide - Obtenez une approbation plus rapide grâce à notre flux de travail optimisé",
+        "export": "✅ Exportation automatique - Exportez vos données vers votre logiciel de comptabilité"
+      },
+      "tips": {
+        "title": "💡 Conseils pour commencer :",
+        "login": "Connectez-vous à votre compte : {loginLink}",
+        "profile": "Complétez votre profil : Ajoutez votre département et autres détails",
+        "firstDeclaration": "Soumettez votre première note de frais : Cliquez sur \"Nouvelle note de frais\" pour commencer",
+        "invite": "Invitez des collègues : En tant qu'administrateur, vous pouvez inviter des membres de l'équipe"
+      },
+      "companyInfo": {
+        "title": "🏢 Informations sur l'entreprise",
+        "admin": {
+          "title": "En tant qu'administrateur de {companyName}, vous pouvez :",
+          "invite": "Inviter des membres de l'équipe via la gestion des utilisateurs",
+          "settings": "Ajuster les paramètres de l'entreprise",
+          "approve": "Approuver les notes de frais de votre équipe",
+          "reports": "Générer des rapports et des exportations"
+        }
+      },
+      "help": {
+        "title": "📚 Besoin d'aide ?",
+        "faq": "Questions fréquemment posées : {faqLink}",
+        "manual": "Manuel : {manualLink}",
+        "support": "Support : Envoyez un e-mail à support@declair.app",
+        "phone": "Appelez-nous : +31 (0)20 123 4567 (Lun-Ven 9h00-17h00)"
+      },
+      "nextSteps": {
+        "title": "🎯 Prochaines étapes",
+        "confirmEmail": "Confirmez votre adresse e-mail en vous connectant",
+        "setup2FA": "Configurez l'authentification à deux facteurs (2FA) pour plus de sécurité",
+        "uploadReceipt": "Téléchargez votre premier reçu et découvrez à quel point la déclaration peut être simple !"
+      },
+      "signature": "Bonne chance avec Declair !\nL'équipe Declair",
+      "social": {
+        "title": "P.S. Suivez-nous sur les réseaux sociaux pour des conseils, des mises à jour et des actualités :",
+        "linkedin": "LinkedIn",
+        "twitter": "Twitter"
+      },
+      "footer": {
+        "sentTo": "Cet e-mail vous a été envoyé à {email} car vous avez créé un compte avec Declair.",
+        "unsubscribe": "Vous n'êtes plus intéressé ? Vous pouvez vous désabonner ici.",
+        "address": "Declair B.V.\nExample Street 123\n1234 AB Amsterdam\nPays-Bas"
+      }
+    },
+    "invitation": {
+      "subject": "Vous avez été invité à rejoindre Declair chez {companyName} 💼",
+      "greeting": "Bonjour,",
+      "intro": "Vous avez été invité à rejoindre Declair, le portail de déclaration de {companyName} ! 🎉",
+      "inviter": "{inviterName} vous a invité à rejoindre l'équipe et à améliorer ensemble le processus de déclaration.",
+      "createAccountLink": "Créer un compte",
+      "role": {
+        "title": "👤 Votre rôle chez {companyName}",
+        "invitedAs": "Vous avez été invité en tant que : {role}",
+        "user": {
+          "title": "En tant qu'utilisateur, vous pouvez :",
+          "features": [
+            "✅ Soumettre et gérer des notes de frais",
+            "✅ Suivre l'état de vos notes de frais",
+            "✅ Télécharger et catégoriser des reçus",
+            "✅ Utiliser la fonctionnalité d'exportation"
+          ]
+        },
+        "approver": {
+          "title": "En tant qu'approbateur, vous pouvez :",
+          "features": [
+            "✅ Toutes les fonctions utilisateur",
+            "✅ Approuver/rejeter les notes de frais des membres de l'équipe",
+            "✅ Ajouter des commentaires pendant le traitement",
+            "✅ Aperçus des notes de frais à traiter"
+          ]
+        },
+        "admin": {
+          "title": "En tant qu'administrateur, vous pouvez :",
+          "features": [
+            "✅ Toutes les fonctions utilisateur et approbateur",
+            "✅ Inviter de nouveaux membres de l'équipe",
+            "✅ Gérer les paramètres de l'entreprise",
+            "✅ Voir les rapports et analyses complets",
+            "✅ Configurer les catégories et types de dépenses"
+          ]
+        },
+        "finance": {
+          "title": "En tant que Financier, vous pouvez :",
+          "features": [
+            "✅ Toutes les fonctions utilisateur et approbateur",
+            "✅ Exportez vos déclarations vers votre logiciel de comptabilité",
+            "✅ Effectuez des analyses financières",
+            "✅ Gérez vos budgets",
+            "✅ Voir les rapports et analyses"
+          ]
+        }
+      },
+      "whatIsDeclair": {
+        "title": "🚀 Qu'est-ce que Declair ?",
+        "description": "Declair rend la déclaration simple, rapide et transparente :",
+        "features": [
+          "📱 Mobile-first - Déclarez en déplacement avec votre smartphone",
+          "🤖 Reconnaissance automatique - L'IA lit automatiquement vos reçus",
+          "⚡ Approbation rapide - Flux de travail optimisé pour un traitement rapide",
+          "📊 Aperçu en temps réel - Aperçus toujours à jour",
+          "🔗 Intégrations - Connectez-vous à votre logiciel de comptabilité préféré",
+          "🔒 Sécurisé - Sécurité de niveau entreprise et support 2FA"
+        ]
+      },
+      "activation": {
+        "title": "🎯 Activer le compte",
+        "steps": [
+          "Étape 1 : Accepter l'invitation",
+          "Étape 2 : Créer votre mot de passe et remplir votre profil",
+          "Étape 3 : Commencer à déclarer immédiatement !"
+        ]
+      },
+      "important": {
+        "title": "⏰ Important à savoir",
+        "items": [
+          "⚠️ Cette invitation est valable pendant 7 jours",
+          "🔐 Vous aurez automatiquement accès au compte {companyName}",
+          "📧 Vous recevrez un e-mail de bienvenue après l'activation de votre compte",
+          "💬 Pour toute question, vous pouvez contacter {inviterName} ou notre équipe de support"
+        ]
+      },
+      "gettingStarted": {
+        "title": "🎓 Commencez immédiatement",
+        "beginners": {
+          "title": "Pour les débutants :",
+          "items": [
+            "Consultez l'intégration - Nous vous guiderons étape par étape dans l'application",
+            "Téléchargez votre premier reçu - Testez la facilité d'utilisation",
+            "Découvrez les fonctionnalités - Explorez toutes les possibilités à votre rythme"
+          ]
+        },
+        "experienced": {
+          "title": "Pour les utilisateurs expérimentés :",
+          "items": [
+            "Importez les données existantes - Transférez vos déclarations actuelles",
+            "Définissez vos préférences - Personnalisez votre tableau de bord",
+            "Configurez les notifications - Restez informé comme vous le souhaitez"
+          ]
+        }
+      },
+      "support": {
+        "title": "📞 Besoin d'aide ?",
+        "team": {
+          "title": "Équipe de support :",
+          "email": "📧 E-mail : support@declair.app",
+          "phone": "📱 Téléphone : +31 (0)20 123 4567 (Lun-Ven 9h00-17h00)",
+          "chat": "💬 Chat en direct : disponible dans l'application"
+        },
+        "contact": {
+          "title": "Votre personne de contact :",
+          "info": "👤 {inviterName} - {inviterEmail}\n💼 {inviterRole} chez {companyName}"
+        }
+      },
+      "security": {
+        "title": "🔐 Sécurité et confidentialité",
+        "description": "Nous prenons votre confidentialité au sérieux :",
+        "features": [
+          "🛡️ Conforme au RGPD - Vos données sont en sécurité avec nous",
+          "🔒 Chiffrement de bout en bout - Sécurité maximale pour vos données",
+          "👥 Accès d'équipe - Seuls les membres de votre équipe peuvent voir vos déclarations",
+          "🔑 Support 2FA - Sécurité supplémentaire pour votre compte"
+        ]
+      },
+      "closing": {
+        "welcome": "Bienvenue dans l'équipe ! 👋",
+        "message": "Nous sommes impatients de vous aider à rationaliser votre processus de déclaration. Ensemble, nous rendrons la déclaration simple !",
+        "signature": "Cordialement,\nL'équipe Declair\n& {inviterName} de {companyName}",
+        "ps": "P.S. Des questions sur l'invitation ? Envoyez un message à {inviterEmail} ou à notre équipe de support. Nous sommes là pour vous aider !"
+      },
+      "footer": {
+        "sentTo": "Vous recevez cet e-mail car {inviterName} de {companyName} vous a invité à rejoindre Declair.",
+        "unsubscribe": "Pas intéressé ? Ignorez simplement cet e-mail."
+      }
+    },
+    "resetPassword": {
+      "title": "Réinitialiser le mot de passe",
+      "description": "Cliquez sur le lien ci-dessous pour réinitialiser votre mot de passe :",
+      "link": "Réinitialiser le mot de passe",
+      "ignore": "Si vous n'avez pas demandé cela, vous pouvez ignorer cet e-mail.",
+      "expiration": "Ce lien est valable pendant 1 heure."
+    },
+    "declarationStatus": {
+      "declaration": "Note de frais",
+      "yourDeclaration": "Votre note de frais",
+      "hasBeen": "a été",
+      "viewDeclarationIn": "Consultez votre note de frais dans",
+      "viewDeclaration": "Voir votre note de frais",
+      "comment": "Commentaire",
+      "status": {
+        "approved": "Approuvée",
+        "rejected": "Rejetée",
+        "processing": "En cours de traitement"
+      }
+    },
+    "declarationCreated": {
+      "title": "Nouvelle note de frais créée",
+      "description": "Vous avez créé une nouvelle note de frais \"{declarationTitle}\".",
+      "processing": "La note de frais est en cours de traitement et attend l'approbation.",
+      "viewDeclaration": "Consultez votre note de frais ici",
+      "viewDeclarationLink": "Consultez votre note de frais ici"
+    },
+    "declarationToApprove": {
+      "title": "Note de frais à approuver",
+      "description": "Vous avez une nouvelle note de frais \"{declarationTitle}\" à approuver.",
+      "processing": "La note de frais a été soumise et attend l'approbation.",
+      "viewDeclaration": "Voir la note de frais",
+      "viewDeclarationLink": "Voir la note de frais"
+    },
+    "declarationDeleted": {
+      "title": "Note de frais supprimée",
+      "description": "Votre note de frais \"{declarationTitle}\" a été supprimée.",
+      "contact": "Si vous avez des questions, veuillez contacter votre administrateur."
+    },
+    "rights": "Tous droits réservés."
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Tableau de bord",
+      "description": "Tableau de bord",
+      "users": "Utilisateurs",
+      "companies": "Entreprises",
+      "declarations": "Notes de frais"
+    },
+    "companies": {
+      "name": "Entreprise",
+      "address": "Adresse",
+      "city": "Ville",
+      "zipCode": "Code postal",
+      "country": "Pays",
+      "vatNumber": "Numéro TVA",
+      "users": "Utilisateurs",
+      "createdAt": "Créé le",
+      "actions": "Actions",
+      "searchPlaceholder": "Rechercher une entreprise",
+      "noResults": "Aucune entreprise trouvée"
+    },
+    "users": {
+      "name": "Nom",
+      "company": "Entreprise",
+      "role": "Rôle",
+      "department": "Département",
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "status": "Statut",
+      "actions": "Actions",
+      "searchPlaceholder": "Rechercher un utilisateur",
+      "addNew": "Ajouter un nouvel utilisateur",
+      "selectCompany": "Sélectionner une entreprise"
+    },
+    "plans": {
+      "name": "Abonnement",
+      "description": "Description",
+      "price": "Prix",
+      "interval": "Période",
+      "features": "Fonctionnalités",
+      "status": "Statut",
+      "actions": "Actions",
+      "searchPlaceholder": "Rechercher un abonnement",
+      "addNew": "Ajouter un nouvel abonnement",
+      "active": "Actif",
+      "inactive": "Inactif",
+      "featuresCount": "Nombre de fonctionnalités",
+      "month": "Mois",
+      "year": "Année"
+    }
+  }
+}

@@ -1,0 +1,527 @@
+Betaalportal voor Declaratie Platform
+
+1. Inleiding
+
+Dit functioneel ontwerp beschrijft de implementatie van een betaalportal voor het multitenant declaratieplatform. De betaalportal stelt bedrijven in staat om verschillende abonnementsmodellen te kiezen, te beheren en te betalen. De betaalportal integreert naadloos met de bestaande declaratieapplicatie en biedt flexibele prijsmodellen om aan te sluiten bij verschillende bedrijfsgrootten en gebruikspatronen.
+
+2. Doelstellingen
+
+Implementeren van verschillende abonnementsmodellen (per gebruiker, per bedrijf, per declaratie)
+Faciliteren van eenvoudige inschrijving, upgrade, downgrade en annulering van abonnementen
+Automatiseren van facturatie- en betalingsprocessen
+Bieden van transparante inzage in gebruik, kosten en facturen
+Ondersteunen van meerdere betaalmethoden voor verschillende markten
+Optimaliseren van conversie middels een gebruiksvriendelijk aanmeldproces
+
+3. Abonnementsmodellen
+
+3.1 Beschikbare Abonnementsmodellen
+
+Per Gebruiker/Maand
+Basisbedrag per actieve gebruiker per maand
+Mogelijke staffelkorting bij grotere aantallen gebruikers
+Flexibel schalen bij groei of krimp van het team
+Gebruikersniveaus/rollen kunnen verschillende prijspunten hebben (bijv. USER vs. APPROVER vs. ADMIN)
+Per Bedrijf met Maximum Aantal Gebruikers
+Vast maandelijks of jaarlijks bedrag per bedrijf
+Vooraf gedefinieerde gebruikerslimieten (bijv. max. 10, 25, 50, 100 gebruikers)
+Opties voor verschillende pakketten (Basic, Professional, Enterprise)
+Additionele kosten bij overschrijding van gebruikerslimiet
+Per Verwerkte Declaratie
+Betaling op basis van werkelijk gebruik
+Prijs per verwerkte declaratie
+Mogelijk gedifferentieerde prijzen per type declaratie
+Volume-kortingen bij grote aantallen
+Eventueel minimumbedrag per maand
+
+3.2 Prijsniveaus en Features
+
+Starter
+Basisfunctionaliteit voor declaratieverwerking
+Beperkt aantal gebruikers of declaraties
+Standaard rapportage
+Email support
+Professional
+Uitgebreide functionaliteit inclusief goedkeuringsworkflows
+Meer gebruikers of declaraties
+Geavanceerde rapportage
+Prioriteit support
+API-toegang
+Enterprise
+Onbeperkt aantal gebruikers of declaraties
+Alle beschikbare features
+Custom integraties
+Dedicated accountmanager
+SLA-garanties
+
+3.3 Kortingen en Promoties
+
+Jaarcontract Korting
+Korting bij vooruitbetaling voor een jaar
+Bijv. 10-20% korting t.o.v. maandelijkse betaling
+Volume Kortingen
+Gestaffelde kortingen bij grotere volumes
+Automatisch toegepast bij bereiken drempels
+Referral Programma
+Korting voor zowel referrer als nieuwe klant
+Tijdelijke of permanente korting opties
+Introduciepakketten
+Speciale prijzen voor nieuwe bedrijven tijdens eerste 3-6 maanden
+Gratis proefperiode of money-back garantie
+
+4. Functionele Vereisten
+
+4.1 Abonnementsbeheer
+
+Abonnement Selectie
+Vergelijkingsmatrix van beschikbare plannen
+Feature-overzicht per abonnementstype
+Kostenindicatie en -calculator
+Upgrade/downgrade opties
+Inschrijvingsproces
+Stapsgewijze inschrijvingswizard
+Verzamelen van bedrijfs- en betalingsgegevens
+Acceptatie van voorwaarden
+Genereren van digitale handtekeningen/contracts
+Abonnementsbeheer voor Klanten
+Dashboard met huidige abonnement
+Gebruiksstatistieken en kostenprojectie
+Wijzigen van abonnement (upgrade/downgrade)
+Annuleringsproces
+Abonnementsbeheer voor Admins
+Overzicht van alle klantabonnementen
+Handmatige aanpassingen en overrides
+Speciale kortingen toekennen
+Historisch overzicht van abonnementswijzigingen
+
+4.2 Facturatie en Betalingen
+
+Facturatieproces
+Automatische generatie van facturen (maandelijks/jaarlijks)
+Pro-rata berekening bij wijzigingen tussentijds
+Facturen in PDF-formaat (fiscaal compliant)
+Verzenden van facturen via email
+Betaalmethoden
+Creditcard (Visa, Mastercard, AMEX)
+SEPA-incasso (voor EU-klanten)
+iDEAL (voor Nederlandse klanten)
+Bankoverschrijving
+PayPal
+Betaalverwerking
+Integratie met betalingsprovider (Stripe, Mollie, Adyen)
+Veilige opslag van betaalgegevens
+Automatische hernieuwing van abonnementen
+Afhandeling van mislukte betalingen
+Facturatie-instellingen
+Facturatiecontacten beheren
+Factuuradres en -gegevens
+BTW-nummer en fiscale instellingen
+Voorkeuren voor facturatie (taal, formaat)
+
+4.3 Rapportage en Inzicht
+
+Gebruiksdashboard
+Realtime overzicht van gebruik
+Aantal actieve gebruikers
+Aantal verwerkte declaraties
+Kostenprognose voor huidige periode
+Facturatiegeschiedenis
+Overzicht van alle facturen
+Download/weergave van facturen
+Betalingsstatus per factuur
+Creditnota's en refunds
+Administratief Dashboard
+MRR (Monthly Recurring Revenue) analyse
+Churn en retentiestatistieken
+Conversierates per plan
+Gebruiksstatistieken per klant
+
+4.4 Proefperiode en Onboarding
+
+Gratis Proefperiode
+14 of 30 dagen gratis toegang
+Volledige functionaliteit tijdens proef
+Conversieproces naar betaald abonnement
+Geen creditcardvereiste voor proef
+Onboarding Proces
+Welkomstmail-reeks
+Interactieve tutorials
+Setupwizard voor nieuwe accounts
+Check-ins en ondersteuning tijdens proefperiode
+
+5. Technisch Ontwerp
+
+5.1 Database-wijzigingen
+
+prisma
+// Nieuwe modellen voor betaalportal
+
+model Subscription {
+  id                String    @id @default(cuid())
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  // Abonnementsgegevens
+  planId            String
+  plan              Plan      @relation(fields: [planId], references: [id])
+  status            String    // "active", "trialing", "canceled", "past_due"
+  startDate         DateTime
+  endDate           DateTime?
+  trialEndDate      DateTime?
+  canceledAt        DateTime?
+  
+  // Klantrelatie
+  companyId         String    @unique
+  company           Company   @relation(fields: [companyId], references: [id])
+  
+  // Facturatie
+  billingCycleAnchor DateTime
+  billingFrequency   String    // "monthly", "yearly"
+  nextBillingDate    DateTime
+  
+  // Metatada
+  maxUsers          Int?      // Voor abonnementen met gebruikerslimiet
+  usageIncluded     Int?      // Voor abonnementen met declaratielimieten
+  
+  // Relaties
+  invoices          Invoice[]
+  usageRecords      UsageRecord[]
+}
+
+model Plan {
+  id                String    @id @default(cuid())
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  // Plan details
+  name              String
+  description       String
+  type              String    // "per_user", "per_company", "per_expense"
+  isActive          Boolean   @default(true)
+  
+  // Prijsgegevens
+  monthlyPrice      Decimal   @db.Decimal(10, 2)
+  yearlyPrice       Decimal?  @db.Decimal(10, 2)
+  currency          String    @default("EUR")
+  trialDays         Int       @default(0)
+  
+  // Limieten
+  maxUsers          Int?      // Voor bedrijfspakketten
+  includedUsage     Int?      // Voor per-declaratie pakketten
+  
+  // Features (JSON array van strings)
+  features          Json      @default("[]")
+  
+  // Relaties
+  subscriptions     Subscription[]
+}
+
+model Invoice {
+  id                String    @id @default(cuid())
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  // Factuurgegevens
+  invoiceNumber     String    @unique
+  subscriptionId    String
+  subscription      Subscription @relation(fields: [subscriptionId], references: [id])
+  companyId         String
+  company           Company   @relation(fields: [companyId], references: [id])
+  
+  // Bedragen
+  subtotal          Decimal   @db.Decimal(10, 2)
+  tax               Decimal   @db.Decimal(10, 2)
+  total             Decimal   @db.Decimal(10, 2)
+  currency          String    @default("EUR")
+  
+  // Factuurperiode
+  periodStart       DateTime
+  periodEnd         DateTime
+  
+  // Status
+  status            String    // "draft", "open", "paid", "void", "uncollectible"
+  dueDate           DateTime
+  paidAt            DateTime?
+  
+  // Content
+  lineItems         Json      // Array van factuurregels
+  pdf               String?   // URL naar PDF
+  
+  // Relaties
+  payments          Payment[]
+}
+
+model Payment {
+  id                String    @id @default(cuid())
+  createdAt         DateTime  @default(now())
+  
+  // Betaalgegevens
+  invoiceId         String
+  invoice           Invoice   @relation(fields: [invoiceId], references: [id])
+  amount            Decimal   @db.Decimal(10, 2)
+  currency          String    @default("EUR")
+  
+  // Betaalmethode
+  paymentMethod     String    // "credit_card", "ideal", "sepa", "bank_transfer"
+  paymentMethodDetails Json?
+  
+  // Externe referenties
+  externalId        String?   // ID bij payment provider
+  provider          String    // "stripe", "mollie", etc.
+  
+  // Status
+  status            String    // "pending", "succeeded", "failed"
+  errorMessage      String?
+}
+
+model PaymentMethod {
+  id                String    @id @default(cuid())
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  // Eigenaar
+  companyId         String
+  company           Company   @relation(fields: [companyId], references: [id])
+  
+  // Methodegegevens
+  type              String    // "credit_card", "sepa", "ideal", etc.
+  isDefault         Boolean   @default(false)
+  
+  // Beveiligde gegevens (versleuteld of tokens)
+  providerToken     String    // Token van payment provider
+  provider          String    // "stripe", "mollie", etc.
+  
+  // Weergavegegevens
+  last4             String?   // Laatste 4 cijfers (voor kaarten/rekeningen)
+  expiryMonth       Int?      // Voor creditcards
+  expiryYear        Int?      // Voor creditcards
+  holderName        String?
+  
+  // Metagegevens
+  fingerprint       String?   // Voor deduplicatie
+}
+
+model UsageRecord {
+  id                String    @id @default(cuid())
+  createdAt         DateTime  @default(now())
+  
+  // Gebruiksgegevens
+  subscriptionId    String
+  subscription      Subscription @relation(fields: [subscriptionId], references: [id])
+  quantity          Int
+  timestamp         DateTime  @default(now())
+  
+  // Metadata
+  description       String?
+  category          String?   // "expense", "user", etc.
+}
+
+// Uitbreiding Company model
+model Company {
+  // Bestaande velden...
+  
+  subscription       Subscription?
+  invoices           Invoice[]
+  paymentMethods     PaymentMethod[]
+  
+  // Facturatiegegevens
+  billingEmail       String?
+  billingName        String?
+  billingAddress     String?
+  billingCity        String?
+  billingPostalCode  String?
+  billingCountry     String?
+  vatNumber          String?
+  
+  // Facturatiecontacten
+  billingContacts    Json?    // Array van contactpersonen
+}
+
+5.2 Integratie met Betalingsproviders
+
+Stripe Integratie
+Koppeling met Stripe Billing voor abonnementenbeheer
+Stripe Payment Intents voor directe betalingen
+Webhooks voor statusupdates
+Secure Customer Portal voor zelf-beheer
+Mollie Integratie (voor Nederlandse markt)
+Koppeling voor iDEAL-betalingen
+Beheer van terugkerende SEPA-incasso's
+Webhook integratie voor statusupdates
+Algemene Betalingsarchitectuur
+Provider-agnostische abstractielaag
+Eenvoudig uitbreidbaar naar andere providers
+Failover-mechanismen bij provider-uitval
+
+5.3 API Endpoints
+
+Abonnementenbeheer
+GET /api/subscription - Huidige abonnement ophalen
+POST /api/subscription - Nieuw abonnement aanmaken
+PUT /api/subscription - Abonnement wijzigen
+DELETE /api/subscription - Abonnement opzeggen
+GET /api/plans - Beschikbare abonnementen ophalen
+Facturatie
+GET /api/invoices - Facturen ophalen
+GET /api/invoices/{id} - Specifieke factuur ophalen
+GET /api/invoices/{id}/pdf - Factuur-PDF downloaden
+POST /api/invoices/{id}/pay - Factuur handmatig betalen
+Betaalmethoden
+GET /api/payment-methods - Betaalmethoden ophalen
+POST /api/payment-methods - Nieuwe betaalmethode toevoegen
+DELETE /api/payment-methods/{id} - Betaalmethode verwijderen
+PUT /api/payment-methods/{id}/default - Als standaard instellen
+Gebruiksgegevens
+GET /api/usage - Gebruiksstatistieken ophalen
+GET /api/usage/forecast - Voorspelling van kosten
+
+5.4 Webhooks en Integraties
+
+Inkomende Webhooks
+Verwerken van betalingsstatusupdates
+Verwerken van abonnementsstatusupdates
+Afhandelen van disputen en terugboekingen
+Uitgaande Webhooks
+Notificatie naar interne systemen bij abonnementswijzigingen
+Integratie met CRM-systemen
+Integratie met boekhoudpakketten
+
+6. UI-ontwerp
+
+6.1 Pricing Pagina
+
+Duidelijke vergelijkingstabel van abonnementsopties
+Prominente feature-highlights per plan
+Toggle tussen maandelijkse en jaarlijkse prijzen
+Duidelijke call-to-action knoppen
+Calculator voor schatting bij usage-based pricing
+
+6.2 Checkout Proces
+
+Stapsgewijze checkout met voortgangsindicator
+Bedrijfsgegevens verzamelen
+Betaalmethode selecteren en invoeren
+Beveiligde betaalformulieren (evt. ingesloten vanuit provider)
+Bevestigingsstap met ordersamenvatting
+Succespagina met vervolgstappen
+
+6.3 Abonnementsdashboard
+
+Overzicht van huidig abonnement
+Gebruiksstatistieken en -grafieken
+Optie voor upgrade/downgrade
+Facturatiegeschiedenis
+Beheer van betaalmethoden
+
+6.4 Facturatieoverzicht
+
+Lijst van facturen met filtermogelijkheden
+Detailweergave van factuurregels
+Downloadopties voor facturen
+Betaalopties voor openstaande facturen
+Factureringscontacten beheren
+
+7. Gebruikersscenario's
+
+7.1 Nieuwe Klant Onboarding
+
+Potentiële klant bekijkt pricing pagina
+Selecteert gewenst abonnement en klikt op "Start gratis proefperiode"
+Vult bedrijfs- en accountgegevens in
+Ontvangt bevestigingse-mail met activeringslink
+Krijgt toegang tot platform met proefabonnement
+Ontvangt herinnering voor einde proefperiode
+Voert betaalgegevens in voor conversie naar betaald abonnement
+
+7.2 Upgrade van Abonnement
+
+Bedrijf bereikt limiet van huidige abonnement
+Admin bekijkt opties in abonnementsdashboard
+Selecteert upgrade naar hoger plan
+Ontvangt overzicht van prijsverschil en pro-rata kosten
+Bevestigt de upgrade
+Ontvangt bevestiging en aangepaste factuur
+Krijgt direct toegang tot nieuwe functies/limieten
+
+7.3 Betaling van Factuur
+
+Bedrijf ontvangt nieuwe maandelijkse factuur
+Automatische betaling via opgeslagen betaalmethode
+Bij succes: bevestigingsmail met betaalde factuur
+Bij falen: notificatie over mislukte betaling
+Admin logt in en voert nieuwe betaalgegevens in
+Hernieuwde betaalpoging wordt uitgevoerd
+Factuur wordt gemarkeerd als betaald
+
+7.4 Opzegging van Abonnement
+
+Admin navigeert naar abonnementsinstellingen
+Selecteert "Abonnement opzeggen"
+Vult reden voor opzegging in (feedback-formulier)
+Ontvangt bevestiging met einddatum abonnement
+Toegang blijft behouden tot einde betaalde periode
+Herinnering vlak voor aflopen abonnement
+Mogelijkheid tot heractivering binnen bepaalde termijn
+
+8. Beveiligingsoverwegingen
+
+PCI-DSS compliant verwerking van betaalgegevens
+Geen opslag van gevoelige kaartgegevens op eigen servers
+Versleutelde communicatie (TLS) voor alle betalingsinteracties
+Strikte toegangscontrole voor facturatie- en betalingsgegevens
+Audit logging van alle abonnements- en betalingshandelingen
+Fraudedetectie voor ongebruikelijke betalingspatronen
+IP-gebaseerde restricties voor gevoelige betalingsacties
+
+9. Implementatieplan
+
+Fase 1: Basisinfrastructuur
+
+Database-schema implementeren
+Integratie met primaire betaalprovider
+Implementatie van abonnementenbeheer
+Basis facturatiesysteem
+
+Fase 2: Uitbreiding
+
+Implementatie van meerdere prijsmodellen
+Ontwikkeling van gebruikersinterfaces
+Uitbreiding naar meerdere betaalmethoden
+Rapportage en inzichtfunctionaliteiten
+
+Fase 3: Optimalisatie
+
+Conversie-optimalisatie van checkout
+Geavanceerde analytics en billing intelligence
+Integratie met boekhoudpakketten
+Automatische dunning processen voor mislukte betalingen
+
+10. Testscenario's
+
+Succesvol aanmaken van abonnementen op verschillende plannen
+Correcte berekening van pro-rata bedragen bij plan-wijzigingen
+Verwerking van succesvolle en mislukte betalingen
+Correcte factuurgeneratie en belastingberekening
+Abonnementsvernieuwing en automatische facturatie
+Opzegging en correcte afhandeling van einddatum
+Limietbeheer en usage-tracking
+
+11. Juridische en Fiscale Overwegingen
+
+Compliant facturatie volgens lokale fiscale vereisten
+Juiste BTW-berekening per land/regio
+Duidelijke voorwaarden en serviceovereenkomsten
+Privacy-beleid en gegevensbeheer conform AVG/GDPR
+Bewaartermijnen voor financiële administratie
+
+12. Toekomstige Uitbreidingen
+
+Marketplace voor add-ons en extensies
+Geavanceerde pay-per-use modellen (bijv. volumekorting met tiered pricing)
+Multi-currency ondersteuning
+Reseller/partner programma's
+Custom enterprise pricing en contracten
+
+13. Conclusie
+
+De implementatie van deze betaalportal zal het declaratieplatform transformeren van een functionaliteitsgedreven oplossing naar een volledig commercieel product. Door verschillende abonnementsmodellen aan te bieden, kunnen we voldoen aan de behoeften van verschillende bedrijfsgroottes en gebruikspatronen, terwijl de geautomatiseerde facturatie- en betalingsprocessen de administratieve overhead minimaliseren.

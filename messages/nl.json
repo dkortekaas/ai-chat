@@ -1,0 +1,1242 @@
+{
+  "common": {
+    "searchPlaceholder": "Zoeken...",
+    "search": "Zoeken",
+    "menu": "Menu",
+    "management": "Beheer",
+    "closeSidebar": "Sluit zijbalk",
+    "openSidebar": "Open zijbalk",
+    "toggleTheme": "Wissel thema",
+    "version": "Versie",
+    "commentPlaceholder": "Voer een opmerking in",
+    "processing": "Bezig...",
+    "readOnlyView": "Alleen-lezen weergave",
+    "readOnlyDescription": "Je hebt geen toegang tot deze pagina",
+    "selectAll": "Selecteer alles",
+    "selectRow": "Selecteer rij",
+    "actions": "Acties",
+    "noResults": "Geen resultaten gevonden",
+    "save": "Opslaan",
+    "saving": "Opslaan...",
+    "changePassword": "Wachtwoord wijzigen",
+    "add": "Toevoegen",
+    "addNew": "Nieuw toevoegen",
+    "inactive": "Inactief",
+    "active": "Actief",
+    "cancel": "Annuleren",
+    "next": "Volgende",
+    "previous": "Vorige",
+    "verify": "Verifieer",
+    "verifying": "Verifiëren...",
+    "complete": "Voltooien",
+    "confirm": "Bevestig",
+    "enabled": "Ingeschakeld",
+    "disabled": "Uitgeschakeld",
+    "select": "Selecteer",
+    "required": "verplicht",
+    "filters": "Filters",
+    "all": "Alle",
+    "navigation": {
+      "menu": "Menu",
+      "dashboard": "Dashboard",
+      "declarations": "Declaraties",
+      "declarationsList": "Lijst",
+      "newDeclaration": "Nieuwe Declaratie",
+      "new": "Nieuw",
+      "notifications": "Berichten",
+      "settings": "Instellingen",
+      "users": "Gebruikers",
+      "company": "Bedrijf",
+      "profile": "Profiel",
+      "logout": "Uitloggen",
+      "invitations": "Uitnodigingen",
+      "subscription": "Abonnement",
+      "admin": "Admin",
+      "adminDashboard": "Admin Dashboard"
+    },
+    "buttons": {
+      "confirm": "Akkoord",
+      "save": "Opslaan",
+      "cancel": "Annuleren",
+      "delete": "Verwijderen",
+      "edit": "Bewerken",
+      "submit": "Indienen",
+      "back": "Terug",
+      "next": "Volgende",
+      "create": "Aanmaken"
+    },
+    "status": {
+      "loading": "Laden...",
+      "processing": "Verwerken...",
+      "deleting": "Verwijderen...",
+      "success": "Geslaagd",
+      "error": "Fout",
+      "noResults": "Geen resultaten gevonden",
+      "required": "Verplicht"
+    }
+  },
+  "metadata": {
+    "title": "Declair - Minder rompslomp, meer duidelijkheid. Dat is Declair.",
+    "description": "Maak declaraties indienen en beheren eenvoudig met Declair. Eenvoudige verwerking, real-time goedkeuring en volledige transparantie.",
+    "keywords": "declaraties, onkostenvergoeding, bedrijfsadministratie, automatisering, Declair",
+    "og": {
+      "title": "Declair - Minder rompslomp, meer duidelijkheid. Dat is Declair.",
+      "description": "Maak declaraties indienen en beheren eenvoudig met Declair. Eenvoudige verwerking, real-time goedkeuring en volledige transparantie."
+    },
+    "twitter": {
+      "title": "Declair - Minder rompslomp, meer duidelijkheid. Dat is Declair.",
+      "description": "Maak declaraties indienen en beheren eenvoudig met Declair. Eenvoudige verwerking, real-time goedkeuring en volledige transparantie."
+    }
+  },
+  "notFound": {
+    "title": "Pagina niet gevonden",
+    "description": "De pagina die je probeert te bekijken bestaat niet",
+    "backToPortal": "Terug naar dashboard"
+  },
+  "error": {
+    "emailInvalid": "Voer een geldig e-mailadres in",
+    "roleInvalid": "Selecteer een geldige rol",
+    "passwordInvalid": "Wachtwoord moet minstens 8 tekens bevatten",
+    "passwordMismatch": "Wachtwoorden komen niet overeen",
+    "emailRequired": "E-mailadres is verplicht",
+    "loginRequired": "Je moet ingelogd zijn om uitnodigingen te versturen",
+    "userExists": "Deze gebruiker bestaat al",
+    "companyRequired": "Je bent niet verbonden aan een bedrijf",
+    "inviteAuthRequired": "Je hebt geen rechten om gebruikers uit te nodigen",
+    "invalidInput": "Ongeldige invoer",
+    "userExistsInvite": "Er bestaat al een gebruiker met dit e-mailadres",
+    "inviteExistsEmail": "Er is al een uitnodiging verstuurd naar dit e-mailadres",
+    "companyNotFound": "Bedrijf niet gevonden",
+    "internalServerError": "Er is een interne serverfout opgetreden",
+    "checkUser": "Er is een fout opgetreden bij het controleren van het e-mailadres",
+    "inviteFailed": "Er is een fout opgetreden bij het versturen van de uitnodiging",
+    "unauthorized": "Niet geautoriseerd",
+    "somethingWentWrong": "Er is iets misgegaan",
+    "nameRequired": "Naam is verplicht",
+    "invalidEmail": "Voer een geldig e-mailadres in",
+    "currentPasswordRequired": "Huidig wachtwoord is verplicht",
+    "newPasswordRequired": "Wachtwoord moet minstens 8 tekens bevatten",
+    "passwordsDoNotMatch": "Wachtwoorden komen niet overeen",
+    "failedToFetchNotifications": "Er is een fout opgetreden bij het ophalen van de notificaties",
+    "passwordRequired": "Wachtwoord is verplicht",
+    "receiptRequired": "Bonnetje is verplicht voor deze categorie",
+    "receiptRequiredDescription": "Je moet een bonnetje toevoegen voor deze declaratie",
+    "titleRequired": "Titel is verplicht",
+    "amountRequired": "Bedrag moet een positief getal zijn",
+    "dateRequired": "Datum is verplicht",
+    "categoryRequired": "Categorie is verplicht",
+    "approverRequired": "Goedkeurder is verplicht",
+    "expenseTypeRequired": "Kostenplaats is verplicht",
+    "noCategories": "Er zijn geen categorieën gevonden",
+    "categoryRequired2": "Categorie is verplicht",
+    "submissionFailed": "Er is een fout opgetreden bij het indienen van de declaratie",
+    "noApprovers": "Er zijn geen goedkeurders gevonden",
+    "categoryListUpdateError": "Er is een fout opgetreden bij het bijwerken van de categorie lijst",
+    "exportCategoryItemsError": "Er is een fout opgetreden bij het exporteren van de categorie items",
+    "errorLoading2FASettings": "Er is een fout opgetreden bij het laden van de 2FA instellingen",
+    "errorLoading2FASettingsDescription": "Er is een fout opgetreden bij het laden van de 2FA instellingen",
+    "errorLoadingCategories": "Er is een fout opgetreden bij het laden van de categorieën",
+    "noCategoriesFound": "Er zijn geen categorieën gevonden",
+    "invalidCredentials": "Ongeldige inloggegevens",
+    "verificationFailed": "Verificatie mislukt",
+    "required": "Verplicht",
+    "errorUpdatingPassword": "Er is een fout opgetreden bij het wijzigen van het wachtwoord",
+    "generic": "Er is een fout opgetreden",
+    "invalidOrExpiredInvitation": "Ongeldige of verlopen uitnodiging",
+    "approveError": "Er is een fout opgetreden bij het goedkeuren van de declaratie",
+    "betaRegistration": "Er is een fout opgetreden bij het registreren voor de beta",
+    "companyNameMin": "Voer een geldige bedrijfsnaam in",
+    "inviteError": "Er is een fout opgetreden bij het uitnodigen van de gebruiker",
+    "passwordTooLong": "Wachtwoord moet minder dan 128 tekens bevatten",
+    "nameTooLong": "Naam moet minder dan 128 tekens bevatten",
+    "rateLimit": "Te veel mislukte pogingen. Probeer het later opnieuw.",
+    "userNotFoundOr2FANotEnabled": "Gebruiker niet gevonden of 2FA niet ingeschakeld",
+    "noRecoveryCodesAvailable": "Geen herstelcodes beschikbaar",
+    "2FANotConfigured": "2FA is niet correct geconfigureerd",
+    "invalidRecoveryCode": "Ongeldige herstelcode",
+    "invalidTOTPCode": "Ongeldige TOTP code",
+    "invalidVerificationCode": "Ongeldige verificatiecode",
+    "2FAVerificationError": "Er is een fout opgetreden bij het verifiëren van 2FA",
+    "atLeastOneItem": "Je moet minstens één item toevoegen",
+    "stripeError": "Account aangemaakt, maar er was een probleem met de betaling setup. Neem contact op met support."
+  },
+  "success": {
+    "inviteSent": "Uitnodiging succesvol verstuurd",
+    "invitationRevoked": "Uitnodiging succesvol ingetrokken",
+    "invitationResent": "Uitnodiging succesvol opnieuw verstuurd",
+    "preferencesUpdated": "Notificatievoorkeuren bijgewerkt",
+    "preferencesUpdatedDescription": "Je notificatievoorkeuren zijn succesvol bijgewerkt",
+    "profileUpdated": "Profiel bijgewerkt",
+    "profileUpdatedDescription": "Je profiel is succesvol bijgewerkt",
+    "declarationSubmitted": "Declaratie succesvol ingediend",
+    "declarationUpdated": "Declaratie succesvol bijgewerkt",
+    "categoryListUpdated": "Categorie succesvol bijgewerkt",
+    "categoryListActivated": "Categorie succesvol geactiveerd",
+    "categoryListDeactivated": "Categorie succesvol gedeactiveerd",
+    "categoryListDeleted": "Categorie succesvol verwijderd",
+    "updatedCategoryItem": "Categorie item succesvol bijgewerkt",
+    "declarationCreated": "Declaratie succesvol aangemaakt",
+    "twoFactorSetupSuccess": "Tweefactor authenticatie succesvol ingesteld",
+    "twoFactorSetupSuccessDescription": "Je tweefactor authenticatie is succesvol ingesteld",
+    "codeCopied": "Code gekopieerd",
+    "categoryListCreated": "Categorie succesvol aangemaakt",
+    "createdCategoryItem": "Categorie item succesvol aangemaakt",
+    "passwordUpdated": "Wachtwoord succesvol gewijzigd",
+    "forgotPassword": "Wachtwoord reset link succesvol verstuurd",
+    "updated": "Succesvol bijgewerkt",
+    "approveSuccess": "Declaratie succesvol goedgekeurd",
+    "betaRegistration": "Registratie succesvol ingediend",
+    "authenticatedWithRecoveryCode": "Authenticated with recovery code",
+    "authenticatedWithTOTP": "Authenticated with TOTP",
+    "resetPassword": "Wachtwoord succesvol gewijzigd",
+    "rejectSuccess": "Declaratie succesvol afgewezen",
+    "rejectSuccessDescription": "Je declaratie is succesvol afgewezen",
+    "deleteUserSuccess": "Gebruiker succesvol verwijderd",
+    "deleteSuccess": "Succesvol verwijderd"
+  },
+  "actions": {
+    "openMenu": "Menu openen",
+    "add": "Toevoegen",
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "delete": "Verwijderen",
+    "edit": "Bewerken",
+    "submit": "Indienen",
+    "remove": "Verwijderen",
+    "processing": "Bezig...",
+    "editRole": "Rol wijzigen",
+    "saveChanges": "Wijzigingen opslaan",
+    "update": "Bijwerken",
+    "view": "Bekijken",
+    "approve": "Goedkeuren",
+    "reject": "Afkeuren",
+    "create": "Aanmaken",
+    "creating": "Bezig met aanmaken...",
+    "activate": "Activeren",
+    "submitting": "Bezig met indienen...",
+    "deactivate": "Deactiveren",
+    "items": "Items",
+    "export": "Exporteren",
+    "import": "Importeren",
+    "send": "Versturen",
+    "sending": "Bezig met versturen...",
+    "loading": "Bezig met laden...",
+    "saving": "Bezig met opslaan...",
+    "viewAll": "Alles bekijken",
+    "verifying": "Bezig met verifiëren...",
+    "verify": "Verifiëren",
+    "register": "Registreren",
+    "skipForNow": "Later doen",
+    "continue": "Doorgaan",
+    "finish": "Voltooien",
+    "previous": "Vorige",
+    "next": "Volgende",
+    "completeRequired": "Voltooi de vereiste stappen",
+    "sendInvite": "Uitnodiging versturen",
+    "createAndContinue": "Categorie lijst aanmaken en doorgaan",
+    "close": "Sluiten"
+  },
+  "roles": {
+    "selectRole": "Selecteer een rol",
+    "admin": "Beheerder",
+    "approver": "Goedkeurder",
+    "user": "Gebruiker",
+    "superuser": "Superuser",
+    "finance": "Financieel"
+  },
+  "status": {
+    "pending": "In behandeling",
+    "approved": "Goedgekeurd",
+    "rejected": "Afgewezen",
+    "expired": "Verlopen"
+  },
+  "tooltips": {
+    "clickToView": "Klik om te bekijken"
+  },
+  "userMenu": {
+    "myAccount": "Mijn account",
+    "team": "Team",
+    "changePassword": "Wachtwoord wijzigen",
+    "logout": "Uitloggen"
+  },
+  "auth": {
+    "name": "Naam",
+    "companyName": "Bedrijfsnaam",
+    "email": "E-mailadres",
+    "password": "Wachtwoord",
+    "newPassword": "Nieuw wachtwoord",
+    "confirmPassword": "Bevestig wachtwoord",
+    "forgotPassword": "Wachtwoord vergeten?",
+    "rememberMe": "Onthoud mij",
+    "showPassword": "Wachtwoord weergeven",
+    "hidePassword": "Wachtwoord verbergen",
+    "registrationSuccess": "Succesvol geregistreerd. Log nu in.",
+    "passwordStrength": {
+      "label": "Wachtwoord sterkte",
+      "weak": "Zwak",
+      "medium": "Gemiddeld",
+      "strong": "Sterk"
+    },
+    "loginForm": {
+      "title": "Inloggen",
+      "description": "Inloggen bij Declair",
+      "loginButton": "Inloggen",
+      "orRegister": "of registreer je",
+      "registerButton": "Registreren"
+    },
+    "forgotpassword": {
+      "title": "Wachtwoord vergeten?",
+      "description": "Voer je e-mailadres in om een wachtwoord reset link te ontvangen",
+      "submitButton": "Stuur reset link",
+      "orLogin": "of",
+      "backToLogin": "Inloggen"
+    },
+    "resetpassword": {
+      "title": "Wachtwoord resetten",
+      "description": "Voer je nieuwe wachtwoord in om je wachtwoord te resetten",
+      "submitButton": "Wachtwoord resetten",
+      "orLogin": "of",
+      "backToLogin": "Inloggen"
+    },
+    "register": {
+      "title": "Registreren",
+      "registerButton": "Registreren",
+      "alreadyAccount": "al een account?",
+      "loginButton": "Inloggen"
+    },
+    "twoFactorVerification": {
+      "title": "Voer de 6-cijferige code in van je authenticator app",
+      "recoveryTitle": "Voer een van je herstelcodes in",
+      "recoveryPlaceholder": "Voer je herstelcode in (minimaal 10 tekens)",
+      "useAuthenticator": "Gebruik authenticator app",
+      "useRecoveryCode": "Gebruik herstelcode"
+    },
+    "betaRegistration": {
+      "title": "Registreer voor de beta",
+      "description": "Registreer voor de beta",
+      "companyName": "Bedrijfsnaam",
+      "email": "E-mailadres",
+      "registerButton": "Registreren",
+      "or": "of",
+      "backToLogin": "Inloggen"
+    }
+  },
+  "account": {
+    "myAccount": "Mijn account",
+    "changePassword": "Wachtwoord wijzigen",
+    "newPassword": "Nieuw wachtwoord",
+    "confirmNewPassword": "Bevestig nieuw wachtwoord",
+    "currentPassword": "Huidig wachtwoord",
+    "changeEmail": "E-mail wijzigen",
+    "newEmail": "Nieuwe E-mail",
+    "firstName": "Voornaam",
+    "lastName": "Achternaam",
+    "personalDetails": "Persoonlijke gegevens",
+    "emailSettings": "E-mail instellingen",
+    "subscription": "Abonnement",
+    "team": "Team",
+    "save": "Opslaan",
+    "subscriptions": {
+      "loading": "Bezig met laden...",
+      "manageSubscription": "Beheer abonnement",
+      "availablePlans": "Beschikbare abonnementen",
+      "currentPlan": "Huidig plan",
+      "upgrade": "Upgrade",
+      "paymentMethods": "Betalingsmethoden",
+      "managePaymentMethods": "Betalingsmethoden beheren",
+      "managePaymentMethodsDescription": "Beheer je betalingsmethoden via Stripe",
+      "manage": "Beheer"
+    },
+    "tabs": {
+      "personalDetails": "Persoonlijke gegevens",
+      "emailSettings": "E-mail instellingen",
+      "changePassword": "Wachtwoord wijzigen",
+      "subscription": "Abonnement",
+      "team": "Team"
+    }
+  },
+  "emptyState": {
+    "title": "Geen resultaten gevonden",
+    "description": "Er zijn geen resultaten gevonden"
+  },
+  "onboarding": {
+    "title": "Welkom bij Declair",
+    "subtitle": "Laten we je account in een paar stappen instellen",
+    "progress": "Voortgang",
+    "completed": "voltooid",
+    "continue": "Doorgaan",
+    "minimize": "Minimaliseren",
+    "optional": "optioneel",
+    "previous": "Vorige",
+    "next": "Volgende",
+    "addItemsHeading": "Declaratieregels toevoegen",
+    "addItemsSubheading": "Voeg declaratieregels toe om te beginnen",
+    "categoriesAdded": "Categorieën toegevoegd",
+    "finishSetup": "Voltooien",
+    "finishing": "Bezig met voltooien...",
+    "steps": {
+      "company": {
+        "title": "Bedrijf instellen",
+        "description": "Voeg je bedrijfsgegevens toe",
+        "heading": "Stel je bedrijf in",
+        "subheading": "We hebben wat basisgegevens nodig om te beginnen",
+        "createCompany": "Bedrijf aanmaken",
+        "creating": "Bedrijf aanmaken...",
+        "fields": {
+          "name": "Bedrijfsnaam",
+          "email": "E-mailadres",
+          "vatNumber": "BTW nummer",
+          "address": "Adres",
+          "city": "Plaats",
+          "zipCode": "Postcode",
+          "country": "Land"
+        }
+      },
+      "invite": {
+        "title": "Gebruikers uitnodigen",
+        "description": "Voeg gebruikers uit om te beginnen",
+        "heading": "Gebruikers uitnodigen",
+        "subheading": "Voeg gebruikers uit om te beginnen",
+        "inviteHint": "Je kunt gebruikers uitnodigen door hun e-mailadres in te voeren",
+        "sentInvitations": "Uitnodigingen verstuurd",
+        "fields": {
+          "name": "Naam",
+          "email": "E-mailadres",
+          "role": "Rol",
+          "selectRole": "Selecteer een rol"
+        },
+        "inviteUsers": "Gebruikers uitnodigen"
+      },
+      "categories": {
+        "title": "Categorieën instellen",
+        "description": "Voeg categorieën toe om te beginnen",
+        "heading": "Categorieën instellen",
+        "subheading": "Voeg categorieën toe om te beginnen",
+        "createList": "Categorie lijst aanmaken",
+        "usePredefinedCategories": "Gebruik voorbeeld categorieën",
+        "predefinedPreview": "Voorbeeld categorieën",
+        "creating": "Categorie lijst aanmaken...",
+        "fields": {
+          "listName": "Naam",
+          "listDescription": "Beschrijving",
+          "listType": "Categorie type",
+          "listTypeDescription": "Selecteer het type categorie"
+        }
+      }
+    }
+  },
+  "notifications": {
+    "title": "Berichten",
+    "description": "Berichten beheren",
+    "new": "Nieuw",
+    "noNotifications": "Geen berichten gevonden",
+    "markAllAsRead": "Alle berichten als gelezen markeren",
+    "yesterday": "Gisteren",
+    "today": "Vandaag",
+    "thisWeek": "Deze week",
+    "thisMonth": "Deze maand",
+    "thisYear": "Dit jaar"
+  },
+  "notification": {
+    "approveDeclaration": "Declaratie \"{declarationTitle}\" is ingediend en wacht op goedkeuring",
+    "declarationCreated": "Declaratie \"{declarationTitle}\" is ingediend"
+  },
+  "pagination": {
+    "selectedRows": "Geselecteerde rijen",
+    "rowsPerPage": "Rijen per pagina",
+    "page": "Pagina",
+    "of": "van",
+    "rows": "rijen",
+    "goToFirstPage": "Naar eerste pagina",
+    "goToLastPage": "Naar laatste pagina",
+    "goToPreviousPage": "Naar vorige pagina",
+    "goToNextPage": "Naar volgende pagina"
+  },
+  "deleteDialog": {
+    "title": "Verwijderen",
+    "description": "Weet je zeker dat je deze declaratie wilt verwijderen?",
+    "cancel": "Annuleren",
+    "delete": "Verwijderen",
+    "confirmation": "Bevestiging"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welkom bij Declair",
+    "newDeclaration": "Nieuwe Declaratie",
+    "new": "Nieuw",
+    "users": "Gebruikers",
+    "topCompaniesByUsers": "Top bedrijven per gebruiker",
+    "totalCompanies": "Totaal bedrijven",
+    "totalUsers": "Totaal gebruikers",
+    "stats": {
+      "totalDeclarations": "Totaal aantal declaraties",
+      "pendingDeclarations": "In behandeling",
+      "approvedDeclarations": "Goedgekeurd",
+      "totalAmount": "Totaal bedrag",
+      "amountChange": "Bedrag verandering",
+      "vsPreviousPeriod": "vs vorige periode",
+      "categoryBreakdown": "Verdeling per categorie"
+    }
+  },
+  "declarations": {
+    "title": "Declaraties",
+    "description": "Declaraties beheren ",
+    "recentDeclarations": "Recente Declaraties",
+    "searchPlaceholder": "Zoek naar een declaratie",
+    "newDeclaration": "Nieuwe Declaratie",
+    "backToOverview": "Terug naar overzicht",
+    "viewDeclaration": "Bekijk declaratie",
+    "rejectReason": "Reden afkeuring",
+    "columns": {
+      "user": "Gebruiker",
+      "title": "Titel",
+      "amount": "Bedrag",
+      "submittedAt": "Ingezonden op",
+      "date": "Datum",
+      "category": "Categorie",
+      "company": "Bedrijf",
+      "status": "Status",
+      "actions": "Acties",
+      "selectRow": "Selecteer rij",
+      "selectAll": "Selecteer alles"
+    },
+    "actions": {
+      "viewAll": "Alle declaraties bekijken"
+    },
+    "emptyState": {
+      "title": "Geen declaraties gevonden",
+      "description": "Maak een nieuwe declaratie om te beginnen"
+    },
+    "declarationForm": {
+      "title": "Declaratie",
+      "titlePlaceholder": "Titel van de declaratie",
+      "amount": "Bedrag",
+      "date": "Datum",
+      "category": "Categorie",
+      "approver": "Goedkeurder",
+      "selectApprover": "Selecteer een goedkeurder",
+      "descriptionAndAttachments": "Beschrijving en bijlagen",
+      "description": "Beschrijving",
+      "addReceipt": "Bonnetje toevoegen",
+      "attachment": "Bijlage",
+      "viewAttachment": "Bijlage bekijken",
+      "basicInformation": "Basisgegevens",
+      "next": "Volgende",
+      "previous": "Vorige",
+      "amountAndApproval": "Bedrag en goedkeuring",
+      "items": "Declaratieregels",
+      "addItem": "Declaratieregel toevoegen",
+      "item": "Declaratieregel",
+      "itemDescription": "Beschrijving",
+      "itemAmount": "Bedrag",
+      "itemDate": "Datum",
+      "itemCategory": "Categorie",
+      "removeItem": "Declaratieregel verwijderen",
+      "totalAmount": "Totaal bedrag",
+      "selectCategory": "Selecteer een {category}",
+      "file": "Factuur/bon",
+      "receiptRequired": "Factuur/bon vereist",
+      "receiptRequiredDescription": "Je moet een factuur/bon toevoegen aan deze declaratie"
+    },
+    "approverDeclarations": "Declaraties goedkeuren",
+    "approveConfirmationTitle": "Declaratie goedkeuren",
+    "approveConfirmationDescription": "Weet je zeker dat je deze declaratie wilt goedkeuren?",
+    "rejectConfirmationTitle": "Declaratie afkeuren",
+    "rejectConfirmationDescription": "Weet je zeker dat je deze declaratie wilt afkeuren?",
+    "editDeclaration": "Declaratie bewerken"
+  },
+  "fileUpload": {
+    "chooseMethod": "Kies een methode",
+    "dragAndDrop": "Sleep en drop hier",
+    "browseFiles": "Of kies een bestand",
+    "supportedFormats": "Ondersteunde formaten: PDF, JPG, PNG",
+    "maxSize": "Maximale grootte: 10MB",
+    "removeFile": "Bestand verwijderen",
+    "makePhoto": "Foto maken",
+    "gallery": "Selecteer een foto"
+  },
+  "settings": {
+    "title": "Instellingen",
+    "description": "Instellingen beheren",
+    "noSettingsFound": "Geen instellingen gevonden",
+    "profile": {
+      "title": "Profiel",
+      "description": "Profiel beheren",
+      "language": "Taal",
+      "languageDescription": "Taal instellen",
+      "selectLanguage": "Selecteer een taal",
+      "name": "Naam",
+      "email": "E-mailadres",
+      "emailCannotBeChanged": "E-mailadres kan niet worden gewijzigd",
+      "department": "Afdeling"
+    },
+    "password": {
+      "title": "Wachtwoord",
+      "description": "Wachtwoord instellen",
+      "currentPassword": "Huidig wachtwoord",
+      "newPassword": "Nieuw wachtwoord",
+      "confirmPassword": "Bevestig wachtwoord"
+    },
+    "twoFactorAuthentication": "Tweefactor authenticatie",
+    "twoFactorAuthenticationDescription": "Tweefactor authenticatie instellen",
+    "enable2FA": "2FA inschakelen",
+    "disable2FA": "2FA uitschakelen",
+    "disable2FADescription": "Je kunt 2FA uitschakelen als je geen 2FA meer nodig hebt",
+    "secureAccount": "Beveilig je account",
+    "twoFactorSetupDescription": "Beveilig je account met tweefactor authenticatie",
+    "scanQRCode": "Scan de QR code",
+    "scanQRCodeDescription": "Scan de QR code met de Authenticator app op je telefoon",
+    "scanQRCodeManual": "Of voer de code in",
+    "qrCodeAlt": "QR code",
+    "enterCode": "Voer de code in",
+    "enterCodeDescription": "Voer de code in die je ontvangt via e-mail",
+    "copyCode": "Code kopiëren",
+    "verifySetup": "Setup verifiëren",
+    "verifySetupDescription": "Verifieer de setup van je authenticator app",
+    "saveRecoveryCodes": "Recovery codes opslaan",
+    "recoveryCodesDescription": "Sla deze codes op in een veilige plaats",
+    "copyRecoveryCodes": "Codes kopiëren",
+    "downloadRecoveryCodes": "Codes downloaden",
+    "backToSettings": "Terug naar instellingen",
+    "trustedDevices": "Vertrouwde apparaten",
+    "trustedDevicesDescription": "Vertrouwde apparaten beheren",
+    "noTrustedDevices": "Geen vertrouwde apparaten gevonden",
+    "notifications": {
+      "title": "Notificatie",
+      "description": "Notificaties beheren",
+      "emailNotifications": "E-mail notificaties",
+      "emailNotificationsDesc": "E-mail notificaties instellen",
+      "declarationUpdates": "Declaratie updates",
+      "declarationUpdatesDesc": "Declaratie updates instellen",
+      "securityAlerts": "Beveiligingswaarschuwingen",
+      "securityAlertsDesc": "Beveiligingswaarschuwingen instellen"
+    },
+    "subscription": {
+      "title": "Abonnement",
+      "description": "Abonnement beheren",
+      "plan": "Huidig abonnement",
+      "status": "Status",
+      "trialEnds": "Proefperiode eindigt op",
+      "nextBilling": "Volgende facturatie",
+      "upgrade": "Upgraden",
+      "noSubscription": "Geen abonnement gevonden",
+      "changePlan": "Abonnement wijzigen",
+      "cancel": "Annuleren",
+      "cancelConfirmTitle": "Abonnement annuleren",
+      "cancelConfirmDescription": "Weet je zeker dat je je abonnement wilt annuleren?",
+      "confirmCancel": "Annuleren",
+      "success": {
+        "title": "Abonnement succesvol geüpgraded",
+        "description": "Je abonnement is succesvol geüpgraded",
+        "backToSettings": "Terug naar instellingen"
+      }
+    }
+  },
+  "company": {
+    "user": "Gebruiker",
+    "department": "Afdeling",
+    "role": "Rol",
+    "memberSince": "Lid sinds",
+    "settings": {
+      "title": "Bedrijfsinstellingen",
+      "description": "Beheer uw bedrijfsinstellingen en voorkeuren",
+      "addressData": "Adresgegevens",
+      "categories": "Categorieën",
+      "name": "Naam",
+      "vatNumber": "BTW nummer",
+      "vatNumberOptional": "Optioneel",
+      "address": "Adres",
+      "city": "Plaats",
+      "zipCode": "Postcode",
+      "country": "Land",
+      "subscription": {
+        "tab": "Abonnement"
+      },
+      "invoices": {
+        "tab": "Facturen",
+        "title": "Facturen",
+        "noInvoices": "Geen facturen gevonden",
+        "description": "Bekijk en download facturen",
+        "number": "Factuurnummer",
+        "date": "Datum",
+        "amount": "Bedrag",
+        "status": "Status",
+        "actions": "Acties"
+      }
+    },
+    "users": {
+      "title": "Gebruikers",
+      "description": "Gebruikers beheren",
+      "invite": "Uitnodigen",
+      "searchUsers": "Zoek gebruiker",
+      "removeUserWarning": "Gebruiker verwijderen",
+      "removeUserConfirmation": "Gebruiker verwijderen",
+      "removeUserConfirmationTitle": "Gebruiker verwijderen",
+      "removeUserConfirmationDescription": "Weet je zeker dat je deze gebruiker wilt verwijderen?"
+    },
+    "invitations": {
+      "title": "Uitnodigingen",
+      "description": "Uitnodigingen beheren",
+      "email": "E-mailadres",
+      "role": "Rol",
+      "selectRole": "Selecteer een rol",
+      "send": "Uitnodiging sturen",
+      "sentInvitations": "Uitnodigingen verstuurd",
+      "sentInvitationsDescription": "Uitnodigingen verstuurd naar de gebruikers",
+      "searchPlaceholder": "Zoek een uitnodiging",
+      "status": "Status",
+      "invitedBy": "Uitgenodigd door",
+      "expiresOn": "Verloopt op",
+      "resend": "Opnieuw sturen",
+      "revokeInvitation": "Uitnodiging intrekken",
+      "revokeInvitationDescription": "Je kunt de uitnodiging intrekken als de gebruiker de uitnodiging niet accepteert",
+      "revoke": "Intrekken",
+      "cancel": "Annuleren"
+    }
+  },
+  "categories": {
+    "lists": {
+      "title": "Categorieën",
+      "description": "Omschrijving",
+      "name": "Naam",
+      "status": "Status",
+      "items": "Items",
+      "actions": "Acties",
+      "deleteConfirmTitle": "Categorie lijst verwijderen",
+      "deleteConfirmDescription": "Weet je zeker dat je deze categorie lijst wilt verwijderen?",
+      "createTitle": "Categorie lijst aanmaken",
+      "createDescription": "Categorie lijst aanmaken",
+      "nameLabel": "Naam",
+      "descriptionLabel": "Beschrijving",
+      "descriptionHelper": "Beschrijving van de categorie",
+      "isActiveLabel": "Actief",
+      "isActiveDescription": "De categorie wordt gebruikt in declaraties",
+      "editTitle": "Categorie lijst bewerken",
+      "editDescription": "",
+      "descriptionHelp": "Beschrijving van de categorie"
+    },
+    "items": {
+      "empty": "Geen categorie items gevonden",
+      "tableTitle": "Categorie items",
+      "code": "Code",
+      "name": "Naam",
+      "descriptionLabel": "Beschrijving",
+      "editTitle": "Categorie item bewerken",
+      "editDescription": "Categorie item bewerken",
+      "codeLabel": "Code",
+      "codeHelp": "Code van het categorie item",
+      "nameLabel": "Naam",
+      "descriptionHelp": "Beschrijving van het categorie item",
+      "deleteConfirmTitle": "Categorie item verwijderen",
+      "deleteConfirmDescription": "Weet je zeker dat je dit categorie item wilt verwijderen?",
+      "createTitle": "Categorie item aanmaken",
+      "createDescription": "Categorie item aanmaken",
+      "importTitle": "Categorie items importeren",
+      "importDescription": "Categorie items importeren",
+      "importFileLabel": "Kies een bestand",
+      "importFileHelp": "Kies een bestand met de categorie items",
+      "importManualLabel": "of voer de categorie items handmatig in",
+      "importFormatTitle": "Import format",
+      "importFormatDescription": "Selecteer het formaat van de categorie items",
+      "importFormatHelp": "Kies het formaat van de categorie items",
+      "importImport": "Importeren",
+      "importManualPlaceholder": "of voer de categorie items handmatig in",
+      "importManualHelp": "Voer de categorie items handmatig in"
+    }
+  },
+  "subscription": {
+    "upgradeSubscription": "Upgrade om toegang tot alle functies te krijgen",
+    "noValidSubscription": "Er is geen geldig abonnement. Je bent nu in alleen-lezen modus.",
+    "upgrade": {
+      "title": "Upgraden",
+      "description": "Upgraden naar een ander abonnement",
+      "month": "maand",
+      "year": "jaar",
+      "currentPlan": "Huidig abonnement",
+      "newPlan": "Nieuw abonnement",
+      "changePlan": "Abonnement wijzigen",
+      "cancelSubscription": "Abonnement annuleren",
+      "cancelSubscriptionDescription": "Je kunt je abonnement annuleren in de volgende 30 dagen zonder extra kosten",
+      "upgrade": "Upgraden"
+    }
+  },
+  "export": {
+    "title": "Exporteren",
+    "description": "Exporteren van declaraties",
+    "format": "Format",
+    "formatDescription": "Selecteer het formaat van de declaraties",
+    "formatHelp": "Kies het formaat van de declaraties",
+    "formatImport": "Importeren",
+    "from": "Vanaf",
+    "to": "Tot",
+    "inkoop": "Exact Online - Inkoop",
+    "verkoop": "Exact Online - Verkoop",
+    "export": "Exporteren",
+    "formatPlaceholder": "Kies formaat",
+    "filename": "Declaraties",
+    "columns": {
+      "invoiceNumber": "Factuurnummer",
+      "invoiceDate": "Factuurdatum",
+      "customerCode": "Klantcode",
+      "supplierCode": "Leveranciercode",
+      "description": "Omschrijving",
+      "amount": "Bedrag",
+      "vat": "BTW",
+      "currency": "Valuta"
+    }
+  },
+  "header": {
+    "features": "Functies",
+    "pricing": "Prijzen",
+    "testimonials": "Reviews",
+    "login": "Inloggen",
+    "tryFree": "Gratis proberen"
+  },
+  "hero": {
+    "title": "Declaraties afhandelen",
+    "subtitle": "in minuten, niet uren",
+    "description": "Maak declaraties indienen en beheren eenvoudig met Declair. Eenvoudige verwerking, real-time goedkeuring en volledige transparantie.",
+    "tryFree": "Gratis proberen",
+    "watchDemo": "Bekijk demo",
+    "free_trial": "2 maanden gratis uitproberen - Geen creditcard nodig",
+    "secure": "100% veilig",
+    "gdpr_compliant": "GDPR-compliant"
+  },
+  "features": {
+    "title": "Waarom kiezen voor Declair?",
+    "subtitle": "Bespaar tijd en werk efficiënter met onze geavanceerde declaratie-oplossing.",
+    "items": [
+      {
+        "title": "Snelle verwerking",
+        "description": "Declaraties worden eenvoudig verwerkt en goedgekeurd."
+      },
+      {
+        "title": "Eenvoudige indiening",
+        "description": "Upload of maak een foto van je bon en vul één formulier in."
+      },
+      {
+        "title": "Inzichtelijke rapportages",
+        "description": "Krijg direct inzicht in al je declaraties per maand."
+      },
+      {
+        "title": "Veilig en compliant",
+        "description": "GDPR-conform en SSL-versleuteling voor al je gegevens."
+      },
+      {
+        "title": "Overal toegankelijk",
+        "description": "Gebruik Declair op desktop, tablet of smartphone."
+      },
+      {
+        "title": "Automatische uitbetaling",
+        "description": "Krijg je vergoeding direct op je rekening."
+      }
+    ]
+  },
+  "how_it_works": {
+    "title": "Hoe het werkt",
+    "description": "In vier eenvoudige stappen van bon naar vergoeding.",
+    "step_1": "Maak een foto",
+    "step_1_description": "Scan je bon met de camera van je telefoon",
+    "step_2": "Vul gegevens in",
+    "step_2_description": "Voeg een korte omschrijving en categorie toe",
+    "step_3": "Wacht op goedkeuring",
+    "step_3_description": "Je manager keurt de declaratie goed",
+    "step_4": "Ontvang vergoeding",
+    "step_4_description": "Het bedrag wordt naar je rekening gestuurd"
+  },
+  "pricing": {
+    "title": "Eenvoudige, transparante prijzen",
+    "subtitle": "Kies het plan dat bij jouw bedrijf past. Altijd opzegbaar, geen verborgen kosten.",
+    "popular": "Populairste keuze",
+    "plans": {
+      "starter": {
+        "name": "Starter",
+        "price": "€9,99",
+        "period": "/maand",
+        "description": "Perfect voor start-ups en kleine teams",
+        "features": [
+          "Tot 10 gebruikers",
+          "Basis declaratiebeheer",
+          "E-mail ondersteuning",
+          "Mobiele app",
+          "CSV en XML export"
+        ],
+        "cta": "Start gratis proefperiode",
+        "href": "/register"
+      },
+      "professional": {
+        "name": "Professional",
+        "price": "€29,99",
+        "period": "/maand",
+        "description": "Ideaal voor groeiende bedrijven",
+        "features": [
+          "Tot 25 gebruikers",
+          "Basis declaratiebeheer",
+          "E-mail en chat ondersteuning",
+          "Mobiele app",
+          "CSV en XML export"
+        ],
+        "cta": "Start gratis proefperiode",
+        "href": "/register"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Vanaf €59,99",
+        "period": "/maand",
+        "description": "Voor grote organisaties",
+        "features": [
+          "Onbeperkt gebruikers",
+          "Uitgebreide declaratiebeheer",
+          "SLA garantie",
+          "Mobiele app",
+          "API integratie met boekhoudsystemen (Exact, Moneybird, etc.)"
+        ],
+        "cta": "Start gratis proefperiode",
+        "href": "/register"
+      }
+    }
+  },
+  "faq": {
+    "title": "Veelgestelde vragen",
+    "description": "Ontdek hoe Declair werkt en wat het voor jou kan betekenen.",
+    "question_1": "Wat is Declair?",
+    "answer_1": "Declair is een online declaratie-afhandelingsplatform dat bedrijven helt bij het indienen en beheren van declaraties.",
+    "question_2": "Hoe lang duurt het voordat mijn declaratie wordt goedgekeurd?",
+    "answer_2": "Dit is afhankelijk van de goedkeurder, maar de meeste declaraties worden binnen 24 uur goedgekeurd. Voor complexere declaraties kan dit tot 48 uur duren.",
+    "question_3": "Zijn er kosten verbonden aan het gebruik van Declair?",
+    "answer_3": "Ons Starter-plan kosten €19 per maand. Voor meer volume en geavanceerde functies hebben we betaalde plannen vanaf €39 per maand.",
+    "question_4": "Is mijn data veilig bij Declair?",
+    "answer_4": "Ja, we nemen privacy en veiligheid zeer serieus. Al je data is versleuteld en we zijn volledig GDPR-compliant.",
+    "question_5": "Kan ik Declair integreren met mijn bestaande boekhoudsysteem?",
+    "answer_5": "Ja, Declair integreert met de meeste populaire boekhoudsystemen zoals Exact, Moneybird, en meer via onze API.",
+    "question_6": "Wat voor soort declaraties kan ik indienen?",
+    "answer_6": "Je kunt alle zakelijke uitgaven declareren zoals reiskosten, maaltijden, kantoorbenodigdheden, en meer."
+  },
+  "cta": {
+    "title": "Klaar om te beginnen?",
+    "description": "Probeer Declair 2 maanden gratis uit en ontdek hoe eenvoudig declaraties verwerken kan zijn.",
+    "cta": "Start gratis proefperiode",
+    "contact": "Neem contact op",
+    "free_trial": "2 maanden gratis uitproberen",
+    "secure": "100% veilig",
+    "gdpr_compliant": "GDPR-compliant",
+    "no_credit_card": "Geen creditcard nodig"
+  },
+  "testimonials": {
+    "title": "Wat onze klanten zeggen",
+    "description": "Ontdek waarom bedrijven overstappen naar Declair voor hun declaratie-afhandeling.",
+    "role_1": "Finance Manager bij TechStart",
+    "content_1": "Declair heeft onze declaratieprocedure volledig getransformeerd. Wat eerst weken duurde, is nu in enkele dagen geregeld.",
+    "role_2": "CEO bij GrowthLabs",
+    "content_2": "De automatisering en transparantie die Declair biedt is ongeëvenaard. Onze medewerkers zijn er dol op!",
+    "role_3": "HR Director bij Innovate BV",
+    "content_3": "Eindelijk een systeem dat werkt zoals je zou verwachten. De app is intuïtief en de klantenservice is uitstekend."
+  },
+  "footer": {
+    "description": "Krijg je geld terug zonder gedoe. Declair het.",
+    "email": "hello@declair.app",
+    "address": "Houten, Nederland",
+    "product": "Product",
+    "features": "Functies",
+    "pricing": "Prijzen",
+    "api": "API",
+    "integrations": "Integraties",
+    "company": "Bedrijf",
+    "about": "Over ons",
+    "careers": "Vacatures",
+    "press": "Pers",
+    "contact": "Contact",
+    "rights": "Alle rechten voorbehouden.",
+    "privacy": "Privacy Policy",
+    "terms": "Algemene voorwaarden",
+    "register": "Inschrijven"
+  },
+  "mail": {
+    "welcome": {
+      "title": "Hartelijk welkom bij Declair! 🙌",
+      "description": "Je account is succesvol aangemaakt en je kunt nu beginnen met het eenvoudig beheren van je declaraties. We zijn blij dat je hebt gekozen voor onze oplossing om je declaratieproces te digitaliseren en te stroomlijnen.",
+      "whatYouCanDo": "🚀 Wat kun je nu doen?",
+      "features": {
+        "submit": "✅ Declaraties indienen - Upload je bonnetjes en dien declaraties in met een paar klikken",
+        "overview": "✅ Overzicht behouden - Bekijk de status van al je declaraties op één plek",
+        "approval": "✅ Snelle goedkeuring - Krijg sneller goedkeuring door onze gestroomlijnde workflow",
+        "export": "✅ Automatische export - Export je gegevens naar je boekhoudpakket"
+      },
+      "tips": {
+        "title": "💡 Tips om te beginnen:",
+        "login": "Log in op je account: {loginLink}",
+        "profile": "Voltooi je profiel: Voeg je afdeling en andere gegevens toe",
+        "firstDeclaration": "Dien je eerste declaratie in: Klik op \"Nieuwe Declaratie\" om te beginnen",
+        "invite": "Nodig collega's uit: Als admin kun je teamleden uitnodigen"
+      },
+      "companyInfo": {
+        "title": "🏢 Bedrijfsinformatie",
+        "admin": {
+          "title": "Als beheerder van {companyName} kun je:",
+          "invite": "Teamleden uitnodigen via het gebruikersbeheer",
+          "settings": "Bedrijfsinstellingen aanpassen",
+          "approve": "Declaraties goedkeuren van je team",
+          "reports": "Rapporten en exports genereren"
+        }
+      },
+      "help": {
+        "title": "📚 Hulp nodig?",
+        "faq": "Veelgestelde vragen: {faqLink}",
+        "manual": "Handleiding: {manualLink}",
+        "support": "Support: Stuur een e-mail naar support@declair.app",
+        "phone": "Bel ons: +31 (0)20 123 4567 (ma-vr 9:00-17:00)"
+      },
+      "nextSteps": {
+        "title": "🎯 Volgende stappen",
+        "confirmEmail": "Bevestig je e-mailadres door in te loggen",
+        "setup2FA": "Stel eventuele 2FA (twee-factor authenticatie) in voor extra beveiliging",
+        "uploadReceipt": "Upload je eerste bon en ervaar hoe eenvoudig declareren kan zijn!"
+      },
+      "signature": "Veel succes met Declair!\nHet Declair Team",
+      "social": {
+        "title": "P.S. Volg ons op sociale media voor tips, updates en nieuws:",
+        "linkedin": "LinkedIn",
+        "twitter": "Twitter"
+      },
+      "footer": {
+        "sentTo": "Deze e-mail is verzonden naar {email} omdat je een account hebt aangemaakt bij Declair.",
+        "unsubscribe": "Geen interesse meer? Je kunt je hier uitschrijven.",
+        "address": "Declair B.V.\nVoorbeeldstraat 123\n1234 AB Amsterdam\nNederland"
+      }
+    },
+    "invitation": {
+      "subject": "Je bent uitgenodigd voor Declair bij {companyName} 💼",
+      "greeting": "Hallo,",
+      "intro": "Je bent uitgenodigd om deel te nemen aan Declair, het declaratieportaal van {companyName}! 🎉",
+      "inviter": "{inviterName} heeft je uitgenodigd om het team te versterken en samen het declaratieproces te verbeteren.",
+      "createAccountLink": "Maak een account aan",
+      "role": {
+        "title": "👤 Je rol bij {companyName}",
+        "invitedAs": "Je bent uitgenodigd als: {role}",
+        "user": {
+          "title": "Als Gebruiker kun je:",
+          "features": [
+            "✅ Declaraties indienen en beheren",
+            "✅ Je eigen declaratiestatus volgen",
+            "✅ Bonnetjes uploaden en categoriseren",
+            "✅ Export functionaliteit gebruiken"
+          ]
+        },
+        "approver": {
+          "title": "Als Goedkeurder kun je:",
+          "features": [
+            "✅ Alle gebruikersfuncties",
+            "✅ Declaraties van teamleden goedkeuren/afwijzen",
+            "✅ Opmerkingen toevoegen bij behandeling",
+            "✅ Overzichten van te behandelen declaraties"
+          ]
+        },
+        "admin": {
+          "title": "Als Beheerder kun je:",
+          "features": [
+            "✅ Alle gebruikers- en goedkeurdersfuncties",
+            "✅ Nieuwe teamleden uitnodigen",
+            "✅ Bedrijfsinstellingen beheren",
+            "✅ Volledige rapporten en analytics bekijken",
+            "✅ Categorieën en expense types instellen"
+          ]
+        },
+        "finance": {
+          "title": "Als Financieel kun je:",
+          "features": [
+            "✅ Alle gebruikers- en goedkeurdersfuncties",
+            "✅ Declaraties exporteren naar boekhouding",
+            "✅ Financiële analyses uitvoeren",
+            "✅ Budgetten beheren",
+            "✅ Rapporten en analytics bekijken"
+          ]
+        }
+      },
+      "whatIsDeclair": {
+        "title": "🚀 Wat is Declair?",
+        "description": "Declair maakt declareren simpel, snel en transparant:",
+        "features": [
+          "📱 Mobiel-first - Declareer onderweg met je smartphone",
+          "🤖 Automatische herkenning - AI leest je bonnetjes automatisch uit",
+          "⚡ Snelle goedkeuring - Gestroomlijnde workflow voor snelle verwerking",
+          "📊 Real-time inzicht - Altijd up-to-date overzichten",
+          "🔗 Integraties - Koppel met je favoriete boekhoudpakket",
+          "🔒 Veilig - Enterprise-grade beveiliging en 2FA ondersteuning"
+        ]
+      },
+      "activation": {
+        "title": "🎯 Account activeren",
+        "steps": [
+          "Stap 1: Accepteer uitnodiging",
+          "Stap 2: Maak je wachtwoord aan en vul je profiel in",
+          "Stap 3: Begin direct met declareren!"
+        ]
+      },
+      "important": {
+        "title": "⏰ Belangrijk te weten",
+        "items": [
+          "⚠️ Deze uitnodiging is 7 dagen geldig",
+          "🔐 Je krijgt automatisch toegang tot het {companyName} account",
+          "📧 Je ontvangt een welkomst e-mail na het activeren van je account",
+          "💬 Bij vragen kun je contact opnemen met {inviterName} of ons support team"
+        ]
+      },
+      "gettingStarted": {
+        "title": "🎓 Direct aan de slag",
+        "beginners": {
+          "title": "Voor beginners:",
+          "items": [
+            "Bekijk de onboarding - We leiden je stap voor stap door de applicatie",
+            "Upload je eerste bon - Test hoe eenvoudig het werkt",
+            "Ontdek de functies - Verken alle mogelijkheden op je eigen tempo"
+          ]
+        },
+        "experienced": {
+          "title": "Voor ervaren gebruikers:",
+          "items": [
+            "Import bestaande data - Breng je huidige declaraties over",
+            "Stel voorkeuren in - Personaliseer je dashboard",
+            "Configureer notificaties - Blijf op de hoogte zoals jij wilt"
+          ]
+        }
+      },
+      "support": {
+        "title": "📞 Hulp nodig?",
+        "team": {
+          "title": "Support Team:",
+          "email": "📧 E-mail: support@declair.app",
+          "phone": "📱 Telefoon: +31 (0)20 123 4567 (ma-vr 9:00-17:00)",
+          "chat": "💬 Live chat: beschikbaar in de applicatie"
+        },
+        "contact": {
+          "title": "Jouw contactpersoon:",
+          "info": "👤 {inviterName} - {inviterEmail}\n💼 {inviterRole} bij {companyName}"
+        }
+      },
+      "security": {
+        "title": "🔐 Beveiliging & Privacy",
+        "description": "We nemen je privacy serieus:",
+        "features": [
+          "🛡️ GDPR compliant - Je gegevens zijn veilig bij ons",
+          "🔒 End-to-end encryptie - Maximale beveiliging van je data",
+          "👥 Team toegang - Alleen je teamleden zien je declaraties",
+          "🔑 2FA ondersteuning - Extra beveiliging voor je account"
+        ]
+      },
+      "closing": {
+        "welcome": "Welkom bij het team! 👋",
+        "message": "We kijken ernaar uit om je te helpen bij het stroomlijnen van jullie declaratieproces. Samen maken we declareren een fluitje van een cent!",
+        "signature": "Met vriendelijke groet,\nHet Declair Team\n& {inviterName} van {companyName}",
+        "ps": "P.S. Heb je vragen over de uitnodiging? Stuur een berichtje naar {inviterEmail} of ons support team. We helpen je graag!"
+      },
+      "footer": {
+        "sentTo": "Je ontvangt deze e-mail omdat {inviterName} van {companyName} je heeft uitgenodigd voor Declair.",
+        "unsubscribe": "Geen interesse? Gewoon deze e-mail negeren."
+      }
+    },
+    "resetPassword": {
+      "title": "Reset wachtwoord",
+      "description": "Klik op de onderstaande link om je wachtwoord te resetten:",
+      "link": "Reset wachtwoord",
+      "ignore": "Als je deze aanvraag niet hebt aangevraagd, kun je deze e-mail negeren.",
+      "expiration": "Deze link is 1 uur geldig."
+    },
+    "declarationStatus": {
+      "declaration": "Declaratie",
+      "yourDeclaration": "Je declaratie",
+      "hasBeen": "is",
+      "viewDeclarationIn": "Bekijk je declaratie in",
+      "viewDeclaration": "Bekijk je declaratie",
+      "comment": "Commentaar",
+      "status": {
+        "approved": "Goedgekeurd",
+        "rejected": "Afgekeurd",
+        "processing": "In behandeling"
+      }
+    },
+    "declarationCreated": {
+      "title": "Nieuwe declaratie aangemaakt",
+      "description": "Je hebt een nieuwe declaratie \"{declarationTitle}\" aangemaakt.",
+      "processing": "De declaratie is in behandeling en wacht op goedkeuring.",
+      "viewDeclaration": "Bekijk je declaratie hier",
+      "viewDeclarationLink": "Bekijk je declaratie hier"
+    },
+    "declarationToApprove": {
+      "title": "Declaratie voor goedkeuring",
+      "description": "Je hebt een nieuwe declaratie \"{declarationTitle}\" om te goedkeuren.",
+      "processing": "De declaratie is ingediend en wacht op goedkeuring.",
+      "viewDeclaration": "Bekijk de declaratie",
+      "viewDeclarationLink": "Bekijk de declaratie"
+    },
+    "declarationDeleted": {
+      "title": "Declaratie verwijderd",
+      "description": "Je declaratie \"{declarationTitle}\" is verwijderd.",
+      "contact": "Als je vragen hebt, neem dan contact op met je beheerder."
+    },
+    "rights": "Alle rechten voorbehouden."
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Dashboard",
+      "description": "Dashboard",
+      "users": "Gebruikers",
+      "companies": "Bedrijven",
+      "declarations": "Declaraties"
+    },
+    "companies": {
+      "name": "Bedrijf",
+      "address": "Adres",
+      "city": "Plaats",
+      "zipCode": "Postcode",
+      "country": "Land",
+      "vatNumber": "BTW nummer",
+      "users": "Gebruikers",
+      "createdAt": "Aangemaakt op",
+      "actions": "Acties",
+      "searchPlaceholder": "Zoek naar een bedrijf",
+      "noResults": "Geen bedrijven gevonden",
+      "totalUsers": "gebruiker(s)",
+      "deleteConfirmationTitle": "Weet je zeker dat je dit bedrijf wilt verwijderen?",
+      "deleteConfirmationMessage": "Deze actie kan niet ongedaan worden gemaakt.",
+      "editCompany": "Bedrijf bewerken",
+      "admins": "Beheerders"
+    },
+    "users": {
+      "name": "Naam",
+      "company": "Bedrijf",
+      "role": "Rol",
+      "department": "Afdeling",
+      "email": "E-mail",
+      "password": "Wachtwoord",
+      "status": "Status",
+      "actions": "Acties",
+      "searchPlaceholder": "Zoek naar een gebruiker",
+      "addNew": "Nieuwe gebruiker toevoegen",
+      "selectCompany": "Selecteer bedrijf",
+      "editUser": "Gebruiker bewerken",
+      "deleteConfirmationTitle": "Weet je zeker dat je deze gebruiker wilt verwijderen?",
+      "deleteConfirmationMessage": "Deze actie kan niet ongedaan worden gemaakt."
+    },
+    "plans": {
+      "name": "Abonnement",
+      "description": "Beschrijving",
+      "price": "Prijs",
+      "interval": "Periode",
+      "features": "Functies",
+      "status": "Status",
+      "actions": "Acties",
+      "searchPlaceholder": "Zoek naar een abonnement",
+      "addNew": "Nieuw abonnement toevoegen",
+      "active": "Actief",
+      "inactive": "Inactief",
+      "featuresCount": "Aantal functies",
+      "day": "Dag",
+      "week": "Week",
+      "month": "Maand",
+      "year": "Jaar",
+      "trial": "Proefperiode",
+      "deleteConfirmationTitle": "Weet je zeker dat je dit abonnement wilt verwijderen?",
+      "deleteConfirmationMessage": "Deze actie kan niet ongedaan worden gemaakt."
+    }
+  }
+}
