@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getTranslations } from "next-intl/server";
 import { PageHeader } from "@/components/layouts";
+import { AdminUsersTable } from "@/components/admin/AdminUsersTable";
+import { AdminSubscriptionsTable } from "@/components/admin/AdminSubscriptionsTable";
 
 export default async function AdminPage() {
   const t = await getTranslations();
@@ -27,33 +29,32 @@ export default async function AdminPage() {
 
   // Check if user is a superuser
   if (!user || user.role !== "SUPERUSER") {
-    redirect("/declarations");
+    redirect("/assistants");
   }
 
   return (
     <div className="space-y-8">
       <PageHeader title={t("admin.dashboard.title")} />
 
-      <Tabs defaultValue="companies">
+      <Tabs defaultValue="users">
         <TabsList>
-          <TabsTrigger value="companies">
-            {t("admin.dashboard.companies")}
-          </TabsTrigger>
           <TabsTrigger value="users">{t("admin.dashboard.users")}</TabsTrigger>
           <TabsTrigger value="plans">Plans</TabsTrigger>
-          <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>
+          <TabsTrigger value="subscriptions">
+            {t("admin.dashboard.subscriptions")}
+          </TabsTrigger>
           <TabsTrigger value="invoices">Invoices</TabsTrigger>
           <TabsTrigger value="payments">Payments</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="users">Users management coming soon...</TabsContent>
+        <TabsContent value="users">
+          <AdminUsersTable />
+        </TabsContent>
 
         <TabsContent value="plans">Plans management coming soon...</TabsContent>
 
         <TabsContent value="subscriptions">
-          <div className="text-center py-8 text-muted-foreground">
-            Subscriptions management coming soon...
-          </div>
+          <AdminSubscriptionsTable />
         </TabsContent>
 
         <TabsContent value="invoices">
