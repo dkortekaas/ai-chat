@@ -50,6 +50,7 @@ export interface TeamMember {
   name: string;
   email: string;
   role: string;
+  isActive: boolean;
   registered: string;
   lastLogin: string;
 }

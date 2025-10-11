@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -27,7 +27,7 @@ export async function DELETE(
       );
     }
 
-    const invitationId = params.id;
+    const { id: invitationId } = await params;
 
     // Find the invitation
     const invitation = await db.invitation.findUnique({

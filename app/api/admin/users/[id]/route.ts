@@ -28,7 +28,7 @@ const updateUserSchema = z.object({
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getAuthSession();
@@ -61,7 +61,7 @@ export async function PATCH(
       );
     }
 
-    const { id } = params;
+    const { id } = await params;
     const updateData = validationResult.data;
 
     // Check if user exists
@@ -117,7 +117,7 @@ export async function PATCH(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getAuthSession();
@@ -140,7 +140,7 @@ export async function DELETE(
       });
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     // Prevent deleting yourself
     if (id === session.user.id) {

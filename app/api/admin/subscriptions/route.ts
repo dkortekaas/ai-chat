@@ -92,17 +92,22 @@ export async function GET(req: NextRequest) {
           customerId: subscription.customer as string,
           status: subscription.status,
           currentPeriodStart: new Date(
-            subscription.current_period_start * 1000
+            (subscription as any).current_period_start * 1000
           ).toISOString(),
           currentPeriodEnd: new Date(
-            subscription.current_period_end * 1000
+            (subscription as any).current_period_end * 1000
           ).toISOString(),
-          cancelAtPeriodEnd: subscription.cancel_at_period_end,
-          canceledAt: subscription.canceled_at
-            ? new Date(subscription.canceled_at * 1000).toISOString()
+          cancelAtPeriodEnd: (subscription as any).cancel_at_period_end,
+          canceledAt: (subscription as any).canceled_at
+            ? new Date((subscription as any).canceled_at * 1000).toISOString()
             : null,
           created: new Date(subscription.created * 1000).toISOString(),
-          plan: subscription.items.data[0]?.price?.product?.name || "Unknown",
+          plan:
+            typeof subscription.items.data[0]?.price?.product === "object" &&
+            subscription.items.data[0]?.price?.product &&
+            "name" in subscription.items.data[0].price.product
+              ? subscription.items.data[0].price.product.name
+              : "Unknown",
           price: subscription.items.data[0]?.price?.unit_amount || 0,
           currency: subscription.items.data[0]?.price?.currency || "eur",
           interval:

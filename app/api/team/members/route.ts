@@ -47,6 +47,7 @@ export async function GET(req: NextRequest) {
         name: true,
         email: true,
         role: true,
+        isActive: true,
         createdAt: true,
         updatedAt: true,
         // Note: We don't have lastLogin in the current schema, so we'll use updatedAt as a proxy
@@ -123,6 +124,7 @@ export async function GET(req: NextRequest) {
         name: member.name || "Geen naam",
         email: member.email,
         role: member.role,
+        isActive: member.isActive,
         registered: registeredText,
         lastLogin: lastLoginText,
       };

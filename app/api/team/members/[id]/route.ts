@@ -11,7 +11,7 @@ const updateMemberSchema = z.object({
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getAuthSession();
@@ -22,7 +22,7 @@ export async function PATCH(
       });
     }
 
-    const { id } = params;
+    const { id } = await params;
     const body = await req.json();
     const validationResult = updateMemberSchema.safeParse(body);
 
@@ -122,7 +122,7 @@ export async function PATCH(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getAuthSession();
@@ -133,7 +133,7 @@ export async function DELETE(
       });
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     // Check if the user exists and belongs to the same company
     const currentUser = await db.user.findUnique({
