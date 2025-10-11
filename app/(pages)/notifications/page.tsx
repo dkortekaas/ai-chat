@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 
 export default async function NotificationsPage() {
   const session = await getAuthSession();
-  const t = await getTranslations("notifications");
+  const t = await getTranslations();
 
   if (!session?.user) {
     redirect("/login");
@@ -16,18 +16,37 @@ export default async function NotificationsPage() {
   // Fetch notifications for the current user
   const notifications = await db.notification.findMany({
     where: {
-      targetUsers: {
-        has: session.user.id,
+      isActive: true,
+      AND: [
+        {
+          OR: [
+            { targetUsers: { has: session.user.id } },
+            { targetUsers: { isEmpty: true } }, // Empty array means all users
+          ],
+        },
+        {
+          OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }],
+        },
+      ],
+    },
+    include: {
+      createdByUser: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
       },
     },
-    orderBy: {
-      createdAt: "desc",
-    },
+    orderBy: [{ priority: "desc" }, { createdAt: "desc" }],
   });
 
   return (
     <div className="space-y-8">
-      <PageHeader title={t("title")} description={t("description")} />
+      <PageHeader
+        title={t("notifications.title")}
+        description={t("notifications.description")}
+      />
 
       <div className="flex justify-center">
         <div className="w-full max-w-2xl p-6">

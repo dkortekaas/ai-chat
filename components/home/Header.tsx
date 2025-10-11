@@ -3,10 +3,11 @@
 
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
-import { Menu, X, Globe, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useParams, useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
+import config from "@/config";
 
 const languages = [
   { code: "nl", name: "Nederlands", flag: "🇳🇱" },
@@ -78,12 +79,14 @@ export default function Header() {
           <Link href={`/${locale}`} className="flex items-center space-x-2">
             <Image
               src="/declair-logo.svg"
-              alt="Declair"
+              alt={config.appTitle}
               width={80}
               height={80}
               className="w-10 h-10"
             />
-            <span className="text-xl font-bold text-gray-900">Declair</span>
+            <span className="text-xl font-bold text-gray-900">
+              {config.appTitle}
+            </span>
           </Link>
 
           <nav className="hidden md:flex items-center space-x-6">

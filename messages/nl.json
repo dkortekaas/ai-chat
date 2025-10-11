@@ -36,6 +36,7 @@
     "required": "verplicht",
     "filters": "Filters",
     "all": "Alle",
+    "yesterday": "Gisteren",
     "navigation": {
       "menu": "Menu",
       "dashboard": "Dashboard",
@@ -474,6 +475,8 @@
     "new": "Nieuw",
     "noNotifications": "Geen berichten gevonden",
     "markAllAsRead": "Alle berichten als gelezen markeren",
+    "notificationDeleted": "Bericht verwijderd",
+    "errorDeletingNotification": "Fout bij verwijderen van bericht",
     "yesterday": "Gisteren",
     "today": "Vandaag",
     "thisWeek": "Deze week",

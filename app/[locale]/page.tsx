@@ -3,6 +3,7 @@
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import ClientLayout from "@/app/[locale]/ClientLayout";
+import config from "@/config";
 
 export async function generateMetadata({
   params,
@@ -20,7 +21,7 @@ export async function generateMetadata({
       title: t("og.title"),
       description: t("og.description"),
       url: `https://www.declair.app/${locale}`,
-      siteName: "Declair",
+      siteName: config.appTitle,
       images: [
         {
           url: "/og-image.png",

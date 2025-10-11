@@ -5,16 +5,15 @@ import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { User, LogOut, ChevronDown, Users, Key } from "lucide-react";
 import { useTranslations } from "next-intl";
-
 import {
+  Button,
+  Avatar,
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { Avatar } from "@/components/ui/avatar";
+} from "@/components/ui";
 import Image from "next/image";
 
 export default function UserMenu() {
@@ -24,7 +23,7 @@ export default function UserMenu() {
   const [isMobile, setIsMobile] = useState(false);
   const [isFullscreenOpen, setIsFullscreenOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const t = useTranslations("userMenu");
+  const t = useTranslations();
 
   // Check if we're on mobile
   useEffect(() => {
@@ -119,7 +118,7 @@ export default function UserMenu() {
             {session.user.image ? (
               <Image
                 src={session.user.image}
-                alt={session.user.name || "User"}
+                alt={session.user.name || t("common.user")}
                 className="w-full h-full rounded-full object-cover"
               />
             ) : (
@@ -148,20 +147,23 @@ export default function UserMenu() {
 
         <DropdownMenuItem onClick={handleAccount} className="cursor-pointer">
           <User className="w-4 h-4 mr-2" />
-          {t("myAccount")}
+          {t("userMenu.myAccount")}
         </DropdownMenuItem>
 
-        <DropdownMenuItem onClick={handleTeam} className="cursor-pointer">
-          <Users className="w-4 h-4 mr-2" />
-          {t("team")}
-        </DropdownMenuItem>
+        {(session?.user?.role === "ADMIN" ||
+          session?.user?.role === "SUPERUSER") && (
+          <DropdownMenuItem onClick={handleTeam} className="cursor-pointer">
+            <Users className="w-4 h-4 mr-2" />
+            {t("userMenu.team")}
+          </DropdownMenuItem>
+        )}
 
         <DropdownMenuItem
           onClick={handlePasswordChange}
           className="cursor-pointer"
         >
           <Key className="w-4 h-4 mr-2" />
-          {t("changePassword")}
+          {t("userMenu.changePassword")}
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />
@@ -171,7 +173,7 @@ export default function UserMenu() {
           className="cursor-pointer text-red-600 focus:text-red-600"
         >
           <LogOut className="w-4 h-4 mr-2" />
-          {t("logout")}
+          {t("userMenu.logout")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

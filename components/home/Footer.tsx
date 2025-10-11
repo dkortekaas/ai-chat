@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Twitter, Linkedin, Instagram, Mail, MapPin } from "lucide-react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import config from "@/config";
 
 export default function Footer() {
   const t = useTranslations("footer");
@@ -16,12 +17,14 @@ export default function Footer() {
               <div className="w-10 h-10 bg-indigo-50 rounded-lg flex items-center justify-center">
                 <Image
                   src="/declair-logo.svg"
-                  alt="Declair"
+                  alt={config.appTitle}
                   width={40}
                   height={40}
                 />
               </div>
-              <span className="text-xl font-bold text-white">Declair</span>
+              <span className="text-xl font-bold text-white">
+                {config.appTitle}
+              </span>
             </div>
             <p className="text-sm">{t("description")}</p>
           </div>
@@ -127,7 +130,7 @@ export default function Footer() {
 
         <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-gray-400">
-            © {new Date().getFullYear()} Declair. {t("rights")}
+            © {new Date().getFullYear()} {config.appTitle}. {t("rights")}
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             {/* <Link

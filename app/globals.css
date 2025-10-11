@@ -3,18 +3,6 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
-  --color-declair-blue-50: #eef5ff;
-  --color-declair-blue-100: #dae8ff;
-  --color-declair-blue-200: #bdd8ff;
-  --color-declair-blue-300: #90c0ff;
-  --color-declair-blue-400: #589bff;
-  --color-declair-blue-500: #3578fc;
-  --color-declair-blue-600: #1f57f1;
-  --color-declair-blue-700: #1742de;
-  --color-declair-blue-800: #1937b4;
-  --color-declair-blue-900: #1a338e;
-  --color-declair-blue-950: #152156;
-
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);

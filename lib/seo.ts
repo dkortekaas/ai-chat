@@ -1,6 +1,7 @@
 // lib/seo.ts
 
 import { Metadata } from "next";
+import config from "@/config";
 
 export function generateMetadata(
   title: string,
@@ -19,7 +20,7 @@ export function generateMetadata(
       title,
       description,
       url,
-      siteName: "Declair",
+      siteName: config.appTitle,
       locale: "nl_NL",
       type: "website",
       images: [

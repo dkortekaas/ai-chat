@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -14,11 +15,12 @@ import { useTranslations } from "next-intl";
 
 function AccountPageContent() {
   const searchParams = useSearchParams();
+  const { data: session } = useSession();
   const [activeTab, setActiveTab] = useState("personal-details");
   const t = useTranslations();
 
-  const tabs = useMemo(
-    () => [
+  const tabs = useMemo(() => {
+    const baseTabs = [
       {
         id: "personal-details",
         name: t("account.tabs.personalDetails"),
@@ -34,15 +36,27 @@ function AccountPageContent() {
         name: t("account.tabs.changePassword"),
         component: ChangePasswordTab,
       },
-      {
+    ];
+
+    // Only show subscription and team tabs for Admin and Superuser
+    if (
+      session?.user?.role === "ADMIN" ||
+      session?.user?.role === "SUPERUSER"
+    ) {
+      baseTabs.push({
         id: "subscription",
         name: t("account.tabs.subscription"),
         component: SubscriptionTab,
-      },
-      { id: "team", name: t("account.tabs.team"), component: TeamTab },
-    ],
-    [t]
-  );
+      });
+      baseTabs.push({
+        id: "team",
+        name: t("account.tabs.team"),
+        component: TeamTab,
+      });
+    }
+
+    return baseTabs;
+  }, [t, session?.user?.role]);
 
   useEffect(() => {
     const tab = searchParams.get("tab");
@@ -50,6 +64,14 @@ function AccountPageContent() {
       setActiveTab(tab);
     }
   }, [searchParams, tabs]);
+
+  // Reset activeTab if user doesn't have access to the current tab
+  useEffect(() => {
+    const currentTab = tabs.find((tab) => tab.id === activeTab);
+    if (!currentTab) {
+      setActiveTab("personal-details");
+    }
+  }, [tabs, activeTab]);
 
   const ActiveComponent = tabs.find((tab) => tab.id === activeTab)?.component;
 

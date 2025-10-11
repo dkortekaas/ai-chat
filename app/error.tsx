@@ -2,6 +2,8 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function Error({
   error,
@@ -10,6 +12,8 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const t = useTranslations();
+  const { toast } = useToast();
   useEffect(() => {
     // Log de error naar een error reporting service
     console.error(error);
@@ -37,27 +41,29 @@ export default function Error({
           </svg>
         </div>
         <h2 className="text-3xl font-bold text-gray-700 mt-2">
-          Er is iets misgegaan
+          {t("error.title")}
         </h2>
         <p className="text-xl text-gray-500 mt-4 text-center max-w-md">
-          Er is een onverwachte fout opgetreden bij het laden van de pagina.
+          {t("error.description")}
         </p>
         <div className="mt-8 flex space-x-4">
           <button
             onClick={reset}
             className="px-6 py-3 rounded-md bg-indigo-600 text-white font-medium hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400"
           >
-            Probeer opnieuw!
+            {t("error.tryAgain")}
           </button>
           <Link
             href="/dashboard"
             className="px-6 py-3 rounded-md border border-gray-300 bg-white text-gray-700 font-medium hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400"
           >
-            Terug naar dashboard
+            {t("error.backToDashboard")}
           </Link>
         </div>
         <div className="mt-6 text-gray-500 text-sm">
-          <p>Fout referentie: {error.digest}</p>
+          <p>
+            {t("error.errorReference")}: {error.digest}
+          </p>
         </div>
       </div>
     </div>

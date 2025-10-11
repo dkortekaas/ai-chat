@@ -1,4 +1,5 @@
 export { Button } from "@/components/ui/button";
+export { Avatar } from "@/components/ui/avatar";
 export { Input } from "@/components/ui/input";
 export { Label } from "@/components/ui/label";
 export { default as AddressInput } from "@/components/ui/addressInput";
@@ -64,6 +65,7 @@ export {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 export {
   Table,
@@ -80,5 +82,6 @@ export {
   CardHeader,
   CardTitle,
   CardDescription,
+  CardFooter,
 } from "@/components/ui/card";
 export { Badge } from "@/components/ui/badge";

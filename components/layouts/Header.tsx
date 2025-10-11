@@ -2,14 +2,15 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Search, Menu, X, Bell } from "lucide-react";
-import UserMenu from "./UserMenu";
-import NotificationDropdown from "./NotificationDropdown";
+import { Menu, X } from "lucide-react";
+import UserMenu from "@/components/layouts/UserMenu";
+import NotificationDropdown from "@/components/layouts/NotificationDropdown";
 import { ThemeToggle } from "../ThemeToggle";
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import config from "@/config";
 import { AssistantSwitcher } from "@/components/layouts/AssistantSwitcher";
+import LanguageSelector from "@/components/layouts/LanguageSelector";
 
 type HeaderProps = {
   toggleSidebar: () => void;
@@ -17,7 +18,7 @@ type HeaderProps = {
 };
 
 export default function Header({ toggleSidebar, isSidebarOpen }: HeaderProps) {
-  const t = useTranslations("common");
+  const t = useTranslations();
   const pathname = usePathname();
   const [showSearch, setShowSearch] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -72,6 +73,8 @@ export default function Header({ toggleSidebar, isSidebarOpen }: HeaderProps) {
       </div>
 
       <div className="flex items-center space-x-4">
+        <LanguageSelector />
+
         {/* Theme Toggle */}
         <ThemeToggle />
 

@@ -18,7 +18,7 @@ export function NotificationList({
   const [notifications, setNotifications] = useState(initialNotifications);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const { toast } = useToast();
-  const t = useTranslations("notifications");
+  const t = useTranslations();
   const { data: session } = useSession();
 
   const handleDelete = async (id: string) => {
@@ -35,14 +35,14 @@ export function NotificationList({
           setDeletingId(null);
         }, 300);
         toast({
-          title: t("notificationDeleted"),
+          title: t("notifications.notificationDeleted"),
           variant: "default",
           duration: 3000,
         });
       } else {
         setDeletingId(null);
         toast({
-          title: t("errorDeletingNotification"),
+          title: t("notifications.errorDeletingNotification"),
           variant: "destructive",
           duration: 3000,
         });
@@ -58,7 +58,7 @@ export function NotificationList({
         companyId: session?.user.companyId,
       });
       toast({
-        title: t("errorDeletingNotification"),
+        title: t("notifications.errorDeletingNotification"),
         variant: "destructive",
         duration: 3000,
       });
@@ -67,10 +67,10 @@ export function NotificationList({
   };
 
   return (
-    <div className='space-y-4'>
+    <div className="space-y-4">
       {notifications.length === 0 ? (
-        <p className='text-gray-500 dark:text-gray-400 text-center'>
-          {t("noNotifications")}
+        <p className="text-gray-500 dark:text-gray-400 text-center">
+          {t("notifications.noNotifications")}
         </p>
       ) : (
         <>

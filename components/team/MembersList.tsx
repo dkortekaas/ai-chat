@@ -16,7 +16,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui";
-import { MoreVertical, Users, Pencil, Trash, CheckCircle, XCircle } from "lucide-react";
+import {
+  MoreVertical,
+  Users,
+  Pencil,
+  Trash,
+  CheckCircle,
+  XCircle,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
 import { TeamMember } from "@/types/account";
@@ -26,7 +33,10 @@ interface MembersListProps {
   onEditMember?: (member: TeamMember) => void;
 }
 
-export function MembersList({ refreshTrigger, onEditMember }: MembersListProps) {
+export function MembersList({
+  refreshTrigger,
+  onEditMember,
+}: MembersListProps) {
   const t = useTranslations();
   const [members, setMembers] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
@@ -147,9 +157,7 @@ export function MembersList({ refreshTrigger, onEditMember }: MembersListProps) 
   };
 
   const getStatusColor = (isActive: boolean) => {
-    return isActive
-      ? "text-green-600 bg-green-100"
-      : "text-red-600 bg-red-100";
+    return isActive ? "text-green-600 bg-green-100" : "text-red-600 bg-red-100";
   };
 
   const getStatusText = (isActive: boolean) => {
@@ -249,9 +257,7 @@ export function MembersList({ refreshTrigger, onEditMember }: MembersListProps) 
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" className="h-8 w-8 p-0">
-                        <span className="sr-only">
-                          {t("common.openMenu")}
-                        </span>
+                        <span className="sr-only">{t("common.openMenu")}</span>
                         <MoreVertical className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
@@ -263,7 +269,9 @@ export function MembersList({ refreshTrigger, onEditMember }: MembersListProps) 
                         {t("common.edit")}
                       </DropdownMenuItem>
                       <DropdownMenuItem
-                        onClick={() => handleDeleteMember(member.id, member.name)}
+                        onClick={() =>
+                          handleDeleteMember(member.id, member.name)
+                        }
                         className="text-red-600"
                       >
                         <Trash className="w-4 h-4 mr-2" />

@@ -1,23 +1,25 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Bot, ChevronDown, Check, Plus, Settings } from "lucide-react";
 import {
+  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/ui";
 import { useAssistant } from "@/contexts/assistant-context";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export function AssistantSwitcher() {
   const { currentAssistant, assistants, setCurrentAssistant, isLoading } =
     useAssistant();
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+  const t = useTranslations();
 
   const handleAssistantSelect = (assistantId: string) => {
     const assistant = assistants.find((a) => a.id === assistantId);
@@ -36,7 +38,7 @@ export function AssistantSwitcher() {
     return (
       <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 animate-pulse">
         <Bot className="w-4 h-4 text-gray-400" />
-        <span className="text-sm text-gray-500">Loading...</span>
+        <span className="text-sm text-gray-500">{t("common.loading")}</span>
       </div>
     );
   }
@@ -50,7 +52,7 @@ export function AssistantSwitcher() {
         className="flex items-center gap-2"
       >
         <Plus className="w-4 h-4" />
-        Create Assistant
+        {t("common.createAssistant")}
       </Button>
     );
   }
@@ -75,7 +77,7 @@ export function AssistantSwitcher() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-64">
         <div className="px-2 py-1.5 text-xs font-medium text-gray-500 uppercase tracking-wider">
-          AI Assistants
+          {t("assistants.aiAssistants")}
         </div>
         {assistants.map((assistant) => (
           <DropdownMenuItem
@@ -106,11 +108,11 @@ export function AssistantSwitcher() {
           className="cursor-pointer"
         >
           <Settings className="w-4 h-4 mr-2" />
-          Manage Assistants
+          {t("assistants.manageAssistants")}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={handleCreateNew} className="cursor-pointer">
           <Plus className="w-4 h-4 mr-2" />
-          Create New Assistant
+          {t("assistants.createNewAssistant")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -17,11 +17,11 @@ export default function PageHeader({
   const t = useTranslations(namespace || "common");
 
   return (
-    <div className='mb-6'>
-      <h1 className='text-2xl font-bold text-gray-900 dark:text-white'>
+    <div className="mb-6">
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
         {namespace ? t("title") : title}
       </h1>
-      <p className='text-gray-600'>
+      <p className="text-gray-600">
         {namespace ? t("description") : description}
       </p>
     </div>

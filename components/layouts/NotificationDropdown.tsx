@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Bell, X, CheckCircle, ChevronLeft } from "lucide-react";
+import { Bell, ChevronLeft } from "lucide-react";
 import { Notification } from "@prisma/client";
 import { useTranslations } from "next-intl";
 
@@ -14,7 +14,7 @@ export default function NotificationDropdown() {
   const lastNotificationId = useRef<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [fullScreenOpen, setFullScreenOpen] = useState(false);
-  const t = useTranslations("notifications");
+  const t = useTranslations();
 
   // Check if we're on mobile
   useEffect(() => {
@@ -123,7 +123,7 @@ export default function NotificationDropdown() {
       setNotifications(
         notifications.map((notification) =>
           notification.id === id
-            ? { ...notification, read: true }
+            ? { ...notification, isRead: true }
             : notification
         )
       );
@@ -181,7 +181,7 @@ export default function NotificationDropdown() {
     const yesterday = new Date(now);
     yesterday.setDate(now.getDate() - 1);
     if (notificationDate.toDateString() === yesterday.toDateString()) {
-      return t("yesterday");
+      return t("common.yesterday");
     }
 
     // Default to date
@@ -217,14 +217,14 @@ export default function NotificationDropdown() {
               <ChevronLeft size={24} />
             </button>
             <h1 className="text-lg font-medium text-center flex-1 text-gray-900 dark:text-gray-100">
-              {t("title")}
+              {t("notifications.title")}
             </h1>
             {notifications.length > 0 && (
               <button
                 onClick={handleMarkAllAsRead}
                 className="text-sm text-indigo-500 dark:text-indigo-400"
               >
-                {t("markAllAsRead")}
+                {t("notifications.markAllAsRead")}
               </button>
             )}
           </div>
@@ -241,7 +241,7 @@ export default function NotificationDropdown() {
                 size={48}
                 className="text-gray-300 dark:text-gray-600 mb-4"
               />
-              <p>{t("noNotifications")}</p>
+              <p>{t("notifications.noNotifications")}</p>
             </div>
           ) : (
             <div className="divide-y divide-gray-100 dark:divide-gray-700">
@@ -262,7 +262,7 @@ export default function NotificationDropdown() {
                     </div>
                     {!notification.isRead && (
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
-                        {t("new")}
+                        {t("notifications.new")}
                       </span>
                     )}
                   </div>
@@ -294,14 +294,14 @@ export default function NotificationDropdown() {
         <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50 ring-1 ring-gray-200 dark:ring-gray-700">
           <div className="px-4 py-2 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
             <h2 className="text-sm font-medium text-gray-900 dark:text-gray-100">
-              {t("title")}
+              {t("notifications.title")}
             </h2>
             {notifications.length > 0 && (
               <button
                 onClick={handleMarkAllAsRead}
                 className="text-xs text-indigo-500 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300"
               >
-                {t("markAllAsRead")}
+                {t("notifications.markAllAsRead")}
               </button>
             )}
           </div>
@@ -317,7 +317,7 @@ export default function NotificationDropdown() {
                   size={32}
                   className="text-gray-300 dark:text-gray-600 mb-2"
                 />
-                <p className="text-sm">{t("noNotifications")}</p>
+                <p className="text-sm">{t("notifications.noNotifications")}</p>
               </div>
             ) : (
               <div className="divide-y divide-gray-100 dark:divide-gray-700">
@@ -338,7 +338,7 @@ export default function NotificationDropdown() {
                       </div>
                       {!notification.isRead && (
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
-                          {t("new")}
+                          {t("notifications.new")}
                         </span>
                       )}
                     </div>

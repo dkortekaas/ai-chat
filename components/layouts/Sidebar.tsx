@@ -4,7 +4,6 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
-  FilePlus,
   Users,
   Building2,
   Mail,
@@ -142,17 +141,6 @@ export default function Sidebar({
     },
   ];
 
-  // Admin specific items
-  const adminItems = [
-    {
-      href: "/company/settings",
-      title: t("common.navigation.company"),
-      icon: <Building2 className="w-6 h-6" />,
-      activePath: "/company/settings",
-      sequence: 9,
-    },
-  ];
-
   // Superuser specific items
   const superuserItems = [
     {
@@ -259,7 +247,7 @@ export default function Sidebar({
                   {t("common.navigation.admin")}
                 </p>
                 <nav className="space-y-1">
-                  {adminItems.map((item) => (
+                  {/* {adminItems.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
@@ -273,7 +261,7 @@ export default function Sidebar({
                       <div className="mr-3">{item.icon}</div>
                       <span>{item.title}</span>
                     </Link>
-                  ))}
+                  ))} */}
                 </nav>
               </>
             )}
@@ -311,7 +299,7 @@ export default function Sidebar({
           >
             <Image
               src="/declair-logo.svg"
-              alt="Declair"
+              alt={config.appTitle}
               width={80}
               height={80}
               className="w-10 h-10"
@@ -372,7 +360,7 @@ export default function Sidebar({
         )}
 
         {/* Admin specific items */}
-        {isAdmin && (
+        {/* {isAdmin && (
           <div className="px-3 mt-6 space-y-1">
             {adminItems.map((item) => (
               <div key={item.href} className="group relative">
@@ -392,7 +380,7 @@ export default function Sidebar({
               </div>
             ))}
           </div>
-        )}
+        )} */}
       </div>
 
       {/* Ruimte reserveren zodat content niet onder de sidebar komt */}

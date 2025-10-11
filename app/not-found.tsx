@@ -16,7 +16,7 @@ export default function NotFound() {
         </p>
         <div className="mt-8">
           <Link
-            href="/declarations"
+            href="/dashboard"
             className="px-6 py-3 rounded-md bg-indigo-600 text-white font-medium hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400"
           >
             {t("notFound.backToPortal")}

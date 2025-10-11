@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { ChevronDown, Globe } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { toast } from "../ui/use-toast";
+import { useTranslations } from "next-intl";
 
 type Language = {
   code: string;
@@ -30,6 +31,7 @@ export default function LanguageSelector() {
   const { data: session, update } = useSession();
   const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const t = useTranslations();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -113,8 +115,10 @@ export default function LanguageSelector() {
           });
 
           toast({
-            title: "Language changed",
-            description: `Language changed to ${language.nativeName}`,
+            title: t("languageSelector.languageChanged"),
+            description: t("languageSelector.languageChangedDescription", {
+              language: language.nativeName,
+            }),
             variant: "success",
             duration: 3000,
           });
@@ -129,24 +133,24 @@ export default function LanguageSelector() {
   };
 
   return (
-    <div className='relative' ref={dropdownRef}>
+    <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className='flex items-center px-2 py-1 text-gray-700 hover:text-gray-900 focus:outline-none'
-        aria-label='Select language'
+        className="flex items-center px-2 py-1 text-gray-700 hover:text-gray-900 focus:outline-none"
+        aria-label="Select language"
       >
-        <Globe className='h-5 w-5 mr-1' />
-        <span className='text-sm font-medium hidden md:inline-block'>
+        <Globe className="h-5 w-5 mr-1" />
+        <span className="text-sm font-medium hidden md:inline-block">
           {currentLanguage.flag} {currentLanguage.nativeName}
         </span>
-        <span className='text-sm font-medium md:hidden'>
+        <span className="text-sm font-medium md:hidden">
           {currentLanguage.flag}
         </span>
-        <ChevronDown className='h-4 w-4 ml-1' />
+        <ChevronDown className="h-4 w-4 ml-1" />
       </button>
 
       {isOpen && (
-        <div className='absolute right-0 mt-2 py-1 w-48 bg-white rounded-md shadow-lg z-50 ring-1 ring-black ring-opacity-5'>
+        <div className="absolute right-0 mt-2 py-1 w-48 bg-white rounded-md shadow-lg z-50 ring-1 ring-black ring-opacity-5">
           {languages.map((language) => (
             <button
               key={language.code}
@@ -157,7 +161,7 @@ export default function LanguageSelector() {
               }`}
               onClick={() => changeLanguage(language)}
             >
-              <span className='mr-2'>{language.flag}</span>
+              <span className="mr-2">{language.flag}</span>
               {language.nativeName}
             </button>
           ))}
