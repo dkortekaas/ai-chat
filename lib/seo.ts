@@ -8,7 +8,7 @@ export function generateMetadata(
   description: string,
   path: string = "/"
 ): Metadata {
-  const url = `https://www.declair.app${path}`;
+  const url = `${process.env.NEXT_PUBLIC_APP_URL}/${path}`;
 
   return {
     title,

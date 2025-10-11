@@ -1,4 +1,4 @@
-# Development Guidelines voor Declair
+# Development Guidelines voor AI Chat
 
 ## Algemene Setup
 

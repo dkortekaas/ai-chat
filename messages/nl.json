@@ -79,16 +79,16 @@
     }
   },
   "metadata": {
-    "title": "Declair - Minder rompslomp, meer duidelijkheid. Dat is Declair.",
-    "description": "Maak declaraties indienen en beheren eenvoudig met Declair. Eenvoudige verwerking, real-time goedkeuring en volledige transparantie.",
-    "keywords": "declaraties, onkostenvergoeding, bedrijfsadministratie, automatisering, Declair",
+    "title": "AI Chat - Minder rompslomp, meer duidelijkheid. Dat is AI Chat.",
+    "description": "Maak declaraties indienen en beheren eenvoudig met AI Chat. Eenvoudige verwerking, real-time goedkeuring en volledige transparantie.",
+    "keywords": "declaraties, onkostenvergoeding, bedrijfsadministratie, automatisering, AI Chat",
     "og": {
-      "title": "Declair - Minder rompslomp, meer duidelijkheid. Dat is Declair.",
-      "description": "Maak declaraties indienen en beheren eenvoudig met Declair. Eenvoudige verwerking, real-time goedkeuring en volledige transparantie."
+      "title": "AI Chat - Minder rompslomp, meer duidelijkheid. Dat is AI Chat.",
+      "description": "Maak declaraties indienen en beheren eenvoudig met AI Chat. Eenvoudige verwerking, real-time goedkeuring en volledige transparantie."
     },
     "twitter": {
-      "title": "Declair - Minder rompslomp, meer duidelijkheid. Dat is Declair.",
-      "description": "Maak declaraties indienen en beheren eenvoudig met Declair. Eenvoudige verwerking, real-time goedkeuring en volledige transparantie."
+      "title": "AI Chat - Minder rompslomp, meer duidelijkheid. Dat is AI Chat.",
+      "description": "Maak declaraties indienen en beheren eenvoudig met AI Chat. Eenvoudige verwerking, real-time goedkeuring en volledige transparantie."
     }
   },
   "notFound": {
@@ -282,7 +282,7 @@
     },
     "loginForm": {
       "title": "Inloggen",
-      "description": "Inloggen bij Declair",
+      "description": "Inloggen bij AI Chat",
       "loginButton": "Inloggen",
       "orRegister": "of registreer je",
       "registerButton": "Registreren"
@@ -404,7 +404,7 @@
     "description": "Er zijn geen resultaten gevonden"
   },
   "onboarding": {
-    "title": "Welkom bij Declair",
+    "title": "Welkom bij AI Chat",
     "subtitle": "Laten we je account in een paar stappen instellen",
     "progress": "Voortgang",
     "completed": "voltooid",
@@ -507,7 +507,7 @@
   },
   "dashboard": {
     "title": "Dashboard",
-    "welcome": "Welkom bij Declair",
+    "welcome": "Welkom bij AI Chat",
     "newDeclaration": "Nieuwe Declaratie",
     "new": "Nieuw",
     "users": "Gebruikers",
@@ -841,7 +841,7 @@
   "hero": {
     "title": "Declaraties afhandelen",
     "subtitle": "in minuten, niet uren",
-    "description": "Maak declaraties indienen en beheren eenvoudig met Declair. Eenvoudige verwerking, real-time goedkeuring en volledige transparantie.",
+    "description": "Maak declaraties indienen en beheren eenvoudig met AI Chat. Eenvoudige verwerking, real-time goedkeuring en volledige transparantie.",
     "tryFree": "Gratis proberen",
     "watchDemo": "Bekijk demo",
     "free_trial": "2 maanden gratis uitproberen - Geen creditcard nodig",
@@ -849,7 +849,7 @@
     "gdpr_compliant": "GDPR-compliant"
   },
   "features": {
-    "title": "Waarom kiezen voor Declair?",
+    "title": "Waarom kiezen voor AI Chat?",
     "subtitle": "Bespaar tijd en werk efficiënter met onze geavanceerde declaratie-oplossing.",
     "items": [
       {
@@ -870,7 +870,7 @@
       },
       {
         "title": "Overal toegankelijk",
-        "description": "Gebruik Declair op desktop, tablet of smartphone."
+        "description": "Gebruik AI Chat op desktop, tablet of smartphone."
       },
       {
         "title": "Automatische uitbetaling",
@@ -944,23 +944,23 @@
   },
   "faq": {
     "title": "Veelgestelde vragen",
-    "description": "Ontdek hoe Declair werkt en wat het voor jou kan betekenen.",
-    "question_1": "Wat is Declair?",
-    "answer_1": "Declair is een online declaratie-afhandelingsplatform dat bedrijven helt bij het indienen en beheren van declaraties.",
+    "description": "Ontdek hoe AI Chat werkt en wat het voor jou kan betekenen.",
+    "question_1": "Wat is AI Chat?",
+    "answer_1": "AI Chat is een online declaratie-afhandelingsplatform dat bedrijven helt bij het indienen en beheren van declaraties.",
     "question_2": "Hoe lang duurt het voordat mijn declaratie wordt goedgekeurd?",
     "answer_2": "Dit is afhankelijk van de goedkeurder, maar de meeste declaraties worden binnen 24 uur goedgekeurd. Voor complexere declaraties kan dit tot 48 uur duren.",
-    "question_3": "Zijn er kosten verbonden aan het gebruik van Declair?",
+    "question_3": "Zijn er kosten verbonden aan het gebruik van AI Chat?",
     "answer_3": "Ons Starter-plan kosten €19 per maand. Voor meer volume en geavanceerde functies hebben we betaalde plannen vanaf €39 per maand.",
-    "question_4": "Is mijn data veilig bij Declair?",
+    "question_4": "Is mijn data veilig bij AI Chat?",
     "answer_4": "Ja, we nemen privacy en veiligheid zeer serieus. Al je data is versleuteld en we zijn volledig GDPR-compliant.",
-    "question_5": "Kan ik Declair integreren met mijn bestaande boekhoudsysteem?",
-    "answer_5": "Ja, Declair integreert met de meeste populaire boekhoudsystemen zoals Exact, Moneybird, en meer via onze API.",
+    "question_5": "Kan ik AI Chat integreren met mijn bestaande boekhoudsysteem?",
+    "answer_5": "Ja, AI Chat integreert met de meeste populaire boekhoudsystemen zoals Exact, Moneybird, en meer via onze API.",
     "question_6": "Wat voor soort declaraties kan ik indienen?",
     "answer_6": "Je kunt alle zakelijke uitgaven declareren zoals reiskosten, maaltijden, kantoorbenodigdheden, en meer."
   },
   "cta": {
     "title": "Klaar om te beginnen?",
-    "description": "Probeer Declair 2 maanden gratis uit en ontdek hoe eenvoudig declaraties verwerken kan zijn.",
+    "description": "Probeer AI Chat 2 maanden gratis uit en ontdek hoe eenvoudig declaraties verwerken kan zijn.",
     "cta": "Start gratis proefperiode",
     "contact": "Neem contact op",
     "free_trial": "2 maanden gratis uitproberen",
@@ -970,17 +970,17 @@
   },
   "testimonials": {
     "title": "Wat onze klanten zeggen",
-    "description": "Ontdek waarom bedrijven overstappen naar Declair voor hun declaratie-afhandeling.",
+    "description": "Ontdek waarom bedrijven overstappen naar AI Chat voor hun declaratie-afhandeling.",
     "role_1": "Finance Manager bij TechStart",
-    "content_1": "Declair heeft onze declaratieprocedure volledig getransformeerd. Wat eerst weken duurde, is nu in enkele dagen geregeld.",
+    "content_1": "AI Chat heeft onze declaratieprocedure volledig getransformeerd. Wat eerst weken duurde, is nu in enkele dagen geregeld.",
     "role_2": "CEO bij GrowthLabs",
-    "content_2": "De automatisering en transparantie die Declair biedt is ongeëvenaard. Onze medewerkers zijn er dol op!",
+    "content_2": "De automatisering en transparantie die AI Chat biedt is ongeëvenaard. Onze medewerkers zijn er dol op!",
     "role_3": "HR Director bij Innovate BV",
     "content_3": "Eindelijk een systeem dat werkt zoals je zou verwachten. De app is intuïtief en de klantenservice is uitstekend."
   },
   "footer": {
-    "description": "Krijg je geld terug zonder gedoe. Declair het.",
-    "email": "hello@declair.app",
+    "description": "Krijg je geld terug zonder gedoe. AI Chat het.",
+    "email": "hello@AI Chat.app",
     "address": "Houten, Nederland",
     "product": "Product",
     "features": "Functies",
@@ -999,7 +999,7 @@
   },
   "mail": {
     "welcome": {
-      "title": "Hartelijk welkom bij Declair! 🙌",
+      "title": "Hartelijk welkom bij AI Chat! 🙌",
       "description": "Je account is succesvol aangemaakt en je kunt nu beginnen met het eenvoudig beheren van je declaraties. We zijn blij dat je hebt gekozen voor onze oplossing om je declaratieproces te digitaliseren en te stroomlijnen.",
       "whatYouCanDo": "🚀 Wat kun je nu doen?",
       "features": {
@@ -1029,7 +1029,7 @@
         "title": "📚 Hulp nodig?",
         "faq": "Veelgestelde vragen: {faqLink}",
         "manual": "Handleiding: {manualLink}",
-        "support": "Support: Stuur een e-mail naar support@declair.app",
+        "support": "Support: Stuur een e-mail naar support@AI Chat.app",
         "phone": "Bel ons: +31 (0)20 123 4567 (ma-vr 9:00-17:00)"
       },
       "nextSteps": {
@@ -1038,22 +1038,22 @@
         "setup2FA": "Stel eventuele 2FA (twee-factor authenticatie) in voor extra beveiliging",
         "uploadReceipt": "Upload je eerste bon en ervaar hoe eenvoudig declareren kan zijn!"
       },
-      "signature": "Veel succes met Declair!\nHet Declair Team",
+      "signature": "Veel succes met AI Chat!\nHet AI Chat Team",
       "social": {
         "title": "P.S. Volg ons op sociale media voor tips, updates en nieuws:",
         "linkedin": "LinkedIn",
         "twitter": "Twitter"
       },
       "footer": {
-        "sentTo": "Deze e-mail is verzonden naar {email} omdat je een account hebt aangemaakt bij Declair.",
+        "sentTo": "Deze e-mail is verzonden naar {email} omdat je een account hebt aangemaakt bij AI Chat.",
         "unsubscribe": "Geen interesse meer? Je kunt je hier uitschrijven.",
-        "address": "Declair B.V.\nVoorbeeldstraat 123\n1234 AB Amsterdam\nNederland"
+        "address": "AI Chat B.V.\nVoorbeeldstraat 123\n1234 AB Amsterdam\nNederland"
       }
     },
     "invitation": {
-      "subject": "Je bent uitgenodigd voor Declair bij {companyName} 💼",
+      "subject": "Je bent uitgenodigd voor AI Chat bij {companyName} 💼",
       "greeting": "Hallo,",
-      "intro": "Je bent uitgenodigd om deel te nemen aan Declair, het declaratieportaal van {companyName}! 🎉",
+      "intro": "Je bent uitgenodigd om deel te nemen aan AI Chat, het declaratieportaal van {companyName}! 🎉",
       "inviter": "{inviterName} heeft je uitgenodigd om het team te versterken en samen het declaratieproces te verbeteren.",
       "createAccountLink": "Maak een account aan",
       "role": {
@@ -1098,9 +1098,9 @@
           ]
         }
       },
-      "whatIsDeclair": {
-        "title": "🚀 Wat is Declair?",
-        "description": "Declair maakt declareren simpel, snel en transparant:",
+      "whatIsAI Chat": {
+        "title": "🚀 Wat is AI Chat?",
+        "description": "AI Chat maakt declareren simpel, snel en transparant:",
         "features": [
           "📱 Mobiel-first - Declareer onderweg met je smartphone",
           "🤖 Automatische herkenning - AI leest je bonnetjes automatisch uit",
@@ -1150,7 +1150,7 @@
         "title": "📞 Hulp nodig?",
         "team": {
           "title": "Support Team:",
-          "email": "📧 E-mail: support@declair.app",
+          "email": "📧 E-mail: support@AI Chat.app",
           "phone": "📱 Telefoon: +31 (0)20 123 4567 (ma-vr 9:00-17:00)",
           "chat": "💬 Live chat: beschikbaar in de applicatie"
         },
@@ -1172,11 +1172,11 @@
       "closing": {
         "welcome": "Welkom bij het team! 👋",
         "message": "We kijken ernaar uit om je te helpen bij het stroomlijnen van jullie declaratieproces. Samen maken we declareren een fluitje van een cent!",
-        "signature": "Met vriendelijke groet,\nHet Declair Team\n& {inviterName} van {companyName}",
+        "signature": "Met vriendelijke groet,\nHet AI Chat Team\n& {inviterName} van {companyName}",
         "ps": "P.S. Heb je vragen over de uitnodiging? Stuur een berichtje naar {inviterEmail} of ons support team. We helpen je graag!"
       },
       "footer": {
-        "sentTo": "Je ontvangt deze e-mail omdat {inviterName} van {companyName} je heeft uitgenodigd voor Declair.",
+        "sentTo": "Je ontvangt deze e-mail omdat {inviterName} van {companyName} je heeft uitgenodigd voor AI Chat.",
         "unsubscribe": "Geen interesse? Gewoon deze e-mail negeren."
       }
     },
