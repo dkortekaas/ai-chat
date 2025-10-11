@@ -16,6 +16,7 @@ import {
   Clock,
 } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
+import { useTranslations } from "next-intl";
 
 interface Website {
   id: string;
@@ -48,11 +49,11 @@ interface WebsitePage {
 export default function WebsiteContentPage() {
   const params = useParams();
   const router = useRouter();
-  // const { toast } = useToast();
   const [website, setWebsite] = useState<Website | null>(null);
   const [pages, setPages] = useState<WebsitePage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isScraping, setIsScraping] = useState(false);
+  const t = useTranslations();
 
   const websiteId = params.id as string;
 
@@ -92,15 +93,14 @@ export default function WebsiteContentPage() {
     } catch (error) {
       console.error("Error fetching website data:", error);
       toast({
-        title: "Error",
-        description:
-          "Failed to load website content. Please check if you're logged in and have access to this website.",
+        title: t("error.title"),
+        description: t("error.description"),
         variant: "destructive",
       });
     } finally {
       setIsLoading(false);
     }
-  }, [websiteId, toast]);
+  }, [websiteId, t]);
 
   useEffect(() => {
     if (websiteId) {
@@ -120,8 +120,8 @@ export default function WebsiteContentPage() {
 
       if (response.ok) {
         toast({
-          title: "Scraping started",
-          description: "The website scraping process has been initiated.",
+          title: t("scraping.started"),
+          description: t("scraping.initiated"),
         });
         // Refresh data after a short delay
         setTimeout(() => {
@@ -133,9 +133,9 @@ export default function WebsiteContentPage() {
       }
     } catch (error) {
       toast({
-        title: "Error",
+        title: t("error.title"),
         description:
-          error instanceof Error ? error.message : "Failed to start scraping",
+          error instanceof Error ? error.message : t("error.description"),
         variant: "destructive",
       });
     } finally {
@@ -206,10 +206,10 @@ export default function WebsiteContentPage() {
         <div className="text-center py-12">
           <AlertCircle className="w-12 h-12 mx-auto mb-4 text-gray-400" />
           <h3 className="text-lg font-medium text-gray-900 mb-2">
-            Website not found
+            {t("website.notFound")}
           </h3>
           <p className="text-sm text-gray-500">
-            The website you&apos;re looking for could not be found.
+            {t("website.notFoundDescription")}
           </p>
         </div>
       </div>
@@ -227,7 +227,7 @@ export default function WebsiteContentPage() {
           </Button>
           <div>
             <h1 className="text-2xl font-semibold text-gray-900">
-              {website.name || "Website Content"}
+              {website.name || t("website.content")}
             </h1>
             <div className="flex items-center gap-2 mt-1">
               <ExternalLink className="w-4 h-4 text-gray-400" />
@@ -253,7 +253,7 @@ export default function WebsiteContentPage() {
             <RefreshCw
               className={`w-4 h-4 mr-2 ${isScraping ? "animate-spin" : ""}`}
             />
-            {isScraping ? "Scraping..." : "Scrape Now"}
+            {isScraping ? t("website.scraping") : t("website.scrapeNow")}
           </Button>
         </div>
       </div>
@@ -263,7 +263,7 @@ export default function WebsiteContentPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
             <h3 className="text-sm font-medium text-gray-500 mb-1">
-              Pages Scraped
+              {t("website.pagesScraped")}
             </h3>
             <p className="text-2xl font-semibold text-gray-900">
               {website.pageCount}
@@ -271,7 +271,7 @@ export default function WebsiteContentPage() {
           </div>
           <div>
             <h3 className="text-sm font-medium text-gray-500 mb-1">
-              Last Sync
+              {t("website.lastSync")}
             </h3>
             <p className="text-sm text-gray-900">
               {formatDate(website.lastSync)}
@@ -279,7 +279,7 @@ export default function WebsiteContentPage() {
           </div>
           <div>
             <h3 className="text-sm font-medium text-gray-500 mb-1">
-              Sync Interval
+              {t("website.syncInterval")}
             </h3>
             <p className="text-sm text-gray-900 capitalize">
               {website.syncInterval}
@@ -302,7 +302,7 @@ export default function WebsiteContentPage() {
           <div className="flex items-center gap-2 mb-4">
             <FileText className="w-5 h-5 text-gray-600" />
             <h2 className="text-lg font-semibold text-gray-900">
-              Scraped Content
+              {t("website.scrapedContent")}
             </h2>
           </div>
           <div className="bg-gray-50 rounded-lg p-4 max-h-96 overflow-y-auto">
@@ -319,7 +319,7 @@ export default function WebsiteContentPage() {
           <div className="flex items-center gap-2 mb-4">
             <LinkIcon className="w-5 h-5 text-gray-600" />
             <h2 className="text-lg font-semibold text-gray-900">
-              Found Links ({website.scrapedLinks.length})
+              {t("website.foundLinks")} ({website.scrapedLinks.length})
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-96 overflow-y-auto">
@@ -349,7 +349,7 @@ export default function WebsiteContentPage() {
           <div className="flex items-center gap-2 mb-4">
             <FileText className="w-5 h-5 text-gray-600" />
             <h2 className="text-lg font-semibold text-gray-900">
-              Individual Pages ({pages.length})
+              {t("website.individualPages")} ({pages.length})
             </h2>
           </div>
           <div className="space-y-4">
@@ -378,7 +378,7 @@ export default function WebsiteContentPage() {
                 {page.links && page.links.length > 0 && (
                   <div className="mt-2">
                     <p className="text-xs text-gray-500 mb-1">
-                      {page.links.length} links found
+                      {page.links.length} {t("website.linksFound")}
                     </p>
                     <div className="flex flex-wrap gap-1">
                       {page.links.slice(0, 5).map((link, index) => (
@@ -394,7 +394,7 @@ export default function WebsiteContentPage() {
                       ))}
                       {page.links.length > 5 && (
                         <span className="text-xs text-gray-500 px-2 py-1">
-                          +{page.links.length - 5} more
+                          +{page.links.length - 5} {t("website.more")}
                         </span>
                       )}
                     </div>
@@ -417,14 +417,14 @@ export default function WebsiteContentPage() {
           <div className="text-center py-8">
             <FileText className="w-12 h-12 mx-auto mb-4 text-gray-300" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">
-              No Content Found
+              {t("website.noContentFound")}
             </h3>
             <p className="text-sm text-gray-500 mb-4">
-              The website was scraped successfully but no content was extracted.
+              {t("website.noContentFoundDescription")}
             </p>
             <Button onClick={handleScrapeNow} variant="outline">
               <RefreshCw className="w-4 h-4 mr-2" />
-              Try Scraping Again
+              {t("website.tryScrapingAgain")}
             </Button>
           </div>
         </Card>

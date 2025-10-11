@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import {
   MoreVertical,
@@ -116,7 +116,7 @@ export function AdminUsersTable() {
   const [processingId, setProcessingId] = useState<string | null>(null);
   const [editForm, setEditForm] = useState<Partial<User>>({});
 
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     setLoading(true);
     try {
       const params = new URLSearchParams({
@@ -141,7 +141,11 @@ export function AdminUsersTable() {
       setUsers(data.users);
       setPagination(data.pagination);
     } catch (error) {
-      logger.error("Error fetching users:", error);
+      logger.error("Error fetching users:", {
+        context: {
+          error: error instanceof Error ? error.message : String(error),
+        },
+      });
       toast({
         title: "Error",
         description: "Failed to fetch users",
@@ -150,11 +154,19 @@ export function AdminUsersTable() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [
+    pagination.page,
+    pagination.limit,
+    sortField,
+    sortOrder,
+    search,
+    roleFilter,
+    statusFilter,
+  ]);
 
   useEffect(() => {
     fetchUsers();
-  }, [pagination.page, sortField, sortOrder, search, roleFilter, statusFilter]);
+  }, [fetchUsers]);
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {

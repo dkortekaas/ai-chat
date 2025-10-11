@@ -2,50 +2,11 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Badge, Button, Card } from "@/components/ui";
 import { ArrowLeft, Settings, Play } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-interface Website {
-  id: string;
-  url: string;
-  name?: string;
-  description?: string;
-  pages: number;
-  syncSpeed?: number;
-  syncInterval: string;
-  lastSync?: string;
-  status: "PENDING" | "SYNCING" | "COMPLETED" | "ERROR";
-  errorMessage?: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface Webpage {
-  id: string;
-  path: string;
-  fullUrl: string;
-  status: number;
-  size: string;
-  downloadedAt: string;
-  contentType: string;
-}
-
-interface SyncLog {
-  id: string;
-  type: string;
-  message: string;
-  timestamp: string;
-  url?: string;
-}
-
-const tabs = [
-  { id: "overview", name: "Overview" },
-  { id: "webpages", name: "Webpages" },
-  { id: "sync-logs", name: "Sync Logs" },
-];
+import { Website, Webpage, SyncLog } from "@/types/knowledgebase";
+import { useTranslations } from "next-intl";
 
 export default function WebsiteDetailPage() {
   const params = useParams();
@@ -55,6 +16,13 @@ export default function WebsiteDetailPage() {
   const [webpages, setWebpages] = useState<Webpage[]>([]);
   const [syncLogs, setSyncLogs] = useState<SyncLog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const t = useTranslations();
+
+  const tabs = [
+    { id: "overview", name: t("knowledgebase.overview") },
+    { id: "webpages", name: t("knowledgebase.webpages") },
+    { id: "sync-logs", name: t("knowledgebase.sync-logs") },
+  ];
 
   const fetchWebsiteDetails = useCallback(async () => {
     try {
@@ -62,80 +30,6 @@ export default function WebsiteDetailPage() {
       if (response.ok) {
         const data = await response.json();
         setWebsite(data);
-
-        // Mock data for webpages and sync logs
-        setWebpages([
-          {
-            id: "1",
-            path: "/",
-            fullUrl: data.url,
-            status: 200,
-            size: "116kb",
-            downloadedAt: "8 months ago",
-            contentType: "text/html; charset=utf-8",
-          },
-          {
-            id: "2",
-            path: "/afnemers/",
-            fullUrl: `${data.url}/afnemers/`,
-            status: 200,
-            size: "97kb",
-            downloadedAt: "8 months ago",
-            contentType: "text/html; charset=utf-8",
-          },
-          {
-            id: "3",
-            path: "/contact/",
-            fullUrl: `${data.url}/contact/`,
-            status: 200,
-            size: "94kb",
-            downloadedAt: "8 months ago",
-            contentType: "text/html; charset=utf-8",
-          },
-          {
-            id: "4",
-            path: "/nl/agenda/",
-            fullUrl: `${data.url}/nl/agenda/`,
-            status: 200,
-            size: "89kb",
-            downloadedAt: "8 months ago",
-            contentType: "text/html; charset=utf-8",
-          },
-        ]);
-
-        setSyncLogs([
-          {
-            id: "1",
-            type: "url_outside_allowed_domains",
-            message:
-              "URL is outside allowed domains: https://site.psinfoodservice.com/media/k1rejnhb/algemenevoorwaardenpsinfoodservice.pdf",
-            timestamp: "8 months ago",
-            url: "https://site.psinfoodservice.com/media/k1rejnhb/algemenevoorwaardenpsinfoodservice.pdf",
-          },
-          {
-            id: "2",
-            type: "url_outside_allowed_domains",
-            message:
-              "URL is outside allowed domains: https://site.psinfoodservice.com/media/n43lm0bl/privacyverklaring.pdf",
-            timestamp: "8 months ago",
-            url: "https://site.psinfoodservice.com/media/n43lm0bl/privacyverklaring.pdf",
-          },
-          {
-            id: "3",
-            type: "url_already_seen",
-            message:
-              "URL was already visited or is queued: https://psinfoodservice.com/contact/",
-            timestamp: "8 months ago",
-            url: "https://psinfoodservice.com/contact/",
-          },
-          {
-            id: "4",
-            type: "url_invalid",
-            message: "URL is invalid: unsupported scheme",
-            timestamp: "8 months ago",
-            url: "mailto:info@psinfoodservice.com",
-          },
-        ]);
       }
     } catch (error) {
       console.error("Error fetching website details:", error);
@@ -154,14 +48,28 @@ export default function WebsiteDetailPage() {
     switch (status) {
       case "COMPLETED":
         return (
-          <Badge className="bg-green-100 text-green-800">✓ Completed</Badge>
+          <Badge className="bg-green-100 text-green-800">
+            ✓ {t("knowledgebase.status.completed")}
+          </Badge>
         );
       case "PENDING":
-        return <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>;
+        return (
+          <Badge className="bg-yellow-100 text-yellow-800">
+            {t("knowledgebase.status.pending")}
+          </Badge>
+        );
       case "SYNCING":
-        return <Badge className="bg-blue-100 text-blue-800">Syncing</Badge>;
+        return (
+          <Badge className="bg-blue-100 text-blue-800">
+            {t("knowledgebase.status.syncing")}
+          </Badge>
+        );
       case "ERROR":
-        return <Badge className="bg-red-100 text-red-800">Error</Badge>;
+        return (
+          <Badge className="bg-red-100 text-red-800">
+            {t("knowledgebase.status.error")}
+          </Badge>
+        );
     }
   };
 
@@ -208,7 +116,7 @@ export default function WebsiteDetailPage() {
             Back
           </Button>
           <h1 className="text-2xl font-semibold text-gray-900">
-            Website not found
+            {t("knowledgebase.websiteNotFound")}
           </h1>
         </div>
       </div>
@@ -222,7 +130,7 @@ export default function WebsiteDetailPage() {
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="sm" onClick={() => router.back()}>
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back
+            {t("common.back")}
           </Button>
           <div>
             <h1 className="text-2xl font-semibold text-gray-900">
@@ -235,10 +143,10 @@ export default function WebsiteDetailPage() {
         </div>
         <div className="flex gap-2">
           <Button variant="outline" size="sm" disabled>
-            ↑ No changes
+            ↑ {t("common.noChanges")}
           </Button>
           <Button size="sm" className="bg-indigo-500 hover:bg-indigo-600">
-            ► Test
+            ► {t("common.test")}
           </Button>
         </div>
       </div>
@@ -270,33 +178,45 @@ export default function WebsiteDetailPage() {
             {/* Website Configuration */}
             <Card className="p-6">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold">Website Configuration</h3>
+                <h3 className="text-lg font-semibold">
+                  {t("knowledgebase.websiteConfiguration")}
+                </h3>
                 <Button variant="outline" size="sm">
                   <Settings className="w-4 h-4 mr-2" />
-                  Configure
+                  {t("knowledgebase.configure")}
                 </Button>
               </div>
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">URL:</span>
+                  <span className="text-sm text-gray-500">
+                    {t("knowledgebase.url")}:
+                  </span>
                   <span className="text-sm font-medium">{website.url}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">Title:</span>
+                  <span className="text-sm text-gray-500">
+                    {t("knowledgebase.title")}:
+                  </span>
                   <span className="text-sm font-medium">
                     {website.name || "Not Set"}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">Max depth:</span>
+                  <span className="text-sm text-gray-500">
+                    {t("knowledgebase.maxDepth")}:
+                  </span>
                   <span className="text-sm font-medium">5</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">Max urls:</span>
+                  <span className="text-sm text-gray-500">
+                    {t("knowledgebase.maxUrls")}:
+                  </span>
                   <span className="text-sm font-medium">500</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">Sync Schedule:</span>
+                  <span className="text-sm text-gray-500">
+                    {t("knowledgebase.syncSchedule")}:
+                  </span>
                   <span className="text-sm font-medium">
                     {website.syncInterval}
                   </span>
@@ -307,37 +227,51 @@ export default function WebsiteDetailPage() {
             {/* Sync Status */}
             <Card className="p-6">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold">Sync Status</h3>
+                <h3 className="text-lg font-semibold">
+                  {t("knowledgebase.syncStatus")}
+                </h3>
                 <Button size="sm" className="bg-indigo-500 hover:bg-indigo-600">
                   <Play className="w-4 h-4 mr-2" />
-                  Run now
+                  {t("knowledgebase.runNow")}
                 </Button>
               </div>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-500">Status:</span>
+                  <span className="text-sm text-gray-500">
+                    {t("knowledgebase.status")}:
+                  </span>
                   {getStatusBadge(website.status)}
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">Pending URLS:</span>
+                  <span className="text-sm text-gray-500">
+                    {t("knowledgebase.pendingUrls")}:
+                  </span>
                   <span className="text-sm font-medium">0</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">Visited URLS:</span>
+                  <span className="text-sm text-gray-500">
+                    {t("knowledgebase.visitedUrls")}:
+                  </span>
                   <span className="text-sm font-medium">{website.pages}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">Started At:</span>
+                  <span className="text-sm text-gray-500">
+                    {t("knowledgebase.startedAt")}:
+                  </span>
                   <span className="text-sm font-medium">
                     Feb 11, 2025, 2:16:43 PM
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">Duration:</span>
+                  <span className="text-sm text-gray-500">
+                    {t("knowledgebase.duration")}:
+                  </span>
                   <span className="text-sm font-medium">6 seconds</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">Error:</span>
+                  <span className="text-sm text-gray-500">
+                    {t("knowledgebase.error")}:
+                  </span>
                   <span className="text-sm font-medium text-gray-400">-</span>
                 </div>
               </div>
@@ -352,16 +286,16 @@ export default function WebsiteDetailPage() {
                 <thead className="bg-gray-50">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Path
+                      {t("knowledgebase.path")}
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Status
+                      {t("knowledgebase.status")}
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Size
+                      {t("knowledgebase.size")}
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Downloaded at
+                      {t("knowledgebase.downloadedAt")}
                     </th>
                   </tr>
                 </thead>

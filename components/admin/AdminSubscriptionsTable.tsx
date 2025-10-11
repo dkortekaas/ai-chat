@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import {
   MoreVertical,
@@ -99,7 +99,7 @@ export function AdminSubscriptionsTable() {
   const [sortField, setSortField] = useState<SortField>("created");
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
 
-  const fetchSubscriptions = async () => {
+  const fetchSubscriptions = useCallback(async () => {
     setLoading(true);
     try {
       const params = new URLSearchParams({
@@ -123,20 +123,32 @@ export function AdminSubscriptionsTable() {
       setSubscriptions(data.subscriptions);
       setPagination(data.pagination);
     } catch (error) {
-      logger.error("Error fetching subscriptions:", error);
+      logger.error("Error fetching subscriptions:", {
+        context: {
+          error: error instanceof Error ? error.message : String(error),
+        },
+      });
       toast({
-        title: "Error",
-        description: "Failed to fetch subscriptions",
+        title: t("error.title"),
+        description: t("error.description"),
         variant: "destructive",
       });
     } finally {
       setLoading(false);
     }
-  };
+  }, [
+    pagination.page,
+    pagination.limit,
+    sortField,
+    sortOrder,
+    search,
+    statusFilter,
+    t,
+  ]);
 
   useEffect(() => {
     fetchSubscriptions();
-  }, [pagination.page, sortField, sortOrder, search, statusFilter]);
+  }, [fetchSubscriptions]);
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
