@@ -42,6 +42,9 @@ model User {
   chatbot_settings      ChatbotSettings[]
   sessions              Session[]
   notifications         Notification[]
+  sentInvitations       Invitation[]       @relation("InvitationSender")
+  receivedInvitations   Invitation[]       @relation("InvitationRecipient")
+  company               Company?           @relation(fields: [companyId], references: [id])
 
   @@index([isActive])
   @@map("users")
@@ -430,4 +433,50 @@ model SecurityAuditLog {
   @@index([eventType])
   @@index([timestamp])
   @@map("security_audit_logs")
+}
+
+model Invitation {
+  id          String           @id @default(cuid())
+  email       String
+  status      InvitationStatus @default(PENDING)
+  role        UserRole         @default(USER)
+  token       String           @unique
+  expires     DateTime
+  companyId   String
+  senderId    String
+  recipientId String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  // Relations
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  sender    User    @relation("InvitationSender", fields: [senderId], references: [id], onDelete: Cascade)
+  recipient User?   @relation("InvitationRecipient", fields: [recipientId], references: [id], onDelete: SetNull)
+
+  @@index([email])
+  @@index([status])
+  @@index([companyId])
+  @@index([expires])
+  @@map("invitations")
+}
+
+model Company {
+  id          String       @id @default(cuid())
+  name        String
+  description String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  // Relations
+  users       User[]
+  invitations Invitation[]
+
+  @@map("companies")
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+  CANCELLED
 }

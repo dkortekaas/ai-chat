@@ -52,7 +52,9 @@
       "invitations": "Uitnodigingen",
       "subscription": "Abonnement",
       "admin": "Admin",
-      "adminDashboard": "Admin Dashboard"
+      "adminDashboard": "Admin Dashboard",
+      "assistants": "Assistenten",
+      "knowledgeBase": "Kennisbank"
     },
     "buttons": {
       "confirm": "Akkoord",
@@ -319,6 +321,11 @@
       "registerButton": "Registreren",
       "or": "of",
       "backToLogin": "Inloggen"
+    },
+    "error": {
+      "userNotFoundOrMissingPassword": "Gebruiker niet gevonden of wachtwoord ontbreekt",
+      "accountDeactivated": "Account is gedeactiveerd",
+      "wrongPassword": "Onjuist wachtwoord"
     }
   },
   "account": {
@@ -335,6 +342,42 @@
     "emailSettings": "E-mail instellingen",
     "subscription": "Abonnement",
     "team": "Team",
+    "members": "Leden",
+    "invite": "Uitnodigen",
+    "user": "Gebruiker",
+    "registered": "Geregistreerd",
+    "lastLogin": "Laatste login",
+    "actions": "Acties",
+    "edit": "Bewerken",
+    "remove": "Verwijderen",
+    "openMenu": "Menu openen",
+    "joined": "Toegetreden",
+    "clearFilters": "Filters wissen",
+    "invitations": "Uitnodigingen",
+    "inviteMember": "Lid uitnodigen",
+    "inviteMemberDescription": "Nodig een nieuw teamlid uit om deel te nemen aan je team.",
+    "sendInvitation": "Uitnodiging verzenden",
+    "invitationSent": "Uitnodiging verzonden",
+    "invitationSentDescription": "Een uitnodiging is verzonden naar {email}",
+    "pendingInvitations": "Lopende uitnodigingen",
+    "pending": "lopend",
+    "status": "Status",
+    "sentBy": "Verzonden door",
+    "sentAt": "Verzonden op",
+    "noInvitations": "Geen uitnodigingen",
+    "noInvitationsDescription": "Er zijn nog geen uitnodigingen verzonden.",
+    "cancelInvitation": "Uitnodiging annuleren",
+    "invitationCancelled": "Uitnodiging geannuleerd",
+    "failedToLoadInvitations": "Kon uitnodigingen niet laden",
+    "status": {
+      "pending": "Lopend",
+      "accepted": "Geaccepteerd",
+      "expired": "Verlopen",
+      "cancelled": "Geannuleerd"
+    },
+    "loading": "Laden...",
+    "noMembersFound": "Geen teamleden gevonden",
+    "failedToLoadMembers": "Kon teamleden niet laden",
     "save": "Opslaan",
     "subscriptions": {
       "loading": "Bezig met laden...",
@@ -1180,8 +1223,7 @@
       "title": "Dashboard",
       "description": "Dashboard",
       "users": "Gebruikers",
-      "companies": "Bedrijven",
-      "declarations": "Declaraties"
+      "subscriptions": "Abonnementen"
     },
     "companies": {
       "name": "Bedrijf",
@@ -1209,6 +1251,8 @@
       "email": "E-mail",
       "password": "Wachtwoord",
       "status": "Status",
+      "sending": "Verzenden...",
+      "openMenu": "Menu openen",
       "actions": "Acties",
       "searchPlaceholder": "Zoek naar een gebruiker",
       "addNew": "Nieuwe gebruiker toevoegen",

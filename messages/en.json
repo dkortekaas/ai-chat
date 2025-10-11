@@ -312,6 +312,11 @@
       "registerButton": "Register",
       "or": "or",
       "backToLogin": "Login"
+    },
+    "error": {
+      "userNotFoundOrMissingPassword": "User not found or password is missing",
+      "accountDeactivated": "Account has been deactivated",
+      "wrongPassword": "Incorrect password"
     }
   },
   "account": {
@@ -1124,8 +1129,7 @@
       "title": "Dashboard",
       "description": "Dashboard",
       "users": "Users",
-      "companies": "Companies",
-      "declarations": "Declarations"
+      "subscriptions": "Subscriptions"
     },
     "companies": {
       "name": "Company",

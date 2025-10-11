@@ -315,6 +315,11 @@
       "registerButton": "Registrieren",
       "or": "oder",
       "backToLogin": "Anmelden"
+    },
+    "error": {
+      "userNotFoundOrMissingPassword": "Benutzer nicht gefunden oder Passwort fehlt",
+      "accountDeactivated": "Konto wurde deaktiviert",
+      "wrongPassword": "Falsches Passwort"
     }
   },
   "account": {

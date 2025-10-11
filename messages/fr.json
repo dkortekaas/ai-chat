@@ -315,6 +315,11 @@
       "registerButton": "S'inscrire",
       "or": "ou",
       "backToLogin": "Se connecter"
+    },
+    "error": {
+      "userNotFoundOrMissingPassword": "Utilisateur non trouvé ou mot de passe manquant",
+      "accountDeactivated": "Le compte a été désactivé",
+      "wrongPassword": "Mot de passe incorrect"
     }
   },
   "account": {

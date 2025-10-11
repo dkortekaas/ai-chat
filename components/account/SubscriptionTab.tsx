@@ -1,45 +1,12 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Button, Card, Badge, SaveButton } from "@/components/ui";
 import { RefreshCw, CreditCard, AlertCircle, CheckCircle } from "lucide-react";
 import { SUBSCRIPTION_PLANS } from "@/lib/subscriptionPlans";
 import { useToast } from "@/hooks/useToast";
 import { useTranslations } from "next-intl";
-
-interface SubscriptionData {
-  user: {
-    id: string;
-    email: string;
-    subscriptionStatus: string;
-    subscriptionPlan: string | null;
-    stripeCustomerId: string | null;
-    stripeSubscriptionId: string | null;
-    trialStartDate: string | null;
-    trialEndDate: string | null;
-    subscriptionStartDate: string | null;
-    subscriptionEndDate: string | null;
-    subscriptionCancelAt: string | null;
-    subscriptionCanceled: boolean;
-    createdAt: string;
-    isTrialActive: boolean;
-    trialDaysRemaining: number;
-    currentPlan: {
-      id: string;
-      name: string;
-      price: number;
-      interval: string;
-      limits?: {
-        assistants: number;
-        conversationsPerMonth: number;
-        documentsPerAssistant: number;
-        websitesPerAssistant: number;
-      };
-    };
-  };
-}
+import { SubscriptionData } from "@/types/account";
 
 export function SubscriptionTab() {
   const [subscriptionData, setSubscriptionData] =
@@ -48,7 +15,7 @@ export function SubscriptionTab() {
   const [upgrading, setUpgrading] = useState(false);
   const [managing, setManaging] = useState(false);
   const { toast } = useToast();
-  const t = useTranslations("account.subscriptions");
+  const t = useTranslations();
 
   const fetchSubscriptionData = useCallback(async () => {
     try {
@@ -59,7 +26,7 @@ export function SubscriptionTab() {
       } else {
         toast({
           title: "Error",
-          description: t("failedToFetchSubscriptionData"),
+          description: t("account.subscriptions.failedToFetchSubscriptionData"),
           variant: "destructive",
         });
       }
@@ -67,7 +34,7 @@ export function SubscriptionTab() {
       console.error("Error fetching subscription:", error);
       toast({
         title: "Error",
-        description: t("failedToFetchSubscriptionData"),
+        description: t("account.subscriptions.failedToFetchSubscriptionData"),
         variant: "destructive",
       });
     } finally {
@@ -97,7 +64,9 @@ export function SubscriptionTab() {
         const error = await response.json();
         toast({
           title: "Error",
-          description: error.error || t("failedToCreateSubscription"),
+          description:
+            error.error ||
+            t("account.subscriptions.failedToCreateSubscription"),
           variant: "destructive",
         });
       }
@@ -105,7 +74,7 @@ export function SubscriptionTab() {
       console.error("Error creating subscription:", error);
       toast({
         title: "Error",
-        description: t("failedToCreateSubscription"),
+        description: t("account.subscriptions.failedToCreateSubscription"),
         variant: "destructive",
       });
     } finally {
@@ -123,7 +92,9 @@ export function SubscriptionTab() {
       } else {
         toast({
           title: "Error",
-          description: t("failedToOpenSubscriptionManagement"),
+          description: t(
+            "account.subscriptions.failedToOpenSubscriptionManagement"
+          ),
           variant: "destructive",
         });
       }
@@ -131,7 +102,9 @@ export function SubscriptionTab() {
       console.error("Error managing subscription:", error);
       toast({
         title: "Error",
-        description: t("failedToOpenSubscriptionManagement"),
+        description: t(
+          "account.subscriptions.failedToOpenSubscriptionManagement"
+        ),
         variant: "destructive",
       });
     } finally {
@@ -143,7 +116,9 @@ export function SubscriptionTab() {
     return (
       <div className="flex items-center justify-center py-8">
         <RefreshCw className="w-6 h-6 animate-spin" />
-        <span className="ml-2">{t("loadingSubscriptionData")}</span>
+        <span className="ml-2">
+          {t("account.subscriptions.loadingSubscriptionData")}
+        </span>
       </div>
     );
   }
@@ -152,7 +127,9 @@ export function SubscriptionTab() {
     return (
       <div className="text-center py-8">
         <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-        <p className="text-gray-600">{t("failedToLoadSubscriptionData")}</p>
+        <p className="text-gray-600">
+          {t("account.subscriptions.failedToLoadSubscriptionData")}
+        </p>
       </div>
     );
   }
@@ -179,14 +156,16 @@ export function SubscriptionTab() {
               <h3
                 className={`font-medium ${isExpired ? "text-red-800" : "text-blue-800"}`}
               >
-                {isExpired ? t("trialPeriodExpired") : t("trialPeriodActive")}
+                {isExpired
+                  ? t("account.subscriptions.trialPeriodExpired")
+                  : t("account.subscriptions.trialPeriodActive")}
               </h3>
               <p
                 className={`text-sm ${isExpired ? "text-red-600" : "text-blue-600"}`}
               >
                 {isExpired
-                  ? t("trialPeriodExpiredDescription")
-                  : t("trialPeriodExpiredDescription", {
+                  ? t("account.subscriptions.trialPeriodExpiredDescription")
+                  : t("account.subscriptions.trialPeriodExpiredDescription", {
                       days: user.trialDaysRemaining,
                     })}
               </p>
@@ -201,15 +180,16 @@ export function SubscriptionTab() {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold text-gray-900">
-                {t("currentSubscription")}
+                {t("account.subscriptions.currentSubscription")}
               </h3>
             </div>
 
             <div>
               <h4 className="font-semibold text-gray-900">
                 {isTrial
-                  ? t("trialPeriod")
-                  : user.currentPlan?.name || t("noSubscription")}
+                  ? t("account.subscriptions.trialPeriod")
+                  : user.currentPlan?.name ||
+                    t("account.subscriptions.noSubscription")}
               </h4>
               <Badge
                 className={`mt-1 ${
@@ -220,39 +200,47 @@ export function SubscriptionTab() {
                       : "bg-gray-100 text-gray-800"
                 }`}
               >
-                {isTrial ? t("trial") : user.subscriptionStatus}
+                {isTrial
+                  ? t("account.subscriptions.trial")
+                  : user.subscriptionStatus}
               </Badge>
             </div>
 
             {user.currentPlan && (
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">{t("price")}:</span>
+                  <span className="text-gray-600">
+                    {t("account.subscriptions.price")}:
+                  </span>
                   <span className="font-medium">
-                    €{user.currentPlan.price}/{t("month")}
+                    €{user.currentPlan.price}/{t("common.month")}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">{t("chatbots")}:</span>
+                  <span className="text-gray-600">
+                    {t("account.subscriptions.chatbots")}:
+                  </span>
                   <span className="font-medium">
                     {user.currentPlan.limits?.assistants === -1
-                      ? t("unlimited")
+                      ? t("account.subscriptions.unlimited")
                       : user.currentPlan.limits?.assistants || 0}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">
-                    {t("conversationsPerMonth")}:
+                    {t("account.subscriptions.conversationsPerMonth")}:
                   </span>
                   <span className="font-medium">
                     {user.currentPlan.limits?.conversationsPerMonth === -1
-                      ? t("unlimited")
+                      ? t("account.subscriptions.unlimited")
                       : user.currentPlan.limits?.conversationsPerMonth || 0}
                   </span>
                 </div>
                 {user.subscriptionEndDate && (
                   <div className="flex justify-between">
-                    <span className="text-gray-600">{t("expires")}:</span>
+                    <span className="text-gray-600">
+                      {t("account.subscriptions.expires")}:
+                    </span>
                     <span className="font-medium">
                       {new Date(user.subscriptionEndDate).toLocaleDateString(
                         "nl-NL"
@@ -266,11 +254,13 @@ export function SubscriptionTab() {
             {isTrial && !isExpired && (
               <div className="pt-4 border-t">
                 <h5 className="font-medium text-gray-900 mb-2">
-                  {t("trialDetails")}
+                  {t("account.subscriptions.trialDetails")}
                 </h5>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">{t("started")}:</span>
+                    <span className="text-gray-600">
+                      {t("account.subscriptions.started")}:
+                    </span>
                     <span className="font-medium">
                       {user.trialStartDate
                         ? new Date(user.trialStartDate).toLocaleDateString(
@@ -280,7 +270,9 @@ export function SubscriptionTab() {
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">{t("expires")}:</span>
+                    <span className="text-gray-600">
+                      {t("account.subscriptions.expires")}:
+                    </span>
                     <span className="font-medium">
                       {user.trialEndDate
                         ? new Date(user.trialEndDate).toLocaleDateString(
@@ -290,7 +282,9 @@ export function SubscriptionTab() {
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">{t("daysRemaining")}:</span>
+                    <span className="text-gray-600">
+                      {t("account.subscriptions.daysRemaining")}:
+                    </span>
                     <span className="font-medium text-blue-600">
                       {user.trialDaysRemaining}
                     </span>
@@ -307,7 +301,9 @@ export function SubscriptionTab() {
                   variant="outline"
                   className="border-indigo-500 text-indigo-500 hover:bg-indigo-50"
                 >
-                  {managing ? t("loading") : t("manageSubscription")}
+                  {managing
+                    ? t("common.loading")
+                    : t("account.subscriptions.manageSubscription")}
                 </Button>
               )}
             </div>
@@ -319,7 +315,7 @@ export function SubscriptionTab() {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold text-gray-900">
-                {t("availablePlans")}
+                {t("account.subscriptions.availablePlans")}
               </h3>
             </div>
 
@@ -329,7 +325,7 @@ export function SubscriptionTab() {
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="font-semibold text-gray-900">{plan.name}</h4>
                     <span className="text-lg font-bold text-indigo-600">
-                      €{plan.price}/{t("month")}
+                      €{plan.price}/{t("common.month")}
                     </span>
                   </div>
                   <ul className="text-sm text-gray-600 space-y-1 mb-3">
@@ -347,10 +343,10 @@ export function SubscriptionTab() {
                     size="sm"
                   >
                     {upgrading
-                      ? t("loading")
+                      ? t("common.loading")
                       : user.subscriptionPlan === key
-                        ? t("currentPlan")
-                        : t("upgrade")}
+                        ? t("account.subscriptions.currentPlan")
+                        : t("account.subscriptions.upgrade")}
                   </Button>
                 </div>
               ))}
@@ -365,7 +361,7 @@ export function SubscriptionTab() {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold text-gray-900">
-                {t("paymentMethods")}
+                {t("account.subscriptions.paymentMethods")}
               </h3>
             </div>
 
@@ -373,21 +369,19 @@ export function SubscriptionTab() {
               <CreditCard className="w-8 h-8 text-gray-400" />
               <div>
                 <p className="font-medium text-gray-900">
-                  {t("managePaymentMethods")}
+                  {t("account.subscriptions.managePaymentMethods")}
                 </p>
                 <p className="text-sm text-gray-600">
-                  {t("managePaymentMethodsDescription")}
+                  {t("account.subscriptions.managePaymentMethodsDescription")}
                 </p>
               </div>
-              <Button
+              <SaveButton
                 onClick={handleManageSubscription}
                 disabled={managing}
-                variant="outline"
-                size="sm"
                 className="ml-auto"
               >
-                {managing ? t("loading") : t("manage")}
-              </Button>
+                {managing ? t("common.loading") : t("common.manage")}
+              </SaveButton>
             </div>
           </div>
         </Card>

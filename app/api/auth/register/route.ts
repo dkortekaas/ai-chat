@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Hash the password
-    const hashedPassword = await hash(password, 10);
+    const hashedPassword = await hash(password, 12);
 
     // Calculate trial period (30 days from now)
     const now = new Date();
@@ -64,6 +64,7 @@ export async function POST(req: NextRequest) {
         subscriptionStatus: "TRIAL",
         trialStartDate: now,
         trialEndDate: trialEndDate,
+        isActive: true, // Ensure user is active
       },
       select: {
         id: true,
@@ -73,6 +74,7 @@ export async function POST(req: NextRequest) {
         subscriptionStatus: true,
         trialStartDate: true,
         trialEndDate: true,
+        isActive: true,
       },
     });
 

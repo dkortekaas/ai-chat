@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
-// Import tab components
 import { PersonalDetailsTab } from "@/components/account/PersonalDetailsTab";
 import { EmailSettingsTab } from "@/components/account/EmailSettingsTab";
 import { ChangePasswordTab } from "@/components/account/ChangePasswordTab";
@@ -16,31 +15,31 @@ import { useTranslations } from "next-intl";
 function AccountPageContent() {
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState("personal-details");
-  const t = useTranslations("account");
+  const t = useTranslations();
 
   const tabs = useMemo(
     () => [
       {
         id: "personal-details",
-        name: t("tabs.personalDetails"),
+        name: t("account.tabs.personalDetails"),
         component: PersonalDetailsTab,
       },
       {
         id: "email-settings",
-        name: t("tabs.emailSettings"),
+        name: t("account.tabs.emailSettings"),
         component: EmailSettingsTab,
       },
       {
         id: "change-password",
-        name: t("tabs.changePassword"),
+        name: t("account.tabs.changePassword"),
         component: ChangePasswordTab,
       },
       {
         id: "subscription",
-        name: t("tabs.subscription"),
+        name: t("account.tabs.subscription"),
         component: SubscriptionTab,
       },
-      { id: "team", name: t("tabs.team"), component: TeamTab },
+      { id: "team", name: t("account.tabs.team"), component: TeamTab },
     ],
     [t]
   );
@@ -58,7 +57,7 @@ function AccountPageContent() {
     <div className="space-y-6">
       <div className="flex items-center space-x-3">
         <h1 className="text-2xl font-semibold text-gray-900">
-          {t("myAccount")}
+          {t("account.myAccount")}
         </h1>
       </div>
 
@@ -90,8 +89,10 @@ function AccountPageContent() {
 }
 
 export default function AccountPage() {
+  const t = useTranslations();
+
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>{t("loading")}</div>}>
       <AccountPageContent />
     </Suspense>
   );
