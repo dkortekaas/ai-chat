@@ -79,7 +79,7 @@ export default function ForgotPasswordForm() {
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 px-4 sm:px-6">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl sm:text-3xl font-bold text-declair-blue-400">
+          <CardTitle className="text-2xl sm:text-3xl font-bold text-indigo-400">
             {config.appTitle}
           </CardTitle>
           <CardDescription className="text-base sm:text-lg">
@@ -120,7 +120,7 @@ export default function ForgotPasswordForm() {
 
               <Button
                 type="submit"
-                className="w-full bg-declair-blue-400 hover:bg-declair-blue-500"
+                className="w-full bg-indigo-500 hover:bg-indigo-600"
                 disabled={isLoading}
               >
                 {isLoading

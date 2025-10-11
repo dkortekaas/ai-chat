@@ -214,17 +214,17 @@ export default function TwoFactorSettings({
   const renderTrustedDevices = () => {
     if (isLoadingDevices) {
       return (
-        <div className='space-y-4'>
+        <div className="space-y-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className='flex items-center justify-between py-3'>
-              <div className='flex items-center space-x-3'>
-                <Skeleton className='h-5 w-5 rounded-full' />
-                <div className='space-y-2'>
-                  <Skeleton className='h-4 w-32' />
-                  <Skeleton className='h-3 w-24' />
+            <div key={i} className="flex items-center justify-between py-3">
+              <div className="flex items-center space-x-3">
+                <Skeleton className="h-5 w-5 rounded-full" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-32" />
+                  <Skeleton className="h-3 w-24" />
                 </div>
               </div>
-              <Skeleton className='h-8 w-20' />
+              <Skeleton className="h-8 w-20" />
             </div>
           ))}
         </div>
@@ -233,37 +233,37 @@ export default function TwoFactorSettings({
 
     if (trustedDevices.length === 0) {
       return (
-        <div className='text-sm text-gray-500'>
+        <div className="text-sm text-gray-500">
           {t("settings.noTrustedDevices")}
         </div>
       );
     }
 
     return (
-      <div className='mt-4 divide-y divide-gray-200'>
+      <div className="mt-4 divide-y divide-gray-200">
         {trustedDevices.map((device) => (
           <div
             key={device.id}
-            className='py-3 flex justify-between items-center'
+            className="py-3 flex justify-between items-center"
           >
             <div>
-              <div className='flex items-center'>
-                <Smartphone className='h-5 w-5 text-gray-400 mr-2' />
-                <span className='text-sm font-medium text-gray-900'>
+              <div className="flex items-center">
+                <Smartphone className="h-5 w-5 text-gray-400 mr-2" />
+                <span className="text-sm font-medium text-gray-900">
                   {getDeviceName(device)}
                 </span>
               </div>
-              <div className='mt-1 flex items-center text-xs text-gray-500'>
-                <Calendar className='h-4 w-4 mr-1' />
+              <div className="mt-1 flex items-center text-xs text-gray-500">
+                <Calendar className="h-4 w-4 mr-1" />
                 <span>
                   {t("settings.expiresOn")} {formatDate(device.expiresAt)}
                 </span>
               </div>
             </div>
             <Button
-              variant='ghost'
+              variant="ghost"
               onClick={() => handleRemoveDevice(device.id)}
-              className='text-red-600 hover:text-red-900'
+              className="text-red-600 hover:text-red-900"
             >
               {t("settings.removeDevice")}
             </Button>
@@ -280,10 +280,10 @@ export default function TwoFactorSettings({
   return (
     <ErrorBoundary
       fallback={
-        <Alert variant='destructive'>
-          <AlertTriangle className='h-4 w-4' />
-          <div className='ml-2'>
-            <h3 className='text-sm font-medium'>
+        <Alert variant="destructive">
+          <AlertTriangle className="h-4 w-4" />
+          <div className="ml-2">
+            <h3 className="text-sm font-medium">
               {t("error.errorLoading2FASettings")}
             </h3>
             <AlertDescription>
@@ -295,10 +295,10 @@ export default function TwoFactorSettings({
     >
       <Card>
         <CardHeader>
-          <div className='flex items-center justify-between'>
-            <div className='flex items-center'>
-              <div className='rounded-full bg-declair-blue-50 dark:bg-declair-blue-900 p-3 mr-4'>
-                <Shield className='h-6 w-6 text-declair-blue-400 dark:text-declair-blue-400' />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="rounded-full bg-indigo-50 dark:bg-indigo-900 p-3 mr-4">
+                <Shield className="h-6 w-6 text-indigo-400 dark:text-indigo-400" />
               </div>
               <div>
                 <CardTitle>{t("settings.twoFactorAuthentication")}</CardTitle>
@@ -309,11 +309,11 @@ export default function TwoFactorSettings({
             </div>
             <div>
               {is2FAEnabled ? (
-                <Badge variant='success' className='text-sm font-medium'>
+                <Badge variant="success" className="text-sm font-medium">
                   {t("common.enabled")}
                 </Badge>
               ) : (
-                <Badge variant='destructive' className='text-sm font-medium'>
+                <Badge variant="destructive" className="text-sm font-medium">
                   {t("common.disabled")}
                 </Badge>
               )}
@@ -322,10 +322,10 @@ export default function TwoFactorSettings({
         </CardHeader>
         <CardContent>
           {companyRequires2FA && !is2FAEnabled && (
-            <Alert variant='default' className='mb-4'>
-              <AlertTriangle className='h-4 w-4' />
-              <div className='ml-2'>
-                <h3 className='text-sm font-medium'>
+            <Alert variant="default" className="mb-4">
+              <AlertTriangle className="h-4 w-4" />
+              <div className="ml-2">
+                <h3 className="text-sm font-medium">
                   {t("settings.twoFactorAuthenticationRequired")}
                 </h3>
                 <AlertDescription>
@@ -336,23 +336,23 @@ export default function TwoFactorSettings({
           )}
 
           {!is2FAEnabled ? (
-            <div className='mt-6'>
+            <div className="mt-6">
               <Button
-                className='bg-declair-blue-400 hover:bg-declair-blue-500'
+                className="bg-indigo-500 hover:bg-indigo-600"
                 onClick={() => setShowSetup(true)}
               >
-                <Smartphone className='mr-2 h-4 w-4' />
+                <Smartphone className="mr-2 h-4 w-4" />
                 {t("settings.enable2FA")}
               </Button>
             </div>
           ) : (
             <>
               {/* Trusted Devices Section */}
-              <div className='mt-6 border-t border-gray-200 dark:border-gray-700 pt-6'>
-                <h4 className='text-base font-medium text-gray-900 dark:text-white'>
+              <div className="mt-6 border-t border-gray-200 dark:border-gray-700 pt-6">
+                <h4 className="text-base font-medium text-gray-900 dark:text-white">
                   {t("settings.trustedDevices")}
                 </h4>
-                <p className='text-sm text-gray-500 dark:text-gray-400 mb-4'>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
                   {t("settings.trustedDevicesDescription")}
                 </p>
                 {renderTrustedDevices()}
@@ -360,41 +360,41 @@ export default function TwoFactorSettings({
 
               {/* Disable 2FA Section */}
               {!companyRequires2FA && (
-                <div className='mt-6 border-t border-gray-200 dark:border-gray-700 pt-6'>
-                  <h4 className='text-base font-medium text-gray-900 dark:text-white'>
+                <div className="mt-6 border-t border-gray-200 dark:border-gray-700 pt-6">
+                  <h4 className="text-base font-medium text-gray-900 dark:text-white">
                     {t("settings.disable2FA")}
                   </h4>
-                  <p className='text-sm text-gray-500 dark:text-gray-400 mb-4'>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
                     {t("settings.disable2FADescription")}
                   </p>
 
                   {!showDisableConfirm ? (
                     <Button
-                      variant='destructive'
+                      variant="destructive"
                       onClick={() => setShowDisableConfirm(true)}
                     >
                       {t("settings.disable2FA")}
                     </Button>
                   ) : (
-                    <div className='bg-red-50 dark:bg-red-900/30 p-4 rounded-md'>
-                      <h5 className='text-sm font-medium text-red-800 dark:text-red-200 mb-2'>
+                    <div className="bg-red-50 dark:bg-red-900/30 p-4 rounded-md">
+                      <h5 className="text-sm font-medium text-red-800 dark:text-red-200 mb-2">
                         {t("settings.disable2FAConfirmation")}
                       </h5>
-                      <p className='text-xs text-red-700 dark:text-red-300 mb-4'>
+                      <p className="text-xs text-red-700 dark:text-red-300 mb-4">
                         {t("settings.disable2FAConfirmationDescription")}
                       </p>
-                      <div className='flex items-center gap-2'>
+                      <div className="flex items-center gap-2">
                         <Input
-                          type='password'
+                          type="password"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                           placeholder={t("settings.passwordPlaceholder")}
-                          className='flex-1'
+                          className="flex-1"
                         />
                         <Button
                           onClick={handleDisable2FA}
                           disabled={isLoading || !password}
-                          variant='destructive'
+                          variant="destructive"
                         >
                           {isLoading
                             ? t("common.loading")
@@ -405,7 +405,7 @@ export default function TwoFactorSettings({
                             setShowDisableConfirm(false);
                             setPassword("");
                           }}
-                          variant='outline'
+                          variant="outline"
                         >
                           {t("common.cancel")}
                         </Button>

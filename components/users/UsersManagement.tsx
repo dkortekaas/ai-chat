@@ -262,19 +262,19 @@ export function UsersManagement({ users, isAdmin }: UsersManagementProps) {
       accessorKey: "name",
       header: ({ column }) => (
         <div
-          className='flex items-center gap-1 cursor-pointer'
+          className="flex items-center gap-1 cursor-pointer"
           onClick={() => handleSort("name")}
         >
           {t("company.user")}
-          <span className='ml-1 inline-flex items-center'>
+          <span className="ml-1 inline-flex items-center">
             {sortField === "name" ? (
               sortDirection === "asc" ? (
-                <ChevronUp className='h-4 w-4' />
+                <ChevronUp className="h-4 w-4" />
               ) : (
-                <ChevronDown className='h-4 w-4' />
+                <ChevronDown className="h-4 w-4" />
               )
             ) : (
-              <ChevronUp className='h-4 w-4 opacity-0 group-hover:opacity-50' />
+              <ChevronUp className="h-4 w-4 opacity-0 group-hover:opacity-50" />
             )}
           </span>
         </div>
@@ -282,9 +282,9 @@ export function UsersManagement({ users, isAdmin }: UsersManagementProps) {
       cell: ({ row }: CellProps) => {
         const user = row.original;
         return (
-          <div className='flex items-center'>
-            <div className='flex-shrink-0 h-10 w-10'>
-              <div className='h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-blue-500 dark:text-blue-300 font-medium'>
+          <div className="flex items-center">
+            <div className="flex-shrink-0 h-10 w-10">
+              <div className="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-indigo-500 dark:text-blue-300 font-medium">
                 {user.name
                   ? user.name
                       .split(" ")
@@ -295,11 +295,11 @@ export function UsersManagement({ users, isAdmin }: UsersManagementProps) {
                   : "??"}
               </div>
             </div>
-            <div className='ml-4'>
-              <div className='text-sm font-medium text-gray-900 dark:text-white'>
+            <div className="ml-4">
+              <div className="text-sm font-medium text-gray-900 dark:text-white">
                 {user.name || t("common.unknown")}
               </div>
-              <div className='text-sm text-gray-500 dark:text-gray-400'>
+              <div className="text-sm text-gray-500 dark:text-gray-400">
                 {user.email}
               </div>
             </div>
@@ -311,25 +311,25 @@ export function UsersManagement({ users, isAdmin }: UsersManagementProps) {
       accessorKey: "department",
       header: ({ column }) => (
         <div
-          className='flex items-center gap-1 cursor-pointer'
+          className="flex items-center gap-1 cursor-pointer"
           onClick={() => handleSort("department")}
         >
           {t("company.department")}
-          <span className='ml-1 inline-flex items-center'>
+          <span className="ml-1 inline-flex items-center">
             {sortField === "department" ? (
               sortDirection === "asc" ? (
-                <ChevronUp className='h-4 w-4' />
+                <ChevronUp className="h-4 w-4" />
               ) : (
-                <ChevronDown className='h-4 w-4' />
+                <ChevronDown className="h-4 w-4" />
               )
             ) : (
-              <ChevronUp className='h-4 w-4 opacity-0 group-hover:opacity-50' />
+              <ChevronUp className="h-4 w-4 opacity-0 group-hover:opacity-50" />
             )}
           </span>
         </div>
       ),
       cell: ({ row }: CellProps) => (
-        <div className='text-sm text-gray-500 dark:text-gray-400'>
+        <div className="text-sm text-gray-500 dark:text-gray-400">
           {row.original.department || "-"}
         </div>
       ),
@@ -338,19 +338,19 @@ export function UsersManagement({ users, isAdmin }: UsersManagementProps) {
       accessorKey: "role",
       header: ({ column }) => (
         <div
-          className='flex items-center gap-1 cursor-pointer'
+          className="flex items-center gap-1 cursor-pointer"
           onClick={() => handleSort("role")}
         >
           {t("company.role")}
-          <span className='ml-1 inline-flex items-center'>
+          <span className="ml-1 inline-flex items-center">
             {sortField === "role" ? (
               sortDirection === "asc" ? (
-                <ChevronUp className='h-4 w-4' />
+                <ChevronUp className="h-4 w-4" />
               ) : (
-                <ChevronDown className='h-4 w-4' />
+                <ChevronDown className="h-4 w-4" />
               )
             ) : (
-              <ChevronUp className='h-4 w-4 opacity-0 group-hover:opacity-50' />
+              <ChevronUp className="h-4 w-4 opacity-0 group-hover:opacity-50" />
             )}
           </span>
         </div>
@@ -363,17 +363,17 @@ export function UsersManagement({ users, isAdmin }: UsersManagementProps) {
             onValueChange={(value) => handleRoleChange(user.id, value)}
             disabled={processingId === user.id}
           >
-            <SelectTrigger className='w-[180px]'>
+            <SelectTrigger className="w-[180px]">
               <SelectValue placeholder={t("roles.selectRole")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value='USER'>{t("roles.user")}</SelectItem>
-              <SelectItem value='APPROVER'>{t("roles.approver")}</SelectItem>
-              <SelectItem value='ADMIN'>{t("roles.admin")}</SelectItem>
+              <SelectItem value="USER">{t("roles.user")}</SelectItem>
+              <SelectItem value="APPROVER">{t("roles.approver")}</SelectItem>
+              <SelectItem value="ADMIN">{t("roles.admin")}</SelectItem>
             </SelectContent>
           </Select>
         ) : (
-          <Badge variant='secondary' className={getRoleBadgeColor(user.role)}>
+          <Badge variant="secondary" className={getRoleBadgeColor(user.role)}>
             {getRoleLabel(user.role)}
           </Badge>
         );
@@ -383,25 +383,25 @@ export function UsersManagement({ users, isAdmin }: UsersManagementProps) {
       accessorKey: "createdAt",
       header: ({ column }) => (
         <div
-          className='flex items-center gap-1 cursor-pointer'
+          className="flex items-center gap-1 cursor-pointer"
           onClick={() => handleSort("createdAt")}
         >
           {t("company.memberSince")}
-          <span className='ml-1 inline-flex items-center'>
+          <span className="ml-1 inline-flex items-center">
             {sortField === "createdAt" ? (
               sortDirection === "asc" ? (
-                <ChevronUp className='h-4 w-4' />
+                <ChevronUp className="h-4 w-4" />
               ) : (
-                <ChevronDown className='h-4 w-4' />
+                <ChevronDown className="h-4 w-4" />
               )
             ) : (
-              <ChevronUp className='h-4 w-4 opacity-0 group-hover:opacity-50' />
+              <ChevronUp className="h-4 w-4 opacity-0 group-hover:opacity-50" />
             )}
           </span>
         </div>
       ),
       cell: ({ row }: CellProps) => (
-        <div className='text-sm text-gray-500 dark:text-gray-400'>
+        <div className="text-sm text-gray-500 dark:text-gray-400">
           {formatDate(row.original.createdAt)}
         </div>
       ),
@@ -411,7 +411,7 @@ export function UsersManagement({ users, isAdmin }: UsersManagementProps) {
           {
             id: "actions",
             header: () => (
-              <div className='text-right'>{t("common.actions")}</div>
+              <div className="text-right">{t("common.actions")}</div>
             ),
             cell: ({ row }: CellProps) => {
               const user = row.original;
@@ -420,45 +420,45 @@ export function UsersManagement({ users, isAdmin }: UsersManagementProps) {
                 user.id === session.data?.user?.id;
 
               return (
-                <div className='text-right'>
+                <div className="text-right">
                   {user.id !== processingId ? (
                     editingUserId === user.id ? (
-                      <div className='space-x-2'>
+                      <div className="space-x-2">
                         <Button
-                          variant='ghost'
+                          variant="ghost"
                           onClick={() => handleSaveRole(user.id)}
-                          className='flex-1 py-2 text-declair-blue-500 text-sm font-medium border-r border-gray-100 hover:bg-gray-50'
+                          className="flex-1 py-2 text-indigo-500 text-sm font-medium border-r border-gray-100 hover:bg-gray-50"
                         >
                           {t("actions.save")}
                         </Button>
                         <Button
-                          variant='ghost'
-                          size='sm'
+                          variant="ghost"
+                          size="sm"
                           onClick={() => setEditingUserId(null)}
-                          className='h-10 px-3 hover:bg-gray-100 dark:hover:bg-gray-700'
+                          className="h-10 px-3 hover:bg-gray-100 dark:hover:bg-gray-700"
                         >
                           {t("actions.cancel")}
                         </Button>
                       </div>
                     ) : !isCurrentUser ? (
-                      <div className='flex items-center justify-end space-x-2'>
+                      <div className="flex items-center justify-end space-x-2">
                         <Button
-                          variant='ghost'
-                          size='sm'
+                          variant="ghost"
+                          size="sm"
                           onClick={() => setEditingUserId(user.id)}
-                          className='h-10 px-3 hover:bg-gray-100 dark:hover:bg-gray-700'
+                          className="h-10 px-3 hover:bg-gray-100 dark:hover:bg-gray-700"
                           title={t("actions.editRole")}
                         >
                           {t("actions.edit")}
                         </Button>
 
                         {user.role !== "ADMIN" || adminCount > 1 ? (
-                          <div className='relative inline-block'>
+                          <div className="relative inline-block">
                             <AlertDialog>
                               <AlertDialogTrigger asChild>
                                 <Button
-                                  variant='ghost'
-                                  size='sm'
+                                  variant="ghost"
+                                  size="sm"
                                   onClick={() =>
                                     setOpenDropdownId(
                                       openDropdownId === user.id
@@ -466,9 +466,9 @@ export function UsersManagement({ users, isAdmin }: UsersManagementProps) {
                                         : user.id
                                     )
                                   }
-                                  className='h-10 w-10 p-0 hover:bg-gray-100 dark:hover:bg-gray-700'
+                                  className="h-10 w-10 p-0 hover:bg-gray-100 dark:hover:bg-gray-700"
                                 >
-                                  <MoreVertical className='h-8 w-8' />
+                                  <MoreVertical className="h-8 w-8" />
                                 </Button>
                               </AlertDialogTrigger>
                               <AlertDialogContent>
@@ -494,30 +494,30 @@ export function UsersManagement({ users, isAdmin }: UsersManagementProps) {
                             </AlertDialog>
                           </div>
                         ) : (
-                          <div className='flex h-10 w-10'></div>
+                          <div className="flex h-10 w-10"></div>
                         )}
                       </div>
                     ) : null
                   ) : (
-                    <span className='text-gray-400 dark:text-gray-500'>
+                    <span className="text-gray-400 dark:text-gray-500">
                       <svg
-                        className='animate-spin -ml-1 mr-3 h-5 w-5 text-declair-blue-400 dark:text-blue-400 inline'
-                        xmlns='http://www.w3.org/2000/svg'
-                        fill='none'
-                        viewBox='0 0 24 24'
+                        className="animate-spin -ml-1 mr-3 h-5 w-5 text-indigo-400 dark:text-blue-400 inline"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
                       >
                         <circle
-                          className='opacity-25'
-                          cx='12'
-                          cy='12'
-                          r='10'
-                          stroke='currentColor'
-                          strokeWidth='4'
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
                         ></circle>
                         <path
-                          className='opacity-75'
-                          fill='currentColor'
-                          d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                         ></path>
                       </svg>
                       {t("common.status.processing")}
@@ -536,13 +536,13 @@ export function UsersManagement({ users, isAdmin }: UsersManagementProps) {
       <CardContent>
         {/* Read-only warning for non-admins */}
         {!isAdmin && (
-          <div className='bg-yellow-50 dark:bg-yellow-900/30 mb-4 p-4 rounded-md flex items-start'>
-            <AlertTriangle className='h-5 w-5 text-yellow-500 dark:text-yellow-400 mr-2 mt-0.5' />
+          <div className="bg-yellow-50 dark:bg-yellow-900/30 mb-4 p-4 rounded-md flex items-start">
+            <AlertTriangle className="h-5 w-5 text-yellow-500 dark:text-yellow-400 mr-2 mt-0.5" />
             <div>
-              <h3 className='text-sm font-medium text-yellow-800 dark:text-yellow-200'>
+              <h3 className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
                 {t("common.readOnlyView")}
               </h3>
-              <p className='text-sm text-yellow-700 dark:text-yellow-300 mt-1'>
+              <p className="text-sm text-yellow-700 dark:text-yellow-300 mt-1">
                 {t("common.readOnlyDescription")}
               </p>
             </div>
@@ -550,15 +550,15 @@ export function UsersManagement({ users, isAdmin }: UsersManagementProps) {
         )}
 
         {users.length === 0 ? (
-          <div className='text-center py-8 text-muted-foreground dark:text-gray-400'>
+          <div className="text-center py-8 text-muted-foreground dark:text-gray-400">
             {t("company.users.noUsers")}
           </div>
         ) : (
-          <div className='overflow-hidden'>
+          <div className="overflow-hidden">
             <DataTable
               columns={columns}
               data={sortedUsers}
-              searchColumn='name'
+              searchColumn="name"
               searchPlaceholder={t("company.users.searchUsers")}
             />
           </div>

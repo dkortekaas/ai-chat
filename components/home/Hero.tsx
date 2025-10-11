@@ -17,19 +17,19 @@ export default function Hero() {
         <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
           {t("title")}
           <br />
-          <span className="text-declair-blue-400">{t("subtitle")}</span>
+          <span className="text-indigo-400">{t("subtitle")}</span>
         </h1>
         <p className="text-xl text-gray-600 mb-4 max-w-2xl mx-auto">
           {t("description")}
         </p>
-        <p className="text-lg text-declair-blue-400 font-medium mb-8">
+        <p className="text-lg text-indigo-400 font-medium mb-8">
           {t("free_trial")}
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
           <Link
             href={`/register`}
-            className="bg-declair-blue-400 hover:bg-declair-blue-500 text-white transition-colors duration-300 px-8 py-4 rounded-lg font-medium flex items-center justify-center"
+            className="bg-indigo-500 hover:bg-indigo-600 text-white transition-colors duration-300 px-8 py-4 rounded-lg font-medium flex items-center justify-center"
           >
             {t("tryFree")}
             <ArrowRight className="ml-2" size={20} />

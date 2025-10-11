@@ -65,28 +65,28 @@ export default function PasswordSettings() {
     return (
       <Card>
         <CardHeader>
-          <div className='flex items-center'>
-            <div className='rounded-full bg-blue-100 dark:bg-blue-900 p-3 mr-4'>
-              <Skeleton className='h-6 w-6 rounded-full' />
+          <div className="flex items-center">
+            <div className="rounded-full bg-blue-100 dark:bg-blue-900 p-3 mr-4">
+              <Skeleton className="h-6 w-6 rounded-full" />
             </div>
             <div>
-              <Skeleton className='h-6 w-48 mb-2' />
-              <Skeleton className='h-4 w-64' />
+              <Skeleton className="h-6 w-48 mb-2" />
+              <Skeleton className="h-4 w-64" />
             </div>
           </div>
         </CardHeader>
         <CardContent>
-          <div className='space-y-6'>
-            <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[1, 2, 3].map((i) => (
-                <div key={i} className='space-y-2'>
-                  <Skeleton className='h-4 w-24' />
-                  <Skeleton className='h-10 w-full' />
+                <div key={i} className="space-y-2">
+                  <Skeleton className="h-4 w-24" />
+                  <Skeleton className="h-10 w-full" />
                 </div>
               ))}
             </div>
-            <div className='flex justify-end'>
-              <Skeleton className='h-10 w-32' />
+            <div className="flex justify-end">
+              <Skeleton className="h-10 w-32" />
             </div>
           </div>
         </CardContent>
@@ -151,10 +151,10 @@ export default function PasswordSettings() {
   return (
     <Card>
       <CardHeader>
-        <div className='flex items-center justify-between'>
-          <div className='flex items-center'>
-            <div className='rounded-full bg-declair-blue-50 dark:bg-declair-blue-900 p-3 mr-4'>
-              <Lock className='h-6 w-6 text-declair-blue-400 dark:text-declair-blue-400' />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <div className="rounded-full bg-indigo-50 dark:bg-indigo-900 p-3 mr-4">
+              <Lock className="h-6 w-6 text-indigo-400 dark:text-indigo-400" />
             </div>
             <div>
               <CardTitle>{t("settings.password.title")}</CardTitle>
@@ -169,12 +169,12 @@ export default function PasswordSettings() {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onPasswordSubmit)}
-            className='space-y-6'
+            className="space-y-6"
           >
-            <div className='grid grid-cols-1 md:grid-cols-3 gap-6 items-end'>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
               <FormField
                 control={form.control}
-                name='currentPassword'
+                name="currentPassword"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
@@ -183,7 +183,7 @@ export default function PasswordSettings() {
                     <FormMessage />
                     <FormControl>
                       <Input
-                        type='password'
+                        type="password"
                         {...field}
                         disabled={isPasswordSaving}
                       />
@@ -194,14 +194,14 @@ export default function PasswordSettings() {
 
               <FormField
                 control={form.control}
-                name='newPassword'
+                name="newPassword"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t("settings.password.newPassword")}</FormLabel>
                     <FormMessage />
                     <FormControl>
                       <Input
-                        type='password'
+                        type="password"
                         {...field}
                         disabled={isPasswordSaving}
                       />
@@ -212,7 +212,7 @@ export default function PasswordSettings() {
 
               <FormField
                 control={form.control}
-                name='confirmPassword'
+                name="confirmPassword"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
@@ -221,7 +221,7 @@ export default function PasswordSettings() {
                     <FormMessage />
                     <FormControl>
                       <Input
-                        type='password'
+                        type="password"
                         {...field}
                         disabled={isPasswordSaving}
                       />
@@ -231,10 +231,10 @@ export default function PasswordSettings() {
               />
             </div>
 
-            <div className='flex justify-end'>
+            <div className="flex justify-end">
               <Button
-                type='submit'
-                className='bg-declair-blue-400 hover:bg-declair-blue-500'
+                type="submit"
+                className="bg-indigo-500 hover:bg-indigo-600"
                 disabled={isPasswordSaving}
               >
                 {isPasswordSaving

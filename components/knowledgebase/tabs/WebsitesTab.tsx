@@ -93,7 +93,7 @@ export function WebsitesTab() {
   };
 
   const handleEditWebsite = (website: Website) => {
-    router.push(`/kennisbank/websites/${website.id}`);
+    router.push(`/knowledgebase/websites/${website.id}`);
   };
 
   const handleDeleteWebsite = (website: Website) => {
@@ -172,7 +172,7 @@ export function WebsitesTab() {
   };
 
   const handleViewContent = (website: Website) => {
-    router.push(`/kennisbank/websites/${website.id}/content`);
+    router.push(`/knowledgebase/websites/${website.id}/content`);
   };
 
   const getStatusBadge = (status: Website["status"]) => {

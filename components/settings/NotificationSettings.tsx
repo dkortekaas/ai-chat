@@ -116,10 +116,10 @@ export default function NotificationSettings() {
   return (
     <Card>
       <CardHeader>
-        <div className='flex items-center justify-between'>
-          <div className='flex items-center'>
-            <div className='rounded-full bg-declair-blue-50 dark:bg-declair-blue-900 p-3 mr-4'>
-              <Bell className='h-6 w-6 text-declair-blue-400 dark:text-declair-blue-400' />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <div className="rounded-full bg-indigo-50 dark:bg-indigo-900 p-3 mr-4">
+              <Bell className="h-6 w-6 text-indigo-400 dark:text-indigo-400" />
             </div>
             <div>
               <CardTitle>{t("settings.notifications.title")}</CardTitle>
@@ -132,20 +132,20 @@ export default function NotificationSettings() {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
-              name='emailNotifications'
+              name="emailNotifications"
               render={({ field }) => (
-                <FormItem className='flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4'>
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                   <FormControl>
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
-                      className='data-[state=checked]:bg-declair-blue-400 data-[state=checked]:border-declair-blue-400 [&>svg]:text-white'
+                      className="data-[state=checked]:bg-indigo-500 data-[state=checked]:border-indigo-400 [&>svg]:text-white"
                     />
                   </FormControl>
-                  <div className='space-y-1 leading-none'>
+                  <div className="space-y-1 leading-none">
                     <FormLabel>
                       {t("settings.notifications.emailNotifications")}
                     </FormLabel>
@@ -159,17 +159,17 @@ export default function NotificationSettings() {
             />
             <FormField
               control={form.control}
-              name='declarationUpdates'
+              name="declarationUpdates"
               render={({ field }) => (
-                <FormItem className='flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4'>
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                   <FormControl>
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
-                      className='data-[state=checked]:bg-declair-blue-400 data-[state=checked]:border-declair-blue-400 [&>svg]:text-white'
+                      className="data-[state=checked]:bg-indigo-500 data-[state=checked]:border-indigo-400 [&>svg]:text-white"
                     />
                   </FormControl>
-                  <div className='space-y-1 leading-none'>
+                  <div className="space-y-1 leading-none">
                     <FormLabel>
                       {t("settings.notifications.declarationUpdates")}
                     </FormLabel>
@@ -182,17 +182,17 @@ export default function NotificationSettings() {
             />
             <FormField
               control={form.control}
-              name='securityAlerts'
+              name="securityAlerts"
               render={({ field }) => (
-                <FormItem className='flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4'>
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                   <FormControl>
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
-                      className='data-[state=checked]:bg-declair-blue-400 data-[state=checked]:border-declair-blue-400 [&>svg]:text-white'
+                      className="data-[state=checked]:bg-indigo-500 data-[state=checked]:border-indigo-400 [&>svg]:text-white"
                     />
                   </FormControl>
-                  <div className='space-y-1 leading-none'>
+                  <div className="space-y-1 leading-none">
                     <FormLabel>
                       {t("settings.notifications.securityAlerts")}
                     </FormLabel>
@@ -203,10 +203,10 @@ export default function NotificationSettings() {
                 </FormItem>
               )}
             />
-            <div className='flex justify-end'>
+            <div className="flex justify-end">
               <Button
-                type='submit'
-                className='bg-declair-blue-400 hover:bg-declair-blue-500'
+                type="submit"
+                className="bg-indigo-500 hover:bg-indigo-600"
                 disabled={isNotificationSaving}
               >
                 {isNotificationSaving ? t("common.saving") : t("common.save")}

@@ -165,20 +165,20 @@ export default function TwoFactorSetup() {
     switch (step) {
       case SetupStep.INITIAL:
         return (
-          <div className='text-center'>
-            <div className='mb-6 bg-blue-100 p-3 rounded-full inline-flex'>
-              <Shield className='h-12 w-12 text-blue-500' />
+          <div className="text-center">
+            <div className="mb-6 bg-blue-100 p-3 rounded-full inline-flex">
+              <Shield className="h-12 w-12 text-indigo-500" />
             </div>
-            <h2 className='text-2xl font-bold mb-4'>
+            <h2 className="text-2xl font-bold mb-4">
               {t("settings.secureAccount")}
             </h2>
-            <p className='text-gray-600 mb-6'>
+            <p className="text-gray-600 mb-6">
               {t("settings.twoFactorSetupDescription")}
             </p>
             <Button
               onClick={startSetup}
               disabled={isLoading}
-              className='bg-declair-blue-400 hover:bg-declair-blue-500'
+              className="bg-indigo-500 hover:bg-indigo-600"
             >
               {isLoading ? t("common.status.loading") : t("settings.enable2FA")}
             </Button>
@@ -187,56 +187,56 @@ export default function TwoFactorSetup() {
 
       case SetupStep.QR_CODE:
         return (
-          <div className='text-center'>
-            <h2 className='text-2xl font-bold mb-4'>
+          <div className="text-center">
+            <h2 className="text-2xl font-bold mb-4">
               {t("settings.scanQRCode")}
             </h2>
-            <p className='text-gray-600 mb-6'>
+            <p className="text-gray-600 mb-6">
               {t("settings.scanQRCodeDescription")}
             </p>
 
-            <div className='mb-6 flex justify-center'>
+            <div className="mb-6 flex justify-center">
               {qrCode && (
                 <Image
                   src={qrCode}
                   alt={t("settings.qrCodeAlt")}
                   width={256}
                   height={256}
-                  className='border border-gray-200 rounded-md p-2'
+                  className="border border-gray-200 rounded-md p-2"
                 />
               )}
             </div>
 
-            <div className='mb-6'>
-              <p className='text-sm text-gray-500 mb-2'>
+            <div className="mb-6">
+              <p className="text-sm text-gray-500 mb-2">
                 {t("settings.scanQRCodeManual")}
               </p>
-              <div className='flex items-center justify-center'>
-                <div className='relative'>
+              <div className="flex items-center justify-center">
+                <div className="relative">
                   <input
                     type={showSecret ? "text" : "password"}
                     value={secret}
                     readOnly
-                    className='w-64 p-2 border border-gray-300 rounded-md text-center bg-gray-50'
+                    className="w-64 p-2 border border-gray-300 rounded-md text-center bg-gray-50"
                   />
                   <Button
-                    type='button'
-                    variant='ghost'
-                    size='icon'
+                    type="button"
+                    variant="ghost"
+                    size="icon"
                     onClick={() => setShowSecret(!showSecret)}
-                    className='absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700'
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
                   >
                     {showSecret ? (
-                      <Eye className='h-5 w-5' />
+                      <Eye className="h-5 w-5" />
                     ) : (
-                      <EyeClosed className='h-5 w-5' />
+                      <EyeClosed className="h-5 w-5" />
                     )}
                   </Button>
                 </div>
                 <Button
-                  type='button'
-                  variant='ghost'
-                  size='icon'
+                  type="button"
+                  variant="ghost"
+                  size="icon"
                   onClick={() => {
                     navigator.clipboard.writeText(secret);
                     toast({
@@ -245,21 +245,21 @@ export default function TwoFactorSetup() {
                       duration: 3000,
                     });
                   }}
-                  className='ml-2 text-gray-500 hover:text-gray-700'
+                  className="ml-2 text-gray-500 hover:text-gray-700"
                   title={t("settings.copyCode")}
                 >
-                  <Copy className='h-5 w-5' />
+                  <Copy className="h-5 w-5" />
                 </Button>
               </div>
             </div>
 
-            <div className='mt-8'>
+            <div className="mt-8">
               <Button
                 onClick={() => setStep(SetupStep.VERIFY)}
-                className='bg-declair-blue-400 hover:bg-declair-blue-500'
+                className="bg-indigo-500 hover:bg-indigo-600"
               >
                 {t("common.next")}{" "}
-                <ArrowRight className='h-4 w-4 ml-1 inline' />
+                <ArrowRight className="h-4 w-4 ml-1 inline" />
               </Button>
             </div>
           </div>
@@ -267,23 +267,23 @@ export default function TwoFactorSetup() {
 
       case SetupStep.VERIFY:
         return (
-          <div className='text-center'>
-            <h2 className='text-2xl font-bold mb-4'>
+          <div className="text-center">
+            <h2 className="text-2xl font-bold mb-4">
               {t("settings.verifySetup")}
             </h2>
-            <p className='text-gray-600 mb-6'>
+            <p className="text-gray-600 mb-6">
               {t("settings.verifySetupDescription")}
             </p>
 
-            <div className='mb-6'>
+            <div className="mb-6">
               <InputOTP
                 value={verificationCode}
                 onChange={(value) => setVerificationCode(value)}
                 maxLength={6}
                 disabled={isLoading}
-                pattern='[0-9]*'
-                inputMode='numeric'
-                containerClassName='justify-center'
+                pattern="[0-9]*"
+                inputMode="numeric"
+                containerClassName="justify-center"
               >
                 <InputOTPGroup>
                   <InputOTPSlot index={0} />
@@ -299,21 +299,21 @@ export default function TwoFactorSetup() {
               </InputOTP>
             </div>
 
-            <div className='flex justify-between mt-8'>
+            <div className="flex justify-between mt-8">
               <Button
-                type='button'
-                variant='outline'
+                type="button"
+                variant="outline"
                 onClick={() => setStep(SetupStep.QR_CODE)}
                 disabled={isLoading}
               >
-                <ArrowLeft className='h-4 w-4 mr-1 inline' />
+                <ArrowLeft className="h-4 w-4 mr-1 inline" />
                 {t("common.previous")}
               </Button>
               <Button
-                type='button'
+                type="button"
                 onClick={verifyCode}
                 disabled={isLoading || verificationCode.length !== 6}
-                className='bg-declair-blue-400 hover:bg-declair-blue-500'
+                className="bg-indigo-500 hover:bg-indigo-600"
               >
                 {isLoading ? t("common.verifying") : t("common.verify")}
               </Button>
@@ -323,50 +323,50 @@ export default function TwoFactorSetup() {
 
       case SetupStep.RECOVERY_CODES:
         return (
-          <div className='text-center'>
-            <h2 className='text-2xl font-bold mb-4'>
+          <div className="text-center">
+            <h2 className="text-2xl font-bold mb-4">
               {t("settings.saveRecoveryCodes")}
             </h2>
-            <p className='text-gray-600 mb-6'>
+            <p className="text-gray-600 mb-6">
               {t("settings.recoveryCodesDescription")}
             </p>
 
-            <div className='mb-6 bg-gray-50 border border-gray-200 rounded-md p-4 text-left'>
-              <div className='grid grid-cols-2 gap-2'>
+            <div className="mb-6 bg-gray-50 border border-gray-200 rounded-md p-4 text-left">
+              <div className="grid grid-cols-2 gap-2">
                 {recoveryCodes.map((code, index) => (
-                  <div key={index} className='font-mono text-sm'>
+                  <div key={index} className="font-mono text-sm">
                     {code}
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className='flex justify-center space-x-4 mb-8'>
+            <div className="flex justify-center space-x-4 mb-8">
               <Button
-                type='button'
-                variant='outline'
+                type="button"
+                variant="outline"
                 onClick={copyRecoveryCodes}
-                className='flex items-center'
+                className="flex items-center"
               >
-                <Copy className='h-4 w-4 mr-2' />{" "}
+                <Copy className="h-4 w-4 mr-2" />{" "}
                 {t("settings.copyRecoveryCodes")}
               </Button>
               <Button
-                type='button'
-                variant='outline'
+                type="button"
+                variant="outline"
                 onClick={downloadRecoveryCodes}
-                className='flex items-center'
+                className="flex items-center"
               >
-                <Download className='h-4 w-4 mr-2' />{" "}
+                <Download className="h-4 w-4 mr-2" />{" "}
                 {t("settings.downloadRecoveryCodes")}
               </Button>
             </div>
 
-            <div className='mt-8'>
+            <div className="mt-8">
               <Button
-                type='button'
+                type="button"
                 onClick={finishSetup}
-                className='bg-declair-blue-400 hover:bg-declair-blue-500'
+                className="bg-indigo-500 hover:bg-indigo-600"
               >
                 {t("common.complete")}
               </Button>
@@ -376,19 +376,19 @@ export default function TwoFactorSetup() {
 
       case SetupStep.COMPLETE:
         return (
-          <div className='text-center'>
-            <div className='mb-6 bg-green-100 p-3 rounded-full inline-flex'>
-              <CheckCircle className='h-12 w-12 text-green-600' />
+          <div className="text-center">
+            <div className="mb-6 bg-green-100 p-3 rounded-full inline-flex">
+              <CheckCircle className="h-12 w-12 text-green-600" />
             </div>
-            <h2 className='text-2xl font-bold mb-4'>
+            <h2 className="text-2xl font-bold mb-4">
               {t("success.twoFactorSetupSuccess")}
             </h2>
-            <p className='text-gray-600 mb-6'>
+            <p className="text-gray-600 mb-6">
               {t("success.twoFactorSetupSuccessDescription")}
             </p>
             <Link
-              href='/settings'
-              className='inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-blue-500 text-white hover:bg-declair-blue-400 h-10 px-4 py-2'
+              href="/settings"
+              className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-indigo-500 text-white hover:bg-indigo-500 h-10 px-4 py-2"
             >
               {t("settings.backToSettings")}
             </Link>
@@ -401,11 +401,11 @@ export default function TwoFactorSetup() {
   };
 
   return (
-    <div className='bg-white rounded-lg shadow-md p-8 max-w-md mx-auto'>
+    <div className="bg-white rounded-lg shadow-md p-8 max-w-md mx-auto">
       {/* Progress indicator */}
       {step !== SetupStep.COMPLETE && (
-        <div className='mb-8'>
-          <div className='flex items-center justify-between'>
+        <div className="mb-8">
+          <div className="flex items-center justify-between">
             {[
               SetupStep.INITIAL,
               SetupStep.QR_CODE,
@@ -416,29 +416,29 @@ export default function TwoFactorSetup() {
                 key={s}
                 className={`w-8 h-8 rounded-full flex items-center justify-center ${
                   s === step
-                    ? "bg-blue-500 text-white"
+                    ? "bg-indigo-500 text-white"
                     : s < step
-                      ? "bg-blue-100 text-blue-500"
+                      ? "bg-blue-100 text-indigo-500"
                       : "bg-gray-100 text-gray-400"
                 }`}
               >
                 {s < step ? (
-                  <CheckCircle className='h-5 w-5' />
+                  <CheckCircle className="h-5 w-5" />
                 ) : (
                   <span>{s + 1}</span>
                 )}
               </div>
             ))}
           </div>
-          <div className='flex mt-2'>
+          <div className="flex mt-2">
             <div
-              className={`h-1 flex-1 ${step > SetupStep.INITIAL ? "bg-blue-500" : "bg-gray-200"}`}
+              className={`h-1 flex-1 ${step > SetupStep.INITIAL ? "bg-indigo-500" : "bg-gray-200"}`}
             ></div>
             <div
-              className={`h-1 flex-1 ${step > SetupStep.QR_CODE ? "bg-blue-500" : "bg-gray-200"}`}
+              className={`h-1 flex-1 ${step > SetupStep.QR_CODE ? "bg-indigo-500" : "bg-gray-200"}`}
             ></div>
             <div
-              className={`h-1 flex-1 ${step > SetupStep.VERIFY ? "bg-blue-500" : "bg-gray-200"}`}
+              className={`h-1 flex-1 ${step > SetupStep.VERIFY ? "bg-indigo-500" : "bg-gray-200"}`}
             ></div>
           </div>
         </div>

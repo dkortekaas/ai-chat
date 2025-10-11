@@ -78,7 +78,7 @@ export default function Sidebar({
       ? [
           {
             href: "/knowledgebase",
-            title: t("common.navigation.knowledgebase"),
+            title: t("common.navigation.knowledgeBase"),
             icon: <Library className="w-6 h-6" />,
             activePath: "/knowledgebase",
             sequence: 2,
@@ -184,7 +184,7 @@ export default function Sidebar({
           <div className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
             <Link
               href={isSuperuser ? "/admindashboard" : "/dashboard"}
-              className="text-xl font-bold text-declair-blue-400 dark:text-blue-400"
+              className="text-xl font-bold text-indigo-400 dark:text-blue-400"
             >
               {config.appTitle}
             </Link>
@@ -214,7 +214,7 @@ export default function Sidebar({
                       href={item.href}
                       className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
                         isItemActive
-                          ? "bg-declair-blue-50 dark:bg-blue-900/30 text-declair-blue-400 dark:text-blue-400"
+                          ? "bg-indigo-50 dark:bg-blue-900/30 text-indigo-400 dark:text-blue-400"
                           : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                       }`}
                       onClick={onClose}
@@ -239,7 +239,7 @@ export default function Sidebar({
                       href={item.href}
                       className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
                         isActive(item.activePath)
-                          ? "bg-blue-50 dark:bg-blue-900/30 text-declair-blue-400 dark:text-blue-400"
+                          ? "bg-indigo-50 dark:bg-blue-900/30 text-indigo-400 dark:text-blue-400"
                           : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                       }`}
                       onClick={onClose}
@@ -265,7 +265,7 @@ export default function Sidebar({
                       href={item.href}
                       className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
                         isActive(item.activePath)
-                          ? "bg-blue-50 dark:bg-blue-900/30 text-declair-blue-400 dark:text-blue-400"
+                          ? "bg-indigo-50 dark:bg-blue-900/30 text-indigo-400 dark:text-blue-400"
                           : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                       }`}
                       onClick={onClose}
@@ -334,7 +334,7 @@ export default function Sidebar({
                     href={item.href}
                     className={`flex items-center justify-center py-3 px-3 rounded-lg transition-colors ${
                       isItemActive
-                        ? "bg-blue-50 dark:bg-blue-900/30 text-declair-blue-500 dark:text-blue-400"
+                        ? "bg-indigo-50 dark:bg-blue-900/30 text-indigo-500 dark:text-blue-400"
                         : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                     }`}
                   >
@@ -357,7 +357,7 @@ export default function Sidebar({
                   href={item.href}
                   className={`flex items-center justify-center py-3 px-3 rounded-lg transition-colors ${
                     isActive(item.activePath)
-                      ? "bg-blue-50 dark:bg-blue-900/30 text-declair-blue-500 dark:text-blue-400"
+                      ? "bg-indigo-50 dark:bg-blue-900/30 text-indigo-500 dark:text-blue-400"
                       : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                   }`}
                 >
@@ -380,7 +380,7 @@ export default function Sidebar({
                   href={item.href}
                   className={`flex items-center justify-center py-3 px-3 rounded-lg transition-colors ${
                     isActive(item.activePath)
-                      ? "bg-blue-50 dark:bg-blue-900/30 text-declair-blue-500 dark:text-blue-400"
+                      ? "bg-indigo-50 dark:bg-blue-900/30 text-indigo-500 dark:text-blue-400"
                       : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                   }`}
                 >

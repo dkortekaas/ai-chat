@@ -55,7 +55,7 @@ export default function RejectModal({
           placeholder={t("commentPlaceholder")}
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          className="w-full min-h-[100px] p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-declair-blue-500"
+          className="w-full min-h-[100px] p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-400"
           required
         />
         <div className="flex justify-end space-x-3 mt-4">

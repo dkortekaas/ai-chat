@@ -15,7 +15,7 @@ import {
   CheckCircle,
   Clock,
 } from "lucide-react";
-import { useToast } from "@/hooks/useToast";
+import { toast } from "@/components/ui/use-toast";
 
 interface Website {
   id: string;
@@ -48,7 +48,7 @@ interface WebsitePage {
 export default function WebsiteContentPage() {
   const params = useParams();
   const router = useRouter();
-  const { toast } = useToast();
+  // const { toast } = useToast();
   const [website, setWebsite] = useState<Website | null>(null);
   const [pages, setPages] = useState<WebsitePage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -61,22 +61,40 @@ export default function WebsiteContentPage() {
       setIsLoading(true);
 
       // Fetch website details
-      const websiteResponse = await fetch(`/api/websites/${websiteId}`);
+      const websiteResponse = await fetch(`/api/websites/${websiteId}`, {
+        credentials: "include",
+      });
       if (websiteResponse.ok) {
         const websiteData = await websiteResponse.json();
         setWebsite(websiteData);
+      } else {
+        console.error(
+          "Failed to fetch website:",
+          websiteResponse.status,
+          websiteResponse.statusText
+        );
       }
 
       // Fetch individual pages
-      const pagesResponse = await fetch(`/api/websites/${websiteId}/pages`);
+      const pagesResponse = await fetch(`/api/websites/${websiteId}/pages`, {
+        credentials: "include",
+      });
       if (pagesResponse.ok) {
         const pagesData = await pagesResponse.json();
         setPages(pagesData);
+      } else {
+        console.error(
+          "Failed to fetch pages:",
+          pagesResponse.status,
+          pagesResponse.statusText
+        );
       }
-    } catch {
+    } catch (error) {
+      console.error("Error fetching website data:", error);
       toast({
         title: "Error",
-        description: "Failed to load website content",
+        description:
+          "Failed to load website content. Please check if you're logged in and have access to this website.",
         variant: "destructive",
       });
     } finally {
@@ -97,6 +115,7 @@ export default function WebsiteContentPage() {
       setIsScraping(true);
       const response = await fetch(`/api/websites/${websiteId}/scrape`, {
         method: "POST",
+        credentials: "include",
       });
 
       if (response.ok) {

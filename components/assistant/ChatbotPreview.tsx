@@ -44,7 +44,7 @@ export function ChatbotPreview({
             <div className="bg-indigo-500 text-white p-3 rounded-t-lg flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <Avatar className="h-6 w-6">
-                  <AvatarFallback className="bg-blue-500 text-white text-xs">
+                  <AvatarFallback className="bg-indigo-500 text-white text-xs">
                     <Bot className="h-3 w-3" />
                   </AvatarFallback>
                 </Avatar>
@@ -54,14 +54,14 @@ export function ChatbotPreview({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-6 w-6 text-white hover:bg-blue-500"
+                  className="h-6 w-6 text-white hover:bg-indigo-500"
                 >
                   <Minimize2 className="h-3 w-3" />
                 </Button>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-6 w-6 text-white hover:bg-blue-500"
+                  className="h-6 w-6 text-white hover:bg-indigo-500"
                 >
                   <X className="h-3 w-3" />
                 </Button>

@@ -5,19 +5,19 @@ export default function NotFound() {
   const t = useTranslations();
 
   return (
-    <div className='h-screen w-full flex flex-col items-center justify-center bg-gray-100'>
-      <div className='flex flex-col items-center justify-center'>
-        <h1 className='text-9xl font-bold text-declair-blue-500'>404</h1>
-        <h2 className='text-6xl font-bold text-gray-700 mt-8'>
+    <div className="h-screen w-full flex flex-col items-center justify-center bg-gray-100">
+      <div className="flex flex-col items-center justify-center">
+        <h1 className="text-9xl font-bold text-indigo-500">404</h1>
+        <h2 className="text-6xl font-bold text-gray-700 mt-8">
           {t("notFound.title")}
         </h2>
-        <p className='text-xl text-gray-500 mt-4 text-center'>
+        <p className="text-xl text-gray-500 mt-4 text-center">
           {t("notFound.description")}
         </p>
-        <div className='mt-8'>
+        <div className="mt-8">
           <Link
-            href='/declarations'
-            className='px-6 py-3 rounded-md bg-declair-blue-500 text-white font-medium hover:bg-declair-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-declair-blue-500'
+            href="/declarations"
+            className="px-6 py-3 rounded-md bg-indigo-600 text-white font-medium hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400"
           >
             {t("notFound.backToPortal")}
           </Link>

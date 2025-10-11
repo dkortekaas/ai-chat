@@ -69,121 +69,121 @@ export function AddCompanyForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className='space-y-4'>
-      <div className='grid grid-cols-2 gap-4'>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="grid grid-cols-2 gap-4">
         <div>
           <label
-            htmlFor='name'
-            className='block text-sm font-medium text-gray-700 dark:text-gray-300'
+            htmlFor="name"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
             {t("admin.companies.name")} *
           </label>
           <input
-            type='text'
-            id='name'
-            name='name'
+            type="text"
+            id="name"
+            name="name"
             value={formData.name}
             onChange={handleChange}
             required
-            className='mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white shadow-sm focus:border-declair-blue-500 focus:outline-none focus:ring-declair-blue-500 sm:text-sm h-10'
+            className="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-400 sm:text-sm h-10"
           />
         </div>
 
-        <div className='flex flex-col h-full'>
+        <div className="flex flex-col h-full">
           <label
-            htmlFor='vatNumber'
-            className='block text-sm font-medium text-gray-700 dark:text-gray-300'
+            htmlFor="vatNumber"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
             {t("admin.companies.vatNumber")}
           </label>
           <input
-            type='text'
-            id='vatNumber'
-            name='vatNumber'
+            type="text"
+            id="vatNumber"
+            name="vatNumber"
             value={formData.vatNumber}
             onChange={handleChange}
-            className='mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white shadow-sm focus:border-declair-blue-500 focus:outline-none focus:ring-declair-blue-500 sm:text-sm h-10'
+            className="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-400 sm:text-sm h-10"
           />
         </div>
       </div>
 
-      <div className='grid grid-cols-2 gap-6'>
-        <div className='flex flex-col h-full'>
+      <div className="grid grid-cols-2 gap-6">
+        <div className="flex flex-col h-full">
           <label
-            htmlFor='address'
-            className='block text-sm font-medium text-gray-700 dark:text-gray-300'
+            htmlFor="address"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
             {t("admin.companies.address")}
           </label>
           <input
-            type='text'
-            id='address'
-            name='address'
+            type="text"
+            id="address"
+            name="address"
             value={formData.address}
             onChange={handleChange}
-            className='mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white shadow-sm focus:border-declair-blue-500 focus:outline-none focus:ring-declair-blue-500 sm:text-sm h-10'
+            className="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-400 sm:text-sm h-10"
           />
         </div>
 
-        <div className='flex flex-col h-full'>
+        <div className="flex flex-col h-full">
           <label
-            htmlFor='zipCode'
-            className='block text-sm font-medium text-gray-700 dark:text-gray-300'
+            htmlFor="zipCode"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
             {t("admin.companies.zipCode")}
           </label>
           <input
-            type='text'
-            id='zipCode'
-            name='zipCode'
+            type="text"
+            id="zipCode"
+            name="zipCode"
             value={formData.zipCode}
             onChange={handleChange}
-            className='mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white shadow-sm focus:border-declair-blue-500 focus:outline-none focus:ring-declair-blue-500 sm:text-sm h-10'
+            className="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-400 sm:text-sm h-10"
           />
         </div>
       </div>
 
-      <div className='grid grid-cols-2 gap-6'>
-        <div className='flex flex-col h-full'>
+      <div className="grid grid-cols-2 gap-6">
+        <div className="flex flex-col h-full">
           <label
-            htmlFor='city'
-            className='block text-sm font-medium text-gray-700 dark:text-gray-300'
+            htmlFor="city"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
             {t("admin.companies.city")}
           </label>
           <input
-            type='text'
-            id='city'
-            name='city'
+            type="text"
+            id="city"
+            name="city"
             value={formData.city}
             onChange={handleChange}
-            className='mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white shadow-sm focus:border-declair-blue-500 focus:outline-none focus:ring-declair-blue-500 sm:text-sm h-10'
+            className="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-400 sm:text-sm h-10"
           />
         </div>
 
-        <div className='flex flex-col h-full'>
+        <div className="flex flex-col h-full">
           <label
-            htmlFor='country'
-            className='block text-sm font-medium text-gray-700 dark:text-gray-300'
+            htmlFor="country"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
             {t("admin.companies.country")}
           </label>
           <input
-            type='text'
-            id='country'
-            name='country'
+            type="text"
+            id="country"
+            name="country"
             value={formData.country}
             onChange={handleChange}
-            className='mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white shadow-sm focus:border-declair-blue-500 focus:outline-none focus:ring-declair-blue-500 sm:text-sm h-10'
+            className="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-400 sm:text-sm h-10"
           />
         </div>
       </div>
 
-      <div className='flex justify-end'>
+      <div className="flex justify-end">
         <button
-          type='submit'
+          type="submit"
           disabled={isSubmitting}
-          className='inline-flex justify-center rounded-md border border-transparent bg-declair-blue-400 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-declair-blue-500 focus:outline-none focus:ring-2 focus:ring-declair-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed'
+          className="inline-flex justify-center rounded-md border border-transparent bg-indigo-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? t("common.status.processing") : t("actions.create")}
         </button>

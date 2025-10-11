@@ -122,10 +122,10 @@ export default function ProfileSettings() {
   return (
     <Card>
       <CardHeader>
-        <div className='flex items-center justify-between'>
-          <div className='flex items-center'>
-            <div className='rounded-full bg-declair-blue-50 dark:bg-declair-blue-900 p-3 mr-4'>
-              <User className='h-6 w-6 text-declair-blue-400 dark:text-declair-blue-400' />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <div className="rounded-full bg-indigo-50 dark:bg-indigo-900 p-3 mr-4">
+              <User className="h-6 w-6 text-indigo-400 dark:text-indigo-400" />
             </div>
             <div>
               <CardTitle>{t("settings.profile.title")}</CardTitle>
@@ -140,14 +140,14 @@ export default function ProfileSettings() {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onProfileSubmit)}
-            className='space-y-6'
+            className="space-y-6"
           >
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
-                name='name'
+                name="name"
                 render={({ field }) => (
-                  <FormItem className='flex flex-col'>
+                  <FormItem className="flex flex-col">
                     <FormLabel>{t("settings.profile.name")}</FormLabel>
                     <FormControl>
                       <Input {...field} disabled={isProfileSaving} />
@@ -159,15 +159,15 @@ export default function ProfileSettings() {
 
               <FormField
                 control={form.control}
-                name='email'
+                name="email"
                 render={({ field }) => (
-                  <FormItem className='flex flex-col'>
+                  <FormItem className="flex flex-col">
                     <FormLabel>{t("settings.profile.email")}</FormLabel>
                     <FormControl>
                       <Input {...field} disabled />
                     </FormControl>
                     <FormMessage />
-                    <p className='text-xs text-muted-foreground mt-1'>
+                    <p className="text-xs text-muted-foreground mt-1">
                       {t("settings.profile.emailCannotBeChanged")}
                     </p>
                   </FormItem>
@@ -176,9 +176,9 @@ export default function ProfileSettings() {
 
               <FormField
                 control={form.control}
-                name='department'
+                name="department"
                 render={({ field }) => (
-                  <FormItem className='flex flex-col'>
+                  <FormItem className="flex flex-col">
                     <FormLabel>{t("settings.profile.department")}</FormLabel>
                     <FormControl>
                       <Input {...field} disabled={isProfileSaving} />
@@ -188,7 +188,7 @@ export default function ProfileSettings() {
                 )}
               />
 
-              <FormItem className='flex flex-col'>
+              <FormItem className="flex flex-col">
                 <FormLabel>{t("settings.profile.language")}</FormLabel>
                 <Select
                   value={language}
@@ -210,16 +210,16 @@ export default function ProfileSettings() {
                     ))}
                   </SelectContent>
                 </Select>
-                <p className='text-xs text-muted-foreground mt-1'>
+                <p className="text-xs text-muted-foreground mt-1">
                   {t("settings.profile.languageDescription")}
                 </p>
               </FormItem>
             </div>
 
-            <div className='flex justify-end'>
+            <div className="flex justify-end">
               <Button
-                type='submit'
-                className='bg-declair-blue-400 hover:bg-declair-blue-500'
+                type="submit"
+                className="bg-indigo-500 hover:bg-indigo-600"
                 disabled={isProfileSaving}
               >
                 {isProfileSaving ? t("common.saving") : t("common.save")}

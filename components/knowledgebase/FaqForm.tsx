@@ -1,31 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
 import {
+  Button,
+  Input,
+  Label,
+  Textarea,
+  Switch,
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from "@/components/ui";
 import { useToast } from "@/hooks/useToast";
 import { useAssistant } from "@/contexts/assistant-context";
-
-interface FAQ {
-  id: string;
-  question: string;
-  answer: string;
-  enabled: boolean;
-  order: number;
-  createdAt: string;
-  updatedAt: string;
-}
+import { useTranslations } from "next-intl";
+import { FAQ } from "@/types/knowledgebase";
 
 interface FAQFormProps {
   isOpen: boolean;
@@ -43,6 +35,7 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
     enabled: faq?.enabled ?? true,
     order: faq?.order || 0,
   });
+  const t = useTranslations();
   const { toast } = useToast();
 
   const isEditing = !!faq;
@@ -52,8 +45,8 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
 
     if (!currentAssistant) {
       toast({
-        title: "Error",
-        description: "No assistant selected",
+        title: t("common.error"),
+        description: t("error.knowledgebase.noAssistantSelected"),
         variant: "destructive",
       });
       return;
@@ -79,23 +72,25 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || "Failed to save FAQ");
+        throw new Error(error.error || t("knowledgebase.faq.failedToSaveFAQ"));
       }
 
       toast({
-        title: isEditing ? "FAQ updated" : "FAQ added",
+        title: isEditing
+          ? t("knowledgebase.faq.updated")
+          : t("knowledgebase.faq.added"),
         description: isEditing
-          ? "The FAQ has been updated successfully."
-          : "The FAQ has been added successfully.",
+          ? t("success.knowledgebase.updatedSuccessfully")
+          : t("success.knowledgebase.addedSuccessfully"),
       });
 
       onSuccess();
       onClose();
     } catch (error) {
       toast({
-        title: "Error",
+        title: t("common.error"),
         description:
-          error instanceof Error ? error.message : "An error occurred",
+          error instanceof Error ? error.message : t("error.unknownError"),
         variant: "destructive",
       });
     } finally {
@@ -119,20 +114,26 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>{isEditing ? "Edit FAQ" : "Add FAQ"}</DialogTitle>
+          <DialogTitle>
+            {isEditing
+              ? t("knowledgebase.faq.edit")
+              : t("knowledgebase.faq.add")}
+          </DialogTitle>
           <DialogDescription>
             {isEditing
-              ? "Update the FAQ information below."
-              : "Add a new frequently asked question and answer."}
+              ? t("knowledgebase.faq.updateInformation")
+              : t("knowledgebase.faq.addInformation")}
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="question">Question *</Label>
+            <Label htmlFor="question">
+              {t("knowledgebase.faq.question")} *
+            </Label>
             <Input
               id="question"
-              placeholder="Enter the question"
+              placeholder={t("knowledgebase.faq.questionPlaceholder")}
               value={formData.question}
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, question: e.target.value }))
@@ -143,10 +144,10 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="answer">Answer *</Label>
+            <Label htmlFor="answer">{t("knowledgebase.faq.answer")} *</Label>
             <Textarea
               id="answer"
-              placeholder="Enter the answer"
+              placeholder={t("knowledgebase.faq.answerPlaceholder")}
               value={formData.answer}
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, answer: e.target.value }))
@@ -158,7 +159,7 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="order">Order</Label>
+            <Label htmlFor="order">{t("knowledgebase.faq.order")}</Label>
             <Input
               id="order"
               type="number"
@@ -174,7 +175,7 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
               min="0"
             />
             <p className="text-sm text-gray-500">
-              Lower numbers appear first in the list
+              {t("knowledgebase.faq.orderDescription")}
             </p>
           </div>
 
@@ -188,7 +189,7 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
               disabled={isLoading}
               className="data-[state=checked]:bg-indigo-500"
             />
-            <Label htmlFor="enabled">Enabled</Label>
+            <Label htmlFor="enabled">{t("common.enabled")}</Label>
           </div>
 
           <DialogFooter>
@@ -198,10 +199,18 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
               onClick={handleClose}
               disabled={isLoading}
             >
-              Cancel
+              {t("common.cancel")}
             </Button>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Saving..." : isEditing ? "Update" : "Add"}
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="bg-indigo-500 text-white hover:bg-indigo-600"
+            >
+              {isLoading
+                ? t("common.saving")
+                : isEditing
+                  ? t("common.update")
+                  : t("common.add")}
             </Button>
           </DialogFooter>
         </form>

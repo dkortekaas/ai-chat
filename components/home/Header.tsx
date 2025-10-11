@@ -89,31 +89,31 @@ export default function Header() {
           <nav className="hidden md:flex items-center space-x-6">
             <Link
               href={`/${locale}#features`}
-              className="text-gray-600 hover:text-declair-blue-400"
+              className="text-gray-600 hover:text-indigo-400"
             >
               {t("features")}
             </Link>
             <Link
               href={`/${locale}#pricing`}
-              className="text-gray-600 hover:text-declair-blue-400"
+              className="text-gray-600 hover:text-indigo-400"
             >
               {t("pricing")}
             </Link>
             <Link
               href={`/${locale}#testimonials`}
-              className="text-gray-600 hover:text-declair-blue-400"
+              className="text-gray-600 hover:text-indigo-400"
             >
               {t("testimonials")}
             </Link>
             <Link
               href={`/login`}
-              className="text-gray-600 hover:text-declair-blue-400"
+              className="text-gray-600 hover:text-indigo-400"
             >
               {t("login")}
             </Link>
             <Link
               href={`/register`}
-              className="bg-declair-blue-400 hover:bg-declair-blue-500 text-white px-4 py-2 rounded-lg"
+              className="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg"
             >
               {t("tryFree")}
             </Link>
@@ -122,7 +122,7 @@ export default function Header() {
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
-                className="flex items-center space-x-1 text-gray-600 hover:text-declair-blue-400 p-2"
+                className="flex items-center space-x-1 text-gray-600 hover:text-indigo-400 p-2"
                 disabled={isTransitioning}
               >
                 <span>{currentLanguage?.flag}</span>
@@ -141,7 +141,7 @@ export default function Header() {
                       disabled={isTransitioning}
                       className={`w-full px-4 py-2 text-left flex items-center space-x-2 hover:bg-gray-50 disabled:opacity-50 ${
                         lang.code === locale
-                          ? "bg-declair-blue-50 text-declair-blue-400"
+                          ? "bg-indigo-50 text-indigo-400"
                           : "text-gray-700"
                       }`}
                     >
@@ -190,7 +190,7 @@ export default function Header() {
             </Link>
             <Link
               href={`/register`}
-              className="block px-3 py-2 bg-declair-blue-400 font-medium transition-colors duration-300 hover:bg-declair-blue-500"
+              className="block px-3 py-2 bg-indigo-500 font-medium transition-colors duration-300 hover:bg-indigo-600"
             >
               {t("tryFree")}
             </Link>
@@ -206,7 +206,7 @@ export default function Header() {
                   disabled={isTransitioning}
                   className={`w-full px-3 py-2 text-left flex items-center space-x-2 disabled:opacity-50 ${
                     lang.code === locale
-                      ? "text-declair-blue-400 font-medium"
+                      ? "text-indigo-400 font-medium"
                       : "text-gray-600"
                   }`}
                 >

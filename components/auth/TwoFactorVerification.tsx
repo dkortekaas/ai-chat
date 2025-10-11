@@ -130,7 +130,7 @@ export default function TwoFactorVerification({
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4 sm:px-6">
       <div className="max-w-md w-full space-y-6 sm:space-y-8 p-6 sm:p-8 bg-white dark:bg-gray-800 rounded-lg shadow-md mx-auto">
         <div className="text-center mb-6 sm:mb-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-declair-blue-400 dark:text-declair-blue-400 mb-2">
+          <h2 className="text-2xl sm:text-3xl font-bold text-indigo-400 dark:text-indigo-400 mb-2">
             {config.appTitle}
           </h2>
           <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300">
@@ -152,7 +152,7 @@ export default function TwoFactorVerification({
                 placeholder={t(
                   "auth.twoFactorVerification.recoveryPlaceholder"
                 )}
-                className="w-full px-4 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-declair-blue-500 focus:border-declair-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-400 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 disabled={isLoading}
               />
             </div>
@@ -168,7 +168,7 @@ export default function TwoFactorVerification({
                   inputMode="numeric"
                   pattern="[0-9]"
                   maxLength={1}
-                  className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold rounded-md border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-declair-blue-500 focus:border-declair-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold rounded-md border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   value={code[index] || ""}
                   onChange={(e) => handleInputChange(index, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(index, e)}
@@ -192,7 +192,7 @@ export default function TwoFactorVerification({
               disabled={
                 isLoading || (isUsingRecoveryCode ? !code : code.length !== 6)
               }
-              className="w-full bg-declair-blue-400 hover:bg-declair-blue-500"
+              className="w-full bg-indigo-500 hover:bg-indigo-600"
             >
               {isLoading ? t("actions.verifying") : t("actions.verify")}
             </Button>
@@ -201,7 +201,7 @@ export default function TwoFactorVerification({
               <button
                 type="button"
                 onClick={toggleRecoveryMode}
-                className="text-sm text-declair-blue-400 hover:text-declair-blue-500 dark:text-declair-blue-300 dark:hover:text-declair-blue-200"
+                className="text-sm text-indigo-400 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-200"
               >
                 {isUsingRecoveryCode
                   ? t("auth.twoFactorVerification.useAuthenticator")

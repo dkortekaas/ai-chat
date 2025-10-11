@@ -59,7 +59,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
-        <div className="animate-spin h-12 w-12 border-t-2 border-b-2 border-declair-blue-500 rounded-full"></div>
+        <div className="animate-spin h-12 w-12 border-t-2 border-b-2 border-indigo-500 rounded-full"></div>
       </div>
     );
   }
@@ -170,7 +170,7 @@ function AppLayoutContent({
                   (window.location.pathname === "/dashboard" ||
                     (session?.user?.role === "SUPERUSER" &&
                       window.location.pathname === "/admindashboard"))
-                    ? "text-declair-blue-400"
+                    ? "text-indigo-400"
                     : "text-gray-500"
                 }`}
               >
@@ -190,7 +190,7 @@ function AppLayoutContent({
                       typeof window !== "undefined" &&
                       window.location.pathname.includes("/declarations") &&
                       !window.location.pathname.includes("/new")
-                        ? "text-declair-blue-500"
+                        ? "text-indigo-500"
                         : "text-gray-500"
                     }`}
                   >
@@ -203,7 +203,7 @@ function AppLayoutContent({
                     className={`flex flex-col items-center justify-center text-xs ${
                       typeof window !== "undefined" &&
                       window.location.pathname === "/declarations/new"
-                        ? "text-declair-blue-400"
+                        ? "text-indigo-400"
                         : "text-gray-500"
                     }`}
                   >
@@ -219,7 +219,7 @@ function AppLayoutContent({
                   className={`flex flex-col items-center justify-center text-xs ${
                     typeof window !== "undefined" &&
                     window.location.pathname === "/admin"
-                      ? "text-declair-blue-400"
+                      ? "text-indigo-400"
                       : "text-gray-500"
                   }`}
                 >
@@ -233,7 +233,7 @@ function AppLayoutContent({
                 className={`flex flex-col items-center justify-center text-xs ${
                   typeof window !== "undefined" &&
                   window.location.pathname === "/notifications"
-                    ? "text-declair-blue-400"
+                    ? "text-indigo-400"
                     : "text-gray-500"
                 }`}
               >
@@ -246,7 +246,7 @@ function AppLayoutContent({
                 className={`flex flex-col items-center justify-center text-xs ${
                   typeof window !== "undefined" &&
                   window.location.pathname === "/settings"
-                    ? "text-declair-blue-400"
+                    ? "text-indigo-400"
                     : "text-gray-500"
                 }`}
               >

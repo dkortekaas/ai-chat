@@ -140,7 +140,7 @@ export default function LoginForm() {
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 px-4 sm:px-6">
       <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-md w-full max-w-md mx-auto">
         <div className="text-center mb-6 sm:mb-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-declair-blue-400 dark:text-declair-blue-400 mb-2">
+          <h2 className="text-2xl sm:text-3xl font-bold text-indigo-400 dark:text-indigo-400 mb-2">
             {config.appTitle}
           </h2>
           <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300">
@@ -244,7 +244,7 @@ export default function LoginForm() {
                         checked={field.value}
                         onCheckedChange={field.onChange}
                         disabled={isLoading}
-                        className="data-[state=checked]:bg-declair-blue-400 data-[state=checked]:text-white"
+                        className="data-[state=checked]:bg-indigo-500 data-[state=checked]:text-white"
                         aria-label={t("auth.rememberMe")}
                       />
                     </FormControl>
@@ -257,7 +257,7 @@ export default function LoginForm() {
 
               <Link
                 href="/forgot-password"
-                className="text-sm font-medium text-declair-blue-400 hover:text-declair-blue-500"
+                className="text-sm font-medium text-indigo-400 hover:text-indigo-500"
                 aria-label={t("auth.forgotPassword")}
               >
                 {t("auth.forgotPassword")}
@@ -266,7 +266,7 @@ export default function LoginForm() {
 
             <Button
               type="submit"
-              className="w-full bg-declair-blue-400 hover:bg-declair-blue-500"
+              className="w-full bg-indigo-500 hover:bg-indigo-600"
               disabled={isLoading || !form.formState.isValid}
               aria-label={t("auth.loginForm.loginButton")}
             >

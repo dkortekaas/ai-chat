@@ -7,7 +7,7 @@ export default function CTA() {
   const t = useTranslations("cta");
 
   return (
-    <section className="py-20 px-4 bg-declair-blue-500 text-white">
+    <section className="py-20 px-4 bg-indigo-600 text-white">
       <div className="max-w-4xl mx-auto text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-6">{t("title")}</h2>
         <p className="text-xl text-blue-100 mb-4 max-w-2xl mx-auto">
@@ -19,14 +19,14 @@ export default function CTA() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
           <Link
             href="/register"
-            className="bg-white text-declair-blue-500 px-8 py-4 rounded-lg font-medium flex items-center justify-center hover:bg-blue-50 transition-colors"
+            className="bg-white text-indigo-500 px-8 py-4 rounded-lg font-medium flex items-center justify-center hover:bg-indigo-50 transition-colors"
           >
             {t("cta")}
             <ArrowRight className="ml-2" size={20} />
           </Link>
           <Link
             href="mailto:hello@declair.app"
-            className="border border-declair-blue-300 text-white px-8 py-4 rounded-lg font-medium flex items-center justify-center hover:bg-declair-blue-600 transition-colors"
+            className="border border-indigo-300 text-white px-8 py-4 rounded-lg font-medium flex items-center justify-center hover:bg-indigo-600 transition-colors"
           >
             {t("contact")}
           </Link>

@@ -167,7 +167,7 @@ export function AddUserForm() {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="bg-declair-blue-400 hover:bg-declair-blue-500"
+            className="bg-indigo-500 hover:bg-indigo-600"
           >
             {isSubmitting ? t("common.status.processing") : t("actions.create")}
           </Button>

@@ -54,25 +54,25 @@ export function ResetPasswordForm({ token }: { token?: string }) {
     });
 
     return (
-      <div className='flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 px-4 sm:px-6'>
-        <div className='bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-md w-full max-w-md mx-auto'>
-          <div className='text-center mb-6 sm:mb-8'>
-            <h2 className='text-2xl sm:text-3xl font-bold text-declair-blue-400 dark:text-declair-blue-400 mb-2'>
+      <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 px-4 sm:px-6">
+        <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-md w-full max-w-md mx-auto">
+          <div className="text-center mb-6 sm:mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-indigo-400 dark:text-indigo-400 mb-2">
               {config.appTitle}
             </h2>
-            <p className='text-base sm:text-lg text-gray-600 dark:text-gray-300'>
+            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300">
               {t("auth.resetpassword.title")}
             </p>
           </div>
           <Alert
-            variant='destructive'
-            className='dark:bg-red-900 dark:border-red-700 dark:text-red-200 text-sm sm:text-base'
+            variant="destructive"
+            className="dark:bg-red-900 dark:border-red-700 dark:text-red-200 text-sm sm:text-base"
           >
             <AlertDescription>{t("error.invalidLink")}</AlertDescription>
           </Alert>
-          <div className='mt-6 text-center'>
-            <Link href='/forgot-password'>
-              <Button className='w-full bg-declair-blue-400 hover:bg-declair-blue-500'>
+          <div className="mt-6 text-center">
+            <Link href="/forgot-password">
+              <Button className="w-full bg-indigo-500 hover:bg-indigo-600">
                 {t("auth.resetpassword.forgotPassword")}
               </Button>
             </Link>
@@ -126,13 +126,13 @@ export function ResetPasswordForm({ token }: { token?: string }) {
   };
 
   return (
-    <div className='flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 px-4 sm:px-6'>
-      <div className='bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-md w-full max-w-md mx-auto'>
-        <div className='text-center mb-6 sm:mb-8'>
-          <h2 className='text-2xl sm:text-3xl font-bold text-declair-blue-400 dark:text-declair-blue-400 mb-2'>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 px-4 sm:px-6">
+      <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-md w-full max-w-md mx-auto">
+        <div className="text-center mb-6 sm:mb-8">
+          <h2 className="text-2xl sm:text-3xl font-bold text-indigo-400 dark:text-indigo-400 mb-2">
             {config.appTitle}
           </h2>
-          <p className='text-base sm:text-lg text-gray-600 dark:text-gray-300'>
+          <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300">
             {t("auth.resetpassword.title")}
           </p>
         </div>
@@ -140,11 +140,11 @@ export function ResetPasswordForm({ token }: { token?: string }) {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className='space-y-4 sm:space-y-6'
+            className="space-y-4 sm:space-y-6"
           >
             <FormField
               control={form.control}
-              name='password'
+              name="password"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
@@ -153,7 +153,7 @@ export function ResetPasswordForm({ token }: { token?: string }) {
                   </FormLabel>
                   <FormMessage />
                   <FormControl>
-                    <Input type='password' {...field} disabled={isLoading} />
+                    <Input type="password" {...field} disabled={isLoading} />
                   </FormControl>
                 </FormItem>
               )}
@@ -161,7 +161,7 @@ export function ResetPasswordForm({ token }: { token?: string }) {
 
             <FormField
               control={form.control}
-              name='confirmPassword'
+              name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
@@ -170,15 +170,15 @@ export function ResetPasswordForm({ token }: { token?: string }) {
                   </FormLabel>
                   <FormMessage />
                   <FormControl>
-                    <Input type='password' {...field} disabled={isLoading} />
+                    <Input type="password" {...field} disabled={isLoading} />
                   </FormControl>
                 </FormItem>
               )}
             />
 
             <Button
-              type='submit'
-              className='w-full bg-declair-blue-400 hover:bg-declair-blue-500'
+              type="submit"
+              className="w-full bg-indigo-500 hover:bg-indigo-600"
               disabled={isLoading}
             >
               {isLoading
@@ -188,11 +188,11 @@ export function ResetPasswordForm({ token }: { token?: string }) {
           </form>
         </Form>
 
-        <div className='mt-6 text-center'>
+        <div className="mt-6 text-center">
           <Button
-            variant='outline'
+            variant="outline"
             onClick={() => router.push("/login")}
-            className='w-full'
+            className="w-full"
             disabled={isLoading}
           >
             {t("auth.resetpassword.backToLogin")}

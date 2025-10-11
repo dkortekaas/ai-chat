@@ -222,7 +222,7 @@ export default function NotificationDropdown() {
             {notifications.length > 0 && (
               <button
                 onClick={handleMarkAllAsRead}
-                className="text-sm text-declair-blue-500 dark:text-indigo-400"
+                className="text-sm text-indigo-500 dark:text-indigo-400"
               >
                 {t("markAllAsRead")}
               </button>
@@ -233,7 +233,7 @@ export default function NotificationDropdown() {
         <div className="flex-1 overflow-auto custom-scrollbar">
           {loading ? (
             <div className="flex items-center justify-center h-40">
-              <div className="animate-spin h-6 w-6 border-t-2 border-declair-blue-500 dark:border-indigo-400 rounded-full"></div>
+              <div className="animate-spin h-6 w-6 border-t-2 border-indigo-500 dark:border-indigo-400 rounded-full"></div>
             </div>
           ) : notifications.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full p-4 text-gray-500 dark:text-gray-400">
@@ -249,7 +249,7 @@ export default function NotificationDropdown() {
                 <div
                   key={notification.id}
                   onClick={() => handleNotificationClick(notification)}
-                  className={`p-4 ${!notification.isRead ? "bg-blue-50 dark:bg-blue-900/20" : ""} cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors`}
+                  className={`p-4 ${!notification.isRead ? "bg-indigo-50 dark:bg-blue-900/20" : ""} cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors`}
                 >
                   <div className="flex justify-between items-start">
                     <div className="flex-1">
@@ -299,7 +299,7 @@ export default function NotificationDropdown() {
             {notifications.length > 0 && (
               <button
                 onClick={handleMarkAllAsRead}
-                className="text-xs text-declair-blue-500 dark:text-indigo-400 hover:text-declair-blue-500 dark:hover:text-indigo-300"
+                className="text-xs text-indigo-500 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300"
               >
                 {t("markAllAsRead")}
               </button>
@@ -309,7 +309,7 @@ export default function NotificationDropdown() {
           <div className="max-h-96 overflow-auto custom-scrollbar">
             {loading ? (
               <div className="flex items-center justify-center h-40">
-                <div className="animate-spin h-6 w-6 border-t-2 border-declair-blue-500 dark:border-indigo-400 rounded-full"></div>
+                <div className="animate-spin h-6 w-6 border-t-2 border-indigo-500 dark:border-indigo-400 rounded-full"></div>
               </div>
             ) : notifications.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-40 p-4 text-gray-500 dark:text-gray-400">
@@ -325,7 +325,7 @@ export default function NotificationDropdown() {
                   <div
                     key={notification.id}
                     onClick={() => handleNotificationClick(notification)}
-                    className={`px-4 py-3 ${!notification.isRead ? "bg-blue-50 dark:bg-blue-900/20" : ""} cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors`}
+                    className={`px-4 py-3 ${!notification.isRead ? "bg-indigo-50 dark:bg-blue-900/20" : ""} cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors`}
                   >
                     <div className="flex justify-between items-start">
                       <div className="flex-1">

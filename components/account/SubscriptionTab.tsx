@@ -167,13 +167,13 @@ export function SubscriptionTab() {
       {/* Trial Status Alert */}
       {isTrial && (
         <Card
-          className={`p-4 ${isExpired ? "border-red-200 bg-red-50" : "border-blue-200 bg-blue-50"}`}
+          className={`p-4 ${isExpired ? "border-red-200 bg-red-50" : "border-blue-200 bg-indigo-50"}`}
         >
           <div className="flex items-center space-x-3">
             {isExpired ? (
               <AlertCircle className="w-5 h-5 text-red-500" />
             ) : (
-              <CheckCircle className="w-5 h-5 text-blue-500" />
+              <CheckCircle className="w-5 h-5 text-indigo-500" />
             )}
             <div>
               <h3

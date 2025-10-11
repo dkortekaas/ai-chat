@@ -49,3 +49,5 @@ export {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 export { Toast } from "@/components/ui/toast";
+export { Switch } from "@/components/ui/switch";
+export { Textarea } from "@/components/ui/textarea";

@@ -291,7 +291,7 @@ export function IntegrationsTab({ onChanges }: IntegrationsTabProps) {
                   <Label htmlFor="slack-channel">Default Channel</Label>
                   <Input id="slack-channel" placeholder="#general" />
                 </div>
-                <div className="p-4 bg-blue-50 rounded-lg">
+                <div className="p-4 bg-indigo-50 rounded-lg">
                   <p className="text-sm text-blue-800">
                     <strong>Setup Instructions:</strong> Go to your Slack
                     workspace settings, create a new webhook, and paste the URL
@@ -309,7 +309,7 @@ export function IntegrationsTab({ onChanges }: IntegrationsTabProps) {
                   </Label>
                   <Input id="ga-tracking-id" placeholder="GA-XXXXXXXXX-X" />
                 </div>
-                <div className="p-4 bg-blue-50 rounded-lg">
+                <div className="p-4 bg-indigo-50 rounded-lg">
                   <p className="text-sm text-blue-800">
                     <strong>Setup Instructions:</strong> Create a Google
                     Analytics property and copy the tracking ID from your GA4
@@ -328,7 +328,7 @@ export function IntegrationsTab({ onChanges }: IntegrationsTabProps) {
                     placeholder="https://hooks.zapier.com/hooks/catch/..."
                   />
                 </div>
-                <div className="p-4 bg-blue-50 rounded-lg">
+                <div className="p-4 bg-indigo-50 rounded-lg">
                   <p className="text-sm text-blue-800">
                     <strong>Setup Instructions:</strong> Create a new Zap in
                     Zapier, choose &quot;Webhooks&quot; as the trigger, and copy

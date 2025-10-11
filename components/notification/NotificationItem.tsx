@@ -96,7 +96,7 @@ export function NotificationItem({
           </Button>
         </div>
         {!isRead && (
-          <Badge className="bg-declair-blue-400 text-white -mt-3 mb-2">
+          <Badge className="bg-indigo-500 text-white -mt-3 mb-2">
             {t("notifications.new")}
           </Badge>
         )}

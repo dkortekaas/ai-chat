@@ -174,20 +174,20 @@ export default function RegisterForm() {
   };
 
   return (
-    <div className='flex min-h-screen items-center justify-center bg-gray-100 dark:bg-gray-900 px-4 sm:px-6'>
-      <Card className='w-full max-w-md'>
-        <CardHeader className='text-center'>
-          <CardTitle className='text-2xl sm:text-3xl font-bold text-declair-blue-400 dark:text-declair-blue-400'>
+    <div className="flex min-h-screen items-center justify-center bg-gray-100 dark:bg-gray-900 px-4 sm:px-6">
+      <Card className="w-full max-w-md">
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl sm:text-3xl font-bold text-indigo-400 dark:text-indigo-400">
             {config.appTitle}
           </CardTitle>
-          <CardDescription className='text-base sm:text-lg'>
+          <CardDescription className="text-base sm:text-lg">
             {t("auth.register.title")}
           </CardDescription>
         </CardHeader>
 
         <CardContent>
           {error && (
-            <Alert variant='destructive' className='mb-4'>
+            <Alert variant="destructive" className="mb-4">
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
@@ -195,12 +195,12 @@ export default function RegisterForm() {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className='space-y-4 sm:space-y-6'
+              className="space-y-4 sm:space-y-6"
               aria-label={t("auth.register.title")}
             >
               <FormField
                 control={form.control}
-                name='name'
+                name="name"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
@@ -213,7 +213,7 @@ export default function RegisterForm() {
                         {...field}
                         disabled={isSubmitting || isLoading}
                         autoFocus
-                        aria-required='true'
+                        aria-required="true"
                       />
                     </FormControl>
                   </FormItem>
@@ -222,7 +222,7 @@ export default function RegisterForm() {
 
               <FormField
                 control={form.control}
-                name='email'
+                name="email"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
@@ -233,9 +233,9 @@ export default function RegisterForm() {
                     <FormControl>
                       <Input
                         {...field}
-                        type='email'
+                        type="email"
                         disabled={isSubmitting || isLoading || !!token}
-                        aria-required='true'
+                        aria-required="true"
                       />
                     </FormControl>
                   </FormItem>
@@ -245,7 +245,7 @@ export default function RegisterForm() {
               {!token && (
                 <FormField
                   control={form.control}
-                  name='companyName'
+                  name="companyName"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
@@ -257,7 +257,7 @@ export default function RegisterForm() {
                         <Input
                           {...field}
                           disabled={isSubmitting || isLoading}
-                          aria-required='true'
+                          aria-required="true"
                         />
                       </FormControl>
                     </FormItem>
@@ -267,7 +267,7 @@ export default function RegisterForm() {
 
               <FormField
                 control={form.control}
-                name='password'
+                name="password"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
@@ -276,18 +276,18 @@ export default function RegisterForm() {
                     </FormLabel>
                     <FormMessage />
                     <FormControl>
-                      <div className='relative'>
+                      <div className="relative">
                         <Input
                           {...field}
                           type={showPassword ? "text" : "password"}
                           disabled={isSubmitting || isLoading}
-                          aria-required='true'
+                          aria-required="true"
                         />
                         <Button
-                          type='button'
-                          variant='ghost'
-                          size='sm'
-                          className='absolute right-2 top-1/2 transform -translate-y-1/2'
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="absolute right-2 top-1/2 transform -translate-y-1/2"
                           onClick={() => setShowPassword(!showPassword)}
                           aria-label={
                             showPassword
@@ -304,7 +304,7 @@ export default function RegisterForm() {
                       </div>
                     </FormControl>
                     {field.value && (
-                      <p className='text-sm text-gray-500 dark:text-gray-400'>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
                         {t("auth.passwordStrength.label")}:{" "}
                         {getPasswordStrength(field.value)}
                       </p>
@@ -315,7 +315,7 @@ export default function RegisterForm() {
 
               <FormField
                 control={form.control}
-                name='confirmPassword'
+                name="confirmPassword"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
@@ -324,18 +324,18 @@ export default function RegisterForm() {
                     </FormLabel>
                     <FormMessage />
                     <FormControl>
-                      <div className='relative'>
+                      <div className="relative">
                         <Input
                           {...field}
                           type={showConfirmPassword ? "text" : "password"}
                           disabled={isSubmitting || isLoading}
-                          aria-required='true'
+                          aria-required="true"
                         />
                         <Button
-                          type='button'
-                          variant='ghost'
-                          size='sm'
-                          className='absolute right-2 top-1/2 transform -translate-y-1/2'
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="absolute right-2 top-1/2 transform -translate-y-1/2"
                           onClick={() =>
                             setShowConfirmPassword(!showConfirmPassword)
                           }
@@ -358,14 +358,14 @@ export default function RegisterForm() {
               />
 
               <Button
-                type='submit'
-                className='w-full bg-declair-blue-400 hover:bg-declair-blue-500'
+                type="submit"
+                className="w-full bg-indigo-500 hover:bg-indigo-600"
                 disabled={isSubmitting || isLoading || !form.formState.isValid}
                 aria-label={t("auth.register.registerButton")}
               >
                 {isSubmitting || isLoading ? (
                   <>
-                    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     {t("actions.loading")}
                   </>
                 ) : (
@@ -375,22 +375,22 @@ export default function RegisterForm() {
             </form>
           </Form>
 
-          <div className='mt-6'>
-            <div className='relative'>
-              <div className='absolute inset-0 flex items-center'>
-                <div className='w-full border-t border-gray-300 dark:border-gray-600'></div>
+          <div className="mt-6">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
               </div>
-              <div className='relative flex justify-center text-sm'>
-                <span className='px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400'>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
                   {t("auth.register.alreadyAccount")}
                 </span>
               </div>
             </div>
 
-            <div className='mt-6'>
+            <div className="mt-6">
               <Button
-                variant='outline'
-                className='w-full'
+                variant="outline"
+                className="w-full"
                 onClick={() => router.push("/login")}
                 disabled={isSubmitting || isLoading}
                 aria-label={t("auth.register.loginButton")}

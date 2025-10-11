@@ -73,15 +73,15 @@ export function SubscriptionUpgradeForm({
   };
 
   return (
-    <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {plans.map((plan) => {
         const isCurrentPlan = currentSubscription?.planId === plan.id;
         const isUpgrade = currentSubscription?.planId !== plan.id;
 
         return (
-          <Card key={plan.id} className='relative'>
+          <Card key={plan.id} className="relative">
             {isCurrentPlan && (
-              <Badge className='absolute top-4 right-4'>
+              <Badge className="absolute top-4 right-4">
                 {t("subscription.upgrade.currentPlan")}
               </Badge>
             )}
@@ -89,26 +89,26 @@ export function SubscriptionUpgradeForm({
               <CardTitle>{plan.name}</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className='space-y-4'>
-                <div className='text-3xl font-bold'>
+              <div className="space-y-4">
+                <div className="text-3xl font-bold">
                   €{plan.price}
-                  <span className='text-sm font-normal text-muted-foreground'>
+                  <span className="text-sm font-normal text-muted-foreground">
                     /{t(`subscription.upgrade.${plan.interval}`)}
                   </span>
                 </div>
-                <p className='text-sm text-muted-foreground'>
+                <p className="text-sm text-muted-foreground">
                   {plan.description}
                 </p>
-                <ul className='space-y-2'>
+                <ul className="space-y-2">
                   {plan.features.map((feature, index) => (
-                    <li key={index} className='flex items-center text-sm'>
-                      <span className='mr-2'>•</span>
+                    <li key={index} className="flex items-center text-sm">
+                      <span className="mr-2">•</span>
                       {feature}
                     </li>
                   ))}
                 </ul>
                 <Button
-                  className='w-full bg-declair-blue-400 hover:bg-declair-blue-500 text-white'
+                  className="w-full bg-indigo-500 hover:bg-indigo-600 text-white"
                   variant={isCurrentPlan ? "secondary" : "default"}
                   disabled={isCurrentPlan || !!isLoading}
                   onClick={() => handleUpgrade(plan.id)}

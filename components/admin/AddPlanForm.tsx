@@ -130,11 +130,11 @@ export function AddPlanForm({ onSuccess }: AddPlanFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormField
             control={form.control}
-            name='name'
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>{t("admin.plans.name")} *</FormLabel>
@@ -151,12 +151,12 @@ export function AddPlanForm({ onSuccess }: AddPlanFormProps) {
 
           <FormField
             control={form.control}
-            name='sortOrder'
+            name="sortOrder"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>{t("admin.plans.sortOrder")} *</FormLabel>
                 <FormControl>
-                  <Input {...field} type='number' min='0' />
+                  <Input {...field} type="number" min="0" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -165,12 +165,12 @@ export function AddPlanForm({ onSuccess }: AddPlanFormProps) {
 
           <FormField
             control={form.control}
-            name='price'
+            name="price"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>{t("admin.plans.price")} *</FormLabel>
                 <FormControl>
-                  <Input {...field} type='number' min='0' step='0.01' />
+                  <Input {...field} type="number" min="0" step="0.01" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -179,7 +179,7 @@ export function AddPlanForm({ onSuccess }: AddPlanFormProps) {
 
           <FormField
             control={form.control}
-            name='currency'
+            name="currency"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>{t("admin.plans.currency")} *</FormLabel>
@@ -193,9 +193,9 @@ export function AddPlanForm({ onSuccess }: AddPlanFormProps) {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value='EUR'>EUR (€)</SelectItem>
-                    <SelectItem value='USD'>USD ($)</SelectItem>
-                    <SelectItem value='GBP'>GBP (£)</SelectItem>
+                    <SelectItem value="EUR">EUR (€)</SelectItem>
+                    <SelectItem value="USD">USD ($)</SelectItem>
+                    <SelectItem value="GBP">GBP (£)</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -205,7 +205,7 @@ export function AddPlanForm({ onSuccess }: AddPlanFormProps) {
 
           <FormField
             control={form.control}
-            name='interval'
+            name="interval"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>{t("admin.plans.interval")} *</FormLabel>
@@ -219,14 +219,14 @@ export function AddPlanForm({ onSuccess }: AddPlanFormProps) {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value='day'>{t("admin.plans.day")}</SelectItem>
-                    <SelectItem value='week'>
+                    <SelectItem value="day">{t("admin.plans.day")}</SelectItem>
+                    <SelectItem value="week">
                       {t("admin.plans.week")}
                     </SelectItem>
-                    <SelectItem value='month'>
+                    <SelectItem value="month">
                       {t("admin.plans.month")}
                     </SelectItem>
-                    <SelectItem value='year'>
+                    <SelectItem value="year">
                       {t("admin.plans.year")}
                     </SelectItem>
                   </SelectContent>
@@ -238,16 +238,16 @@ export function AddPlanForm({ onSuccess }: AddPlanFormProps) {
 
           <FormField
             control={form.control}
-            name='isActive'
+            name="isActive"
             render={({ field }) => (
-              <FormItem className='flex flex-row items-start space-x-3 space-y-0'>
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0">
                 <FormControl>
                   <Checkbox
                     checked={field.value}
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>
-                <div className='space-y-1 leading-none'>
+                <div className="space-y-1 leading-none">
                   <FormLabel>{t("admin.plans.isActive")}</FormLabel>
                 </div>
               </FormItem>
@@ -257,7 +257,7 @@ export function AddPlanForm({ onSuccess }: AddPlanFormProps) {
 
         <FormField
           control={form.control}
-          name='description'
+          name="description"
           render={({ field }) => (
             <FormItem>
               <FormLabel>{t("admin.plans.description")}</FormLabel>
@@ -274,10 +274,10 @@ export function AddPlanForm({ onSuccess }: AddPlanFormProps) {
         />
 
         {/* Features Section */}
-        <div className='space-y-3'>
+        <div className="space-y-3">
           <FormLabel>{t("admin.plans.features")}</FormLabel>
 
-          <div className='flex gap-2'>
+          <div className="flex gap-2">
             <Input
               value={newFeature}
               onChange={(e) => setNewFeature(e.target.value)}
@@ -289,22 +289,22 @@ export function AddPlanForm({ onSuccess }: AddPlanFormProps) {
                 }
               }}
             />
-            <Button type='button' onClick={addFeature} variant='outline'>
+            <Button type="button" onClick={addFeature} variant="outline">
               {t("admin.plans.addFeature")}
             </Button>
           </div>
 
           {features.length > 0 && (
-            <div className='flex flex-wrap gap-2'>
+            <div className="flex flex-wrap gap-2">
               {features.map((feature, index) => (
                 <Badge
                   key={index}
-                  variant='secondary'
-                  className='flex items-center gap-1'
+                  variant="secondary"
+                  className="flex items-center gap-1"
                 >
                   {feature}
                   <X
-                    className='h-3 w-3 cursor-pointer'
+                    className="h-3 w-3 cursor-pointer"
                     onClick={() => removeFeature(feature)}
                   />
                 </Badge>
@@ -313,10 +313,10 @@ export function AddPlanForm({ onSuccess }: AddPlanFormProps) {
           )}
         </div>
 
-        <div className='flex justify-end gap-2'>
+        <div className="flex justify-end gap-2">
           <Button
-            type='button'
-            variant='outline'
+            type="button"
+            variant="outline"
             onClick={() => {
               form.reset();
               setFeatures([]);
@@ -326,9 +326,9 @@ export function AddPlanForm({ onSuccess }: AddPlanFormProps) {
             {t("actions.cancel")}
           </Button>
           <Button
-            type='submit'
+            type="submit"
             disabled={isSubmitting}
-            className='bg-declair-blue-400 hover:bg-declair-blue-500'
+            className="bg-indigo-500 hover:bg-indigo-600"
           >
             {isSubmitting ? t("common.status.processing") : t("actions.create")}
           </Button>

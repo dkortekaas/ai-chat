@@ -27,8 +27,8 @@ export const StatCard = async ({
 
   return (
     <Card>
-      <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-        <CardTitle className='text-sm font-medium text-gray-500 dark:text-gray-400'>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardTitle className="text-sm font-medium text-gray-500 dark:text-gray-400">
           {title}
         </CardTitle>
         {icon && (
@@ -37,7 +37,7 @@ export const StatCard = async ({
               "p-2 rounded-md",
               isPositive
                 ? "bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-400"
-                : "bg-blue-100 text-declair-blue-400 dark:bg-blue-900 dark:text-blue-400"
+                : "bg-blue-100 text-indigo-400 dark:bg-blue-900 dark:text-blue-400"
             )}
           >
             {icon}
@@ -45,14 +45,14 @@ export const StatCard = async ({
         )}
       </CardHeader>
       <CardContent>
-        <div className='text-2xl font-bold text-gray-900 dark:text-white'>
+        <div className="text-2xl font-bold text-gray-900 dark:text-white">
           {formattedValue}
         </div>
-        <div className='flex items-center text-xs text-gray-500 dark:text-gray-400 mt-2'>
+        <div className="flex items-center text-xs text-gray-500 dark:text-gray-400 mt-2">
           {isPositive ? (
-            <ArrowUpIcon className='h-3 w-3 text-green-500 dark:text-green-400' />
+            <ArrowUpIcon className="h-3 w-3 text-green-500 dark:text-green-400" />
           ) : (
-            <ArrowDownIcon className='h-3 w-3 text-red-500 dark:text-red-400' />
+            <ArrowDownIcon className="h-3 w-3 text-red-500 dark:text-red-400" />
           )}
           <span
             className={cn(
@@ -62,7 +62,7 @@ export const StatCard = async ({
                 : "text-red-500 dark:text-red-400"
             )}
           >{`${Math.abs(change).toFixed(1)}%`}</span>
-          <span className='ml-1'>{t("dashboard.stats.vsPreviousPeriod")}</span>
+          <span className="ml-1">{t("dashboard.stats.vsPreviousPeriod")}</span>
         </div>
       </CardContent>
     </Card>

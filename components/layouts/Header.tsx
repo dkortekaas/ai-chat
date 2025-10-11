@@ -52,7 +52,7 @@ export default function Header({ toggleSidebar, isSidebarOpen }: HeaderProps) {
         {isMobile && (
           <button
             onClick={toggleSidebar}
-            className="p-2 mr-2 text-gray-500 dark:text-gray-400 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-declair-blue-500"
+            className="p-2 mr-2 text-gray-500 dark:text-gray-400 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-400"
             aria-label={isSidebarOpen ? t("closeSidebar") : t("openSidebar")}
           >
             {isSidebarOpen ? (
@@ -99,7 +99,7 @@ export default function Header({ toggleSidebar, isSidebarOpen }: HeaderProps) {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={t("searchPlaceholder")}
-              className="w-full pl-4 pr-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-declair-blue-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+              className="w-full pl-4 pr-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
               autoFocus
             />
           </form>
