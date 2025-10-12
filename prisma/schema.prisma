@@ -127,6 +127,52 @@ model DocumentChunk {
   @@map("document_chunks")
 }
 
+model ConversationSession {
+  id           String               @id @default(cuid())
+  sessionId    String               @unique
+  assistantId  String?
+  ipAddress    String?
+  userAgent    String?
+  referrer     String?
+  startedAt    DateTime             @default(now())
+  lastActivity DateTime             @default(now())
+  messageCount Int                  @default(0)
+  totalTokens  Int                  @default(0)
+  avgResponseTime Int?
+  rating       Int?                 @db.SmallInt
+  ratingNotes  String?
+  ratedAt      DateTime?
+  ratedBy      String?
+  isActive     Boolean              @default(true)
+  messages     ConversationMessage[]
+
+  @@index([sessionId])
+  @@index([assistantId])
+  @@index([startedAt])
+  @@index([lastActivity])
+  @@index([rating])
+  @@map("conversation_sessions")
+}
+
+model ConversationMessage {
+  id             String               @id @default(cuid())
+  sessionId      String
+  messageType    MessageType          @default(USER)
+  content        String
+  responseTime   Int?
+  tokensUsed     Int?
+  model          String?
+  confidence     Float?
+  createdAt      DateTime             @default(now())
+  sources        ConversationSource[]
+  session        ConversationSession  @relation(fields: [sessionId], references: [sessionId], onDelete: Cascade)
+
+  @@index([sessionId])
+  @@index([messageType])
+  @@index([createdAt])
+  @@map("conversation_messages")
+}
+
 model Conversation {
   id           String               @id @default(cuid())
   sessionId    String
@@ -154,14 +200,17 @@ model Conversation {
 
 model ConversationSource {
   id             String       @id @default(cuid())
-  conversationId String
+  conversationId String?
+  messageId      String?
   documentId     String
   chunkContent   String
   relevanceScore Float?
-  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  conversation   Conversation? @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  message        ConversationMessage? @relation(fields: [messageId], references: [id], onDelete: Cascade)
   document       Document     @relation(fields: [documentId], references: [id], onDelete: Cascade)
 
   @@index([conversationId])
+  @@index([messageId])
   @@map("conversation_sources")
 }
 
@@ -286,10 +335,15 @@ model ChatbotSettings {
   id                String   @id
   userId            String
   name              String   @default("AI Assistent")
+  description       String?  @default("")
   welcomeMessage    String   @default("Hallo! Hoe kan ik je helpen?")
   placeholderText   String   @default("Stel een vraag...")
   primaryColor      String   @default("#3B82F6")
   secondaryColor    String   @default("#1E40AF")
+  fontFamily        String?  @default("Inter")
+  assistantName     String?  @default("AI Assistent")
+  assistantSubtitle String?  @default("We helpen je graag verder!")
+  selectedAvatar    String?  @default("chat-bubble")
   avatar            String   @default("chat-bubble")
   tone              String   @default("professional")
   language          String   @default("nl")
@@ -480,4 +534,10 @@ enum InvitationStatus {
   ACCEPTED
   EXPIRED
   CANCELLED
+}
+
+enum MessageType {
+  USER
+  ASSISTANT
+  SYSTEM
 }

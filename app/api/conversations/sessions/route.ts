@@ -5,7 +5,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// GET /api/conversations?assistantId=...&page=1&pageSize=20
+// GET /api/conversations/sessions?assistantId=...&page=1&pageSize=20
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
@@ -40,35 +40,47 @@ export async function GET(request: NextRequest) {
     }
 
     const skip = (page - 1) * pageSize;
-    const [items, total] = await Promise.all([
-      prisma.conversation.findMany({
+
+    // Get conversation sessions with messages
+    const [sessions, total] = await Promise.all([
+      prisma.conversationSession.findMany({
         where: {
-          // Scope by assistant via conversation sources -> documents -> assistantId OR by other linkage if present
-          // If conversations are not tied to assistant directly, we return all for the user; otherwise adjust when schema links exist
+          assistantId: assistantId,
         },
-        orderBy: { createdAt: "desc" },
+        orderBy: { lastActivity: "desc" },
         skip,
         take: pageSize,
-        select: {
-          id: true,
-          question: true,
-          answer: true,
-          responseTime: true,
-          rating: true,
-          createdAt: true,
-          tokensUsed: true,
+        include: {
+          messages: {
+            orderBy: { createdAt: "asc" },
+            include: {
+              sources: {
+                include: {
+                  document: {
+                    select: {
+                      id: true,
+                      name: true,
+                      type: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       }),
-      prisma.conversation.count({
-        where: {},
+      prisma.conversationSession.count({
+        where: {
+          assistantId: assistantId,
+        },
       }),
     ]);
 
-    return NextResponse.json({ items, total, page, pageSize });
+    return NextResponse.json({ sessions, total, page, pageSize });
   } catch (error) {
-    console.error("Error fetching conversations:", error);
+    console.error("Error fetching conversation sessions:", error);
     return NextResponse.json(
-      { error: "Failed to fetch conversations" },
+      { error: "Failed to fetch conversation sessions" },
       { status: 500 }
     );
   }

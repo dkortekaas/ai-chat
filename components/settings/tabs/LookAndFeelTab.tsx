@@ -1,6 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useImperativeHandle,
+  forwardRef,
+} from "react";
 import {
   Card,
   CardContent,
@@ -26,6 +32,10 @@ interface LookAndFeelTabProps {
   onChanges: (hasChanges: boolean) => void;
 }
 
+export interface LookAndFeelTabRef {
+  save: () => Promise<void>;
+}
+
 const fontOptions = [
   "Inter",
   "Roboto",
@@ -37,8 +47,19 @@ const fontOptions = [
   "Nunito",
 ];
 
-export function LookAndFeelTab({ onChanges }: LookAndFeelTabProps) {
-  const { currentAssistant, refreshAssistants } = useAssistant();
+const positionOptions = [
+  { value: "bottom-right", label: "Bottom Right" },
+  { value: "bottom-left", label: "Bottom Left" },
+  { value: "top-right", label: "Top Right" },
+  { value: "top-left", label: "Top Left" },
+];
+
+export const LookAndFeelTab = forwardRef<
+  LookAndFeelTabRef,
+  LookAndFeelTabProps
+>(({ onChanges }, ref) => {
+  const { currentAssistant, refreshAssistants, setCurrentAssistant } =
+    useAssistant();
   const { toast } = useToast();
   const t = useTranslations();
 
@@ -60,17 +81,45 @@ export function LookAndFeelTab({ onChanges }: LookAndFeelTabProps) {
     { id: "help", icon: "❓", name: t("settings.help") },
   ];
 
-  // Load data from current assistant
-  useEffect(() => {
-    if (currentAssistant) {
-      setFontFamily("Inter"); // Default font family
-      setAssistantName(currentAssistant.name || t("settings.assistantName"));
-      setAssistantSubtitle(t("settings.assistantSubtitle")); // Default subtitle
-      setSelectedAvatar("chat-bubble"); // Default avatar
-    }
-  }, [currentAssistant, t]);
+  // Load data from current assistant only on initial load
+  const [hasLoaded, setHasLoaded] = useState(false);
 
-  const handleSave = async (section: string) => {
+  useEffect(() => {
+    if (currentAssistant && !hasLoaded) {
+      console.log("Loading assistant data:", currentAssistant);
+      setFontFamily(currentAssistant.fontFamily || "Inter");
+      setAssistantName(
+        currentAssistant.assistantName ||
+          currentAssistant.name ||
+          t("settings.assistantName")
+      );
+      setAssistantSubtitle(
+        currentAssistant.assistantSubtitle || t("settings.assistantSubtitle")
+      );
+      setSelectedAvatar(currentAssistant.selectedAvatar || "chat-bubble");
+      setHasLoaded(true);
+    }
+  }, [currentAssistant, t, hasLoaded]);
+
+  // Auto-save disabled - only manual save via parent component
+  // useEffect(() => {
+  //   if (currentAssistant) {
+  //     const timeoutId = setTimeout(() => {
+  //       handleAutoSave();
+  //     }, 1000); // Debounce for 1 second
+
+  //     return () => clearTimeout(timeoutId);
+  //   }
+  // }, [
+  //   fontFamily,
+  //   assistantName,
+  //   assistantSubtitle,
+  //   selectedAvatar,
+  //   currentAssistant,
+  //   handleAutoSave,
+  // ]);
+
+  const handleSave = useCallback(async () => {
     if (!currentAssistant) {
       toast({
         title: t("settings.error"),
@@ -82,28 +131,37 @@ export function LookAndFeelTab({ onChanges }: LookAndFeelTabProps) {
 
     setIsLoading(true);
     try {
+      const updateData = {
+        ...currentAssistant,
+        fontFamily,
+        assistantName,
+        assistantSubtitle,
+        selectedAvatar,
+      };
+
+      console.log("Sending update data:", updateData);
+
       const response = await fetch(`/api/assistants/${currentAssistant.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          ...currentAssistant,
-          fontFamily,
-          assistantName,
-          assistantSubtitle,
-          selectedAvatar,
-        }),
+        body: JSON.stringify(updateData),
       });
 
       if (response.ok) {
+        const updatedAssistant = await response.json();
+        console.log("Updated assistant:", updatedAssistant);
+        // Update the context with the new values
+        setCurrentAssistant(updatedAssistant);
         await refreshAssistants();
         onChanges(false);
         toast({
           title: t("settings.success"),
-          description: `${section} ${t("settings.settingsSavedSuccessfully")}`,
+          description: t("settings.settingsSavedSuccessfully"),
         });
       } else {
+        console.error("Failed to save:", response.status, response.statusText);
         throw new Error("Failed to save settings");
       }
     } catch (error) {
@@ -116,7 +174,27 @@ export function LookAndFeelTab({ onChanges }: LookAndFeelTabProps) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [
+    currentAssistant,
+    fontFamily,
+    assistantName,
+    assistantSubtitle,
+    selectedAvatar,
+    setCurrentAssistant,
+    refreshAssistants,
+    onChanges,
+    toast,
+    t,
+  ]);
+
+  // Expose save function to parent
+  useImperativeHandle(
+    ref,
+    () => ({
+      save: handleSave,
+    }),
+    [handleSave]
+  );
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -179,58 +257,6 @@ export function LookAndFeelTab({ onChanges }: LookAndFeelTabProps) {
                 </p>
               </div>
             </div>
-
-            <SaveButton
-              onClick={() => handleSave("font")}
-              isLoading={isLoading}
-            />
-          </CardContent>
-        </Card>
-
-        {/* Assistant Name & Subtitle Section */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <span>{t("settings.assistantNameAndSubtitle")}</span>
-              <Info className="w-4 h-4 text-gray-400" />
-            </CardTitle>
-            <CardDescription>
-              {t("settings.assistantNameAndSubtitleDescription")}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="assistant-name">{t("settings.name")}</Label>
-                <Input
-                  id="assistant-name"
-                  value={assistantName}
-                  onChange={(e) => {
-                    setAssistantName(e.target.value);
-                    onChanges(true);
-                  }}
-                  placeholder={t("settings.enterAssistantName")}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="assistant-subtitle">
-                  {t("settings.subtitle")}
-                </Label>
-                <Input
-                  id="assistant-subtitle"
-                  value={assistantSubtitle}
-                  onChange={(e) => {
-                    setAssistantSubtitle(e.target.value);
-                    onChanges(true);
-                  }}
-                  placeholder={t("settings.enterAssistantSubtitle")}
-                />
-              </div>
-            </div>
-            <SaveButton
-              onClick={() => handleSave("name-subtitle")}
-              isLoading={isLoading}
-            />
           </CardContent>
         </Card>
 
@@ -267,10 +293,6 @@ export function LookAndFeelTab({ onChanges }: LookAndFeelTabProps) {
                 ))}
               </div>
             </div>
-            <SaveButton
-              onClick={() => handleSave("avatar")}
-              isLoading={isLoading}
-            />
           </CardContent>
         </Card>
       </div>
@@ -294,4 +316,6 @@ export function LookAndFeelTab({ onChanges }: LookAndFeelTabProps) {
       </div>
     </div>
   );
-}
+});
+
+LookAndFeelTab.displayName = "LookAndFeelTab";

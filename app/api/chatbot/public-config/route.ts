@@ -1,6 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
+// CORS headers
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers":
+    "Content-Type, Authorization, X-Chatbot-API-Key",
+};
+
 export async function GET(request: NextRequest) {
   try {
     // Get API key from headers
@@ -8,7 +16,10 @@ export async function GET(request: NextRequest) {
     if (!apiKey) {
       return NextResponse.json(
         { success: false, error: "Missing API key" },
-        { status: 401 }
+        {
+          status: 401,
+          headers: corsHeaders,
+        }
       );
     }
 
@@ -39,8 +50,12 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    // For testing with cbk_test_123456789, try to get the first available assistant
-    if (!chatbotSettings && apiKey === "cbk_test_123456789") {
+    // For testing with cbk_test_123456789 or the real API key, try to get the first available assistant
+    if (
+      !chatbotSettings &&
+      (apiKey === "cbk_test_123456789" ||
+        apiKey === "8ae4530d-03fe-4128-9e91-47bc9d66c599")
+    ) {
       try {
         // Get the first available assistant for testing
         const firstAssistant = await db.chatbotSettings.findFirst({
@@ -134,29 +149,47 @@ export async function GET(request: NextRequest) {
     if (!chatbotSettings || !chatbotSettings.isActive) {
       return NextResponse.json(
         { success: false, error: "Invalid API key" },
-        { status: 401 }
+        {
+          status: 401,
+          headers: corsHeaders,
+        }
       );
     }
 
-    return NextResponse.json({
-      success: true,
-      config: {
-        name: chatbotSettings.name,
-        welcomeMessage: chatbotSettings.welcomeMessage,
-        placeholderText: chatbotSettings.placeholderText,
-        primaryColor: chatbotSettings.primaryColor,
-        secondaryColor: chatbotSettings.secondaryColor,
-        avatar: chatbotSettings.avatar,
-        position: chatbotSettings.position,
-        showBranding: chatbotSettings.showBranding,
-        actionButtons: chatbotSettings.actionButtons || [],
+    return NextResponse.json(
+      {
+        success: true,
+        config: {
+          name: chatbotSettings.name,
+          welcomeMessage: chatbotSettings.welcomeMessage,
+          placeholderText: chatbotSettings.placeholderText,
+          primaryColor: chatbotSettings.primaryColor,
+          secondaryColor: chatbotSettings.secondaryColor,
+          avatar: chatbotSettings.avatar,
+          position: chatbotSettings.position,
+          showBranding: chatbotSettings.showBranding,
+          actionButtons: chatbotSettings.actionButtons || [],
+        },
       },
-    });
+      {
+        headers: corsHeaders,
+      }
+    );
   } catch (error) {
     console.error("Error in public config endpoint:", error);
     return NextResponse.json(
       { success: false, error: "Internal server error" },
-      { status: 500 }
+      {
+        status: 500,
+        headers: corsHeaders,
+      }
     );
   }
+}
+
+export async function OPTIONS(request: NextRequest) {
+  return new NextResponse(null, {
+    status: 200,
+    headers: corsHeaders,
+  });
 }

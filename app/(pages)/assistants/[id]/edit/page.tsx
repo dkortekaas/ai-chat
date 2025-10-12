@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,7 +22,6 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
-import { ColorPicker } from "@/components/assistant/ColorPicker";
 import { ChatbotPreview } from "@/components/assistant/ChatbotPreview";
 import { useToast } from "@/hooks/useToast";
 import { useAssistant } from "@/contexts/assistant-context";
@@ -30,19 +29,29 @@ import { ArrowLeft, X, Plus, Info } from "lucide-react";
 import SaveButton from "@/components/ui/save-button";
 import { useTranslations } from "next-intl";
 import { PageHeader } from "@/components/layouts";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import {
+  LookAndFeelTab,
+  LookAndFeelTabRef,
+} from "@/components/settings/tabs/LookAndFeelTab";
+import { ActionButtonsTab } from "@/components/settings/tabs/ActionButtonsTab";
+import { FormsTab } from "@/components/settings/tabs/FormsTab";
+import { IntegrationsTab } from "@/components/settings/tabs/IntegrationsTab";
+import { WidgetTab } from "@/components/settings/tabs/WidgetTab";
 
 interface Assistant {
   id: string;
+  userId: string;
   name: string;
   description?: string;
   welcomeMessage: string;
   placeholderText: string;
   primaryColor: string;
   secondaryColor: string;
-  fontFamily: string;
-  assistantName: string;
-  assistantSubtitle: string;
-  selectedAvatar: string;
+  fontFamily?: string;
+  assistantName?: string;
+  assistantSubtitle?: string;
+  selectedAvatar?: string;
   tone: string;
   language: string;
   maxResponseLength: number;
@@ -51,6 +60,7 @@ interface Assistant {
   position: string;
   showBranding: boolean;
   isActive: boolean;
+  apiKey: string;
   allowedDomains: string[];
   rateLimit: number;
   createdAt: string;
@@ -101,7 +111,7 @@ export default function EditAssistantPage() {
   const router = useRouter();
   const params = useParams();
   const { toast } = useToast();
-  const {} = useAssistant();
+  const { setCurrentAssistant } = useAssistant();
   const t = useTranslations("assistants");
 
   const [assistant, setAssistant] = useState<Assistant | null>(null);
@@ -109,6 +119,9 @@ export default function EditAssistantPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [domainInput, setDomainInput] = useState("");
+  const [activeTab, setActiveTab] = useState("basic");
+
+  const lookAndFeelRef = useRef<LookAndFeelTabRef>(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -144,6 +157,7 @@ export default function EditAssistantPage() {
         if (response.ok) {
           const data = await response.json();
           setAssistant(data);
+          setCurrentAssistant(data); // Set the current assistant in context
           setFormData({
             name: data.name,
             description: data.description || "",
@@ -152,7 +166,8 @@ export default function EditAssistantPage() {
             primaryColor: data.primaryColor,
             secondaryColor: data.secondaryColor,
             fontFamily: data.fontFamily || "Inter",
-            assistantName: data.assistantName || "PS in foodservice",
+            assistantName:
+              data.assistantName || data.name || "PS in foodservice",
             assistantSubtitle:
               data.assistantSubtitle || "We helpen je graag verder!",
             selectedAvatar: data.selectedAvatar || "chat-bubble",
@@ -189,7 +204,7 @@ export default function EditAssistantPage() {
     };
 
     loadAssistant();
-  }, [params.id, router, toast]);
+  }, [params.id, router, toast, setCurrentAssistant]);
 
   const handleInputChange = (
     field: string,
@@ -229,6 +244,15 @@ export default function EditAssistantPage() {
 
     setIsSaving(true);
     try {
+      // If we're on the look-and-feel tab, use the tab's save function
+      if (activeTab === "look-and-feel" && lookAndFeelRef.current) {
+        await lookAndFeelRef.current.save();
+        // Don't refresh context here - let the tab handle its own state
+        setHasChanges(false);
+        return;
+      }
+
+      // Otherwise, use the default save for basic information
       const response = await fetch(`/api/assistants/${assistant.id}`, {
         method: "PUT",
         headers: {
@@ -258,7 +282,7 @@ export default function EditAssistantPage() {
     } finally {
       setIsSaving(false);
     }
-  }, [assistant, formData, toast]);
+  }, [assistant, formData, toast, activeTab]);
 
   if (isLoading) {
     return (
@@ -312,434 +336,349 @@ export default function EditAssistantPage() {
       </div>
 
       {/* Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Settings Column */}
-        <div className="space-y-6">
-          {/* Basic Information */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <span>{t("basicInformation")}</span>
-                <Info className="w-4 h-4 text-gray-400" />
-              </CardTitle>
-              <CardDescription>
-                {t("configureTheBasicSettingsForYourAssistant")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="name">{t("name")} *</Label>
-                <Input
-                  id="name"
-                  value={formData.name}
-                  onChange={(e) => handleInputChange("name", e.target.value)}
-                  placeholder={t("enterAssistantName")}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="description">{t("description")}</Label>
-                <Textarea
-                  id="description"
-                  value={formData.description}
-                  onChange={(e) =>
-                    handleInputChange("description", e.target.value)
-                  }
-                  placeholder={t("enterAssistantDescription")}
-                  rows={3}
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="tone">{t("tone")}</Label>
-                  <Select
-                    value={formData.tone}
-                    onValueChange={(value) => handleInputChange("tone", value)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {toneOptions.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="language">{t("language")}</Label>
-                  <Select
-                    value={formData.language}
-                    onValueChange={(value) =>
-                      handleInputChange("language", value)
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {languageOptions.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+      <Tabs
+        value={activeTab}
+        onValueChange={setActiveTab}
+        defaultValue="basic"
+        className="space-y-6"
+      >
+        <TabsList>
+          <TabsTrigger value="basic">{t("basicInformation")}</TabsTrigger>
+          <TabsTrigger value="look-and-feel">{t("lookAndFeel")}</TabsTrigger>
+          <TabsTrigger value="action-buttons">{t("actionButtons")}</TabsTrigger>
+          <TabsTrigger value="forms">{t("forms")}</TabsTrigger>
+          <TabsTrigger value="integrations">{t("integrations")}</TabsTrigger>
+          <TabsTrigger value="widget">{t("widget")}</TabsTrigger>
+        </TabsList>
 
-          {/* Look and Feel */}
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("lookAndFeel")}</CardTitle>
-              <CardDescription>
-                {t("customizeTheAppearanceOfYourAssistant")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="fontFamily">{t("fontFamily")}</Label>
-                  <Select
-                    value={formData.fontFamily}
-                    onValueChange={(value) =>
-                      handleInputChange("fontFamily", value)
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue>
-                        <span
-                          style={{
-                            fontFamily: `"${formData.fontFamily}", sans-serif`,
-                          }}
-                        >
-                          {formData.fontFamily}
-                        </span>
-                      </SelectValue>
-                    </SelectTrigger>
-                    <SelectContent>
-                      {fontOptions.map((font) => (
-                        <SelectItem key={font} value={font}>
-                          <span style={{ fontFamily: `"${font}", sans-serif` }}>
-                            {font}
-                          </span>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="position">{t("position")}</Label>
-                  <Select
-                    value={formData.position}
-                    onValueChange={(value) =>
-                      handleInputChange("position", value)
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {positionOptions.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="assistantName">{t("assistantName")}</Label>
-                  <Input
-                    id="assistantName"
-                    value={formData.assistantName}
-                    onChange={(e) =>
-                      handleInputChange("assistantName", e.target.value)
-                    }
-                    placeholder={t("enterAssistantName")}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="assistantSubtitle">
-                    {t("assistantSubtitle")}
-                  </Label>
-                  <Input
-                    id="assistantSubtitle"
-                    value={formData.assistantSubtitle}
-                    onChange={(e) =>
-                      handleInputChange("assistantSubtitle", e.target.value)
-                    }
-                    placeholder={t("enterAssistantSubtitle")}
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label>{t("avatar")}</Label>
-                <div className="flex space-x-3">
-                  {avatarOptions.map((avatar) => (
-                    <button
-                      key={avatar.id}
-                      onClick={() =>
-                        handleInputChange("selectedAvatar", avatar.id)
+        <TabsContent value="basic">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Settings Column */}
+            <div className="space-y-6">
+              {/* Basic Information */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <span>{t("basicInformation")}</span>
+                    <Info className="w-4 h-4 text-gray-400" />
+                  </CardTitle>
+                  <CardDescription>
+                    {t("configureTheBasicSettingsForYourAssistant")}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">{t("name")} *</Label>
+                    <Input
+                      id="name"
+                      value={formData.name}
+                      onChange={(e) =>
+                        handleInputChange("name", e.target.value)
                       }
-                      className={`w-12 h-12 rounded-lg border-2 flex items-center justify-center text-2xl transition-colors ${
-                        formData.selectedAvatar === avatar.id
-                          ? "border-indigo-500 bg-purple-50"
-                          : "border-gray-200 hover:border-gray-300"
-                      }`}
-                    >
-                      {avatar.icon}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label>{t("primaryColor")}</Label>
-                  <ColorPicker
-                    color={formData.primaryColor}
-                    onChange={(color) =>
-                      handleInputChange("primaryColor", color)
-                    }
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label>{t("secondaryColor")}</Label>
-                  <ColorPicker
-                    color={formData.secondaryColor}
-                    onChange={(color) =>
-                      handleInputChange("secondaryColor", color)
-                    }
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Messages */}
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("messages")}</CardTitle>
-              <CardDescription>
-                {t("configureTheMessagesYourAssistantWillUse")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="welcomeMessage">{t("welcomeMessage")}</Label>
-                <Textarea
-                  id="welcomeMessage"
-                  value={formData.welcomeMessage}
-                  onChange={(e) =>
-                    handleInputChange("welcomeMessage", e.target.value)
-                  }
-                  placeholder={t("enterWelcomeMessage")}
-                  rows={2}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="placeholderText">{t("placeholderText")}</Label>
-                <Input
-                  id="placeholderText"
-                  value={formData.placeholderText}
-                  onChange={(e) =>
-                    handleInputChange("placeholderText", e.target.value)
-                  }
-                  placeholder={t("enterPlaceholderText")}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="fallbackMessage">{t("fallbackMessage")}</Label>
-                <Textarea
-                  id="fallbackMessage"
-                  value={formData.fallbackMessage}
-                  onChange={(e) =>
-                    handleInputChange("fallbackMessage", e.target.value)
-                  }
-                  placeholder={t("enterFallbackMessage")}
-                  rows={2}
-                />
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* AI Settings */}
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("aiSettings")}</CardTitle>
-              <CardDescription>
-                {t("configureTheAIBehaviorAndResponses")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="maxResponseLength">
-                    {t("maxResponseLength")}
-                  </Label>
-                  <Input
-                    id="maxResponseLength"
-                    type="number"
-                    value={formData.maxResponseLength}
-                    onChange={(e) =>
-                      handleInputChange(
-                        "maxResponseLength",
-                        parseInt(e.target.value)
-                      )
-                    }
-                    min="100"
-                    max="2000"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="temperature">{t("temperature")}</Label>
-                  <Input
-                    id="temperature"
-                    type="number"
-                    step="0.1"
-                    min="0"
-                    max="1"
-                    value={formData.temperature}
-                    onChange={(e) =>
-                      handleInputChange(
-                        "temperature",
-                        parseFloat(e.target.value)
-                      )
-                    }
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Security & Access */}
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("securityAndAccess")}</CardTitle>
-              <CardDescription>
-                {t("configureSecuritySettingsAndAccessControl")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="rateLimit">
-                  {t("rateLimit")} (requests per minute)
-                </Label>
-                <Input
-                  id="rateLimit"
-                  type="number"
-                  value={formData.rateLimit}
-                  onChange={(e) =>
-                    handleInputChange("rateLimit", parseInt(e.target.value))
-                  }
-                  min="1"
-                  max="100"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label>{t("allowedDomains")}</Label>
-                <div className="flex space-x-2">
-                  <Input
-                    value={domainInput}
-                    onChange={(e) => setDomainInput(e.target.value)}
-                    placeholder={t("enterDomain")}
-                    onKeyPress={(e) =>
-                      e.key === "Enter" && (e.preventDefault(), addDomain())
-                    }
-                  />
-                  <Button type="button" onClick={addDomain} size="sm">
-                    <Plus className="w-4 h-4" />
-                  </Button>
-                </div>
-                {formData.allowedDomains.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {formData.allowedDomains.map((domain) => (
-                      <Badge
-                        key={domain}
-                        variant="secondary"
-                        className="flex items-center space-x-1"
-                      >
-                        <span>{domain}</span>
-                        <button
-                          onClick={() => removeDomain(domain)}
-                          className="ml-1 hover:text-red-500"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      </Badge>
-                    ))}
+                      placeholder={t("enterAssistantName")}
+                    />
                   </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+                  <div className="space-y-2">
+                    <Label htmlFor="description">{t("description")}</Label>
+                    <Textarea
+                      id="description"
+                      value={formData.description}
+                      onChange={(e) =>
+                        handleInputChange("description", e.target.value)
+                      }
+                      placeholder={t("enterAssistantDescription")}
+                      rows={3}
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="tone">{t("tone")}</Label>
+                      <Select
+                        value={formData.tone}
+                        onValueChange={(value) =>
+                          handleInputChange("tone", value)
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {toneOptions.map((option) => (
+                            <SelectItem key={option.value} value={option.value}>
+                              {option.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="language">{t("language")}</Label>
+                      <Select
+                        value={formData.language}
+                        onValueChange={(value) =>
+                          handleInputChange("language", value)
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {languageOptions.map((option) => (
+                            <SelectItem key={option.value} value={option.value}>
+                              {option.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
 
-          {/* Status */}
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("status")}</CardTitle>
-              <CardDescription>
-                {t("controlTheAvailabilityOfYourAssistant")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>{t("active")}</Label>
-                  <p className="text-sm text-gray-500">
-                    Enable or disable the assistant
-                  </p>
-                </div>
-                <Switch
-                  checked={formData.isActive}
-                  onCheckedChange={(checked) =>
-                    handleInputChange("isActive", checked)
-                  }
-                  className="data-[state=checked]:bg-indigo-500"
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>{t("showBranding")}</Label>
-                  <p className="text-sm text-gray-500">
-                    {t("displayYourBrandingInTheChatWidget")}
-                  </p>
-                </div>
-                <Switch
-                  checked={formData.showBranding}
-                  onCheckedChange={(checked) =>
-                    handleInputChange("showBranding", checked)
-                  }
-                  className="data-[state=checked]:bg-indigo-500"
-                />
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+              {/* Messages */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>{t("messages")}</CardTitle>
+                  <CardDescription>
+                    {t("configureTheMessagesYourAssistantWillUse")}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="welcomeMessage">
+                      {t("welcomeMessage")}
+                    </Label>
+                    <Textarea
+                      id="welcomeMessage"
+                      value={formData.welcomeMessage}
+                      onChange={(e) =>
+                        handleInputChange("welcomeMessage", e.target.value)
+                      }
+                      placeholder={t("enterWelcomeMessage")}
+                      rows={2}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="placeholderText">
+                      {t("placeholderText")}
+                    </Label>
+                    <Input
+                      id="placeholderText"
+                      value={formData.placeholderText}
+                      onChange={(e) =>
+                        handleInputChange("placeholderText", e.target.value)
+                      }
+                      placeholder={t("enterPlaceholderText")}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="fallbackMessage">
+                      {t("fallbackMessage")}
+                    </Label>
+                    <Textarea
+                      id="fallbackMessage"
+                      value={formData.fallbackMessage}
+                      onChange={(e) =>
+                        handleInputChange("fallbackMessage", e.target.value)
+                      }
+                      placeholder={t("enterFallbackMessage")}
+                      rows={2}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
 
-        {/* Preview Column */}
-        <div className="space-y-6">
-          <ChatbotPreview
-            fontFamily={formData.fontFamily}
-            assistantName={formData.assistantName}
-            assistantSubtitle={formData.assistantSubtitle}
-            selectedAvatar={formData.selectedAvatar}
-            primaryColor={formData.primaryColor}
-            secondaryColor={formData.secondaryColor}
-            welcomeMessage={formData.welcomeMessage}
-            placeholderText={formData.placeholderText}
-          />
-        </div>
-      </div>
+              {/* AI Settings */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>{t("aiSettings")}</CardTitle>
+                  <CardDescription>
+                    {t("configureTheAIBehaviorAndResponses")}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="maxResponseLength">
+                        {t("maxResponseLength")}
+                      </Label>
+                      <Input
+                        id="maxResponseLength"
+                        type="number"
+                        value={formData.maxResponseLength}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "maxResponseLength",
+                            parseInt(e.target.value)
+                          )
+                        }
+                        min="100"
+                        max="2000"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="temperature">{t("temperature")}</Label>
+                      <Input
+                        id="temperature"
+                        type="number"
+                        step="0.1"
+                        min="0"
+                        max="1"
+                        value={formData.temperature}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "temperature",
+                            parseFloat(e.target.value)
+                          )
+                        }
+                      />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Security & Access */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>{t("securityAndAccess")}</CardTitle>
+                  <CardDescription>
+                    {t("configureSecuritySettingsAndAccessControl")}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="rateLimit">
+                      {t("rateLimit")} (requests per minute)
+                    </Label>
+                    <Input
+                      id="rateLimit"
+                      type="number"
+                      value={formData.rateLimit}
+                      onChange={(e) =>
+                        handleInputChange("rateLimit", parseInt(e.target.value))
+                      }
+                      min="1"
+                      max="100"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>{t("allowedDomains")}</Label>
+                    <div className="flex space-x-2">
+                      <Input
+                        value={domainInput}
+                        onChange={(e) => setDomainInput(e.target.value)}
+                        placeholder={t("enterDomain")}
+                        onKeyPress={(e) =>
+                          e.key === "Enter" && (e.preventDefault(), addDomain())
+                        }
+                      />
+                      <Button type="button" onClick={addDomain} size="sm">
+                        <Plus className="w-4 h-4" />
+                      </Button>
+                    </div>
+                    {formData.allowedDomains.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {formData.allowedDomains.map((domain) => (
+                          <Badge
+                            key={domain}
+                            variant="secondary"
+                            className="flex items-center space-x-1"
+                          >
+                            <span>{domain}</span>
+                            <button
+                              onClick={() => removeDomain(domain)}
+                              className="ml-1 hover:text-red-500"
+                            >
+                              <X className="w-3 h-3" />
+                            </button>
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Status */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>{t("status")}</CardTitle>
+                  <CardDescription>
+                    {t("controlTheAvailabilityOfYourAssistant")}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label>{t("active")}</Label>
+                      <p className="text-sm text-gray-500">
+                        Enable or disable the assistant
+                      </p>
+                    </div>
+                    <Switch
+                      checked={formData.isActive}
+                      onCheckedChange={(checked) =>
+                        handleInputChange("isActive", checked)
+                      }
+                      className="data-[state=checked]:bg-indigo-500"
+                    />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label>{t("showBranding")}</Label>
+                      <p className="text-sm text-gray-500">
+                        {t("displayYourBrandingInTheChatWidget")}
+                      </p>
+                    </div>
+                    <Switch
+                      checked={formData.showBranding}
+                      onCheckedChange={(checked) =>
+                        handleInputChange("showBranding", checked)
+                      }
+                      className="data-[state=checked]:bg-indigo-500"
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Preview Column */}
+            <div className="space-y-6">
+              <ChatbotPreview
+                fontFamily={formData.fontFamily}
+                assistantName={formData.assistantName}
+                assistantSubtitle={formData.assistantSubtitle}
+                selectedAvatar={formData.selectedAvatar}
+                primaryColor={formData.primaryColor}
+                secondaryColor={formData.secondaryColor}
+                welcomeMessage={formData.welcomeMessage}
+                placeholderText={formData.placeholderText}
+              />
+            </div>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="look-and-feel">
+          <LookAndFeelTab ref={lookAndFeelRef} onChanges={setHasChanges} />
+        </TabsContent>
+
+        <TabsContent value="action-buttons">
+          <ActionButtonsTab onChanges={setHasChanges} />
+        </TabsContent>
+
+        <TabsContent value="forms">
+          <FormsTab onChanges={setHasChanges} />
+        </TabsContent>
+
+        <TabsContent value="integrations">
+          <IntegrationsTab onChanges={setHasChanges} />
+        </TabsContent>
+
+        <TabsContent value="widget">
+          <WidgetTab onChanges={setHasChanges} />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

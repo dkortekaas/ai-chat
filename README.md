@@ -77,25 +77,35 @@ A modern, fully functional Cited platform built with Next.js 15, TypeScript, and
 
 ### 💬 Conversation Management
 
-- **Chat History**: Complete conversation logs
-- **Rating System**: 1-5 star ratings with comments
-- **Source Tracking**: Which documents were used for answers
-- **Performance Metrics**: Response time, token usage, confidence scores
+- **Complete Session Tracking**: Full conversation sessions with all messages
+- **Message History**: Individual user and assistant messages with timestamps
+- **Session Analytics**: Session duration, message count, token usage per session
+- **Source Attribution**: Which documents were used for each specific answer
+- **Performance Metrics**: Response time, token usage, confidence scores per message
+- **Rating System**: 1-5 star ratings with comments for entire sessions
+- **Advanced Filtering**: Filter by type, time, duration, and rating
+- **Expandable Views**: Click to expand and see full conversation flow
+- **Session Statistics**: Total sessions, active sessions, average messages per session
+- **Real-time Updates**: Live conversation data and statistics
 - **Export Functionality**: Export conversations for analysis
-- **Filtering & Search**: Advanced search options in conversations
-- **Conversation Statistics**: Detailed analytics per conversation
 
 ### 📈 Analytics & Reporting
 
-- **Conversation Statistics**:
-  - Total number of conversations
-  - Average rating
-  - Response time metrics
-  - Growth percentages
-- **Rating Distribution**: Visual representation of user ratings
+- **Session Statistics**:
+  - Total conversation sessions
+  - Active sessions (last 24 hours)
+  - Total messages across all sessions
+  - Average messages per session
+- **Performance Metrics**:
+  - Response time analytics
+  - Token usage tracking
+  - Confidence score monitoring
+  - Model performance insights
+- **Rating Distribution**: Visual representation of session ratings
 - **Top Questions**: Most asked questions with trends
-- **Conversation Charts**: Timeline of chat activity
-- **Performance Insights**: AI model performance and optimization tips
+- **Conversation Charts**: Timeline of chat activity and session patterns
+- **Source Analytics**: Which knowledge sources are most effective
+- **User Behavior**: Session duration and engagement patterns
 
 ### 🔔 Notification System
 
@@ -487,6 +497,19 @@ After running the seed script, you can login with these test accounts:
 - Performance metrics and optimization tips
 - Detailed conversation analytics
 
+### Conversation Management
+
+- **Session Overview**: View all conversation sessions with key metrics
+- **Expandable Details**: Click any session to see the complete conversation flow
+- **Message History**: See every user question and assistant response in chronological order
+- **Source Tracking**: View which documents were used for each specific answer
+- **Performance Metrics**: Response times, confidence scores, and token usage per message
+- **Session Analytics**: Duration, message count, and engagement patterns
+- **Advanced Filtering**: Filter by conversation type, time period, duration, and ratings
+- **Real-time Statistics**: Live updates of session counts and activity metrics
+- **Rating System**: Rate entire conversation sessions with comments
+- **Export Options**: Export conversation data for analysis
+
 ## 🔧 API Endpoints
 
 ### Authentication
@@ -570,9 +593,16 @@ After running the seed script, you can login with these test accounts:
 
 ### Conversations
 
-- `GET /api/conversations` - List conversations
-- `GET /api/conversations/[id]` - Conversation details
-- `POST /api/conversations/[id]/rate` - Rate conversation
+#### Session Management
+
+- `GET /api/conversations/sessions` - List conversation sessions
+- `GET /api/conversations/sessions/stats` - Session statistics
+- `POST /api/conversations/sessions/[id]/rate` - Rate conversation session
+
+#### Chat API
+
+- `POST /api/chat/message` - Send message and receive response
+- **Features**: Automatic session creation, message storage, source tracking
 
 ### Analytics
 
@@ -603,8 +633,22 @@ After running the seed script, you can login with these test accounts:
 
 #### Communication
 
-- **Conversation**: Chat conversations and ratings
-- **ConversationSource**: Sources used in answers
+- **ConversationSession**: Complete conversation sessions with metadata
+  - Session tracking with unique session IDs
+  - Assistant association and user metadata
+  - Timing information (start, last activity, duration)
+  - Performance metrics (message count, total tokens, avg response time)
+  - Rating system for entire sessions
+- **ConversationMessage**: Individual messages (USER, ASSISTANT, SYSTEM)
+  - Message type classification
+  - Content and timestamps
+  - Performance data (response time, tokens used, confidence)
+  - Model information and source attribution
+- **ConversationSource**: Sources used in specific messages
+  - Links to documents and message content
+  - Relevance scores for source effectiveness
+  - Flexible linking to both messages and legacy conversations
+- **Conversation**: Legacy conversation model (for backward compatibility)
 - **Notification**: System notifications with targeting
 
 #### System
@@ -806,6 +850,19 @@ This project is licensed under the MIT License.
 
 ## 🆕 Recent Features
 
+### v2.2.0 - Advanced Conversation Management
+
+- ✅ **Complete Session Tracking**: Full conversation sessions with all messages
+- ✅ **Message History**: Individual user and assistant messages with timestamps
+- ✅ **Session Analytics**: Duration, message count, token usage per session
+- ✅ **Source Attribution**: Document sources linked to specific messages
+- ✅ **Performance Metrics**: Response time, confidence scores per message
+- ✅ **Expandable Views**: Click to expand and see full conversation flow
+- ✅ **Advanced Filtering**: Filter by type, time, duration, and rating
+- ✅ **Session Statistics**: Total sessions, active sessions, average messages
+- ✅ **Real-time Updates**: Live conversation data and statistics
+- ✅ **Database Schema**: New ConversationSession and ConversationMessage models
+
 ### v2.1.0 - Subscription & Billing System
 
 - ✅ **Subscription Management**: Complete Stripe integration with 4 plans
@@ -840,6 +897,14 @@ This project is licensed under the MIT License.
 
 ### Latest Updates
 
+- **Advanced Conversation Management**: Complete session tracking with individual message storage
+- **Session Analytics**: Duration, message count, token usage, and performance metrics per session
+- **Source Attribution**: Document sources linked to specific messages for better transparency
+- **Expandable Conversation Views**: Click to expand and see full conversation flow with all messages
+- **Advanced Filtering**: Filter conversations by type, time, duration, and rating
+- **Real-time Statistics**: Live updates of session counts, active sessions, and message totals
+- **Database Schema Enhancement**: New ConversationSession and ConversationMessage models
+- **Performance Monitoring**: Response time, confidence scores, and token usage per message
 - **Subscription & Billing System**: Complete Stripe integration with 4 subscription plans
 - **Trial Management**: 30-day free trial with automatic tracking and upgrade prompts
 - **Usage Limits**: Automatic enforcement of plan limits for chatbots and conversations

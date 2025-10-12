@@ -26,7 +26,27 @@ export function MessageBubble({ message, primaryColor }: MessageBubbleProps) {
             <ul className="chatbot-sources-list">
               {message.sources.map((source, idx) => (
                 <li key={idx} className="chatbot-source-item">
-                  {source.documentName}
+                  {source.url ? (
+                    <a
+                      href={source.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ color: "inherit", textDecoration: "underline" }}
+                    >
+                      {source.documentName}
+                    </a>
+                  ) : (
+                    source.documentName
+                  )}
+                  <span
+                    style={{
+                      fontSize: "0.8em",
+                      opacity: 0.7,
+                      marginLeft: "8px",
+                    }}
+                  >
+                    ({source.documentType})
+                  </span>
                 </li>
               ))}
             </ul>

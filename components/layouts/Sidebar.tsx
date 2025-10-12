@@ -5,17 +5,16 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   Users,
-  Building2,
   Mail,
   Bell,
   Home,
-  Settings,
   LogOut,
   X,
   Shield,
   CreditCard,
   Bot,
   Library,
+  MessageCircle,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { signOut } from "next-auth/react";
@@ -81,6 +80,13 @@ export default function Sidebar({
             activePath: "/knowledgebase",
             sequence: 2,
           },
+          {
+            href: "/conversations",
+            title: t("common.navigation.conversations"),
+            icon: <MessageCircle className="w-6 h-6" />,
+            activePath: "/conversations",
+            sequence: 3,
+          },
         ]
       : []),
     {
@@ -131,13 +137,6 @@ export default function Sidebar({
             : []),
         ]
       : []),
-    {
-      href: "/settings",
-      title: t("common.navigation.settings"),
-      icon: <Settings className="w-6 h-6" />,
-      activePath: "/settings",
-      sequence: 7,
-    },
   ];
 
   // Superuser specific items

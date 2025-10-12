@@ -31,6 +31,7 @@ export interface Source {
   documentName: string;
   documentType: string;
   relevanceScore: number;
+  url?: string;
 }
 
 export interface ChatResponse {

@@ -147,7 +147,7 @@ export async function hybridSearch(
         1 - (dc.embedding <=> ${JSON.stringify(queryEmbedding)}::vector) as semantic_score
       FROM document_chunks dc
       JOIN documents d ON d.id = dc."documentId"
-      WHERE d.status = 'COMPLETED' AND d.type = ANY(${documentTypes})
+      WHERE d.status = 'COMPLETED' AND d.type::text = ANY(${documentTypes})
     ),
     keyword_results AS (
       SELECT
@@ -158,7 +158,7 @@ export async function hybridSearch(
         ) as keyword_score
       FROM document_chunks dc
       JOIN documents d ON d.id = dc."documentId"
-      WHERE d.status = 'COMPLETED' AND d.type = ANY(${documentTypes})
+      WHERE d.status = 'COMPLETED' AND d.type::text = ANY(${documentTypes})
     )
     SELECT
       sr.id as "chunkId",

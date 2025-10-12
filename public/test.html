@@ -62,14 +62,17 @@
 
     <!-- Widget -->
     <script
-      src="/widget/loader.js"
-      data-chatbot-id="cbk_test_123456789"
+      src="http://localhost:3000/widget/loader.js"
+      data-chatbot-id="8ae4530d-03fe-4128-9e91-47bc9d66c599"
     ></script>
 
     <script>
       // Debug script
       console.log("Test page loaded");
-      console.log("Widget script should load from:", "/widget/loader.js");
+      console.log(
+        "Widget script should load from:",
+        "http://localhost:3000/widget/loader.js"
+      );
 
       // Check if widget loaded
       setTimeout(() => {
