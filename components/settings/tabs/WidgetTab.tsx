@@ -227,7 +227,7 @@ export function WidgetTab({ onChanges }: WidgetTabProps) {
                 Alle andere instellingen worden automatisch uit de database
                 gehaald
               </li>
-              <li>Test de widget met de "Test Widget" knop</li>
+              <li>Test de widget met de &quot;Test Widget&quot; knop</li>
             </ol>
           </div>
         </CardContent>
@@ -309,7 +309,7 @@ export function WidgetTab({ onChanges }: WidgetTabProps) {
           <div className="space-y-2">
             <h4 className="font-medium text-gray-900">WordPress</h4>
             <p className="text-sm text-gray-600">
-              Voeg toe aan je theme's footer.php of gebruik een plugin:
+              Voeg toe aan je theme&apos;s footer.php of gebruik een plugin:
             </p>
             <div className="bg-gray-900 text-gray-100 p-3 rounded-lg font-mono text-xs overflow-x-auto">
               <pre className="whitespace-pre-wrap">{`<?php wp_footer(); ?>

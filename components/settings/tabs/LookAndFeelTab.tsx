@@ -68,7 +68,7 @@ export function LookAndFeelTab({ onChanges }: LookAndFeelTabProps) {
       setAssistantSubtitle(t("settings.assistantSubtitle")); // Default subtitle
       setSelectedAvatar("chat-bubble"); // Default avatar
     }
-  }, [currentAssistant]);
+  }, [currentAssistant, t]);
 
   const handleSave = async (section: string) => {
     if (!currentAssistant) {

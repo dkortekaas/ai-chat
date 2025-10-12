@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
         // Get the first available assistant for testing
         const firstAssistant = await db.chatbotSettings.findFirst({
           include: {
-            user: true,
+            users: true,
           },
         });
 
@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
         chatbotSettings = await db.chatbotSettings.findUnique({
           where: { apiKey },
           include: {
-            user: true,
+            users: true,
           },
         });
       } catch (dbError) {

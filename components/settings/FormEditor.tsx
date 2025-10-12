@@ -91,7 +91,7 @@ export function FormEditor({ mode, initialForm }: FormEditorProps) {
         }
       })();
     }
-  }, [mode, initialForm, params, toast]);
+  }, [mode, initialForm, params, toast, t]);
 
   const handleAddField = () => {
     const newField: FormField = {
