@@ -2,17 +2,17 @@
 
 import { useState } from "react";
 import {
+  Badge,
+  Button,
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { Badge } from "@/components/ui/badge";
+  Input,
+  Label,
+  Switch,
+} from "@/components/ui";
 import {
   Mail,
   MessageSquare,
@@ -24,19 +24,11 @@ import {
   CheckCircle,
   AlertCircle,
 } from "lucide-react";
+import { categoryLabels, Integration } from "@/types/integration";
+import { useTranslations } from "next-intl";
 
 interface IntegrationsTabProps {
   onChanges: (hasChanges: boolean) => void;
-}
-
-interface Integration {
-  id: string;
-  name: string;
-  description: string;
-  icon: React.ComponentType<{ className?: string }>;
-  enabled: boolean;
-  configured: boolean;
-  category: "communication" | "analytics" | "automation" | "data";
 }
 
 const availableIntegrations: Integration[] = [
@@ -88,13 +80,6 @@ const availableIntegrations: Integration[] = [
   },
 ];
 
-const categoryLabels = {
-  communication: "Communication",
-  analytics: "Analytics",
-  automation: "Automation",
-  data: "Data",
-};
-
 export function IntegrationsTab({ onChanges }: IntegrationsTabProps) {
   const [integrations, setIntegrations] = useState<Integration[]>(
     availableIntegrations
@@ -102,6 +87,7 @@ export function IntegrationsTab({ onChanges }: IntegrationsTabProps) {
   const [selectedIntegration, setSelectedIntegration] =
     useState<Integration | null>(null);
   const [isConfiguring, setIsConfiguring] = useState(false);
+  const t = useTranslations();
 
   const handleToggleIntegration = (id: string) => {
     setIntegrations(
@@ -149,11 +135,10 @@ export function IntegrationsTab({ onChanges }: IntegrationsTabProps) {
     <div className="space-y-6">
       <div>
         <h3 className="text-lg font-medium text-gray-900">
-          Available Integrations
+          {t("settings.availableIntegrations")}
         </h3>
         <p className="text-sm text-gray-600">
-          Connect with third-party services and tools to extend your
-          chatbot&apos;s capabilities
+          {t("settings.availableIntegrationsDescription")}
         </p>
       </div>
 
@@ -189,12 +174,12 @@ export function IntegrationsTab({ onChanges }: IntegrationsTabProps) {
                                   className="bg-green-100 text-green-800"
                                 >
                                   <CheckCircle className="w-3 h-3 mr-1" />
-                                  Configured
+                                  {t("settings.configured")}
                                 </Badge>
                               ) : (
                                 <Badge variant="secondary">
                                   <AlertCircle className="w-3 h-3 mr-1" />
-                                  Not configured
+                                  {t("settings.notConfigured")}
                                 </Badge>
                               )}
                             </div>
@@ -218,7 +203,7 @@ export function IntegrationsTab({ onChanges }: IntegrationsTabProps) {
                                 }
                               >
                                 <Settings className="w-4 h-4 mr-2" />
-                                Settings
+                                {t("settings.settings")}
                               </Button>
                             </div>
                           ) : (
@@ -228,7 +213,7 @@ export function IntegrationsTab({ onChanges }: IntegrationsTabProps) {
                               }
                               className="bg-indigo-500 hover:bg-indigo-600"
                             >
-                              Configure
+                              {t("settings.configure")}
                             </Button>
                           )}
                         </div>
@@ -248,7 +233,9 @@ export function IntegrationsTab({ onChanges }: IntegrationsTabProps) {
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               <selectedIntegration.icon className="w-5 h-5" />
-              <span>Configure {selectedIntegration.name}</span>
+              <span>
+                {t("settings.configure")} {selectedIntegration.name}
+              </span>
             </CardTitle>
             <CardDescription>{selectedIntegration.description}</CardDescription>
           </CardHeader>
@@ -256,19 +243,23 @@ export function IntegrationsTab({ onChanges }: IntegrationsTabProps) {
             {selectedIntegration.id === "email" && (
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="smtp-host">SMTP Host</Label>
+                  <Label htmlFor="smtp-host">{t("settings.smtpHost")}</Label>
                   <Input id="smtp-host" placeholder="smtp.gmail.com" />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="smtp-port">SMTP Port</Label>
+                  <Label htmlFor="smtp-port">{t("settings.smtpPort")}</Label>
                   <Input id="smtp-port" placeholder="587" />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email-username">Username</Label>
+                  <Label htmlFor="email-username">
+                    {t("settings.username")}
+                  </Label>
                   <Input id="email-username" placeholder="your@email.com" />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email-password">Password</Label>
+                  <Label htmlFor="email-password">
+                    {t("settings.password")}
+                  </Label>
                   <Input
                     id="email-password"
                     type="password"
@@ -281,21 +272,25 @@ export function IntegrationsTab({ onChanges }: IntegrationsTabProps) {
             {selectedIntegration.id === "slack" && (
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="slack-webhook">Slack Webhook URL</Label>
+                  <Label htmlFor="slack-webhook">
+                    {t("settings.slackWebhookURL")}
+                  </Label>
                   <Input
                     id="slack-webhook"
                     placeholder="https://hooks.slack.com/services/..."
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="slack-channel">Default Channel</Label>
+                  <Label htmlFor="slack-channel">
+                    {t("settings.defaultChannel")}
+                  </Label>
                   <Input id="slack-channel" placeholder="#general" />
                 </div>
                 <div className="p-4 bg-indigo-50 rounded-lg">
                   <p className="text-sm text-blue-800">
-                    <strong>Setup Instructions:</strong> Go to your Slack
-                    workspace settings, create a new webhook, and paste the URL
-                    above.
+                    <strong>{t("settings.setupInstructions")}:</strong> Go to
+                    your Slack workspace settings, create a new webhook, and
+                    paste the URL above.
                   </p>
                 </div>
               </div>
@@ -305,15 +300,15 @@ export function IntegrationsTab({ onChanges }: IntegrationsTabProps) {
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="ga-tracking-id">
-                    Google Analytics Tracking ID
+                    {t("settings.googleAnalyticsTrackingID")}
                   </Label>
                   <Input id="ga-tracking-id" placeholder="GA-XXXXXXXXX-X" />
                 </div>
                 <div className="p-4 bg-indigo-50 rounded-lg">
                   <p className="text-sm text-blue-800">
-                    <strong>Setup Instructions:</strong> Create a Google
-                    Analytics property and copy the tracking ID from your GA4
-                    dashboard.
+                    <strong>{t("settings.setupInstructions")}:</strong> Create a
+                    Google Analytics property and copy the tracking ID from your
+                    GA4 dashboard.
                   </p>
                 </div>
               </div>
@@ -322,7 +317,9 @@ export function IntegrationsTab({ onChanges }: IntegrationsTabProps) {
             {selectedIntegration.id === "zapier" && (
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="zapier-webhook">Zapier Webhook URL</Label>
+                  <Label htmlFor="zapier-webhook">
+                    {t("settings.zapierWebhookURL")}
+                  </Label>
                   <Input
                     id="zapier-webhook"
                     placeholder="https://hooks.zapier.com/hooks/catch/..."
@@ -330,9 +327,9 @@ export function IntegrationsTab({ onChanges }: IntegrationsTabProps) {
                 </div>
                 <div className="p-4 bg-indigo-50 rounded-lg">
                   <p className="text-sm text-blue-800">
-                    <strong>Setup Instructions:</strong> Create a new Zap in
-                    Zapier, choose &quot;Webhooks&quot; as the trigger, and copy
-                    the webhook URL.
+                    <strong>{t("settings.setupInstructions")}:</strong> Create a
+                    new Zap in Zapier, choose &quot;Webhooks&quot; as the
+                    trigger, and copy the webhook URL.
                   </p>
                 </div>
               </div>
@@ -340,13 +337,13 @@ export function IntegrationsTab({ onChanges }: IntegrationsTabProps) {
 
             <div className="flex justify-end space-x-2">
               <Button variant="outline" onClick={() => setIsConfiguring(false)}>
-                Cancel
+                {t("common.cancel")}
               </Button>
               <Button
                 onClick={handleSaveConfiguration}
                 className="bg-indigo-500 hover:bg-indigo-600"
               >
-                Save Configuration
+                {t("common.save")}
               </Button>
             </div>
           </CardContent>
@@ -356,20 +353,19 @@ export function IntegrationsTab({ onChanges }: IntegrationsTabProps) {
       {/* Help Section */}
       <Card>
         <CardHeader>
-          <CardTitle>Need Help?</CardTitle>
+          <CardTitle>{t("settings.needHelp")}</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-gray-600 mb-4">
-            Having trouble setting up an integration? Check out our
-            documentation or contact support.
+            {t("settings.needHelpDescription")}
           </p>
           <div className="flex space-x-2">
             <Button variant="outline" size="sm">
               <ExternalLink className="w-4 h-4 mr-2" />
-              Documentation
+              {t("settings.documentation")}
             </Button>
             <Button variant="outline" size="sm">
-              Contact Support
+              {t("settings.contactSupport")}
             </Button>
           </div>
         </CardContent>

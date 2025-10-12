@@ -1,52 +1,65 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronDown, Globe } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { toast } from "../ui/use-toast";
+import { toast } from "@/components/ui/use-toast";
 import { useTranslations } from "next-intl";
-
-type Language = {
-  code: string;
-  name: string;
-  nativeName: string;
-  flag?: string;
-};
-
-// List of supported languages based on your functional document
-const languages: Language[] = [
-  { code: "nl", name: "Dutch", nativeName: "Nederlands", flag: "🇳🇱" },
-  { code: "en", name: "English", nativeName: "English", flag: "🇬🇧" },
-  { code: "de", name: "German", nativeName: "Deutsch", flag: "🇩🇪" },
-  { code: "fr", name: "French", nativeName: "Français", flag: "🇫🇷" },
-  { code: "es", name: "Spanish", nativeName: "Español", flag: "🇪🇸" },
-];
+import {
+  Button,
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui";
+import { Language } from "@/types/language";
 
 export default function LanguageSelector() {
   const [isOpen, setIsOpen] = useState(false);
+  const { data: session, update } = useSession();
+  const router = useRouter();
+  const t = useTranslations();
+
+  const languages: Language[] = useMemo(
+    () => [
+      {
+        code: "nl",
+        name: "Dutch",
+        nativeName: t("languageSelector.dutch"),
+        flag: "🇳🇱",
+      },
+      {
+        code: "en",
+        name: "English",
+        nativeName: t("languageSelector.english"),
+        flag: "🇬🇧",
+      },
+      {
+        code: "de",
+        name: "German",
+        nativeName: t("languageSelector.german"),
+        flag: "🇩🇪",
+      },
+      {
+        code: "fr",
+        name: "French",
+        nativeName: t("languageSelector.french"),
+        flag: "🇫🇷",
+      },
+      {
+        code: "es",
+        name: "Spanish",
+        nativeName: t("languageSelector.spanish"),
+        flag: "🇪🇸",
+      },
+    ],
+    [t]
+  );
+
   const [currentLanguage, setCurrentLanguage] = useState<Language>(
     languages[0]
   );
-  const { data: session, update } = useSession();
-  const router = useRouter();
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const t = useTranslations();
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   // Load current language from session or local storage
   useEffect(() => {
@@ -81,7 +94,7 @@ export default function LanguageSelector() {
     };
 
     loadLanguage();
-  }, [session]);
+  }, [session, languages]);
 
   const changeLanguage = async (language: Language) => {
     setCurrentLanguage(language);
@@ -133,40 +146,36 @@ export default function LanguageSelector() {
   };
 
   return (
-    <div className="relative" ref={dropdownRef}>
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center px-2 py-1 text-gray-700 hover:text-gray-900 focus:outline-none"
-        aria-label="Select language"
-      >
-        <Globe className="h-5 w-5 mr-1" />
-        <span className="text-sm font-medium hidden md:inline-block">
-          {currentLanguage.flag} {currentLanguage.nativeName}
-        </span>
-        <span className="text-sm font-medium md:hidden">
-          {currentLanguage.flag}
-        </span>
-        <ChevronDown className="h-4 w-4 ml-1" />
-      </button>
+    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          className="flex items-center gap-2 px-3 py-2 h-auto"
+          aria-label="Select language"
+        >
+          <Globe className="h-5 w-5" />
+          <span className="text-sm font-medium hidden md:inline-block">
+            {currentLanguage.flag} {currentLanguage.nativeName}
+          </span>
+          <span className="text-sm font-medium md:hidden">
+            {currentLanguage.flag}
+          </span>
+          <ChevronDown className="h-4 w-4 text-gray-500" />
+        </Button>
+      </DropdownMenuTrigger>
 
-      {isOpen && (
-        <div className="absolute right-0 mt-2 py-1 w-48 bg-white rounded-md shadow-lg z-50 ring-1 ring-black ring-opacity-5">
-          {languages.map((language) => (
-            <button
-              key={language.code}
-              className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
-                currentLanguage.code === language.code
-                  ? "bg-gray-50 font-medium"
-                  : ""
-              }`}
-              onClick={() => changeLanguage(language)}
-            >
-              <span className="mr-2">{language.flag}</span>
-              {language.nativeName}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
+      <DropdownMenuContent align="end" className="w-48 mt-2" sideOffset={8}>
+        {languages.map((language) => (
+          <DropdownMenuItem
+            key={language.code}
+            onClick={() => changeLanguage(language)}
+            className="cursor-pointer"
+          >
+            <span className="mr-2">{language.flag}</span>
+            {language.nativeName}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

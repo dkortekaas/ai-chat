@@ -6,15 +6,13 @@ import { useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
 import { toast } from "@/components/ui/use-toast";
 import {
+  Button,
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
-} from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
-import {
+  Checkbox,
   Form,
   FormControl,
   FormDescription,
@@ -22,12 +20,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "@/components/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { useDebouncedCallback } from "use-debounce";
 import { logger } from "@/lib/logger";
+
 const formSchema = z.object({
   emailNotifications: z.boolean(),
   declarationUpdates: z.boolean(),

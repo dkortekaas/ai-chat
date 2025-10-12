@@ -1,24 +1,28 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import SaveButton from "@/components/ui/save-button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
 import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  Input,
+  Label,
+  SaveButton,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+  Switch,
+  Textarea,
+} from "@/components/ui";
 import { Plus, Save, Trash2 } from "lucide-react";
 import { useRouter, useParams } from "next/navigation";
 import { useAssistant } from "@/contexts/assistant-context";
 import { useToast } from "@/hooks/useToast";
+import { useTranslations } from "next-intl";
 
 export interface FormField {
   id: string;
@@ -44,6 +48,7 @@ interface FormEditorProps {
 }
 
 export function FormEditor({ mode, initialForm }: FormEditorProps) {
+  const t = useTranslations();
   const router = useRouter();
   const params = useParams();
   const { currentAssistant } = useAssistant();
@@ -51,7 +56,7 @@ export function FormEditor({ mode, initialForm }: FormEditorProps) {
   const [form, setForm] = useState<ContactForm>(
     initialForm ?? {
       id: Date.now().toString(),
-      name: mode === "create" ? "New Form" : "Edit Form",
+      name: mode === "create" ? t("settings.newForm") : t("settings.editForm"),
       description: "",
       fields: [],
       enabled: true,
@@ -71,16 +76,16 @@ export function FormEditor({ mode, initialForm }: FormEditorProps) {
             setForm(data);
           } else {
             toast({
-              title: "Error",
-              description: "Form niet gevonden",
+              title: t("common.error"),
+              description: t("settings.formNotFound"),
               variant: "destructive",
             });
           }
         } catch (e) {
           console.error("Failed to load form", e);
           toast({
-            title: "Error",
-            description: "Laden mislukt",
+            title: t("common.error"),
+            description: t("settings.loadFailed"),
             variant: "destructive",
           });
         }
@@ -91,10 +96,10 @@ export function FormEditor({ mode, initialForm }: FormEditorProps) {
   const handleAddField = () => {
     const newField: FormField = {
       id: Date.now().toString(),
-      name: "New Field",
+      name: t("settings.newField"),
       type: "text",
       required: false,
-      placeholder: "Enter value...",
+      placeholder: t("settings.enterValue"),
     };
     setForm({
       ...form,
@@ -138,7 +143,10 @@ export function FormEditor({ mode, initialForm }: FormEditorProps) {
             fields: form.fields,
           }),
         });
-        toast({ title: "Aangemaakt", description: "Form is aangemaakt" });
+        toast({
+          title: t("settings.created"),
+          description: t("settings.formCreated"),
+        });
       } else {
         await fetch(`/api/forms/${form.id}`, {
           method: "PUT",
@@ -153,14 +161,17 @@ export function FormEditor({ mode, initialForm }: FormEditorProps) {
             fields: form.fields,
           }),
         });
-        toast({ title: "Opgeslagen", description: "Form is bijgewerkt" });
+        toast({
+          title: t("settings.saved"),
+          description: t("settings.formUpdated"),
+        });
       }
       router.push("/settings?tab=forms");
     } catch (e) {
       console.error("Failed to save form", e);
       toast({
-        title: "Error",
-        description: "Opslaan mislukt",
+        title: t("common.error"),
+        description: t("settings.saveFailed"),
         variant: "destructive",
       });
     }
@@ -175,13 +186,15 @@ export function FormEditor({ mode, initialForm }: FormEditorProps) {
       <Card>
         <CardHeader>
           <CardTitle>
-            {mode === "create" ? "Create Form" : `Edit Form: ${form.name}`}
+            {mode === "create"
+              ? t("settings.createForm")
+              : t("settings.editForm", { name: form.name })}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="form-name">Form Name</Label>
+              <Label htmlFor="form-name">{t("settings.formName")}</Label>
               <Input
                 id="form-name"
                 value={form.name}
@@ -189,7 +202,7 @@ export function FormEditor({ mode, initialForm }: FormEditorProps) {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="redirect-url">Redirect URL (optional)</Label>
+              <Label htmlFor="redirect-url">{t("settings.redirectUrl")}</Label>
               <Input
                 id="redirect-url"
                 value={form.redirectUrl || ""}
@@ -202,23 +215,25 @@ export function FormEditor({ mode, initialForm }: FormEditorProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="form-description">Description</Label>
+            <Label htmlFor="form-description">
+              {t("settings.description")}
+            </Label>
             <Textarea
               id="form-description"
               value={form.description}
               onChange={(e) =>
                 setForm({ ...form, description: e.target.value })
               }
-              placeholder="Describe the purpose of this form"
+              placeholder={t("settings.describeThePurposeOfThisForm")}
             />
           </div>
 
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h4 className="font-medium">Form Fields</h4>
+              <h4 className="font-medium">{t("settings.formFields")}</h4>
               <Button onClick={handleAddField} size="sm">
                 <Plus className="w-4 h-4 mr-2" />
-                Add Field
+                {t("settings.addField")}
               </Button>
             </div>
 
@@ -227,7 +242,7 @@ export function FormEditor({ mode, initialForm }: FormEditorProps) {
                 <div key={field.id} className="p-4 border rounded-lg space-y-3">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div className="space-y-2">
-                      <Label>Field Name</Label>
+                      <Label>{t("settings.fieldName")}</Label>
                       <Input
                         value={field.name}
                         onChange={(e) =>
@@ -236,7 +251,7 @@ export function FormEditor({ mode, initialForm }: FormEditorProps) {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label>Field Type</Label>
+                      <Label>{t("settings.fieldType")}</Label>
                       <Select
                         value={field.type}
                         onValueChange={(value: FormField["type"]) =>
@@ -247,16 +262,26 @@ export function FormEditor({ mode, initialForm }: FormEditorProps) {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="text">Text</SelectItem>
-                          <SelectItem value="email">Email</SelectItem>
-                          <SelectItem value="phone">Phone</SelectItem>
-                          <SelectItem value="textarea">Textarea</SelectItem>
-                          <SelectItem value="select">Select</SelectItem>
+                          <SelectItem value="text">
+                            {t("settings.text")}
+                          </SelectItem>
+                          <SelectItem value="email">
+                            {t("settings.email")}
+                          </SelectItem>
+                          <SelectItem value="phone">
+                            {t("settings.phone")}
+                          </SelectItem>
+                          <SelectItem value="textarea">
+                            {t("settings.textarea")}
+                          </SelectItem>
+                          <SelectItem value="select">
+                            {t("settings.select")}
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
                     <div className="space-y-2">
-                      <Label>Placeholder</Label>
+                      <Label>{t("settings.placeholder")}</Label>
                       <Input
                         value={field.placeholder || ""}
                         onChange={(e) =>
@@ -277,7 +302,7 @@ export function FormEditor({ mode, initialForm }: FormEditorProps) {
                         }
                         className="data-[state=checked]:bg-indigo-500"
                       />
-                      <Label>Required field</Label>
+                      <Label>{t("settings.requiredField")}</Label>
                     </div>
                     <Button
                       variant="outline"
@@ -294,13 +319,15 @@ export function FormEditor({ mode, initialForm }: FormEditorProps) {
 
           <div className="flex justify-end space-x-2">
             <Button variant="outline" onClick={handleCancel}>
-              Cancel
+              {t("common.cancel")}
             </Button>
             <SaveButton
               onClick={handleSave}
               icon={<Save className="w-4 h-4 mr-2" />}
             >
-              {mode === "create" ? "Create Form" : "Save Form"}
+              {mode === "create"
+                ? t("settings.createForm")
+                : t("settings.saveForm")}
             </SaveButton>
           </div>
         </CardContent>

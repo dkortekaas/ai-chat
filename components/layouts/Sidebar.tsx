@@ -20,7 +20,6 @@ import {
 import { useState, useEffect } from "react";
 import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 import config from "@/config";
 
 type SidebarProps = {
@@ -292,18 +291,59 @@ export default function Sidebar({
           ${isMobile ? (isOpen ? "translate-x-0" : "-translate-x-full") : "translate-x-0"}`}
       >
         {/* Logo/header area */}
-        <div className="flex justify-center pt-1 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex justify-center h-[86px] py-2 border-b border-gray-200 dark:border-gray-700">
           <Link
             href={isSuperuser ? "/admindashboard" : "/dashboard"}
-            className="w-16 h-16 rounded-md flex items-center justify-center text-white font-bold"
+            className="w-full h-full rounded-md flex items-center justify-center text-white font-bold"
           >
-            <Image
-              src="/declair-logo.svg"
-              alt={config.appTitle}
-              width={80}
-              height={80}
-              className="w-10 h-10"
-            />
+            <svg
+              width="60"
+              height="60"
+              viewBox="0 0 60 60"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {/* Chatballon basis */}
+              <g filter="url(#shadow)">
+                <path
+                  d="M15 10C8 10 3 15 3 22V30C3 37 8 42 15 42H23L28 47C28.5 47.5 29.5 47.5 30 47L35 42H45C52 42 57 37 57 30V22C57 15 52 10 45 10H15Z"
+                  fill="#615FFF"
+                />
+              </g>
+
+              {/* Twee enkele quotes (‘ ’) als “AI-ogen” */}
+              <text
+                x="17"
+                y="42"
+                fill="white"
+                font-family="Inter, sans-serif"
+                font-size="30"
+                font-weight="700"
+              >
+                ‘ ’
+              </text>
+
+              {/* Schaduwfilter */}
+              <defs>
+                <filter
+                  id="shadow"
+                  x="0"
+                  y="0"
+                  width="65"
+                  height="60"
+                  filterUnits="userSpaceOnUse"
+                >
+                  <feOffset dy="2" />
+                  <feGaussianBlur stdDeviation="2" />
+                  <feComposite in2="SourceAlpha" operator="out" />
+                  <feColorMatrix
+                    type="matrix"
+                    values="0 0 0 0 0.38 0 0 0 0 0.37 0 0 0 0 1 0 0 0 0.15 0"
+                  />
+                  <feBlend in2="SourceGraphic" mode="normal" />
+                </filter>
+              </defs>
+            </svg>
           </Link>
         </div>
 

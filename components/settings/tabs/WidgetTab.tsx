@@ -2,15 +2,15 @@
 
 import { useState } from "react";
 import {
+  Badge,
+  Button,
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
+  Switch,
+} from "@/components/ui";
 import {
   Copy,
   Check,
@@ -21,6 +21,7 @@ import {
   Trash2,
   Power,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface WidgetTabProps {
   onChanges: (hasChanges: boolean) => void;
@@ -30,6 +31,7 @@ export function WidgetTab({ onChanges }: WidgetTabProps) {
   const [isEnabled, setIsEnabled] = useState(true);
   const [copied, setCopied] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const t = useTranslations();
 
   const widgetCode = `<script src='https://bot.eu.aichat.com/aichat_bot.js'></script>
 <script>
@@ -63,10 +65,11 @@ window.bot = aichatBot({
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium text-gray-900">Widget Management</h3>
+        <h3 className="text-lg font-medium text-gray-900">
+          {t("settings.widgetManagement")}
+        </h3>
         <p className="text-sm text-gray-600">
-          Install the chat widget on your website and your assistant starts
-          talking to customers, or delete it if no longer needed.
+          {t("settings.widgetManagementDescription")}
         </p>
       </div>
 
@@ -75,11 +78,10 @@ window.bot = aichatBot({
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Monitor className="w-5 h-5" />
-            <span>Install your assistant on your website</span>
+            <span>{t("settings.installAssistantOnWebsite")}</span>
           </CardTitle>
           <CardDescription>
-            Paste this code snippet on your website (ideally before the
-            &lt;/body&gt; tag)
+            {t("settings.installAssistantOnWebsiteDescription")}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -93,12 +95,12 @@ window.bot = aichatBot({
             {copied ? (
               <>
                 <Check className="w-4 h-4 mr-2" />
-                Copied!
+                {t("settings.copied")}
               </>
             ) : (
               <>
                 <Copy className="w-4 h-4 mr-2" />
-                Copy code
+                {t("settings.copyCode")}
               </>
             )}
           </Button>
@@ -110,11 +112,10 @@ window.bot = aichatBot({
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Power className="w-5 h-5" />
-            <span>Enable/Disable Assistant</span>
+            <span>{t("settings.enableDisableAssistant")}</span>
           </CardTitle>
           <CardDescription>
-            Disabling an assistant will make it hidden and unavailable on your
-            website. You can enable it back anytime.
+            {t("settings.enableDisableAssistantDescription")}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -127,12 +128,12 @@ window.bot = aichatBot({
               />
               <div>
                 <p className="font-medium text-gray-900">
-                  {isEnabled ? "Enabled" : "Disabled"}
+                  {isEnabled ? t("settings.enabled") : t("settings.disabled")}
                 </p>
                 <p className="text-sm text-gray-600">
                   {isEnabled
-                    ? "Your assistant is active and visible on your website"
-                    : "Your assistant is hidden from visitors"}
+                    ? t("settings.assistantActiveAndVisibleOnWebsite")
+                    : t("settings.assistantHiddenFromVisitors")}
                 </p>
               </div>
             </div>
@@ -140,7 +141,7 @@ window.bot = aichatBot({
               variant={isEnabled ? "default" : "secondary"}
               className={isEnabled ? "bg-green-100 text-green-800" : ""}
             >
-              {isEnabled ? "Active" : "Inactive"}
+              {isEnabled ? t("settings.active") : t("settings.inactive")}
             </Badge>
           </div>
 
@@ -150,11 +151,10 @@ window.bot = aichatBot({
                 <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
                 <div>
                   <p className="text-sm font-medium text-yellow-800">
-                    Assistant is disabled
+                    {t("settings.assistantDisabled")}
                   </p>
                   <p className="text-sm text-yellow-700">
-                    Visitors to your website will not see the chat widget.
-                    Enable it to start receiving conversations.
+                    {t("settings.assistantDisabledDescription")}
                   </p>
                 </div>
               </div>
@@ -166,9 +166,9 @@ window.bot = aichatBot({
       {/* Device Preview Section */}
       <Card>
         <CardHeader>
-          <CardTitle>Widget Preview</CardTitle>
+          <CardTitle>{t("settings.widgetPreview")}</CardTitle>
           <CardDescription>
-            See how your chat widget appears on different devices
+            {t("settings.widgetPreviewDescription")}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -177,22 +177,34 @@ window.bot = aichatBot({
               <div className="w-16 h-16 bg-gray-100 rounded-lg mx-auto flex items-center justify-center">
                 <Monitor className="w-8 h-8 text-gray-600" />
               </div>
-              <p className="text-sm font-medium text-gray-900">Desktop</p>
-              <p className="text-xs text-gray-600">Bottom right corner</p>
+              <p className="text-sm font-medium text-gray-900">
+                {t("settings.desktop")}
+              </p>
+              <p className="text-xs text-gray-600">
+                {t("settings.bottomRightCorner")}
+              </p>
             </div>
             <div className="text-center space-y-2">
               <div className="w-16 h-16 bg-gray-100 rounded-lg mx-auto flex items-center justify-center">
                 <Tablet className="w-8 h-8 text-gray-600" />
               </div>
-              <p className="text-sm font-medium text-gray-900">Tablet</p>
-              <p className="text-xs text-gray-600">Responsive positioning</p>
+              <p className="text-sm font-medium text-gray-900">
+                {t("settings.tablet")}
+              </p>
+              <p className="text-xs text-gray-600">
+                {t("settings.responsivePositioning")}
+              </p>
             </div>
             <div className="text-center space-y-2">
               <div className="w-16 h-16 bg-gray-100 rounded-lg mx-auto flex items-center justify-center">
                 <Smartphone className="w-8 h-8 text-gray-600" />
               </div>
-              <p className="text-sm font-medium text-gray-900">Mobile</p>
-              <p className="text-xs text-gray-600">Full screen overlay</p>
+              <p className="text-sm font-medium text-gray-900">
+                {t("settings.mobile")}
+              </p>
+              <p className="text-xs text-gray-600">
+                {t("settings.fullScreenOverlay")}
+              </p>
             </div>
           </div>
         </CardContent>
@@ -203,11 +215,10 @@ window.bot = aichatBot({
         <CardHeader>
           <CardTitle className="flex items-center space-x-2 text-red-700">
             <Trash2 className="w-5 h-5" />
-            <span>Delete Assistant</span>
+            <span>{t("settings.deleteAssistant")}</span>
           </CardTitle>
           <CardDescription>
-            Are you sure you want to delete this assistant? This action will
-            permanently remove the assistant and all its associated data.
+            {t("settings.deleteAssistantDescription")}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -217,7 +228,7 @@ window.bot = aichatBot({
               onClick={() => setShowDeleteConfirm(true)}
             >
               <Trash2 className="w-4 h-4 mr-2" />
-              Yes, Delete it
+              {t("settings.yesDeleteIt")}
             </Button>
           ) : (
             <div className="space-y-4">
@@ -226,11 +237,12 @@ window.bot = aichatBot({
                   <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5" />
                   <div>
                     <p className="text-sm font-medium text-red-800">
-                      This action cannot be undone
+                      {t("settings.thisActionCannotBeUndone")}
                     </p>
                     <p className="text-sm text-red-700">
-                      All conversations, settings, and data associated with this
-                      assistant will be permanently deleted.
+                      {t(
+                        "settings.allConversationsSettingsAndDataAssociatedWithThisAssistantWillBePermanentlyDeleted"
+                      )}
                     </p>
                   </div>
                 </div>
@@ -240,11 +252,11 @@ window.bot = aichatBot({
                   variant="outline"
                   onClick={() => setShowDeleteConfirm(false)}
                 >
-                  Cancel
+                  {t("common.cancel")}
                 </Button>
                 <Button variant="destructive" onClick={handleDeleteAssistant}>
                   <Trash2 className="w-4 h-4 mr-2" />
-                  Confirm Delete
+                  {t("common.confirm")}
                 </Button>
               </div>
             </div>

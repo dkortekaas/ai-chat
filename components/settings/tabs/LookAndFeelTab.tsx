@@ -7,21 +7,20 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import SaveButton from "@/components/ui/save-button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
+  Input,
+  Label,
+  SaveButton,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/components/ui";
 import { Info } from "lucide-react";
 import { useAssistant } from "@/contexts/assistant-context";
 import { useToast } from "@/hooks/useToast";
 import { ChatbotPreview } from "@/components/assistant/ChatbotPreview";
+import { useTranslations } from "next-intl";
 
 interface LookAndFeelTabProps {
   onChanges: (hasChanges: boolean) => void;
@@ -38,32 +37,35 @@ const fontOptions = [
   "Nunito",
 ];
 
-const avatarOptions = [
-  { id: "chat-bubble", icon: "💬", name: "Chat Bubble" },
-  { id: "robot", icon: "🤖", name: "Robot" },
-  { id: "assistant", icon: "👤", name: "Assistant" },
-  { id: "support", icon: "🎧", name: "Support" },
-  { id: "help", icon: "❓", name: "Help" },
-];
-
 export function LookAndFeelTab({ onChanges }: LookAndFeelTabProps) {
   const { currentAssistant, refreshAssistants } = useAssistant();
   const { toast } = useToast();
+  const t = useTranslations();
 
   const [fontFamily, setFontFamily] = useState("Inter");
-  const [assistantName, setAssistantName] = useState("PS in foodservice");
+  const [assistantName, setAssistantName] = useState(
+    t("settings.assistantName")
+  );
   const [assistantSubtitle, setAssistantSubtitle] = useState(
-    "We helpen je graag verder!"
+    t("settings.assistantSubtitle")
   );
   const [selectedAvatar, setSelectedAvatar] = useState("chat-bubble");
   const [isLoading, setIsLoading] = useState(false);
+
+  const avatarOptions = [
+    { id: "chat-bubble", icon: "💬", name: t("settings.chatBubble") },
+    { id: "robot", icon: "🤖", name: t("settings.robot") },
+    { id: "assistant", icon: "👤", name: t("settings.assistant") },
+    { id: "support", icon: "🎧", name: t("settings.support") },
+    { id: "help", icon: "❓", name: t("settings.help") },
+  ];
 
   // Load data from current assistant
   useEffect(() => {
     if (currentAssistant) {
       setFontFamily("Inter"); // Default font family
-      setAssistantName(currentAssistant.name || "PS in foodservice");
-      setAssistantSubtitle("We helpen je graag verder!"); // Default subtitle
+      setAssistantName(currentAssistant.name || t("settings.assistantName"));
+      setAssistantSubtitle(t("settings.assistantSubtitle")); // Default subtitle
       setSelectedAvatar("chat-bubble"); // Default avatar
     }
   }, [currentAssistant]);
@@ -71,8 +73,8 @@ export function LookAndFeelTab({ onChanges }: LookAndFeelTabProps) {
   const handleSave = async (section: string) => {
     if (!currentAssistant) {
       toast({
-        title: "Error",
-        description: "No assistant selected",
+        title: t("settings.error"),
+        description: t("settings.noAssistantSelected"),
         variant: "destructive",
       });
       return;
@@ -98,8 +100,8 @@ export function LookAndFeelTab({ onChanges }: LookAndFeelTabProps) {
         await refreshAssistants();
         onChanges(false);
         toast({
-          title: "Success",
-          description: `${section} settings saved successfully`,
+          title: t("settings.success"),
+          description: `${section} ${t("settings.settingsSavedSuccessfully")}`,
         });
       } else {
         throw new Error("Failed to save settings");
@@ -107,8 +109,8 @@ export function LookAndFeelTab({ onChanges }: LookAndFeelTabProps) {
     } catch (error) {
       console.error("Error saving settings:", error);
       toast({
-        title: "Error",
-        description: "Failed to save settings",
+        title: t("settings.error"),
+        description: t("settings.failedToSaveSettings"),
         variant: "destructive",
       });
     } finally {
@@ -124,16 +126,16 @@ export function LookAndFeelTab({ onChanges }: LookAndFeelTabProps) {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
-              <span>Font Family</span>
+              <span>{t("settings.fontFamily")}</span>
               <Info className="w-4 h-4 text-gray-400" />
             </CardTitle>
             <CardDescription>
-              It will be applied for all the fonts used in the assistant.
+              {t("settings.fontFamilyDescription")}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="font-family">Font Family</Label>
+              <Label htmlFor="font-family">{t("settings.fontFamily")}</Label>
               <Select
                 value={fontFamily}
                 onValueChange={(value) => {
@@ -142,7 +144,7 @@ export function LookAndFeelTab({ onChanges }: LookAndFeelTabProps) {
                 }}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select font family">
+                  <SelectValue placeholder={t("settings.selectFontFamily")}>
                     <span style={{ fontFamily: `"${fontFamily}", sans-serif` }}>
                       {fontFamily}
                     </span>
@@ -164,14 +166,16 @@ export function LookAndFeelTab({ onChanges }: LookAndFeelTabProps) {
 
             {/* Font Preview */}
             <div className="space-y-2">
-              <Label>Preview</Label>
+              <Label>{t("settings.preview")}</Label>
               <div
                 className="p-3 border rounded-lg bg-gray-50"
                 style={{ fontFamily: `"${fontFamily}", sans-serif` }}
               >
-                <p className="text-sm font-medium">Assistant Name</p>
+                <p className="text-sm font-medium">
+                  {t("settings.assistantName")}
+                </p>
                 <p className="text-xs text-gray-600">
-                  This is how your text will look with {fontFamily} font.
+                  {t("settings.fontPreviewDescription", { fontFamily })}
                 </p>
               </div>
             </div>
@@ -187,17 +191,17 @@ export function LookAndFeelTab({ onChanges }: LookAndFeelTabProps) {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
-              <span>Assistant Name & Subtitle</span>
+              <span>{t("settings.assistantNameAndSubtitle")}</span>
               <Info className="w-4 h-4 text-gray-400" />
             </CardTitle>
             <CardDescription>
-              Set a display name and subtitle for your assistant.
+              {t("settings.assistantNameAndSubtitleDescription")}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="assistant-name">Name</Label>
+                <Label htmlFor="assistant-name">{t("settings.name")}</Label>
                 <Input
                   id="assistant-name"
                   value={assistantName}
@@ -205,11 +209,13 @@ export function LookAndFeelTab({ onChanges }: LookAndFeelTabProps) {
                     setAssistantName(e.target.value);
                     onChanges(true);
                   }}
-                  placeholder="Enter assistant name"
+                  placeholder={t("settings.enterAssistantName")}
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="assistant-subtitle">Subtitle</Label>
+                <Label htmlFor="assistant-subtitle">
+                  {t("settings.subtitle")}
+                </Label>
                 <Input
                   id="assistant-subtitle"
                   value={assistantSubtitle}
@@ -217,7 +223,7 @@ export function LookAndFeelTab({ onChanges }: LookAndFeelTabProps) {
                     setAssistantSubtitle(e.target.value);
                     onChanges(true);
                   }}
-                  placeholder="Enter assistant subtitle"
+                  placeholder={t("settings.enterAssistantSubtitle")}
                 />
               </div>
             </div>
@@ -232,17 +238,16 @@ export function LookAndFeelTab({ onChanges }: LookAndFeelTabProps) {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
-              <span>Avatar & Assistant Icons</span>
+              <span>{t("settings.avatarAndAssistantIcons")}</span>
               <Info className="w-4 h-4 text-gray-400" />
             </CardTitle>
             <CardDescription>
-              Select an avatar and a chat icon for your assistant, so they can
-              nicely present your brand.
+              {t("settings.avatarAndAssistantIconsDescription")}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label>Avatar (displayed inside the chat window)</Label>
+              <Label>{t("settings.avatar")}</Label>
               <div className="flex space-x-3">
                 {avatarOptions.map((avatar) => (
                   <button
@@ -280,10 +285,10 @@ export function LookAndFeelTab({ onChanges }: LookAndFeelTabProps) {
           primaryColor={currentAssistant?.primaryColor || "#3B82F6"}
           secondaryColor={currentAssistant?.secondaryColor || "#1E40AF"}
           welcomeMessage={
-            currentAssistant?.welcomeMessage || "Hallo! Hoe kan ik je helpen?"
+            currentAssistant?.welcomeMessage || t("settings.welcomeMessage")
           }
           placeholderText={
-            currentAssistant?.placeholderText || "Stel een vraag..."
+            currentAssistant?.placeholderText || t("settings.placeholderText")
           }
         />
       </div>

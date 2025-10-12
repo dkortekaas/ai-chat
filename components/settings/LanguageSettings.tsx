@@ -4,22 +4,22 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { toast } from "../ui/use-toast";
-
-const languages = [
-  { code: "nl", name: "Nederlands" },
-  { code: "en", name: "English" },
-  { code: "de", name: "Deutsch" },
-  { code: "fr", name: "Français" },
-  { code: "es", name: "Español" },
-];
+import { toast } from "@/components/ui/use-toast";
 
 export default function LanguageSettings() {
   const { data: session, update } = useSession();
   const [language, setLanguage] = useState(session?.user?.language || "nl");
   const [isSaving, setIsSaving] = useState(false);
   const router = useRouter();
-  const t = useTranslations("settings");
+  const t = useTranslations();
+
+  const languages = [
+    { code: "nl", name: t("languageSelector.dutch") },
+    { code: "en", name: t("languageSelector.english") },
+    { code: "de", name: t("languageSelector.german") },
+    { code: "fr", name: t("languageSelector.french") },
+    { code: "es", name: t("languageSelector.spanish") },
+  ];
 
   const handleSave = async () => {
     setIsSaving(true);
@@ -50,7 +50,7 @@ export default function LanguageSettings() {
       document.cookie = `NEXT_LOCALE=${language}; path=/; max-age=31536000`; // 1 year
 
       toast({
-        title: t("profile.languageUpdated"),
+        title: t("settings.languageUpdated"),
         variant: "success",
         duration: 3000,
       });
@@ -62,7 +62,7 @@ export default function LanguageSettings() {
     } catch (error) {
       console.error("Error updating language preference:", error);
       toast({
-        title: t("profile.languageUpdateError"),
+        title: t("settings.languageUpdateError"),
         variant: "destructive",
         duration: 3000,
       });
@@ -74,10 +74,10 @@ export default function LanguageSettings() {
   return (
     <div className="bg-white shadow-sm rounded-lg p-6">
       <h3 className="text-lg font-medium text-gray-900 mb-4">
-        {t("profile.languageSettings")}
+        {t("settings.languageSettings")}
       </h3>
       <p className="text-sm text-gray-500 mb-4">
-        {t("profile.languageDescription")}
+        {t("settings.languageDescription")}
       </p>
 
       <div className="space-y-4">
@@ -86,7 +86,7 @@ export default function LanguageSettings() {
             htmlFor="language"
             className="block text-sm font-medium text-gray-700"
           >
-            {t("profile.language")}
+            {t("settings.language")}
           </label>
           <select
             id="language"
@@ -108,7 +108,7 @@ export default function LanguageSettings() {
           disabled={isSaving}
           className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400 disabled:opacity-50"
         >
-          {isSaving ? t("profile.saving") : t("profile.saveChanges")}
+          {isSaving ? t("common.saving") : t("common.saveChanges")}
         </button>
       </div>
     </div>

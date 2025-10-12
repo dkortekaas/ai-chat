@@ -2,15 +2,16 @@
 
 import { useState } from "react";
 import {
+  Button,
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+  Input,
+} from "@/components/ui";
 import { Send, Minimize2, Maximize2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface ChatbotPreviewProps {
   fontFamily: string;
@@ -22,14 +23,6 @@ interface ChatbotPreviewProps {
   welcomeMessage: string;
   placeholderText: string;
 }
-
-const avatarOptions = [
-  { id: "chat-bubble", icon: "💬", name: "Chat Bubble" },
-  { id: "robot", icon: "🤖", name: "Robot" },
-  { id: "assistant", icon: "👤", name: "Assistant" },
-  { id: "support", icon: "🎧", name: "Support" },
-  { id: "help", icon: "❓", name: "Help" },
-];
 
 export function ChatbotPreview({
   fontFamily,
@@ -50,6 +43,15 @@ export function ChatbotPreview({
     },
   ]);
   const [inputValue, setInputValue] = useState("");
+  const t = useTranslations();
+
+  const avatarOptions = [
+    { id: "chat-bubble", icon: "💬", name: t("settings.chatBubble") },
+    { id: "robot", icon: "🤖", name: t("settings.robot") },
+    { id: "assistant", icon: "👤", name: t("settings.assistant") },
+    { id: "support", icon: "🎧", name: t("settings.support") },
+    { id: "help", icon: "❓", name: t("settings.help") },
+  ];
 
   const selectedAvatarData = avatarOptions.find(
     (avatar) => avatar.id === selectedAvatar
@@ -73,8 +75,7 @@ export function ChatbotPreview({
       const response = {
         id: messages.length + 2,
         type: "assistant" as const,
-        content:
-          "Dit is een voorbeeld antwoord van de AI assistant. De look and feel instellingen worden hier getoond.",
+        content: t("settings.exampleAnswer"),
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, response]);
@@ -94,10 +95,10 @@ export function ChatbotPreview({
         <div className="flex items-center justify-between">
           <div>
             <CardTitle className="text-sm font-medium">
-              Chatbot Preview
+              {t("settings.chatbotPreview")}
             </CardTitle>
             <CardDescription className="text-xs">
-              Live preview van je chatbot
+              {t("settings.livePreviewOfYourChatbot")}
             </CardDescription>
           </div>
           <Button

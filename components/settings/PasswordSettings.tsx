@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -9,23 +9,21 @@ import { useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
 import { toast } from "@/components/ui/use-toast";
 import {
+  Button,
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
-} from "@/components/ui/card";
-import {
+  Input,
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+  Skeleton,
+} from "@/components/ui";
 import { logger } from "@/lib/logger";
 
 export default function PasswordSettings() {
@@ -157,9 +155,9 @@ export default function PasswordSettings() {
               <Lock className="h-6 w-6 text-indigo-400 dark:text-indigo-400" />
             </div>
             <div>
-              <CardTitle>{t("settings.password.title")}</CardTitle>
+              <CardTitle>{t("settings.passwordSettings")}</CardTitle>
               <CardDescription>
-                {t("settings.password.description")}
+                {t("settings.passwordSettingsDescription")}
               </CardDescription>
             </div>
           </div>
@@ -177,9 +175,7 @@ export default function PasswordSettings() {
                 name="currentPassword"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>
-                      {t("settings.password.currentPassword")}
-                    </FormLabel>
+                    <FormLabel>{t("settings.currentPassword")}</FormLabel>
                     <FormMessage />
                     <FormControl>
                       <Input
@@ -197,7 +193,7 @@ export default function PasswordSettings() {
                 name="newPassword"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("settings.password.newPassword")}</FormLabel>
+                    <FormLabel>{t("settings.newPassword")}</FormLabel>
                     <FormMessage />
                     <FormControl>
                       <Input
@@ -215,9 +211,7 @@ export default function PasswordSettings() {
                 name="confirmPassword"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>
-                      {t("settings.password.confirmPassword")}
-                    </FormLabel>
+                    <FormLabel>{t("settings.confirmPassword")}</FormLabel>
                     <FormMessage />
                     <FormControl>
                       <Input

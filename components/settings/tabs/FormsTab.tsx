@@ -3,43 +3,26 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
+  Button,
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
+  Switch,
+} from "@/components/ui";
 import { Plus, Trash2 } from "lucide-react";
 import { DeleteConfirmationModal } from "@/components/shared/DeleteConfirmationModal";
 import { useAssistant } from "@/contexts/assistant-context";
 import { useToast } from "@/hooks/useToast";
+import { useTranslations } from "next-intl";
+import { ContactForm } from "@/types/form";
 
 interface FormsTabProps {
   onChanges: (hasChanges: boolean) => void;
 }
 
-interface ContactForm {
-  id: string;
-  name: string;
-  description: string;
-  fields: FormField[];
-  enabled: boolean;
-  redirectUrl?: string;
-}
-
-interface FormField {
-  id: string;
-  name: string;
-  type: "text" | "email" | "phone" | "textarea" | "select";
-  required: boolean;
-  placeholder?: string;
-  options?: string[];
-}
-
 // Loaded from API
-
 export function FormsTab({ onChanges }: FormsTabProps) {
   const router = useRouter();
   const { currentAssistant } = useAssistant();
@@ -47,6 +30,7 @@ export function FormsTab({ onChanges }: FormsTabProps) {
   const [forms, setForms] = useState<ContactForm[]>([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [formToDelete, setFormToDelete] = useState<ContactForm | null>(null);
+  const t = useTranslations();
   // const [isLoading, setIsLoading] = useState(false)
 
   const fetchForms = async () => {
@@ -59,16 +43,16 @@ export function FormsTab({ onChanges }: FormsTabProps) {
         setForms(data);
       } else {
         toast({
-          title: "Error",
-          description: "Failed to load forms",
+          title: t("common.error"),
+          description: t("error.failedToLoadForms"),
           variant: "destructive",
         });
       }
     } catch (e) {
       console.error("Failed to fetch forms", e);
       toast({
-        title: "Error",
-        description: "Failed to load forms",
+        title: t("common.error"),
+        description: t("error.failedToLoadForms"),
         variant: "destructive",
       });
     } finally {
@@ -93,14 +77,17 @@ export function FormsTab({ onChanges }: FormsTabProps) {
         body: JSON.stringify({ enabled: updated.enabled }),
       });
       onChanges(true);
-      toast({ title: "Saved", description: "Form updated" });
+      toast({
+        title: t("common.success"),
+        description: t("success.formUpdated"),
+      });
     } catch (e) {
       console.error("Failed to toggle form", e);
       // revert
       setForms(forms);
       toast({
-        title: "Error",
-        description: "Failed to update form",
+        title: t("common.error"),
+        description: t("error.failedToUpdateForm"),
         variant: "destructive",
       });
     }
@@ -117,12 +104,15 @@ export function FormsTab({ onChanges }: FormsTabProps) {
       await fetch(`/api/forms/${formToDelete.id}`, { method: "DELETE" });
       setForms(forms.filter((form) => form.id !== formToDelete.id));
       onChanges(true);
-      toast({ title: "Deleted", description: "Form verwijderd" });
+      toast({
+        title: t("common.success"),
+        description: t("success.formDeleted"),
+      });
     } catch (e) {
       console.error("Failed to delete form", e);
       toast({
-        title: "Error",
-        description: "Verwijderen mislukt",
+        title: t("common.error"),
+        description: t("error.failedToDeleteForm"),
         variant: "destructive",
       });
     } finally {
@@ -146,9 +136,11 @@ export function FormsTab({ onChanges }: FormsTabProps) {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h3 className="text-lg font-medium text-gray-900">Contact Forms</h3>
+          <h3 className="text-lg font-medium text-gray-900">
+            {t("settings.contactForms")}
+          </h3>
           <p className="text-sm text-gray-600">
-            Configure contact forms and data collection
+            {t("settings.contactFormsDescription")}
           </p>
         </div>
         <Button
@@ -156,7 +148,7 @@ export function FormsTab({ onChanges }: FormsTabProps) {
           className="bg-indigo-500 hover:bg-indigo-600"
         >
           <Plus className="w-4 h-4 mr-2" />
-          Add Form
+          {t("common.add")}
         </Button>
       </div>
 
@@ -181,7 +173,7 @@ export function FormsTab({ onChanges }: FormsTabProps) {
                     size="sm"
                     onClick={() => handleEditForm(form)}
                   >
-                    Edit
+                    {t("common.edit")}
                   </Button>
                   <Button
                     variant="outline"
@@ -196,7 +188,7 @@ export function FormsTab({ onChanges }: FormsTabProps) {
             <CardContent>
               <div className="space-y-2">
                 <h4 className="font-medium text-sm text-gray-700">
-                  Form Fields:
+                  {t("settings.formFields")}:
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {form.fields.map((field) => (
@@ -224,8 +216,8 @@ export function FormsTab({ onChanges }: FormsTabProps) {
         isOpen={isDeleteModalOpen}
         onClose={handleDeleteModalClose}
         onConfirm={handleConfirmDelete}
-        title="Delete Form"
-        description="Are you sure you want to delete this form? This action cannot be undone and will remove all form data and configurations."
+        title={t("settings.deleteForm")}
+        description={t("settings.deleteFormDescription")}
         itemName={formToDelete?.name || ""}
         isLoading={false}
       />

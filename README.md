@@ -1,6 +1,6 @@
 # Cited
 
-A modern, fully functional AI chat platform built with Next.js 15, TypeScript, and Prisma. This platform enables users to create AI chatbots, upload and process documents, manage knowledge bases, and view comprehensive analytics with a complete notification system.
+A modern, fully functional Cited platform built with Next.js 15, TypeScript, and Prisma. This platform enables users to create Citedbots, upload and process documents, manage knowledge bases, and view comprehensive analytics with a complete notification system.
 
 ## 🚀 Features
 
@@ -309,7 +309,6 @@ ai-chat-platform/
    ```
 
    This creates test accounts:
-
    - **Superuser**: `superuser@example.com` / `superuser123` (Enterprise plan)
    - **Admin**: `admin@example.com` / `admin123` (Business plan)
    - **User**: `user@example.com` / `user123` (30-day trial)
@@ -871,4 +870,4 @@ This project is licensed under the MIT License.
 
 ---
 
-**Made with ❤️ for modern AI chat solutions**
+**Made with ❤️ for modern Cited solutions**

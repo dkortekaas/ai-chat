@@ -1,6 +1,6 @@
 // Application configuration
 const config = {
-  appTitle: "AI Chat",
+  appTitle: "Cited",
   email: "info@declair.app",
   itemsPerPage: 5,
 };

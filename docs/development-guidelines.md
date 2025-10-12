@@ -1,4 +1,4 @@
-# Development Guidelines voor AI Chat
+# Development Guidelines voor Cited
 
 ## Algemene Setup
 

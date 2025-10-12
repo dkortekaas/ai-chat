@@ -2,6 +2,8 @@
 import { getAuthSession } from "@/lib/auth";
 import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
+import ConversationChart from "@/components/dashboard/ConversationChart";
+import KnowledgeSourceChart from "@/components/dashboard/KnowledgeSourceChart";
 
 async function getDashboardData() {
   const session = await getAuthSession();
@@ -13,20 +15,25 @@ async function getDashboardData() {
 
 export default async function Dashboard() {
   const session = await getAuthSession();
-  const t = await getTranslations("dashboard");
-  const dashboardData = await getDashboardData();
+  const t = await getTranslations();
 
   return (
     <div className="space-y-6 bg-gray-50 dark:bg-gray-900 min-h-screen p-6">
       <div className="flex flex-col items-start md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-            {t("title")}
+            {t("dashboard.title")}
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mt-1">
-            {t("welcome", { name: session?.user?.name || "Gebruiker" })}
+            {t("dashboard.welcome", { name: session?.user?.name || "" })}
           </p>
         </div>
+      </div>
+
+      {/* Dashboard Widgets */}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <ConversationChart />
+        <KnowledgeSourceChart />
       </div>
     </div>
   );

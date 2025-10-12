@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import UserMenu from "@/components/layouts/UserMenu";
 import NotificationDropdown from "@/components/layouts/NotificationDropdown";
-import { ThemeToggle } from "../ThemeToggle";
+import { ThemeToggle } from "@/components/layouts/ThemeToggle";
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import config from "@/config";

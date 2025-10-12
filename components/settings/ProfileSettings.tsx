@@ -9,43 +9,39 @@ import { z } from "zod";
 import { useTranslations } from "next-intl";
 import { toast } from "@/components/ui/use-toast";
 import {
+  Button,
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
-} from "@/components/ui/card";
-import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
+  Input,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
+} from "@/components/ui";
 import { User } from "lucide-react";
-
-const languages = [
-  { code: "nl", name: "Nederlands" },
-  { code: "en", name: "English" },
-  { code: "de", name: "Deutsch" },
-  { code: "fr", name: "Français" },
-  { code: "es", name: "Español" },
-];
 
 export default function ProfileSettings() {
   const { data: session, update } = useSession();
   const router = useRouter();
   const t = useTranslations();
+
+  const languages = [
+    { code: "nl", name: t("languageSelector.dutch") },
+    { code: "en", name: t("languageSelector.english") },
+    { code: "de", name: t("languageSelector.german") },
+    { code: "fr", name: t("languageSelector.french") },
+    { code: "es", name: t("languageSelector.spanish") },
+  ];
 
   const [isProfileSaving, setIsProfileSaving] = useState(false);
   const [language, setLanguage] = useState(session?.user?.language || "nl");
@@ -128,9 +124,9 @@ export default function ProfileSettings() {
               <User className="h-6 w-6 text-indigo-400 dark:text-indigo-400" />
             </div>
             <div>
-              <CardTitle>{t("settings.profile.title")}</CardTitle>
+              <CardTitle>{t("settings.profileSettings")}</CardTitle>
               <CardDescription>
-                {t("settings.profile.description")}
+                {t("settings.profileSettingsDescription")}
               </CardDescription>
             </div>
           </div>
@@ -148,7 +144,7 @@ export default function ProfileSettings() {
                 name="name"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel>{t("settings.profile.name")}</FormLabel>
+                    <FormLabel>{t("settings.name")}</FormLabel>
                     <FormControl>
                       <Input {...field} disabled={isProfileSaving} />
                     </FormControl>
@@ -162,13 +158,13 @@ export default function ProfileSettings() {
                 name="email"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel>{t("settings.profile.email")}</FormLabel>
+                    <FormLabel>{t("settings.email")}</FormLabel>
                     <FormControl>
                       <Input {...field} disabled />
                     </FormControl>
                     <FormMessage />
                     <p className="text-xs text-muted-foreground mt-1">
-                      {t("settings.profile.emailCannotBeChanged")}
+                      {t("settings.emailCannotBeChanged")}
                     </p>
                   </FormItem>
                 )}
@@ -179,7 +175,7 @@ export default function ProfileSettings() {
                 name="department"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel>{t("settings.profile.department")}</FormLabel>
+                    <FormLabel>{t("settings.department")}</FormLabel>
                     <FormControl>
                       <Input {...field} disabled={isProfileSaving} />
                     </FormControl>
@@ -189,7 +185,7 @@ export default function ProfileSettings() {
               />
 
               <FormItem className="flex flex-col">
-                <FormLabel>{t("settings.profile.language")}</FormLabel>
+                <FormLabel>{t("settings.language")}</FormLabel>
                 <Select
                   value={language}
                   onValueChange={setLanguage}
@@ -197,9 +193,7 @@ export default function ProfileSettings() {
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue
-                        placeholder={t("settings.profile.selectLanguage")}
-                      />
+                      <SelectValue placeholder={t("settings.selectLanguage")} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -211,7 +205,7 @@ export default function ProfileSettings() {
                   </SelectContent>
                 </Select>
                 <p className="text-xs text-muted-foreground mt-1">
-                  {t("settings.profile.languageDescription")}
+                  {t("settings.languageDescription")}
                 </p>
               </FormItem>
             </div>
@@ -222,7 +216,7 @@ export default function ProfileSettings() {
                 className="bg-indigo-500 hover:bg-indigo-600"
                 disabled={isProfileSaving}
               >
-                {isProfileSaving ? t("common.saving") : t("common.save")}
+                {isProfileSaving ? t("common.saving") : t("common.saveChanges")}
               </Button>
             </div>
           </form>

@@ -2,31 +2,31 @@
 
 import { useState, useEffect } from "react";
 import { useCallback } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import SaveButton from "@/components/ui/save-button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import {
+  Button,
+  Card,
+  CardContent,
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import {
+  Input,
+  Label,
+  SaveButton,
+  Switch,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/components/ui";
 import { Plus, Edit, Trash2, Loader2 } from "lucide-react";
 import { useAssistant } from "@/contexts/assistant-context";
 import { useToast } from "@/hooks/useToast";
+import { useTranslations } from "next-intl";
 
 interface ActionButtonsTabProps {
   onChanges: (hasChanges: boolean) => void;
@@ -57,12 +57,12 @@ export function ActionButtonsTab({ onChanges }: ActionButtonsTabProps) {
     priority: 50,
     enabled: true,
   });
+  const t = useTranslations();
 
   const { currentAssistant } = useAssistant();
   const { toast } = useToast();
 
   // Fetch action buttons on component mount
-
   const fetchActionButtons = useCallback(async () => {
     if (!currentAssistant?.id) return;
 
@@ -76,28 +76,28 @@ export function ActionButtonsTab({ onChanges }: ActionButtonsTabProps) {
         setButtons(data);
       } else {
         toast({
-          title: "Error",
-          description: "Failed to fetch action buttons",
+          title: t("common.error"),
+          description: t("error.failedToFetchActionButtons"),
           variant: "destructive",
         });
       }
     } catch (error) {
       console.error("Error fetching action buttons:", error);
       toast({
-        title: "Error",
-        description: "Failed to fetch action buttons",
+        title: t("common.error"),
+        description: t("error.failedToFetchActionButtons"),
         variant: "destructive",
       });
     } finally {
       setIsLoading(false);
     }
-  }, [currentAssistant?.id, toast]);
+  }, [currentAssistant?.id, toast, t]);
 
   useEffect(() => {
     if (currentAssistant?.id) {
       fetchActionButtons();
     }
-  }, [currentAssistant?.id, fetchActionButtons]);
+  }, [currentAssistant?.id, fetchActionButtons, t]);
 
   const handleAddButton = () => {
     setEditingButton(null);
@@ -145,8 +145,10 @@ export function ActionButtonsTab({ onChanges }: ActionButtonsTabProps) {
 
       if (response.ok) {
         toast({
-          title: "Success",
-          description: `Action button ${editingButton ? "updated" : "created"} successfully`,
+          title: t("common.success"),
+          description: t("success.actionButton", {
+            action: editingButton ? "updated" : "created",
+          }),
         });
         setIsDialogOpen(false);
         fetchActionButtons(); // Refresh the list
@@ -154,18 +156,22 @@ export function ActionButtonsTab({ onChanges }: ActionButtonsTabProps) {
       } else {
         const error = await response.json();
         toast({
-          title: "Error",
+          title: t("common.error"),
           description:
             error.error ||
-            `Failed to ${editingButton ? "update" : "create"} action button`,
+            t("error.failedToSaveActionButton", {
+              action: editingButton ? "update" : "create",
+            }),
           variant: "destructive",
         });
       }
     } catch (error) {
       console.error("Error saving action button:", error);
       toast({
-        title: "Error",
-        description: `Failed to ${editingButton ? "update" : "create"} action button`,
+        title: t("common.error"),
+        description: t("error.failedToSaveActionButton", {
+          action: editingButton ? "update" : "create",
+        }),
         variant: "destructive",
       });
     } finally {
@@ -188,8 +194,8 @@ export function ActionButtonsTab({ onChanges }: ActionButtonsTabProps) {
 
       if (response.ok) {
         toast({
-          title: "Success",
-          description: "Action button deleted successfully",
+          title: t("common.success"),
+          description: t("success.actionButtonDeleted"),
         });
         setIsDeleteDialogOpen(false);
         setDeletingId(null);
@@ -198,16 +204,16 @@ export function ActionButtonsTab({ onChanges }: ActionButtonsTabProps) {
       } else {
         const error = await response.json();
         toast({
-          title: "Error",
-          description: error.error || "Failed to delete action button",
+          title: t("common.error"),
+          description: error.error || t("error.failedToDeleteActionButton"),
           variant: "destructive",
         });
       }
     } catch (error) {
       console.error("Error deleting action button:", error);
       toast({
-        title: "Error",
-        description: "Failed to delete action button",
+        title: t("common.error"),
+        description: t("error.failedToDeleteActionButton"),
         variant: "destructive",
       });
     } finally {
@@ -232,24 +238,24 @@ export function ActionButtonsTab({ onChanges }: ActionButtonsTabProps) {
 
       if (response.ok) {
         toast({
-          title: "Success",
-          description: "Action button updated successfully",
+          title: t("common.success"),
+          description: t("success.actionButtonUpdated"),
         });
         fetchActionButtons(); // Refresh the list
         onChanges(true);
       } else {
         const error = await response.json();
         toast({
-          title: "Error",
-          description: error.error || "Failed to update action button",
+          title: t("common.error"),
+          description: error.error || t("error.failedToUpdateActionButton"),
           variant: "destructive",
         });
       }
     } catch (error) {
       console.error("Error updating action button:", error);
       toast({
-        title: "Error",
-        description: "Failed to update action button",
+        title: t("common.error"),
+        description: t("error.failedToUpdateActionButton"),
         variant: "destructive",
       });
     }
@@ -259,7 +265,7 @@ export function ActionButtonsTab({ onChanges }: ActionButtonsTabProps) {
     return (
       <div className="flex items-center justify-center py-8">
         <Loader2 className="w-6 h-6 animate-spin" />
-        <span className="ml-2">Loading action buttons...</span>
+        <span className="ml-2">{t("common.loading")}</span>
       </div>
     );
   }
@@ -268,9 +274,11 @@ export function ActionButtonsTab({ onChanges }: ActionButtonsTabProps) {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h3 className="text-lg font-medium text-gray-900">Action Buttons</h3>
+          <h3 className="text-lg font-medium text-gray-900">
+            {t("settings.actionButtons")}
+          </h3>
           <p className="text-sm text-gray-600">
-            Add pre-set buttons for faster user interactions and navigation
+            {t("settings.actionButtonsDescription")}
           </p>
         </div>
         <Button
@@ -278,7 +286,7 @@ export function ActionButtonsTab({ onChanges }: ActionButtonsTabProps) {
           className="bg-indigo-500 hover:bg-indigo-600"
         >
           <Plus className="w-4 h-4 mr-2" />
-          Add action button
+          {t("common.add")}
         </Button>
       </div>
 
@@ -286,25 +294,23 @@ export function ActionButtonsTab({ onChanges }: ActionButtonsTabProps) {
         <CardContent className="p-0">
           {buttons.length === 0 ? (
             <div className="text-center py-8">
-              <p className="text-gray-500">
-                No action buttons yet. Create your first one!
-              </p>
+              <p className="text-gray-500">{t("settings.noActionButtons")}</p>
             </div>
           ) : (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Button</TableHead>
-                  <TableHead>Question</TableHead>
+                  <TableHead>{t("settings.button")}</TableHead>
+                  <TableHead>{t("settings.question")}</TableHead>
                   <TableHead className="cursor-pointer">
-                    Priority
+                    {t("settings.priority")}
                     <span className="ml-1">▼</span>
                   </TableHead>
                   <TableHead className="cursor-pointer">
-                    Enabled
+                    {t("common.enabled")}
                     <span className="ml-1">▼</span>
                   </TableHead>
-                  <TableHead>Actions</TableHead>
+                  <TableHead>{t("common.actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -353,39 +359,41 @@ export function ActionButtonsTab({ onChanges }: ActionButtonsTabProps) {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              {editingButton ? "Edit Action Button" : "Add Action Button"}
+              {editingButton
+                ? t("settings.editActionButton")
+                : t("settings.addActionButton")}
             </DialogTitle>
             <DialogDescription>
-              Configure the action button settings
+              {t("settings.actionButtonSettings")}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="button-text">Button text *</Label>
+              <Label htmlFor="button-text">{t("settings.buttonText")} *</Label>
               <Input
                 id="button-text"
                 value={formData.buttonText}
                 onChange={(e) =>
                   setFormData({ ...formData, buttonText: e.target.value })
                 }
-                placeholder="Enter button text"
+                placeholder={t("settings.enterButtonText")}
                 disabled={isSaving}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="question">Question *</Label>
+              <Label htmlFor="question">{t("settings.question")} *</Label>
               <Input
                 id="question"
                 value={formData.question}
                 onChange={(e) =>
                   setFormData({ ...formData, question: e.target.value })
                 }
-                placeholder="Enter associated question"
+                placeholder={t("settings.enterAssociatedQuestion")}
                 disabled={isSaving}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="priority">Priority</Label>
+              <Label htmlFor="priority">{t("settings.priority")}</Label>
               <Input
                 id="priority"
                 type="number"
@@ -398,7 +406,7 @@ export function ActionButtonsTab({ onChanges }: ActionButtonsTabProps) {
                     priority: parseInt(e.target.value) || 50,
                   })
                 }
-                placeholder="Enter priority (1-100)"
+                placeholder={t("settings.enterPriority")}
                 disabled={isSaving}
               />
             </div>
@@ -412,7 +420,7 @@ export function ActionButtonsTab({ onChanges }: ActionButtonsTabProps) {
                 className="data-[state=checked]:bg-indigo-500"
                 disabled={isSaving}
               />
-              <Label htmlFor="enabled">Enabled</Label>
+              <Label htmlFor="enabled">{t("common.enabled")}</Label>
             </div>
           </div>
           <DialogFooter>
@@ -421,7 +429,7 @@ export function ActionButtonsTab({ onChanges }: ActionButtonsTabProps) {
               onClick={() => setIsDialogOpen(false)}
               disabled={isSaving}
             >
-              Cancel
+              {t("common.cancel")}
             </Button>
             <SaveButton
               onClick={handleSaveButton}
@@ -438,10 +446,9 @@ export function ActionButtonsTab({ onChanges }: ActionButtonsTabProps) {
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Delete action button?</DialogTitle>
+            <DialogTitle>{t("settings.deleteActionButton")}</DialogTitle>
             <DialogDescription>
-              This action cannot be undone. This will permanently delete the
-              action button.
+              {t("settings.deleteActionButtonDescription")}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -453,7 +460,7 @@ export function ActionButtonsTab({ onChanges }: ActionButtonsTabProps) {
               }}
               disabled={isDeleting}
             >
-              Cancel
+              {t("common.cancel")}
             </Button>
             <Button
               variant="destructive"
@@ -464,10 +471,10 @@ export function ActionButtonsTab({ onChanges }: ActionButtonsTabProps) {
               {isDeleting ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Deleting...
+                  {t("common.deleting")}
                 </>
               ) : (
-                "Delete"
+                t("common.delete")
               )}
             </Button>
           </DialogFooter>

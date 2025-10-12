@@ -59,6 +59,7 @@ export {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 export {
   DropdownMenu,
