@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Widget Direct Test</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        line-height: 1.6;
+      }
+      h1 {
+        color: #333;
+      }
+      p {
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Widget Direct Test</h1>
+    <p>This page directly loads the widget bundle to test if it works.</p>
+    <p>You should see a chat button in the bottom-right corner.</p>
+
+    <script>
+      console.log("Loading widget bundle directly...");
+
+      // Load the widget bundle directly
+      const script = document.createElement("script");
+      script.src = "/widget/widget-bundle.iife.js";
+      script.onload = function () {
+        console.log("Widget bundle loaded");
+        console.log(
+          "Init function available:",
+          typeof window.initChatbotWidget
+        );
+
+        if (typeof window.initChatbotWidget === "function") {
+          // Initialize widget with test config
+          window.initChatbotWidget({
+            apiKey: "cbk_test_123456789",
+            apiUrl: "http://localhost:3000",
+          });
+          console.log("Widget initialized");
+        } else {
+          console.error("Init function not found");
+        }
+      };
+      script.onerror = function () {
+        console.error("Failed to load widget bundle");
+      };
+      document.head.appendChild(script);
+    </script>
+  </body>
+</html>

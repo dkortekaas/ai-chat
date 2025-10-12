@@ -290,6 +290,7 @@ model ChatbotSettings {
   placeholderText   String   @default("Stel een vraag...")
   primaryColor      String   @default("#3B82F6")
   secondaryColor    String   @default("#1E40AF")
+  avatar            String   @default("chat-bubble")
   tone              String   @default("professional")
   language          String   @default("nl")
   maxResponseLength Int      @default(500)
