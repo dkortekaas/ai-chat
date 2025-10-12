@@ -9,7 +9,7 @@
     "lint": "next lint",
     "db:seed": "prisma db seed",
     "widget:dev": "cd widget && npm run dev",
-    "widget:build": "echo 'Using prebuilt widget"
+    "widget:build": "echo Using prebuilt widget"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.9.0",
