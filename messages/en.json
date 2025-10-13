@@ -1,1177 +1,489 @@
 {
   "common": {
-    "searchPlaceholder": "Search...",
-    "search": "Search",
-    "menu": "Menu",
-    "management": "Management",
-    "closeSidebar": "Close sidebar",
-    "openSidebar": "Open sidebar",
-    "toggleTheme": "Toggle theme",
-    "version": "Version",
-    "commentPlaceholder": "Enter a comment",
-    "processing": "Processing...",
-    "readOnlyView": "Read-only view",
-    "readOnlyDescription": "You don't have access to this page",
-    "selectAll": "Select all",
-    "selectRow": "Select row",
-    "actions": "Actions",
-    "noResults": "No results found",
-    "save": "Save",
-    "saving": "Saving...",
-    "changePassword": "Change password",
-    "add": "Add",
-    "addNew": "Add new",
-    "inactive": "Inactive",
-    "active": "Active",
+    "submit": "Submit",
     "cancel": "Cancel",
+    "save": "Save",
+    "saveChanges": "Save Changes",
+    "saving": "Saving...",
+    "loading": "Loading...",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "remove": "Remove",
+    "close": "Close",
+    "back": "Back",
     "next": "Next",
     "previous": "Previous",
-    "verify": "Verify",
-    "verifying": "Verifying...",
-    "complete": "Complete",
     "confirm": "Confirm",
-    "enabled": "Enabled",
-    "disabled": "Disabled",
-    "select": "Select",
-    "required": "required",
-    "filters": "Filters",
-    "all": "All",
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "download": "Download",
+    "upload": "Upload",
+    "refresh": "Refresh",
+    "retry": "Retry",
+    "continue": "Continue",
+    "finish": "Finish",
+    "skip": "Skip",
+    "required": "Required",
+    "optional": "Optional",
     "navigation": {
-      "menu": "Menu",
       "dashboard": "Dashboard",
+      "knowledgeBase": "Knowledge Base",
+      "conversations": "Conversations",
       "assistants": "Assistants",
-      "new": "New",
       "notifications": "Notifications",
-      "settings": "Settings",
-      "users": "Users",
-      "profile": "Profile",
-      "logout": "Logout",
-      "invitations": "Invitations",
       "subscription": "Subscription",
+      "users": "Users",
+      "invitations": "Invitations",
       "admin": "Admin",
-      "adminDashboard": "Admin Dashboard"
-    },
-    "buttons": {
-      "confirm": "Confirm",
-      "save": "Save",
-      "cancel": "Cancel",
-      "delete": "Delete",
-      "edit": "Edit",
-      "submit": "Submit",
-      "back": "Back",
-      "next": "Next",
-      "create": "Create"
-    },
-    "status": {
-      "loading": "Loading...",
-      "processing": "Processing...",
-      "deleting": "Deleting...",
-      "success": "Success",
-      "error": "Error",
-      "noResults": "No results found",
-      "required": "Required"
+      "menu": "Menu",
+      "logout": "Logout"
     }
-  },
-  "metadata": {
-    "title": "Declair - Less hassle, more clarity. That's Declair.",
-    "description": "Make submitting and managing declarations easy with Declair. Simple processing, real-time approval, and full transparency.",
-    "keywords": "declarations, expense reimbursement, business administration, automation, Declair",
-    "og": {
-      "title": "Declair - Less hassle, more clarity. That's Declair.",
-      "description": "Make submitting and managing declarations easy with Declair. Simple processing, real-time approval, and full transparency."
-    },
-    "twitter": {
-      "title": "Declair - Less hassle, more clarity. That's Declair.",
-      "description": "Make submitting and managing declarations easy with Declair. Simple processing, real-time approval, and full transparency."
-    }
-  },
-  "notFound": {
-    "title": "Page not found",
-    "description": "The page you're trying to view doesn't exist",
-    "backToPortal": "Back to dashboard"
   },
   "error": {
     "emailInvalid": "Please enter a valid email address",
-    "roleInvalid": "Please select a valid role",
-    "passwordInvalid": "Password must be at least 8 characters",
-    "passwordMismatch": "Passwords do not match",
-    "emailRequired": "Email address is required",
-    "loginRequired": "You must be logged in to send invitations",
-    "userExists": "This user already exists",
-    "companyRequired": "You are not connected to a company",
-    "inviteAuthRequired": "You don't have permission to invite users",
-    "invalidInput": "Invalid input",
-    "userExistsInvite": "A user with this email address already exists",
-    "inviteExistsEmail": "An invitation has already been sent to this email address",
-    "companyNotFound": "Company not found",
-    "internalServerError": "An internal server error occurred",
-    "checkUser": "An error occurred while checking the email address",
-    "inviteFailed": "An error occurred while sending the invitation",
-    "unauthorized": "Unauthorized",
-    "somethingWentWrong": "Something went wrong",
+    "passwordInvalid": "Password must be at least 6 characters long",
+    "passwordTooLong": "Password must be less than 128 characters",
     "nameRequired": "Name is required",
+    "nameTooLong": "Name must be less than 100 characters",
+    "passwordMismatch": "Passwords do not match",
+    "companyRequired": "Company name is required",
+    "emailRequired": "Email is required",
     "invalidEmail": "Please enter a valid email address",
     "currentPasswordRequired": "Current password is required",
-    "newPasswordRequired": "Password must be at least 8 characters",
-    "passwordsDoNotMatch": "Passwords do not match",
-    "failedToFetchNotifications": "An error occurred while fetching notifications",
     "passwordRequired": "Password is required",
-    "receiptRequired": "Receipt is required for this category",
-    "receiptRequiredDescription": "You must add a receipt for this declaration",
-    "titleRequired": "Title is required",
-    "amountRequired": "Amount must be a positive number",
-    "dateRequired": "Date is required",
-    "categoryRequired": "Category is required",
-    "approverRequired": "Approver is required",
-    "expenseTypeRequired": "Cost center is required",
-    "noCategories": "No categories found",
-    "categoryRequired2": "Category is required",
-    "submissionFailed": "An error occurred while submitting the declaration",
-    "noApprovers": "No approvers found",
-    "categoryListUpdateError": "An error occurred while updating the category list",
-    "exportCategoryItemsError": "An error occurred while exporting category items",
-    "errorLoading2FASettings": "An error occurred while loading 2FA settings",
-    "errorLoading2FASettingsDescription": "An error occurred while loading 2FA settings",
-    "errorLoadingCategories": "An error occurred while loading categories",
-    "noCategoriesFound": "No categories found",
-    "invalidCredentials": "Invalid credentials",
-    "verificationFailed": "Verification failed",
-    "required": "Required",
-    "errorUpdatingPassword": "An error occurred while updating the password",
-    "generic": "An error occurred",
-    "invalidOrExpiredInvitation": "Invalid or expired invitation",
-    "approveError": "An error occurred while approving the declaration",
-    "betaRegistration": "An error occurred while registering for beta",
-    "companyNameMin": "Please enter a valid company name",
-    "inviteError": "An error occurred while inviting the user",
-    "passwordTooLong": "Password must be less than 128 characters",
-    "nameTooLong": "Name must be less than 128 characters",
-    "rateLimit": "Too many failed attempts. Please try again later.",
-    "userNotFoundOr2FANotEnabled": "User not found or 2FA not enabled",
-    "noRecoveryCodesAvailable": "No recovery codes available",
-    "2FANotConfigured": "2FA is not properly configured",
-    "invalidRecoveryCode": "Invalid recovery code",
-    "invalidTOTPCode": "Invalid TOTP code",
-    "invalidVerificationCode": "Invalid verification code",
-    "2FAVerificationError": "An error occurred while verifying 2FA",
-    "atLeastOneItem": "You must add at least one item"
+    "somethingWentWrong": "Something went wrong",
+    "unknownError": "An unknown error occurred",
+    "networkError": "Network error occurred",
+    "serverError": "Server error occurred",
+    "validationError": "Validation error",
+    "unauthorized": "Unauthorized access",
+    "forbidden": "Access forbidden",
+    "notFound": "Resource not found",
+    "timeout": "Request timeout"
   },
   "success": {
-    "inviteSent": "Invitation sent successfully",
-    "invitationRevoked": "Invitation revoked successfully",
-    "invitationResent": "Invitation resent successfully",
-    "preferencesUpdated": "Notification preferences updated",
-    "preferencesUpdatedDescription": "Your notification preferences have been updated successfully",
-    "profileUpdated": "Profile updated",
-    "profileUpdatedDescription": "Your profile has been updated successfully",
-    "declarationSubmitted": "Declaration submitted successfully",
-    "declarationUpdated": "Declaration updated successfully",
-    "categoryListUpdated": "Category updated successfully",
-    "categoryListActivated": "Category activated successfully",
-    "categoryListDeactivated": "Category deactivated successfully",
-    "categoryListDeleted": "Category deleted successfully",
-    "updatedCategoryItem": "Category item updated successfully",
-    "declarationCreated": "Declaration created successfully",
-    "twoFactorSetupSuccess": "Two-factor authentication set up successfully",
-    "twoFactorSetupSuccessDescription": "Your two-factor authentication has been set up successfully",
-    "codeCopied": "Code copied",
-    "categoryListCreated": "Category created successfully",
-    "createdCategoryItem": "Category item created successfully",
-    "passwordUpdated": "Password updated successfully",
-    "forgotPassword": "Password reset link sent successfully",
-    "updated": "Updated successfully",
-    "approveSuccess": "Declaration approved successfully",
-    "betaRegistration": "Registration submitted successfully",
-    "authenticatedWithRecoveryCode": "Authenticated with recovery code",
-    "authenticatedWithTOTP": "Authenticated with TOTP",
-    "resetPassword": "Password reset successfully",
-    "rejectSuccess": "Declaration rejected successfully",
-    "rejectSuccessDescription": "Your declaration has been rejected successfully"
+    "userUpdated": "User updated successfully",
+    "createCompanySuccess": "Company created successfully",
+    "profileUpdated": "Profile updated successfully",
+    "passwordChanged": "Password changed successfully",
+    "emailChanged": "Email changed successfully",
+    "settingsSaved": "Settings saved successfully",
+    "dataExported": "Data exported successfully",
+    "dataImported": "Data imported successfully"
   },
-  "actions": {
-    "openMenu": "Open menu",
-    "add": "Add",
-    "save": "Save",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "edit": "Edit",
-    "submit": "Submit",
-    "remove": "Remove",
-    "processing": "Processing...",
-    "editRole": "Edit role",
-    "saveChanges": "Save changes",
-    "update": "Update",
-    "view": "View",
-    "approve": "Approve",
-    "reject": "Reject",
-    "create": "Create",
-    "creating": "Creating...",
-    "activate": "Activate",
-    "submitting": "Submitting...",
-    "deactivate": "Deactivate",
-    "items": "Items",
-    "export": "Export",
-    "import": "Import",
-    "send": "Send",
-    "sending": "Sending...",
-    "loading": "Loading...",
-    "saving": "Saving...",
-    "viewAll": "View all",
-    "verifying": "Verifying...",
-    "verify": "Verify",
-    "register": "Register",
-    "skipForNow": "Skip for now",
-    "continue": "Continue",
-    "finish": "Finish",
-    "previous": "Previous",
-    "next": "Next",
-    "completeRequired": "Complete required steps",
-    "sendInvite": "Send invitation",
-    "createAndContinue": "Create category list and continue",
-    "close": "Close"
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for does not exist.",
+    "backToPortal": "Back to Portal"
   },
-  "roles": {
-    "selectRole": "Select a role",
-    "admin": "Administrator",
-    "approver": "Approver",
-    "user": "User",
-    "finance": "Finance"
-  },
-  "status": {
-    "pending": "Pending",
-    "approved": "Approved",
-    "rejected": "Rejected",
-    "expired": "Expired"
-  },
-  "tooltips": {
-    "clickToView": "Click to view"
-  },
-  "userMenu": {
-    "myAccount": "My account",
-    "team": "Team",
-    "changePassword": "Change password",
-    "logout": "Logout"
+  "metadata": {
+    "title": "Cited",
+    "description": "Cited AI Chat Support"
   },
   "auth": {
-    "name": "Name",
-    "companyName": "Company name",
-    "email": "Email address",
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "email": "Email",
     "password": "Password",
-    "newPassword": "New password",
-    "confirmPassword": "Confirm password",
-    "forgotPassword": "Forgot password?",
+    "name": "Name",
+    "confirmPassword": "Confirm Password",
     "rememberMe": "Remember me",
-    "showPassword": "Show password",
-    "hidePassword": "Hide password",
-    "registrationSuccess": "Successfully registered. Please log in now.",
+    "forgotPassword": "Forgot password?",
+    "resetPassword": "Reset Password",
+    "changePassword": "Change Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmNewPassword": "Confirm New Password",
+    "loginForm": {
+      "title": "Login Form"
+    },
+    "registerForm": {
+      "title": "Create Account"
+    },
+    "registrationSuccess": "Registration successful! Please check your email to verify your account.",
     "passwordStrength": {
-      "label": "Password strength",
       "weak": "Weak",
       "medium": "Medium",
       "strong": "Strong"
-    },
-    "loginForm": {
-      "title": "Login",
-      "description": "Login to Declair",
-      "loginButton": "Login",
-      "orRegister": "or register",
-      "registerButton": "Register"
-    },
-    "forgotpassword": {
-      "title": "Forgot password?",
-      "description": "Enter your email address to receive a password reset link",
-      "submitButton": "Send reset link",
-      "orLogin": "or",
-      "backToLogin": "Login"
-    },
-    "resetpassword": {
-      "title": "Reset password",
-      "description": "Enter your new password to reset your password",
-      "submitButton": "Reset password",
-      "orLogin": "or",
-      "backToLogin": "Login"
-    },
-    "register": {
-      "title": "Register",
-      "registerButton": "Register",
-      "alreadyAccount": "already have an account?",
-      "loginButton": "Login"
-    },
-    "twoFactorVerification": {
-      "title": "Enter the two-factor authentication code from your authenticator app",
-      "recoveryTitle": "Enter a recovery code",
-      "recoveryPlaceholder": "Enter your recovery code (minimum 10 characters)",
-      "useAuthenticator": "Use authenticator app",
-      "useRecoveryCode": "Use recovery code"
-    },
-    "betaRegistration": {
-      "title": "Register for beta",
-      "description": "Register for beta",
-      "companyName": "Company name",
-      "email": "Email address",
-      "registerButton": "Register",
-      "or": "or",
-      "backToLogin": "Login"
-    },
-    "error": {
-      "userNotFoundOrMissingPassword": "User not found or password is missing",
-      "accountDeactivated": "Account has been deactivated",
-      "wrongPassword": "Incorrect password"
     }
-  },
-  "account": {
-    "myAccount": "My account",
-    "changePassword": "Change password",
-    "newPassword": "New password",
-    "confirmNewPassword": "Confirm new password",
-    "currentPassword": "Current password",
-    "changeEmail": "Change email",
-    "newEmail": "New email",
-    "firstName": "First name",
-    "lastName": "Last name",
-    "personalDetails": "Personal details",
-    "emailSettings": "Email settings",
-    "subscription": "Subscription",
-    "team": "Team",
-    "save": "Save",
-    "members": "Members",
-    "invite": "Invite",
-    "joined": "Joined",
-    "lastLogin": "Last login",
-    "clearFilters": "Clear filters",
-    "user": "User",
-    "registered": "Registered",
-    "actions": "Actions",
-    "edit": "Edit",
-    "remove": "Remove",
-    "assistants": "Assistants",
-    "subscriptions": {
-      "loadingSubscriptionData": "Loading subscription data...",
-      "manageSubscription": "Manage subscription",
-      "availablePlans": "Available plans",
-      "currentPlan": "Current plan",
-      "upgrade": "Upgrade",
-      "paymentMethods": "Payment methods",
-      "managePaymentMethods": "Manage payment methods",
-      "managePaymentMethodsDescription": "Manage your payment methods via Stripe",
-      "manage": "Manage",
-      "month": "month",
-      "price": "Price",
-      "chatbots": "Chatbots",
-      "conversationsPerMonth": "Conversations per month",
-      "expires": "Expires",
-      "currentSubscription": "Current subscription",
-      "trial": "Trial",
-      "trialDetails": "Trial details",
-      "started": "Started",
-      "daysRemaining": "Days remaining",
-      "trialPeriod": "Trial period",
-      "trialPeriodActive": "Trial period active",
-      "trialPeriodExpired": "Trial period expired",
-      "trialPeriodExpiredDescription": "Your trial period has expired. Upgrade to a paid subscription to continue.",
-      "trialPeriodActiveDescription": "Your trial period is active. You have {days} days remaining."
-    },
-    "tabs": {
-      "personalDetails": "Personal details",
-      "emailSettings": "Email settings",
-      "changePassword": "Change password",
-      "subscription": "Subscription",
-      "team": "Team"
-    }
-  },
-  "emptyState": {
-    "title": "No results found",
-    "description": "No results found"
-  },
-  "assistants": {
-    "aiAssistants": "AI Assistants",
-    "aiAssistantsDescription": "Create and manage multiple AI assistants, each with their own knowledge base and settings.",
-    "createAssistant": "Create Assistant",
-    "noAssistantsYet": "No Assistants Yet",
-    "noAssistantsYetDescription": "Create your first AI assistant to get started with managing knowledge bases and conversations.",
-    "createYourFirstAssistant": "Create your first AI assistant",
-    "edit": "Edit",
-    "duplicate": "Duplicate",
-    "settings": "Settings",
-    "delete": "Delete",
-    "active": "Active",
-    "inactive": "Inactive",
-    "created": "Created",
-    "knowledge": "Knowledge",
-    "deleteAssistant": "Delete Assistant",
-    "deleteAssistantDescription": "Are you sure you want to delete this assistant? This will also delete all associated knowledge base content, conversations, and settings. This action cannot be undone.",
-    "assistantDuplicated": "Assistant duplicated",
-    "assistantDuplicatedDescription": "The assistant has been duplicated successfully.",
-    "failedToDuplicateAssistant": "Failed to duplicate assistant",
-    "assistantDeleted": "Assistant deleted",
-    "assistantDeletedDescription": "The assistant has been deleted successfully.",
-    "failedToDeleteAssistant": "Failed to delete assistant",
-    "today": "Today",
-    "yesterday": "Yesterday",
-    "daysAgo": "days ago",
-    "weeksAgo": "weeks ago",
-    "monthsAgo": "months ago",
-    "yearsAgo": "years ago",
-    "configureYourNewAIAssistant": "Configure your new AI assistant",
-    "cancel": "Cancel",
-    "saving": "Saving...",
-    "basicInformation": "Basic Information",
-    "configureTheBasicSettingsForYourAssistant": "Configure the basic settings for your assistant",
-    "name": "Name",
-    "enterAssistantName": "Enter assistant name",
-    "description": "Description",
-    "enterAssistantDescription": "Enter assistant description",
-    "tone": "Tone",
-    "language": "Language",
-    "aiSettings": "AI Settings",
-    "configureTheAIBehaviorAndResponses": "Configure the AI behavior and responses",
-    "maxResponseLength": "Max Response Length",
-    "temperature": "Temperature",
-    "securityAndAccess": "Security & Access",
-    "configureSecuritySettingsAndAccessControl": "Configure security settings and access control",
-    "rateLimit": "Rate Limit (requests per minute)",
-    "allowedDomains": "Allowed Domains",
-    "enterDomain": "Enter domain (e.g., example.com)",
-    "position": "Position",
-    "assistantName": "Assistant Name",
-    "assistantSubtitle": "Assistant Subtitle",
-    "enterAssistantSubtitle": "Enter assistant subtitle",
-    "fallbackMessage": "Fallback Message",
-    "enterFallbackMessage": "Enter fallback message"
   },
   "settings": {
-    "chatbotSettings": "Chatbot Settings",
-    "chatbotSettingsDescription": "Manage your chatbot settings",
+    "title": "Settings",
+    "profile": "Profile",
+    "account": "Account",
+    "security": "Security",
+    "notifications": "Notifications",
+    "language": "Language",
+    "languageSettings": "Language Settings",
+    "languageDescription": "Choose your preferred language for the interface",
+    "selectLanguage": "Select a language",
+    "languageUpdated": "Language updated successfully",
+    "languageUpdateError": "Failed to update language preference",
+    "widgetManagement": "Widget Management",
+    "widgetManagementDescription": "Manage your chatbot widget settings and appearance",
+    "installAssistantOnWebsite": "Install Assistant on Website",
+    "installAssistantOnWebsiteDescription": "Copy and paste this code into your website to display the assistant",
+    "copied": "Copied!",
+    "copyCode": "Copy Code",
+    "enableDisableAssistant": "Enable/Disable Assistant",
+    "enableDisableAssistantDescription": "Control whether the assistant is visible to website visitors",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "assistantActiveAndVisibleOnWebsite": "Assistant is active and visible on your website",
+    "assistantHiddenFromVisitors": "Assistant is hidden from visitors",
+    "active": "Active",
+    "inactive": "Inactive",
+    "assistantDisabled": "Assistant Disabled",
+    "assistantDisabledDescription": "The assistant is currently disabled and not visible to visitors",
+    "widgetPreview": "Widget Preview",
+    "widgetPreviewDescription": "Preview how your assistant will appear on different devices",
+    "desktop": "Desktop",
+    "bottomRightCorner": "Bottom Right Corner",
+    "tablet": "Tablet",
+    "responsivePositioning": "Responsive Positioning",
+    "mobile": "Mobile",
+    "fullScreenOverlay": "Full Screen Overlay",
+    "deleteAssistant": "Delete Assistant",
+    "deleteAssistantDescription": "Permanently remove this assistant and all its data",
+    "yesDeleteIt": "Yes, Delete It",
+    "thisActionCannotBeUndone": "This action cannot be undone",
+    "assistantName": "Assistant Name",
+    "assistantSubtitle": "Assistant Subtitle",
+    "chatBubble": "Chat Bubble",
+    "robot": "Robot",
     "lookAndFeel": "Look & Feel",
     "actionButtons": "Action Buttons",
     "forms": "Forms",
     "integrations": "Integrations",
     "widget": "Widget",
+    "success": "Success",
     "allChangesSavedSuccessfully": "All changes saved successfully",
-    "failedToSaveChanges": "Failed to save changes",
-    "noChanges": "No changes",
-    "test": "Test",
-    "saving": "Saving...",
-    "saveChanges": "Save changes",
-    "error": "Error"
+    "error": "Error",
+    "failedToSaveChanges": "Failed to save changes"
   },
-  "notifications": {
-    "title": "Notifications",
-    "description": "Manage notifications",
-    "new": "New",
-    "noNotifications": "No notifications found",
-    "markAllAsRead": "Mark all as read",
-    "yesterday": "Yesterday",
-    "today": "Today",
-    "thisWeek": "This week",
-    "thisMonth": "This month",
-    "thisYear": "This year"
+  "languageSelector": {
+    "dutch": "Nederlands",
+    "english": "English",
+    "german": "Deutsch",
+    "french": "Français",
+    "spanish": "Español",
+    "languageChanged": "Language changed",
+    "languageChangedDescription": "Interface language changed to {language}"
   },
-  "notification": {
-    "approveDeclaration": "Declaration \"{declarationTitle}\" has been submitted and is waiting for approval",
-    "declarationCreated": "Declaration \"{declarationTitle}\" has been submitted"
+  "hero": {
+    "title": "AI-Powered Customer Support",
+    "subtitle": "Made Simple",
+    "description": "Transform your customer service with intelligent chatbots that understand your business and provide instant, accurate responses 24/7.",
+    "free_trial": "Start your free trial today - no credit card required",
+    "tryFree": "Try Free",
+    "watchDemo": "Watch Demo"
   },
-  "pagination": {
-    "selectedRows": "Selected rows",
-    "rowsPerPage": "Rows per page",
-    "page": "Page",
-    "of": "of",
-    "rows": "rows",
-    "goToFirstPage": "Go to first page",
-    "goToLastPage": "Go to last page",
-    "goToPreviousPage": "Go to previous page",
-    "goToNextPage": "Go to next page"
+  "cta": {
+    "title": "Ready to Transform Your Customer Support?",
+    "description": "Join thousands of businesses already using our AI-powered solutions to provide better customer experiences.",
+    "free_trial": "Start your free trial today",
+    "cta": "Get Started",
+    "contact": "Contact Sales",
+    "secure": "Secure & Reliable",
+    "gdpr_compliant": "GDPR Compliant",
+    "no_credit_card": "No Credit Card Required"
   },
-  "deleteDialog": {
-    "title": "Delete",
-    "description": "Are you sure you want to delete this declaration?",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "confirmation": "Confirmation"
+  "features": {
+    "title": "Everything You Need for Modern Customer Support",
+    "subtitle": "Powerful features designed to help you provide exceptional customer service",
+    "items": {
+      "0": {
+        "title": "24/7 Availability",
+        "description": "Your AI assistant never sleeps, providing instant responses to customer queries around the clock."
+      },
+      "1": {
+        "title": "Smart Knowledge Base",
+        "description": "Automatically learn from your documents, FAQs, and website content to provide accurate answers."
+      },
+      "2": {
+        "title": "Analytics & Insights",
+        "description": "Track conversation performance, customer satisfaction, and identify areas for improvement."
+      },
+      "3": {
+        "title": "Secure & Compliant",
+        "description": "Enterprise-grade security with GDPR compliance and data protection built-in."
+      },
+      "4": {
+        "title": "Easy Integration",
+        "description": "Seamlessly integrate with your existing website, CRM, and support tools."
+      },
+      "5": {
+        "title": "Flexible Pricing",
+        "description": "Choose the plan that fits your business needs with transparent, scalable pricing."
+      }
+    }
+  },
+  "how_it_works": {
+    "title": "How It Works",
+    "description": "Get started in minutes with our simple 4-step process",
+    "step_1": "Upload Your Content",
+    "step_1_description": "Add your documents, FAQs, and website content to build your knowledge base.",
+    "step_2": "Train Your AI",
+    "step_2_description": "Our AI learns from your content to understand your business and provide accurate responses.",
+    "step_3": "Customize & Deploy",
+    "step_3_description": "Customize the appearance and behavior of your chatbot to match your brand.",
+    "step_4": "Monitor & Improve",
+    "step_4_description": "Track performance and continuously improve your AI assistant with analytics and feedback."
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know about our AI customer support platform",
+    "question_1": "How quickly can I get started?",
+    "answer_1": "You can have your AI assistant up and running in under 10 minutes. Simply upload your content, customize the appearance, and embed the widget on your website.",
+    "question_2": "What types of content can the AI learn from?",
+    "answer_2": "Our AI can learn from PDFs, Word documents, web pages, FAQs, and even existing support tickets. It supports multiple languages and formats.",
+    "question_3": "Is my data secure?",
+    "answer_3": "Yes, we use enterprise-grade security with end-to-end encryption. We're GDPR compliant and your data is never shared with third parties.",
+    "question_4": "Can I customize the chatbot's appearance?",
+    "answer_4": "Absolutely! You can customize colors, fonts, messages, and even add your company logo to match your brand perfectly.",
+    "question_5": "What if the AI doesn't know an answer?",
+    "answer_5": "When the AI doesn't have an answer, it can seamlessly transfer the conversation to a human agent or collect contact information for follow-up.",
+    "question_6": "Do you offer support and training?",
+    "answer_6": "Yes, we provide comprehensive onboarding, training materials, and dedicated support to help you get the most out of your AI assistant."
   },
   "dashboard": {
     "title": "Dashboard",
-    "welcome": "Welcome to Declair",
-    "newDeclaration": "New Declaration",
-    "new": "New",
-    "users": "Users",
-    "topCompaniesByUsers": "Top companies by users",
-    "totalCompanies": "Total companies",
-    "totalUsers": "Total users",
-    "stats": {
-      "totalDeclarations": "Total declarations",
-      "pendingDeclarations": "Pending",
-      "approvedDeclarations": "Approved",
-      "totalAmount": "Total amount",
-      "amountChange": "Amount change",
-      "vsPreviousPeriod": "vs previous period"
-    }
+    "welcome": "Welcome back",
+    "overview": "Overview",
+    "conversations": {
+      "title": "Conversations",
+      "subtitle": "Total conversations this period"
+    },
+    "knowledgeSources": {
+      "title": "Knowledge Sources",
+      "noData": "No data available",
+      "files": "Files",
+      "websites": "Websites",
+      "faqs": "FAQs"
+    },
+    "totalUsers": "Total Users"
   },
-  "declarations": {
-    "title": "Declarations",
-    "description": "Manage declarations",
-    "recentDeclarations": "Recent Declarations",
-    "searchPlaceholder": "Search for a declaration",
-    "newDeclaration": "New Declaration",
-    "backToOverview": "Back to overview",
-    "viewDeclaration": "View declaration",
-    "rejectReason": "Rejection reason",
-    "columns": {
-      "user": "User",
-      "title": "Title",
-      "amount": "Amount",
-      "submittedAt": "Submitted at",
-      "date": "Date",
-      "category": "Category",
-      "company": "Company",
-      "status": "Status",
-      "actions": "Actions",
-      "selectRow": "Select row",
-      "selectAll": "Select all"
-    },
-    "actions": {
-      "viewAll": "View all declarations"
-    },
-    "emptyState": {
-      "title": "No declarations found",
-      "description": "Create a new declaration to get started"
-    },
-    "declarationForm": {
-      "title": "Declaration",
-      "titlePlaceholder": "Declaration title",
-      "amount": "Amount",
-      "date": "Date",
-      "category": "Category",
-      "approver": "Approver",
-      "selectApprover": "Select an approver",
-      "descriptionAndAttachments": "Description and attachments",
-      "description": "Description",
-      "addReceipt": "Add receipt",
-      "attachment": "Attachment",
-      "viewAttachment": "View attachment",
-      "basicInformation": "Basic information",
-      "next": "Next",
-      "previous": "Previous",
-      "amountAndApproval": "Amount and approval",
-      "items": "Declaration items",
-      "addItem": "Add declaration item",
-      "item": "Declaration item",
-      "itemDescription": "Description",
-      "itemAmount": "Amount",
-      "itemDate": "Date",
-      "itemCategory": "Category",
-      "removeItem": "Remove declaration item",
-      "totalAmount": "Total amount",
-      "selectCategory": "Select a {category}",
-      "file": "Invoice/receipt",
-      "receiptRequired": "Invoice/receipt required",
-      "receiptRequiredDescription": "You must add an invoice/receipt to this declaration"
-    },
-    "approverDeclarations": "Approve declarations",
-    "approveConfirmationTitle": "Approve declaration",
-    "approveConfirmationDescription": "Are you sure you want to approve this declaration?",
-    "rejectConfirmationTitle": "Reject declaration",
-    "rejectConfirmationDescription": "Are you sure you want to reject this declaration?",
-    "editDeclaration": "Edit declaration"
-  },
-  "fileUpload": {
-    "chooseMethod": "Choose a method",
-    "dragAndDrop": "Drag and drop here",
-    "browseFiles": "Or choose a file",
-    "supportedFormats": "Supported formats: PDF, JPG, PNG",
-    "maxSize": "Maximum size: 10MB",
-    "removeFile": "Remove file",
-    "makePhoto": "Take photo",
-    "gallery": "Select a photo"
-  },
-  "company": {
-    "user": "User",
-    "department": "Department",
-    "role": "Role",
-    "memberSince": "Member since",
-    "settings": {
-      "title": "Company settings",
-      "description": "Manage company settings",
-      "addressData": "Address data",
-      "categories": "Categories",
-      "name": "Name",
-      "vatNumber": "VAT number",
-      "vatNumberOptional": "Optional",
-      "address": "Address",
-      "city": "City",
-      "zipCode": "Zip code",
-      "country": "Country",
-      "subscription": {
-        "tab": "Subscription",
-        "title": "Subscription",
-        "description": "Manage subscription"
-      },
-      "invoices": {
-        "tab": "Invoices",
-        "title": "Invoices",
-        "noInvoices": "No invoices found",
-        "description": "Manage invoices"
-      }
-    },
-    "users": {
-      "title": "Users",
-      "description": "Manage users",
-      "invite": "Invite",
-      "searchUsers": "Search user",
-      "removeUserWarning": "Remove user",
-      "removeUserConfirmation": "Remove user",
-      "removeUserConfirmationTitle": "Remove user",
-      "removeUserConfirmationDescription": "Are you sure you want to remove this user?"
-    },
-    "invitations": {
-      "title": "Invitations",
-      "description": "Manage invitations",
-      "email": "Email address",
-      "role": "Role",
-      "selectRole": "Select a role",
-      "send": "Send invitation",
-      "sentInvitations": "Invitations sent",
-      "sentInvitationsDescription": "Invitations sent to users",
-      "searchPlaceholder": "Search an invitation",
-      "status": "Status",
-      "invitedBy": "Invited by",
-      "expiresOn": "Expires on",
-      "resend": "Resend",
-      "revokeInvitation": "Revoke invitation",
-      "revokeInvitationDescription": "You can revoke the invitation if the user doesn't accept it",
-      "revoke": "Revoke",
-      "cancel": "Cancel"
-    }
-  },
-  "categories": {
-    "lists": {
-      "title": "Categories",
-      "description": "Description",
-      "name": "Name",
-      "status": "Status",
-      "items": "Items",
-      "actions": "Actions",
-      "deleteConfirmTitle": "Delete category list",
-      "deleteConfirmDescription": "Are you sure you want to delete this category list?",
-      "createTitle": "Create category list",
-      "createDescription": "Create category list",
-      "nameLabel": "Name",
-      "descriptionLabel": "Description",
-      "descriptionHelper": "Category description",
-      "isActiveLabel": "Active",
-      "isActiveDescription": "The category is used in declarations",
-      "editTitle": "Edit category list",
-      "editDescription": "",
-      "descriptionHelp": "Category description"
-    },
-    "items": {
-      "empty": "No category items found",
-      "tableTitle": "Category items",
-      "code": "Code",
-      "name": "Name",
-      "descriptionLabel": "Description",
-      "editTitle": "Edit category item",
-      "editDescription": "Edit category item",
-      "codeLabel": "Code",
-      "codeHelp": "Category item code",
-      "nameLabel": "Name",
-      "descriptionHelp": "Category item description",
-      "deleteConfirmTitle": "Delete category item",
-      "deleteConfirmDescription": "Are you sure you want to delete this category item?",
-      "createTitle": "Create category item",
-      "createDescription": "Create category item",
-      "importTitle": "Import category items",
-      "importDescription": "Import category items",
-      "importFileLabel": "Choose a file",
-      "importFileHelp": "Choose a file with category items",
-      "importManualLabel": "or enter category items manually",
-      "importFormatTitle": "Import format",
-      "importFormatDescription": "Select the format of the category items",
-      "importFormatHelp": "Choose the format of the category items",
-      "importImport": "Import",
-      "importManualPlaceholder": "or enter category items manually",
-      "importManualHelp": "Enter category items manually"
-    }
-  },
-  "subscription": {
-    "upgradeSubscription": "Upgrade to get access to all features",
-    "noValidSubscription": "There is no valid subscription. You are now in read-only mode.",
-    "upgrade": {
-      "title": "Upgrade",
-      "description": "Upgrade to a different subscription",
-      "month": "month",
-      "year": "year",
-      "currentPlan": "Current plan",
-      "newPlan": "New plan",
-      "changePlan": "Change plan",
-      "cancelSubscription": "Cancel subscription",
-      "cancelSubscriptionDescription": "You can cancel your subscription within the next 30 days without additional costs",
-      "upgrade": "Upgrade"
-    }
-  },
-  "export": {
-    "title": "Export",
-    "description": "Export declarations",
-    "format": "Format",
-    "formatDescription": "Select the format of the declarations",
-    "formatHelp": "Choose the format of the declarations",
-    "formatImport": "Import",
-    "from": "From",
-    "to": "To",
-    "inkoop": "Exact Online - Purchase",
-    "verkoop": "Exact Online - Sales",
+  "conversations": {
+    "title": "Conversations",
+    "description": "View and manage all your customer conversations",
+    "subtitle": "Total conversations this period",
+    "empty": "No conversations yet",
+    "loading": "Loading conversations...",
     "export": "Export",
-    "formatPlaceholder": "Choose format",
-    "filename": "Declarations",
-    "columns": {
-      "invoiceNumber": "Invoice number",
-      "invoiceDate": "Invoice date",
-      "customerCode": "Customer code",
-      "supplierCode": "Supplier code",
-      "description": "Description",
-      "amount": "Amount",
-      "vat": "VAT",
-      "currency": "Currency"
+    "exporting": "Exporting...",
+    "exportAsCsv": "As CSV",
+    "exportAsJson": "As JSON",
+    "stats": {
+      "total": "Total",
+      "active": "Active",
+      "completed": "Completed",
+      "empty": "Empty"
     }
+  },
+  "admin": {
+    "title": "Admin Panel",
+    "users": "Users",
+    "companies": "Companies",
+    "subscriptions": "Subscriptions",
+    "plans": "Plans",
+    "addUser": "Add User",
+    "addCompany": "Add Company",
+    "addPlan": "Add Plan",
+    "editUser": "Edit User",
+    "deleteUser": "Delete User",
+    "userDetails": "User Details",
+    "companyDetails": "Company Details",
+    "planDetails": "Plan Details"
+  },
+  "assistants": {
+    "title": "Assistants",
+    "professional": "Professional",
+    "friendly": "Friendly",
+    "casual": "Casual",
+    "formal": "Formal",
+    "nl": "Dutch",
+    "en": "English",
+    "de": "German",
+    "fr": "French",
+    "bottom-right": "Bottom Right",
+    "bottom-left": "Bottom Left",
+    "top-right": "Top Right",
+    "top-left": "Top Left"
+  },
+  "team": {
+    "title": "Team Management",
+    "members": "Members",
+    "inviteMember": "Invite Member",
+    "editMember": "Edit Member",
+    "removeMember": "Remove Member",
+    "memberDetails": "Member Details",
+    "invitations": "Invitations",
+    "pendingInvitations": "Pending Invitations"
+  },
+  "account": {
+    "title": "Account Settings",
+    "tabs": {
+      "personalDetails": "Personal Details",
+      "emailSettings": "Email Settings",
+      "changePassword": "Change Password",
+      "subscription": "Subscription",
+      "team": "Team"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAsRead": "Mark as Read",
+    "markAllAsRead": "Mark All as Read",
+    "noNotifications": "No notifications",
+    "newNotification": "New notification"
+  },
+  "forms": {
+    "validation": {
+      "required": "This field is required",
+      "email": "Please enter a valid email address",
+      "minLength": "Must be at least {min} characters",
+      "maxLength": "Must be no more than {max} characters",
+      "passwordMatch": "Passwords must match"
+    }
+  },
+  "navigation": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "conversations": "Conversations",
+    "assistants": "Assistants",
+    "knowledgebase": "Knowledge Base",
+    "settings": "Settings",
+    "account": "Account",
+    "admin": "Admin",
+    "team": "Team",
+    "notifications": "Notifications",
+    "export": "Export",
+    "subscription": "Subscription",
+    "users": "Users",
+    "invitations": "Invitations",
+    "menu": "Menu",
+    "logout": "Logout"
+  },
+  "knowledgebase": {
+    "title": "Knowledge Base",
+    "description": "Manage your knowledge sources for the AI assistant",
+    "tabs": {
+      "websites": "Websites",
+      "faqs": "FAQs",
+      "files": "Files"
+    }
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "pending": "Pending",
+    "completed": "Completed",
+    "failed": "Failed",
+    "cancelled": "Cancelled",
+    "processing": "Processing",
+    "draft": "Draft",
+    "published": "Published"
+  },
+  "time": {
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "thisWeek": "This Week",
+    "lastWeek": "Last Week",
+    "thisMonth": "This Month",
+    "lastMonth": "Last Month",
+    "thisYear": "This Year",
+    "lastYear": "Last Year",
+    "last7Days": "Last 7 days",
+    "last30Days": "Last 30 days"
   },
   "header": {
     "features": "Features",
     "pricing": "Pricing",
     "testimonials": "Testimonials",
     "login": "Login",
-    "tryFree": "Try for free"
-  },
-  "hero": {
-    "title": "Handle declarations",
-    "subtitle": "in minutes, not hours",
-    "description": "Make submitting and managing declarations easy with Declair. Simple processing, real-time approval, and full transparency.",
-    "tryFree": "Try for free",
-    "watchDemo": "Watch demo",
-    "free_trial": "Try free for 2 months - No credit card required",
-    "secure": "100% secure",
-    "gdpr_compliant": "GDPR compliant"
-  },
-  "features": {
-    "title": "Why choose Declair?",
-    "subtitle": "Save time and work more efficiently with our advanced declaration solution.",
-    "items": [
-      {
-        "title": "Fast processing",
-        "description": "Declarations are easily processed and approved."
-      },
-      {
-        "title": "Easy submission",
-        "description": "Upload or take a photo of your receipt and fill in one form."
-      },
-      {
-        "title": "Insightful reports",
-        "description": "Get immediate insight into all your declarations per month."
-      },
-      {
-        "title": "Secure and compliant",
-        "description": "GDPR-compliant and SSL encryption for all your data."
-      },
-      {
-        "title": "Accessible everywhere",
-        "description": "Use Declair on desktop, tablet, or smartphone."
-      },
-      {
-        "title": "Automatic payment",
-        "description": "Get your reimbursement directly to your account."
-      }
-    ]
-  },
-  "how_it_works": {
-    "title": "How it works",
-    "description": "In four simple steps from receipt to reimbursement.",
-    "step_1": "Take a photo",
-    "step_1_description": "Scan your receipt with your phone's camera",
-    "step_2": "Fill in details",
-    "step_2_description": "Add a short description and category",
-    "step_3": "Wait for approval",
-    "step_3_description": "Your manager approves the declaration",
-    "step_4": "Receive reimbursement",
-    "step_4_description": "The amount is sent to your account"
-  },
-  "pricing": {
-    "title": "Simple, transparent pricing",
-    "subtitle": "Choose the plan that fits your company. Always cancelable, no hidden costs.",
-    "popular": "Most popular choice",
-    "plans": {
-      "starter": {
-        "name": "Starter",
-        "price": "€9.99",
-        "period": "/month",
-        "description": "Perfect for start-ups and small teams",
-        "features": [
-          "Up to 10 users",
-          "Basic declaration management",
-          "Email support",
-          "Mobile app",
-          "CSV and XML export"
-        ],
-        "cta": "Start free trial",
-        "href": "/register"
-      },
-      "professional": {
-        "name": "Professional",
-        "price": "€29.99",
-        "period": "/month",
-        "description": "Ideal for growing companies",
-        "features": [
-          "Up to 25 users",
-          "Basic declaration management",
-          "Email and chat support",
-          "Mobile app",
-          "CSV and XML export"
-        ],
-        "cta": "Start free trial",
-        "href": "/register"
-      },
-      "enterprise": {
-        "name": "Enterprise",
-        "price": "€59.99",
-        "period": "/month",
-        "description": "For large organizations",
-        "features": [
-          "Unlimited users",
-          "Advanced declaration management",
-          "SLA guarantee",
-          "Mobile app",
-          "API integration with accounting systems (Exact, Moneybird, etc.)"
-        ],
-        "cta": "Start free trial",
-        "href": "/register"
-      }
-    }
-  },
-  "faq": {
-    "title": "Frequently asked questions",
-    "description": "Discover how Declair works and what it can do for you.",
-    "question_1": "What is Declair?",
-    "answer_1": "Declair is an online declaration processing platform that helps companies submit and manage declarations.",
-    "question_2": "How long does it take for my declaration to be approved?",
-    "answer_2": "This depends on the approver, but most declarations are approved within 24 hours. For more complex declarations, this may take up to 48 hours.",
-    "question_3": "Are there costs associated with using Declair?",
-    "answer_3": "Our Starter plan costs €19 per month. For more volume and advanced features, we have paid plans starting from €39 per month.",
-    "question_4": "Is my data safe with Declair?",
-    "answer_4": "Yes, we take privacy and security very seriously. All your data is encrypted and we are fully GDPR-compliant.",
-    "question_5": "Can I integrate Declair with my existing accounting system?",
-    "answer_5": "Yes, Declair integrates with most popular accounting systems such as Exact, Moneybird, and more via our API.",
-    "question_6": "What kind of declarations can I submit?",
-    "answer_6": "You can declare all business expenses such as travel expenses, meals, office supplies, and more."
-  },
-  "cta": {
-    "title": "Ready to get started?",
-    "description": "Try Declair free for 2 months and discover how easy declaration processing can be.",
-    "cta": "Start free trial",
-    "contact": "Contact us",
-    "free_trial": "Try free for 2 months",
-    "secure": "100% secure",
-    "gdpr_compliant": "GDPR compliant",
-    "no_credit_card": "No credit card required"
-  },
-  "testimonials": {
-    "title": "What our customers say",
-    "description": "Discover why companies are switching to Declair for their declaration processing.",
-    "role_1": "Finance Manager at TechStart",
-    "content_1": "Declair has completely transformed our declaration process. What used to take weeks is now done in a few days.",
-    "role_2": "CEO at GrowthLabs",
-    "content_2": "The automation and transparency that Declair offers is unmatched. Our employees love it!",
-    "role_3": "HR Director at Innovate BV",
-    "content_3": "Finally a system that works as you would expect. The app is intuitive and customer service is excellent."
+    "tryFree": "Try Free",
+    "language": "Language"
   },
   "footer": {
-    "description": "Get your money back without hassle. Declair it.",
-    "email": "hello@declair.app",
-    "address": "Houten, Netherlands",
+    "description": "Transform your customer service with AI-powered chatbots that understand your business and provide instant, accurate responses 24/7.",
     "product": "Product",
     "features": "Features",
     "pricing": "Pricing",
     "api": "API",
     "integrations": "Integrations",
     "company": "Company",
-    "about": "About us",
+    "register": "Register",
     "careers": "Careers",
     "press": "Press",
     "contact": "Contact",
+    "email": "info@declair.app",
+    "address": "Amsterdam, Netherlands",
     "rights": "All rights reserved.",
     "privacy": "Privacy Policy",
-    "terms": "Terms of Service",
-    "register": "Register"
+    "terms": "Terms of Service"
   },
-  "mail": {
-    "welcome": {
-      "title": "Welcome to Declair! 🙌",
-      "description": "Your account has been successfully created and you can now start managing your declarations easily. We're glad you've chosen our solution to digitize and streamline your declaration process.",
-      "whatYouCanDo": "🚀 What can you do now?",
-      "features": {
-        "submit": "✅ Submit declarations - Upload your receipts and submit declarations with just a few clicks",
-        "overview": "✅ Keep track - View the status of all your declarations in one place",
-        "approval": "✅ Quick approval - Get faster approval through our streamlined workflow",
-        "export": "✅ Automatic export - Export your data to your accounting software"
-      },
-      "tips": {
-        "title": "💡 Tips to get started:",
-        "login": "Log in to your account: {loginLink}",
-        "profile": "Complete your profile: Add your department and other details",
-        "firstDeclaration": "Submit your first declaration: Click \"New Declaration\" to get started",
-        "invite": "Invite colleagues: As an admin, you can invite team members"
-      },
-      "companyInfo": {
-        "title": "🏢 Company Information",
-        "admin": {
-          "title": "As an administrator of {companyName} you can:",
-          "invite": "Invite team members through user management",
-          "settings": "Adjust company settings",
-          "approve": "Approve declarations from your team",
-          "reports": "Generate reports and exports"
-        }
-      },
-      "help": {
-        "title": "📚 Need help?",
-        "faq": "Frequently asked questions: {faqLink}",
-        "manual": "Manual: {manualLink}",
-        "support": "Support: Send an email to support@declair.app",
-        "phone": "Call us: +31 (0)20 123 4567 (Mon-Fri 9:00-17:00)"
-      },
-      "nextSteps": {
-        "title": "🎯 Next steps",
-        "confirmEmail": "Confirm your email address by logging in",
-        "setup2FA": "Set up 2FA (two-factor authentication) for extra security",
-        "uploadReceipt": "Upload your first receipt and experience how easy declaring can be!"
-      },
-      "signature": "Good luck with Declair!\nThe Declair Team",
-      "social": {
-        "title": "P.S. Follow us on social media for tips, updates and news:",
-        "linkedin": "LinkedIn",
-        "twitter": "Twitter"
-      },
-      "footer": {
-        "sentTo": "This email was sent to {email} because you created an account with Declair.",
-        "unsubscribe": "No longer interested? You can unsubscribe here.",
-        "address": "Declair B.V.\nExample Street 123\n1234 AB Amsterdam\nThe Netherlands"
-      }
-    },
-    "invitation": {
-      "subject": "You've been invited to Declair at {companyName} 💼",
-      "greeting": "Hello,",
-      "intro": "You've been invited to join Declair, the declaration portal of {companyName}! 🎉",
-      "inviter": "{inviterName} has invited you to join the team and improve the declaration process together.",
-      "createAccountLink": "Create an account",
-      "role": {
-        "title": "👤 Your role at {companyName}",
-        "invitedAs": "You've been invited as: {role}",
-        "user": {
-          "title": "As a User you can:",
-          "features": [
-            "✅ Submit and manage declarations",
-            "✅ Track your declaration status",
-            "✅ Upload and categorize receipts",
-            "✅ Use export functionality"
-          ]
-        },
-        "approver": {
-          "title": "As an Approver you can:",
-          "features": [
-            "✅ All user functions",
-            "✅ Approve/reject team members' declarations",
-            "✅ Add comments during processing",
-            "✅ Overviews of declarations to be processed"
-          ]
-        },
-        "admin": {
-          "title": "As an Administrator you can:",
-          "features": [
-            "✅ All user and approver functions",
-            "✅ Invite new team members",
-            "✅ Manage company settings",
-            "✅ View complete reports and analytics",
-            "✅ Set up categories and expense types"
-          ]
-        },
-        "finance": {
-          "title": "As a Finance user you can:",
-          "features": [
-            "✅ All user and approver functions",
-            "✅ Export declarations to accounting",
-            "✅ Financial analyses",
-            "✅ Manage budgets",
-            "✅ View reports and analytics"
-          ]
-        }
-      },
-      "whatIsDeclair": {
-        "title": "🚀 What is Declair?",
-        "description": "Declair makes declaring simple, fast and transparent:",
-        "features": [
-          "📱 Mobile-first - Declare on the go with your smartphone",
-          "🤖 Automatic recognition - AI automatically reads your receipts",
-          "⚡ Quick approval - Streamlined workflow for fast processing",
-          "📊 Real-time insight - Always up-to-date overviews",
-          "🔗 Integrations - Connect with your favorite accounting software",
-          "🔒 Secure - Enterprise-grade security and 2FA support"
-        ]
-      },
-      "activation": {
-        "title": "🎯 Activate account",
-        "steps": [
-          "Step 1: Accept invitation",
-          "Step 2: Create your password and fill in your profile",
-          "Step 3: Start declaring right away!"
-        ]
-      },
-      "important": {
-        "title": "⏰ Important to know",
-        "items": [
-          "⚠️ This invitation is valid for 7 days",
-          "🔐 You'll automatically get access to the {companyName} account",
-          "📧 You'll receive a welcome email after activating your account",
-          "💬 For questions, you can contact {inviterName} or our support team"
-        ]
-      },
-      "gettingStarted": {
-        "title": "🎓 Get started right away",
-        "beginners": {
-          "title": "For beginners:",
-          "items": [
-            "Check out the onboarding - We'll guide you step by step through the application",
-            "Upload your first receipt - Test how easy it works",
-            "Discover the features - Explore all possibilities at your own pace"
-          ]
-        },
-        "experienced": {
-          "title": "For experienced users:",
-          "items": [
-            "Import existing data - Transfer your current declarations",
-            "Set preferences - Personalize your dashboard",
-            "Configure notifications - Stay informed the way you want"
-          ]
-        }
-      },
-      "support": {
-        "title": "📞 Need help?",
-        "team": {
-          "title": "Support Team:",
-          "email": "📧 Email: support@declair.app",
-          "phone": "📱 Phone: +31 (0)20 123 4567 (Mon-Fri 9:00-17:00)",
-          "chat": "💬 Live chat: available in the application"
-        },
-        "contact": {
-          "title": "Your contact person:",
-          "info": "👤 {inviterName} - {inviterEmail}\n💼 {inviterRole} at {companyName}"
-        }
-      },
-      "security": {
-        "title": "🔐 Security & Privacy",
-        "description": "We take your privacy seriously:",
-        "features": [
-          "🛡️ GDPR compliant - Your data is safe with us",
-          "🔒 End-to-end encryption - Maximum security for your data",
-          "👥 Team access - Only your team members can see your declarations",
-          "🔑 2FA support - Extra security for your account"
-        ]
-      },
-      "closing": {
-        "welcome": "Welcome to the team! 👋",
-        "message": "We look forward to helping you streamline your declaration process. Together we'll make declaring a breeze!",
-        "signature": "Best regards,\nThe Declair Team\n& {inviterName} from {companyName}",
-        "ps": "P.S. Questions about the invitation? Send a message to {inviterEmail} or our support team. We're happy to help!"
-      },
-      "footer": {
-        "sentTo": "You're receiving this email because {inviterName} from {companyName} has invited you to Declair.",
-        "unsubscribe": "Not interested? Just ignore this email."
-      }
-    },
-    "resetPassword": {
-      "title": "Reset password",
-      "description": "Click the link below to reset your password:",
-      "link": "Reset password",
-      "ignore": "If you didn't request this, you can ignore this email.",
-      "expiration": "This link is valid for 1 hour."
-    },
-    "declarationStatus": {
-      "declaration": "Declaration",
-      "yourDeclaration": "Your declaration",
-      "hasBeen": "has been",
-      "viewDeclarationIn": "View your declaration in",
-      "viewDeclaration": "View your declaration",
-      "comment": "Comment",
-      "status": {
-        "approved": "Approved",
-        "rejected": "Rejected",
-        "processing": "Processing"
-      }
-    },
-    "declarationCreated": {
-      "title": "New declaration created",
-      "description": "You have created a new declaration \"{declarationTitle}\".",
-      "processing": "The declaration is being processed and waiting for approval.",
-      "viewDeclaration": "View your declaration here",
-      "viewDeclarationLink": "View your declaration here"
-    },
-    "declarationToApprove": {
-      "title": "Declaration for approval",
-      "description": "You have a new declaration \"{declarationTitle}\" to approve.",
-      "processing": "The declaration has been submitted and is waiting for approval.",
-      "viewDeclaration": "View the declaration",
-      "viewDeclarationLink": "View the declaration"
-    },
-    "declarationDeleted": {
-      "title": "Declaration deleted",
-      "description": "Your declaration \"{declarationTitle}\" has been deleted.",
-      "contact": "If you have any questions, please contact your administrator."
-    },
-    "rights": "All rights reserved."
-  },
-  "admin": {
-    "dashboard": {
-      "title": "Dashboard",
-      "description": "Dashboard",
-      "users": "Users",
-      "subscriptions": "Subscriptions"
-    },
-    "companies": {
-      "name": "Company",
-      "address": "Address",
-      "city": "City",
-      "zipCode": "Zip code",
-      "country": "Country",
-      "vatNumber": "VAT number",
-      "users": "Users",
-      "createdAt": "Created at",
-      "actions": "Actions",
-      "searchPlaceholder": "Search for a company",
-      "noResults": "No companies found"
-    },
-    "users": {
-      "name": "Name",
-      "company": "Company",
-      "role": "Role",
-      "department": "Department",
-      "email": "Email",
-      "password": "Password",
-      "status": "Status",
-      "actions": "Actions",
-      "searchPlaceholder": "Search for a user",
-      "addNew": "Add new user",
-      "selectCompany": "Select company"
-    },
+  "pricing": {
+    "title": "Simple, Transparent Pricing",
+    "subtitle": "Choose the plan that fits your business needs",
+    "popular": "Most Popular",
     "plans": {
-      "name": "Subscription",
-      "description": "Description",
-      "price": "Price",
-      "interval": "Period",
-      "features": "Features",
-      "status": "Status",
-      "actions": "Actions",
-      "searchPlaceholder": "Search for a subscription",
-      "addNew": "Add new subscription",
-      "active": "Active",
-      "inactive": "Inactive",
-      "featuresCount": "Number of features",
-      "month": "Month",
-      "year": "Year"
+      "starter": {
+        "name": "Starter",
+        "description": "Perfect for small businesses getting started",
+        "price": "€29",
+        "period": "/month",
+        "features": [
+          "Up to 1,000 conversations per month",
+          "Basic AI assistant",
+          "Email support",
+          "Standard knowledge base",
+          "Basic analytics"
+        ],
+        "cta": "Get Started",
+        "href": "/register"
+      },
+      "professional": {
+        "name": "Professional",
+        "description": "Ideal for growing businesses",
+        "price": "€79",
+        "period": "/month",
+        "features": [
+          "Up to 10,000 conversations per month",
+          "Advanced AI assistant",
+          "Priority support",
+          "Advanced knowledge base",
+          "Detailed analytics",
+          "Custom branding",
+          "API access"
+        ],
+        "cta": "Start Free Trial",
+        "href": "/register"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "description": "For large organizations with complex needs",
+        "price": "Custom",
+        "period": "",
+        "features": [
+          "Unlimited conversations",
+          "Custom AI training",
+          "Dedicated support",
+          "Advanced integrations",
+          "Custom analytics",
+          "White-label solution",
+          "SLA guarantee"
+        ],
+        "cta": "Contact Sales",
+        "href": "/contact"
+      }
     }
   }
 }
