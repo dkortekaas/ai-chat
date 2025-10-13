@@ -14,6 +14,7 @@ export interface WidgetConfig {
   primaryColor: string;
   secondaryColor: string;
   avatar?: string;
+  fontFamily?: string;
   position: "bottom-right" | "bottom-left";
   showBranding: boolean;
   actionButtons?: ActionButton[];

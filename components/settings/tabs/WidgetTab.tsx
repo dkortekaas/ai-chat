@@ -191,7 +191,10 @@ export function WidgetTab({ onChanges }: WidgetTabProps) {
             </Button>
             <Button
               variant="outline"
-              onClick={() => window.open("/test.html", "_blank")}
+              onClick={() => {
+                const testUrl = `/widget-test.html?apiKey=${encodeURIComponent(apiKey)}`;
+                window.open(testUrl, "_blank");
+              }}
             >
               <TestTube className="w-4 h-4 mr-2" />
               Test Widget

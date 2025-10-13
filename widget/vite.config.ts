@@ -9,7 +9,7 @@ export default defineConfig({
   },
   build: {
     outDir: "../public/widget",
-    emptyOutDir: true,
+    emptyOutDir: false, // Don't empty the directory to preserve loader.js
     lib: {
       entry: path.resolve(__dirname, "src/main.tsx"),
       name: "ChatbotWidget",

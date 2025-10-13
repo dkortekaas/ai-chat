@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { App } from "./App";
 import type { WidgetConfig } from "./types";
+import { loadFont } from "./utils/fontLoader";
 
 // Inline CSS styles
 const widgetStyles = `
@@ -13,7 +14,7 @@ const widgetStyles = `
 }
 
 .chatbot-widget-container {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: var(--chatbot-font-family, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif);
   font-size: 14px;
   line-height: 1.5;
   color: #1f2937;
@@ -581,13 +582,66 @@ window.initChatbotWidget = async function (userConfig: Partial<WidgetConfig>) {
   style.textContent = widgetStyles;
   shadowRoot.appendChild(style);
 
-  // Render React app
-  const root = ReactDOM.createRoot(shadowContainer);
-  root.render(
-    <React.StrictMode>
-      <App config={config} />
-    </React.StrictMode>
-  );
+  // Load font and then render the widget
+  const initializeWidget = async () => {
+    // Load the font if specified and inject it into Shadow DOM
+    if (config.fontFamily) {
+      try {
+        await loadFont(config.fontFamily);
+        console.log(`Font loaded: ${config.fontFamily}`);
+
+        // Inject font CSS into Shadow DOM
+        try {
+          // Try to fetch and inject the font CSS directly
+          const fontUrl = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(config.fontFamily)}:wght@400;500;600&display=swap`;
+          const response = await fetch(fontUrl);
+          if (response.ok) {
+            const fontCSS = await response.text();
+            const fontStyle = document.createElement("style");
+            fontStyle.textContent = fontCSS;
+            shadowRoot.appendChild(fontStyle);
+            console.log(
+              `Font CSS injected into Shadow DOM: ${config.fontFamily}`
+            );
+          } else {
+            throw new Error("Failed to fetch font CSS");
+          }
+        } catch (error) {
+          console.warn(
+            `Failed to inject font CSS into Shadow DOM: ${config.fontFamily}`,
+            error
+          );
+          // Fallback: try @import
+          const fontStyle = document.createElement("style");
+          fontStyle.textContent = `
+            @import url('https://fonts.googleapis.com/css2?family=${encodeURIComponent(config.fontFamily)}:wght@400;500;600&display=swap');
+          `;
+          shadowRoot.appendChild(fontStyle);
+        }
+      } catch (error) {
+        console.warn(`Failed to load font: ${config.fontFamily}`, error);
+      }
+    }
+
+    // Set CSS custom properties for dynamic styling
+    if (config.fontFamily) {
+      shadowContainer.style.setProperty(
+        "--chatbot-font-family",
+        `"${config.fontFamily}", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif`
+      );
+    }
+
+    // Render React app
+    const root = ReactDOM.createRoot(shadowContainer);
+    root.render(
+      <React.StrictMode>
+        <App config={config} />
+      </React.StrictMode>
+    );
+  };
+
+  // Initialize the widget
+  initializeWidget();
 
   console.log("✅ Chatbot Widget initialized");
 };
