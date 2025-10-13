@@ -5,6 +5,7 @@ import { ConversationSessionTable } from "@/components/conversations/conversatio
 import { ConversationFilters } from "@/components/conversations/conversation-filters";
 import { Pagination } from "@/components/ui/Pagination";
 import { useAssistant } from "@/contexts/assistant-context";
+import { useTranslations } from "next-intl";
 
 interface Filters {
   type: string;
@@ -74,6 +75,7 @@ export function ConversationList() {
   const [isLoading, setIsLoading] = useState(false);
   const [totalItems, setTotalItems] = useState(0);
   const [sessions, setSessions] = useState<ConversationSession[]>([]);
+  const t = useTranslations();
 
   useEffect(() => {
     const fetchSessions = async () => {

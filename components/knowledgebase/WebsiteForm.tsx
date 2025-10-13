@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/useToast";
 import { useAssistant } from "@/contexts/assistant-context";
+import { useTranslations } from "next-intl";
 
 interface Website {
   id: string;
@@ -50,6 +51,7 @@ export function WebsiteForm({
   onSuccess,
   website,
 }: WebsiteFormProps) {
+  const t = useTranslations();
   const { currentAssistant } = useAssistant();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -68,7 +70,7 @@ export function WebsiteForm({
     if (!currentAssistant) {
       toast({
         title: "Error",
-        description: "No assistant selected",
+        description: t("error.noAssistantSelected"),
         variant: "destructive",
       });
       return;
@@ -91,7 +93,7 @@ export function WebsiteForm({
         );
         if (alreadyExists) {
           toast({
-            title: "URL bestaat al",
+            title: t("error.urlAlreadyExists"),
             description:
               "Deze website URL is al toegevoegd voor deze assistant. Kies een andere URL of bewerk de bestaande.",
             variant: "destructive",
@@ -135,9 +137,8 @@ export function WebsiteForm({
         // Handle duplicate URL explicitly with toast
         if (response.status === 409) {
           toast({
-            title: "URL bestaat al",
-            description:
-              "Deze website URL is al toegevoegd voor deze assistant. Kies een andere URL of bewerk de bestaande.",
+            title: t("error.urlAlreadyExists"),
+            description: t("error.urlAlreadyExistsDescription"),
             variant: "destructive",
           });
           return;
@@ -151,9 +152,8 @@ export function WebsiteForm({
           errorData.error.toLowerCase().includes("failed to create website")
         ) {
           toast({
-            title: "Fout bij opslaan",
-            description:
-              "Deze website URL lijkt al te bestaan. Kies een andere URL of bewerk de bestaande.",
+            title: t("error.saveFailed"),
+            description: t("error.urlAlreadyExistsDescription"),
             variant: "destructive",
           });
           return;
@@ -161,27 +161,29 @@ export function WebsiteForm({
 
         // Generic error toast
         toast({
-          title: "Fout bij opslaan",
+          title: t("error.saveFailed"),
           description:
             (errorData && (errorData.error || errorData.message)) ||
-            "Er is iets misgegaan bij het opslaan.",
+            t("error.saveFailed"),
           variant: "destructive",
         });
         return;
       }
 
       toast({
-        title: isEditing ? "Website updated" : "Website added",
+        title: isEditing
+          ? t("success.websiteUpdated")
+          : t("success.websiteAdded"),
         description: isEditing
-          ? "The website has been updated successfully."
-          : "The website has been added successfully.",
+          ? t("success.websiteUpdatedSuccessfully")
+          : t("success.websiteAddedSuccessfully"),
       });
 
       onSuccess();
       onClose();
     } catch (error) {
       toast({
-        title: "Error",
+        title: t("error.saveFailed"),
         description:
           error instanceof Error ? error.message : "An error occurred",
         variant: "destructive",
@@ -208,18 +210,20 @@ export function WebsiteForm({
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>
-            {isEditing ? "Edit Website" : "Add Website"}
+            {isEditing
+              ? t("knowledgebase.editWebsite")
+              : t("knowledgebase.addWebsite")}
           </DialogTitle>
           <DialogDescription>
             {isEditing
-              ? "Update the website information below."
-              : "Add a new website URL to your knowledge base."}
+              ? t("knowledgebase.updateWebsiteInformation")
+              : t("knowledgebase.addWebsiteInformation")}
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="url">URL *</Label>
+            <Label htmlFor="url">{t("knowledgebase.url")} *</Label>
             <Input
               id="url"
               type="url"
@@ -234,10 +238,10 @@ export function WebsiteForm({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="name">Name (optional)</Label>
+            <Label htmlFor="name">{t("knowledgebase.name")} (optional)</Label>
             <Input
               id="name"
-              placeholder="Website name"
+              placeholder={t("knowledgebase.websiteName")}
               value={formData.name}
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, name: e.target.value }))
@@ -247,10 +251,12 @@ export function WebsiteForm({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">Description (optional)</Label>
+            <Label htmlFor="description">
+              {t("knowledgebase.description")} (optional)
+            </Label>
             <Textarea
               id="description"
-              placeholder="Brief description of the website"
+              placeholder={t("knowledgebase.briefDescription")}
               value={formData.description}
               onChange={(e) =>
                 setFormData((prev) => ({
@@ -264,7 +270,9 @@ export function WebsiteForm({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="syncInterval">Sync Interval</Label>
+            <Label htmlFor="syncInterval">
+              {t("knowledgebase.syncInterval")}
+            </Label>
             <Select
               value={formData.syncInterval}
               onValueChange={(value) =>
@@ -273,13 +281,23 @@ export function WebsiteForm({
               disabled={isLoading}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select sync interval" />
+                <SelectValue
+                  placeholder={t("knowledgebase.selectSyncInterval")}
+                />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="never">Never</SelectItem>
-                <SelectItem value="daily">Daily</SelectItem>
-                <SelectItem value="weekly">Weekly</SelectItem>
-                <SelectItem value="monthly">Monthly</SelectItem>
+                <SelectItem value="never">
+                  {t("knowledgebase.never")}
+                </SelectItem>
+                <SelectItem value="daily">
+                  {t("knowledgebase.daily")}
+                </SelectItem>
+                <SelectItem value="weekly">
+                  {t("knowledgebase.weekly")}
+                </SelectItem>
+                <SelectItem value="monthly">
+                  {t("knowledgebase.monthly")}
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -291,10 +309,14 @@ export function WebsiteForm({
               onClick={handleClose}
               disabled={isLoading}
             >
-              Cancel
+              {t("common.cancel")}
             </Button>
             <SaveButton type="submit" isLoading={isLoading}>
-              {isEditing ? "Update" : "Add"}
+              {isLoading
+                ? t("common.saving")
+                : isEditing
+                  ? t("common.update")
+                  : t("common.add")}
             </SaveButton>
           </DialogFooter>
         </form>

@@ -25,6 +25,7 @@ import { WebsiteForm } from "@/components/knowledgebase/WebsiteForm";
 import { DeleteConfirmationModal } from "@/components/shared/DeleteConfirmationModal";
 import { useToast } from "@/hooks/useToast";
 import { useAssistant } from "@/contexts/assistant-context";
+import { useTranslations } from "next-intl";
 
 interface Website {
   id: string;
@@ -45,6 +46,7 @@ interface Website {
 }
 
 export function WebsitesTab() {
+  const t = useTranslations();
   const router = useRouter();
   const { currentAssistant } = useAssistant();
   const [websites, setWebsites] = useState<Website[]>([]);
@@ -71,14 +73,14 @@ export function WebsitesTab() {
       }
     } catch {
       toast({
-        title: "Error",
-        description: "Failed to load websites",
+        title: t("error.saveFailed"),
+        description: t("error.failedToLoadWebsites"),
         variant: "destructive",
       });
     } finally {
       setIsLoading(false);
     }
-  }, [currentAssistant, toast]);
+  }, [currentAssistant, toast, t]);
 
   // Fetch websites on component mount and when assistant changes
   useEffect(() => {
@@ -111,21 +113,23 @@ export function WebsitesTab() {
 
       if (response.ok) {
         toast({
-          title: "Website deleted",
-          description: "The website has been deleted successfully.",
+          title: t("success.websiteDeleted"),
+          description: t("success.websiteDeletedSuccessfully"),
         });
         setIsDeleteOpen(false);
         setWebsiteToDelete(null);
         fetchWebsites();
       } else {
         const error = await response.json();
-        throw new Error(error.error || "Failed to delete website");
+        throw new Error(error.error || t("error.failedToDeleteWebsite"));
       }
     } catch (error) {
       toast({
-        title: "Error",
+        title: t("error.saveFailed"),
         description:
-          error instanceof Error ? error.message : "Failed to delete website",
+          error instanceof Error
+            ? error.message
+            : t("error.failedToDeleteWebsite"),
         variant: "destructive",
       });
     } finally {
@@ -150,8 +154,8 @@ export function WebsitesTab() {
 
       if (response.ok) {
         toast({
-          title: "Scraping started",
-          description: "The website scraping process has been initiated.",
+          title: t("success.scrapingStarted"),
+          description: t("success.scrapingStartedSuccessfully"),
         });
         // Refresh the websites list to show updated status
         setTimeout(() => {
@@ -159,13 +163,15 @@ export function WebsitesTab() {
         }, 1000);
       } else {
         const error = await response.json();
-        throw new Error(error.error || "Failed to start scraping");
+        throw new Error(error.error || t("error.failedToStartScraping"));
       }
     } catch (error) {
       toast({
-        title: "Error",
+        title: t("error.saveFailed"),
         description:
-          error instanceof Error ? error.message : "Failed to start scraping",
+          error instanceof Error
+            ? error.message
+            : t("error.failedToStartScraping"),
         variant: "destructive",
       });
     }
@@ -179,31 +185,47 @@ export function WebsitesTab() {
     switch (status) {
       case "COMPLETED":
         return (
-          <Badge className="bg-green-100 text-green-800">✓ Completed</Badge>
+          <Badge className="bg-green-100 text-green-800">
+            ✓ {t("knowledgebase.completed")}
+          </Badge>
         );
       case "PENDING":
-        return <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>;
+        return (
+          <Badge className="bg-yellow-100 text-yellow-800">
+            {t("knowledgebase.pending")}
+          </Badge>
+        );
       case "SYNCING":
-        return <Badge className="bg-blue-100 text-blue-800">Syncing</Badge>;
+        return (
+          <Badge className="bg-blue-100 text-blue-800">
+            {t("knowledgebase.syncing")}
+          </Badge>
+        );
       case "ERROR":
-        return <Badge className="bg-red-100 text-red-800">Error</Badge>;
+        return (
+          <Badge className="bg-red-100 text-red-800">
+            {t("knowledgebase.error")}
+          </Badge>
+        );
     }
   };
 
   const formatLastSync = (lastSync?: string) => {
-    if (!lastSync) return "Never";
+    if (!lastSync) return t("knowledgebase.never");
 
     const date = new Date(lastSync);
     const now = new Date();
     const diffInMs = now.getTime() - date.getTime();
     const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
 
-    if (diffInDays === 0) return "Today";
-    if (diffInDays === 1) return "Yesterday";
-    if (diffInDays < 7) return `${diffInDays} days ago`;
-    if (diffInDays < 30) return `${Math.floor(diffInDays / 7)} weeks ago`;
-    if (diffInDays < 365) return `${Math.floor(diffInDays / 30)} months ago`;
-    return `${Math.floor(diffInDays / 365)} years ago`;
+    if (diffInDays === 0) return t("knowledgebase.today");
+    if (diffInDays === 1) return t("knowledgebase.yesterday");
+    if (diffInDays < 7) return `${diffInDays} ${t("knowledgebase.daysAgo")}`;
+    if (diffInDays < 30)
+      return `${Math.floor(diffInDays / 7)} ${t("knowledgebase.weeksAgo")}`;
+    if (diffInDays < 365)
+      return `${Math.floor(diffInDays / 30)} ${t("knowledgebase.monthsAgo")}`;
+    return `${Math.floor(diffInDays / 365)} ${t("knowledgebase.yearsAgo")}`;
   };
 
   if (!currentAssistant) {
@@ -213,11 +235,10 @@ export function WebsitesTab() {
           <div className="text-gray-500 mb-4">
             <Bot className="w-12 h-12 mx-auto mb-4 text-gray-300" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">
-              No Assistant Selected
+              {t("knowledgebase.noAssistantSelected")}
             </h3>
             <p className="text-sm text-gray-500">
-              Please select an assistant from the dropdown above to manage
-              websites.
+              {t("knowledgebase.noAssistantSelectedDescription")}
             </p>
           </div>
         </div>
@@ -229,25 +250,27 @@ export function WebsitesTab() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-lg font-semibold text-gray-900">Websites</h2>
+          <h2 className="text-lg font-semibold text-gray-900">
+            {t("knowledgebase.websites")}
+          </h2>
           <p className="text-sm text-gray-500">
-            Add and manage website URLs as knowledge sources for{" "}
+            {t("knowledgebase.websitesDescription")}{" "}
             <strong>{currentAssistant.name}</strong>.
           </p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" size="sm">
-            ↑ No changes
+            ↑ {t("common.noChanges")}
           </Button>
           <Button variant="outline" size="sm">
-            ► Test
+            ► {t("common.test")}
           </Button>
           <Button
             className="bg-indigo-500 hover:bg-indigo-600"
             onClick={handleAddWebsite}
           >
             <Plus className="w-4 h-4 mr-2" />
-            Add Website
+            {t("common.add")}
           </Button>
         </div>
       </div>
@@ -258,25 +281,25 @@ export function WebsitesTab() {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  URL
+                  {t("knowledgebase.url")}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Pages
+                  {t("knowledgebase.pages")}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Sync Speed (pages/s)
+                  {t("knowledgebase.syncSpeed")}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Sync Interval
+                  {t("knowledgebase.syncInterval")}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Last Sync
+                  {t("knowledgebase.lastSync")}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
+                  {t("knowledgebase.status")}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
+                  {t("knowledgebase.actions")}
                 </th>
               </tr>
             </thead>
@@ -287,7 +310,7 @@ export function WebsitesTab() {
                     colSpan={7}
                     className="px-6 py-8 text-center text-gray-500"
                   >
-                    Loading websites...
+                    {t("knowledgebase.loadingWebsites")}
                   </td>
                 </tr>
               ) : websites.length === 0 ? (
@@ -296,8 +319,7 @@ export function WebsitesTab() {
                     colSpan={7}
                     className="px-6 py-8 text-center text-gray-500"
                   >
-                    No websites added yet. Click &quot;Add Website&quot; to get
-                    started.
+                    {t("knowledgebase.noWebsitesAdded")}
                   </td>
                 </tr>
               ) : (
@@ -348,26 +370,26 @@ export function WebsitesTab() {
                             onClick={() => handleEditWebsite(website)}
                           >
                             <Edit className="w-4 h-4 mr-2" />
-                            Edit
+                            {t("common.edit")}
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             onClick={() => handleScrapeWebsite(website)}
                           >
                             <RefreshCw className="w-4 h-4 mr-2" />
-                            Scrape Now
+                            {t("common.scrapeNow")}
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             onClick={() => handleViewContent(website)}
                           >
                             <Eye className="w-4 h-4 mr-2" />
-                            View Content
+                            {t("common.viewContent")}
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             className="text-red-600"
                             onClick={() => handleDeleteWebsite(website)}
                           >
                             <Trash2 className="w-4 h-4 mr-2" />
-                            Delete
+                            {t("common.delete")}
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
@@ -397,8 +419,8 @@ export function WebsitesTab() {
           }
         }}
         onConfirm={confirmDeleteWebsite}
-        title="Delete website?"
-        description="This will remove the website URL and its associated scraped data from this assistant. This action cannot be undone."
+        title={t("knowledgebase.deleteWebsite")}
+        description={t("knowledgebase.deleteWebsiteDescription")}
         itemName={websiteToDelete?.url || ""}
         isLoading={isDeleting}
       />

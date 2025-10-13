@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useAssistant } from "@/contexts/assistant-context";
 import { MessageSquare, Star, AlertCircle } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface ConversationStatsProps {
   all: number;
@@ -31,6 +32,7 @@ export function ConversationStats({
     avgMessagesPerSession: 0,
   });
   const [isLoading, setIsLoading] = useState(false);
+  const t = useTranslations();
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -81,7 +83,9 @@ export function ConversationStats({
                 {stats.totalSessions.toLocaleString()}
               </div>
             </div>
-            <div className="text-sm text-gray-500">Totaal sessies</div>
+            <div className="text-sm text-gray-500">
+              {t("conversations.stats.total")}
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -95,7 +99,9 @@ export function ConversationStats({
                 {stats.activeSessions.toLocaleString()}
               </div>
             </div>
-            <div className="text-sm text-gray-500">Actieve sessies (24u)</div>
+            <div className="text-sm text-gray-500">
+              {t("conversations.stats.active")}
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -109,7 +115,9 @@ export function ConversationStats({
                 {stats.totalMessages.toLocaleString()}
               </div>
             </div>
-            <div className="text-sm text-gray-500">Totaal berichten</div>
+            <div className="text-sm text-gray-500">
+              {t("conversations.stats.totalMessages")}
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -123,7 +131,9 @@ export function ConversationStats({
                 {stats.avgMessagesPerSession.toLocaleString()}
               </div>
             </div>
-            <div className="text-sm text-gray-500">Avg berichten/sessie</div>
+            <div className="text-sm text-gray-500">
+              {t("conversations.stats.avgMessagesPerSession")}
+            </div>
           </div>
         </CardContent>
       </Card>

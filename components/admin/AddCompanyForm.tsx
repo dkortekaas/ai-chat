@@ -76,7 +76,7 @@ export function AddCompanyForm() {
             htmlFor="name"
             className="block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
-            {t("admin.companies.name")} *
+            {t("admin.companyFields.name")} *
           </label>
           <input
             type="text"
@@ -94,7 +94,7 @@ export function AddCompanyForm() {
             htmlFor="vatNumber"
             className="block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
-            {t("admin.companies.vatNumber")}
+            {t("admin.companyFields.vatNumber")}
           </label>
           <input
             type="text"
@@ -113,7 +113,7 @@ export function AddCompanyForm() {
             htmlFor="address"
             className="block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
-            {t("admin.companies.address")}
+            {t("admin.companyFields.address")}
           </label>
           <input
             type="text"
@@ -130,7 +130,7 @@ export function AddCompanyForm() {
             htmlFor="zipCode"
             className="block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
-            {t("admin.companies.zipCode")}
+            {t("admin.companyFields.zipCode")}
           </label>
           <input
             type="text"
@@ -149,7 +149,7 @@ export function AddCompanyForm() {
             htmlFor="city"
             className="block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
-            {t("admin.companies.city")}
+            {t("admin.companyFields.city")}
           </label>
           <input
             type="text"
@@ -166,7 +166,7 @@ export function AddCompanyForm() {
             htmlFor="country"
             className="block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
-            {t("admin.companies.country")}
+            {t("admin.companyFields.country")}
           </label>
           <input
             type="text"

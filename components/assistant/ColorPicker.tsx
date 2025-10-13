@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -26,6 +27,7 @@ const presetColors = [
 ];
 
 export function ColorPicker({ color, onChange }: ColorPickerProps) {
+  const t = useTranslations();
   const [isOpen, setIsOpen] = useState(false);
 
   // Ensure color is always a string to prevent controlled/uncontrolled input issues
@@ -46,7 +48,7 @@ export function ColorPicker({ color, onChange }: ColorPickerProps) {
         <div className="space-y-4">
           <div>
             <label className="text-sm font-medium mb-2 block">
-              Kies een kleur
+              {t("assistant.chooseColor")}
             </label>
             <div className="grid grid-cols-4 gap-2">
               {presetColors.map((presetColor) => (
@@ -69,7 +71,7 @@ export function ColorPicker({ color, onChange }: ColorPickerProps) {
 
           <div>
             <label className="text-sm font-medium mb-2 block">
-              Of voer hex code in
+              {t("assistant.orEnterHexCode")}
             </label>
             <Input
               value={safeColor}

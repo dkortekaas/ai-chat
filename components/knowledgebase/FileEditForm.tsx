@@ -14,6 +14,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/useToast";
+import { useTranslations } from "next-intl";
 
 interface KnowledgeFile {
   id: string;
@@ -43,6 +44,7 @@ export function FileEditForm({
   onSuccess,
   file,
 }: FileEditFormProps) {
+  const t = useTranslations();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     description: file?.description || "",
@@ -66,21 +68,21 @@ export function FileEditForm({
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || "Failed to update file");
+        throw new Error(error.error || t("error.failedToUpdateFile"));
       }
 
       toast({
-        title: "File updated",
-        description: "The file has been updated successfully.",
+        title: t("success.fileUpdated"),
+        description: t("success.fileUpdatedSuccessfully"),
       });
 
       onSuccess();
       onClose();
     } catch (error) {
       toast({
-        title: "Error",
+        title: t("error.saveFailed"),
         description:
-          error instanceof Error ? error.message : "An error occurred",
+          error instanceof Error ? error.message : t("error.anErrorOccurred"),
         variant: "destructive",
       });
     } finally {
@@ -121,9 +123,9 @@ export function FileEditForm({
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Edit File</DialogTitle>
+          <DialogTitle>{t("knowledgebase.editFile")}</DialogTitle>
           <DialogDescription>
-            Update the file information below.
+            {t("knowledgebase.updateFileInformation")}
           </DialogDescription>
         </DialogHeader>
 
@@ -145,10 +147,12 @@ export function FileEditForm({
 
           {/* Description */}
           <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">
+              {t("knowledgebase.description")}
+            </Label>
             <Textarea
               id="description"
-              placeholder="Brief description of the file content"
+              placeholder={t("knowledgebase.briefDescription")}
               value={formData.description}
               onChange={(e) =>
                 setFormData((prev) => ({
@@ -172,7 +176,7 @@ export function FileEditForm({
               disabled={isLoading}
               className="data-[state=checked]:bg-indigo-500"
             />
-            <Label htmlFor="enabled">Enabled</Label>
+            <Label htmlFor="enabled">{t("knowledgebase.enabled")}</Label>
           </div>
 
           <DialogFooter>
@@ -182,10 +186,10 @@ export function FileEditForm({
               onClick={handleClose}
               disabled={isLoading}
             >
-              Cancel
+              {t("common.cancel")}
             </Button>
             <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Updating..." : "Update"}
+              {isLoading ? t("common.updating") : t("common.update")}
             </Button>
           </DialogFooter>
         </form>

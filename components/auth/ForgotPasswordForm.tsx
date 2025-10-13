@@ -28,6 +28,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import RequiredIndicator from "@/components/ui/RequiredIndicator";
+import { Loader2 } from "lucide-react";
 
 export default function ForgotPasswordForm() {
   const router = useRouter();
@@ -83,7 +84,7 @@ export default function ForgotPasswordForm() {
             {config.appTitle}
           </CardTitle>
           <CardDescription className="text-base sm:text-lg">
-            {t("auth.forgotpassword.title")}
+            {t("auth.forgotPasswordForm.title")}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -121,11 +122,16 @@ export default function ForgotPasswordForm() {
               <Button
                 type="submit"
                 className="w-full bg-indigo-500 hover:bg-indigo-600"
-                disabled={isLoading}
+                disabled={isLoading || !form.formState.isValid}
               >
-                {isLoading
-                  ? t("common.status.processing")
-                  : t("auth.forgotpassword.submitButton")}
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    {t("common.loading")}
+                  </>
+                ) : (
+                  t("auth.forgotPasswordForm.submitButton")
+                )}
               </Button>
             </form>
           </Form>
@@ -137,7 +143,7 @@ export default function ForgotPasswordForm() {
               </div>
               <div className="relative flex justify-center text-sm">
                 <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
-                  {t("auth.forgotpassword.orLogin")}
+                  {t("auth.forgotPasswordForm.orLogin")}
                 </span>
               </div>
             </div>
@@ -149,7 +155,7 @@ export default function ForgotPasswordForm() {
                 className="w-full"
                 disabled={isLoading}
               >
-                {t("auth.forgotpassword.backToLogin")}
+                {t("auth.forgotPasswordForm.backToLogin")}
               </Button>
             </div>
           </div>

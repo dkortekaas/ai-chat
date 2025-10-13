@@ -16,6 +16,7 @@ import {
   Calendar,
   Activity,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface ConversationSource {
   id: string;
@@ -68,6 +69,7 @@ export function ConversationSessionTable({
   sessions,
 }: ConversationSessionTableProps) {
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
+  const t = useTranslations();
 
   const toggleRow = (sessionId: string) => {
     const newExpanded = new Set(expandedRows);
@@ -158,30 +160,38 @@ export function ConversationSessionTable({
                   <CardTitle className="text-base font-medium text-gray-900 mb-2">
                     {firstMessage
                       ? truncateText(firstMessage.content, 120)
-                      : "Conversatie sessie"}
+                      : t("conversations.conversationSession")}
                   </CardTitle>
                   <div className="flex items-center gap-4 text-sm text-gray-500">
                     <div className="flex items-center gap-1">
                       <MessageSquare className="h-3 w-3" />
-                      <span>{session.messageCount} berichten</span>
+                      <span>
+                        {session.messageCount} {t("conversations.messages")}
+                      </span>
                     </div>
                     {session.totalTokens > 0 && (
                       <div className="flex items-center gap-1">
                         <FileText className="h-3 w-3" />
-                        <span>{session.totalTokens} tokens</span>
+                        <span>
+                          {session.totalTokens} {t("conversations.tokens")}
+                        </span>
                       </div>
                     )}
                     {session.avgResponseTime && (
                       <div className="flex items-center gap-1">
                         <Clock className="h-3 w-3" />
-                        <span>Avg: {session.avgResponseTime}ms</span>
+                        <span>
+                          {t("conversations.avg")}: {session.avgResponseTime}ms
+                        </span>
                       </div>
                     )}
                     <Badge
                       variant={session.isActive ? "default" : "secondary"}
                       className="text-xs"
                     >
-                      {session.isActive ? "Actief" : "Inactief"}
+                      {session.isActive
+                        ? t("conversations.active")
+                        : t("common.inactive")}
                     </Badge>
                   </div>
                 </div>
@@ -206,7 +216,7 @@ export function ConversationSessionTable({
                   {/* Messages */}
                   <div>
                     <h4 className="font-medium text-gray-900 mb-3">
-                      Berichten:
+                      {t("conversations.messages")}:
                     </h4>
                     <div className="space-y-3">
                       {session.messages.map((message, index) => (
@@ -218,10 +228,10 @@ export function ConversationSessionTable({
                             <div className="flex items-center gap-2 mb-1">
                               <span className="text-sm font-medium text-gray-700">
                                 {message.messageType === "USER"
-                                  ? "Gebruiker"
+                                  ? t("conversations.user")
                                   : message.messageType === "ASSISTANT"
-                                    ? "Assistant"
-                                    : "Systeem"}
+                                    ? t("conversations.assistant")
+                                    : t("common.system")}
                               </span>
                               <span className="text-xs text-gray-500">
                                 {formatDate(message.createdAt)}
@@ -234,7 +244,7 @@ export function ConversationSessionTable({
                               {message.confidence && (
                                 <Badge variant="outline" className="text-xs">
                                   {Math.round(message.confidence * 100)}%
-                                  confidence
+                                  {t("conversations.confidence")}
                                 </Badge>
                               )}
                             </div>
@@ -270,7 +280,7 @@ export function ConversationSessionTable({
                                           {Math.round(
                                             source.relevanceScore * 100
                                           )}
-                                          % relevant
+                                          % {t("conversations.relevant")}
                                         </Badge>
                                       )}
                                     </div>
@@ -291,7 +301,7 @@ export function ConversationSessionTable({
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
                       <span className="font-medium text-gray-700">
-                        Session ID:
+                        {t("conversations.sessionId")}:
                       </span>
                       <p className="text-gray-600 font-mono text-xs">
                         {session.sessionId}
@@ -300,7 +310,7 @@ export function ConversationSessionTable({
                     {session.ipAddress && (
                       <div>
                         <span className="font-medium text-gray-700">
-                          IP Address:
+                          {t("conversations.ipAddress")}:
                         </span>
                         <p className="text-gray-600 font-mono text-xs">
                           {session.ipAddress}
@@ -309,7 +319,7 @@ export function ConversationSessionTable({
                     )}
                     <div>
                       <span className="font-medium text-gray-700">
-                        Gestart:
+                        {t("conversations.startedAt")}:
                       </span>
                       <p className="text-gray-600">
                         {formatDate(session.startedAt)}
@@ -317,7 +327,7 @@ export function ConversationSessionTable({
                     </div>
                     <div>
                       <span className="font-medium text-gray-700">
-                        Laatste activiteit:
+                        {t("conversations.lastActivity")}:
                       </span>
                       <p className="text-gray-600">
                         {formatDate(session.lastActivity)}
@@ -335,10 +345,10 @@ export function ConversationSessionTable({
         <div className="text-center py-12">
           <MessageSquare className="h-12 w-12 text-gray-400 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-900 mb-2">
-            Geen conversatie sessies gevonden
+            {t("conversations.noSessionsFound")}
           </h3>
           <p className="text-gray-500">
-            Er zijn nog geen conversatie sessies met deze assistant.
+            {t("conversations.noSessionsFoundDescription")}
           </p>
         </div>
       )}

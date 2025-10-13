@@ -82,7 +82,7 @@ export function SubscriptionUpgradeForm({
           <Card key={plan.id} className="relative">
             {isCurrentPlan && (
               <Badge className="absolute top-4 right-4">
-                {t("subscription.upgrade.currentPlan")}
+                {t("subscription.upgradeDetails.currentPlan")}
               </Badge>
             )}
             <CardHeader>
@@ -93,7 +93,7 @@ export function SubscriptionUpgradeForm({
                 <div className="text-3xl font-bold">
                   €{plan.price}
                   <span className="text-sm font-normal text-muted-foreground">
-                    /{t(`subscription.upgrade.${plan.interval}`)}
+                    /{t(`subscription.upgradeDetails.${plan.interval}`)}
                   </span>
                 </div>
                 <p className="text-sm text-muted-foreground">
@@ -116,10 +116,10 @@ export function SubscriptionUpgradeForm({
                   {isLoading === plan.id
                     ? t("common.status.processing")
                     : isCurrentPlan
-                      ? t("subscription.upgrade.currentPlan")
+                      ? t("subscription.upgradeDetails.currentPlan")
                       : isUpgrade
-                        ? t("subscription.upgrade.upgrade")
-                        : t("subscription.upgrade.select")}
+                        ? t("subscription.upgrade")
+                        : t("subscription.upgradeDetails.select")}
                 </Button>
               </div>
             </CardContent>

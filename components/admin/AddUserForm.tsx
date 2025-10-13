@@ -100,7 +100,7 @@ export function AddUserForm() {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("admin.users.name")} *</FormLabel>
+                <FormLabel>{t("admin.userFields.name")} *</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -114,7 +114,7 @@ export function AddUserForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("admin.users.email")} *</FormLabel>
+                <FormLabel>{t("admin.userFields.email")} *</FormLabel>
                 <FormControl>
                   <Input type="email" {...field} />
                 </FormControl>
@@ -128,7 +128,7 @@ export function AddUserForm() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("admin.users.password")} *</FormLabel>
+                <FormLabel>{t("admin.userFields.password")} *</FormLabel>
                 <FormControl>
                   <Input type="password" {...field} />
                 </FormControl>
@@ -142,7 +142,7 @@ export function AddUserForm() {
             name="role"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("admin.users.role")} *</FormLabel>
+                <FormLabel>{t("admin.userFields.role")} *</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}

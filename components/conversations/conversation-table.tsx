@@ -21,6 +21,7 @@ import {
   MessageSquare,
   FileText,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface ConversationSource {
   id: string;
@@ -55,6 +56,7 @@ interface ConversationTableProps {
 
 export function ConversationTable({ conversations }: ConversationTableProps) {
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
+  const t = useTranslations();
 
   const toggleRow = (conversationId: string) => {
     const newExpanded = new Set(expandedRows);
@@ -113,23 +115,29 @@ export function ConversationTable({ conversations }: ConversationTableProps) {
                     {conversation.responseTime && (
                       <div className="flex items-center gap-1">
                         <Clock className="h-3 w-3" />
-                        <span>{conversation.responseTime}ms</span>
+                        <span>
+                          {conversation.responseTime} {t("conversations.ms")}
+                        </span>
                       </div>
                     )}
                     {conversation.tokensUsed && (
                       <div className="flex items-center gap-1">
                         <FileText className="h-3 w-3" />
-                        <span>{conversation.tokensUsed} tokens</span>
+                        <span>
+                          {conversation.tokensUsed} {t("conversations.tokens")}
+                        </span>
                       </div>
                     )}
                     {conversation.confidence && (
                       <Badge variant="outline" className="text-xs">
-                        {Math.round(conversation.confidence * 100)}% confidence
+                        {Math.round(conversation.confidence * 100)}%
+                        {t("conversations.confidence")}
                       </Badge>
                     )}
                     {conversation.sources.length > 0 && (
                       <Badge variant="secondary" className="text-xs">
-                        {conversation.sources.length} source
+                        {conversation.sources.length}{" "}
+                        {t("conversations.source")}
                         {conversation.sources.length !== 1 ? "s" : ""}
                       </Badge>
                     )}
@@ -156,7 +164,7 @@ export function ConversationTable({ conversations }: ConversationTableProps) {
                   {/* Answer */}
                   <div>
                     <h4 className="font-medium text-gray-900 mb-2">
-                      Antwoord:
+                      {t("conversations.answer")}:
                     </h4>
                     <div className="bg-gray-50 p-3 rounded-lg text-sm text-gray-700">
                       {conversation.answer}
@@ -167,7 +175,7 @@ export function ConversationTable({ conversations }: ConversationTableProps) {
                   {conversation.sources.length > 0 && (
                     <div>
                       <h4 className="font-medium text-gray-900 mb-2">
-                        Bronnen:
+                        {t("conversations.sources")}:
                       </h4>
                       <div className="space-y-2">
                         {conversation.sources.map((source) => (
@@ -182,7 +190,7 @@ export function ConversationTable({ conversations }: ConversationTableProps) {
                               {source.relevanceScore && (
                                 <Badge variant="outline" className="text-xs">
                                   {Math.round(source.relevanceScore * 100)}%
-                                  relevant
+                                  {t("conversations.relevant")}
                                 </Badge>
                               )}
                             </div>
@@ -199,7 +207,7 @@ export function ConversationTable({ conversations }: ConversationTableProps) {
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
                       <span className="font-medium text-gray-700">
-                        Session ID:
+                        {t("conversations.sessionId")}:
                       </span>
                       <p className="text-gray-600 font-mono text-xs">
                         {conversation.sessionId}
@@ -208,7 +216,7 @@ export function ConversationTable({ conversations }: ConversationTableProps) {
                     {conversation.model && (
                       <div>
                         <span className="font-medium text-gray-700">
-                          Model:
+                          {t("conversations.model")}:
                         </span>
                         <p className="text-gray-600">{conversation.model}</p>
                       </div>
@@ -216,7 +224,7 @@ export function ConversationTable({ conversations }: ConversationTableProps) {
                     {conversation.ipAddress && (
                       <div>
                         <span className="font-medium text-gray-700">
-                          IP Address:
+                          {t("conversations.ipAddress")}:
                         </span>
                         <p className="text-gray-600 font-mono text-xs">
                           {conversation.ipAddress}
@@ -235,10 +243,10 @@ export function ConversationTable({ conversations }: ConversationTableProps) {
         <div className="text-center py-12">
           <MessageSquare className="h-12 w-12 text-gray-400 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-900 mb-2">
-            Geen conversaties gevonden
+            {t("conversations.noConversationsFound")}
           </h3>
           <p className="text-gray-500">
-            Er zijn nog geen conversaties met deze assistant.
+            {t("conversations.noConversationsFoundDescription")}
           </p>
         </div>
       )}

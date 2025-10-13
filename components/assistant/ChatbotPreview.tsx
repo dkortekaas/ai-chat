@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,15 +28,16 @@ export function ChatbotPreview({
   welcomeMessage,
   placeholderText,
 }: ChatbotPreviewProps) {
+  const t = useTranslations();
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Voorbeeld</CardTitle>
+        <CardTitle>{t("assistants.preview")}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="bg-gray-100 p-4 rounded-lg">
           <p className="text-sm text-gray-600 mb-4">
-            Zo ziet je chatbot eruit op je website:
+            {t("assistants.previewDescription")}
           </p>
 
           {/* Chatbot Widget Preview */}
@@ -48,7 +50,9 @@ export function ChatbotPreview({
                     <Bot className="h-3 w-3" />
                   </AvatarFallback>
                 </Avatar>
-                <span className="font-medium text-sm">AI Assistant</span>
+                <span className="font-medium text-sm">
+                  {t("assistants.aiAssistant")}
+                </span>
               </div>
               <div className="flex items-center space-x-1">
                 <Button
@@ -78,7 +82,7 @@ export function ChatbotPreview({
                 </Avatar>
                 <div className="bg-gray-100 rounded-lg px-3 py-2 max-w-xs">
                   <p className="text-xs">
-                    Hallo! Hoe kan ik je vandaag helpen?
+                    {t("assistants.helloHowCanIHelpYouToday")}
                   </p>
                 </div>
               </div>
@@ -86,7 +90,7 @@ export function ChatbotPreview({
               <div className="flex items-start space-x-2 justify-end">
                 <div className="bg-indigo-500 text-white rounded-lg px-3 py-2 max-w-xs">
                   <p className="text-xs">
-                    Ik heb een vraag over jullie product
+                    {t("assistants.iHaveAQuestionAboutYourProduct")}
                   </p>
                 </div>
               </div>
@@ -99,7 +103,7 @@ export function ChatbotPreview({
                 </Avatar>
                 <div className="bg-gray-100 rounded-lg px-3 py-2 max-w-xs">
                   <p className="text-xs">
-                    Natuurlijk! Wat zou je graag willen weten?
+                    {t("assistants.ofCourseWhatWouldYouLikeToKnow")}
                   </p>
                 </div>
               </div>
@@ -109,7 +113,7 @@ export function ChatbotPreview({
             <div className="p-3 border-t">
               <div className="flex items-center space-x-2">
                 <Input
-                  placeholder="Typ je vraag hier..."
+                  placeholder={t("assistants.typeYourQuestionHere")}
                   className="text-xs h-8"
                   disabled
                 />

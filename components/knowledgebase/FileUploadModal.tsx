@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/useToast";
 import { Upload, FileText, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface FileUploadModalProps {
   isOpen: boolean;
@@ -28,6 +29,7 @@ export function FileUploadModal({
   onSuccess,
   assistantId,
 }: FileUploadModalProps) {
+  const t = useTranslations();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [description, setDescription] = useState("");
@@ -40,8 +42,8 @@ export function FileUploadModal({
     const maxSize = 10 * 1024 * 1024; // 10MB
     if (file.size > maxSize) {
       toast({
-        title: "File too large",
-        description: "File size must be less than 10MB.",
+        title: t("error.fileTooLarge"),
+        description: t("error.fileTooLargeDescription"),
         variant: "destructive",
       });
       return;
@@ -59,7 +61,7 @@ export function FileUploadModal({
 
     if (!allowedTypes.includes(file.type)) {
       toast({
-        title: "File type not supported",
+        title: t("error.fileTypeNotSupported"),
         description: "Allowed types: TXT, PDF, DOC, DOCX, CSV, JSON",
         variant: "destructive",
       });
@@ -119,21 +121,21 @@ export function FileUploadModal({
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || "Failed to upload file");
+        throw new Error(error.error || t("error.failedToUploadFile"));
       }
 
       toast({
-        title: "File uploaded",
-        description: "The file has been uploaded successfully.",
+        title: t("success.fileUploaded"),
+        description: t("success.fileUploadedSuccessfully"),
       });
 
       onSuccess();
       handleClose();
     } catch (error) {
       toast({
-        title: "Error",
+        title: t("error.saveFailed"),
         description:
-          error instanceof Error ? error.message : "An error occurred",
+          error instanceof Error ? error.message : t("error.anErrorOccurred"),
         variant: "destructive",
       });
     } finally {
@@ -165,16 +167,16 @@ export function FileUploadModal({
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Upload File</DialogTitle>
+          <DialogTitle>{t("knowledgebase.uploadFile")}</DialogTitle>
           <DialogDescription>
-            Upload a document to add to your knowledge base.
+            {t("knowledgebase.uploadFileDescription")}
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* File Upload Area */}
           <div className="space-y-2">
-            <Label>File</Label>
+            <Label>{t("knowledgebase.file")}</Label>
             <div
               className={`relative border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
                 dragActive
@@ -222,12 +224,12 @@ export function FileUploadModal({
                   <div>
                     <p className="text-sm text-gray-600">
                       <span className="font-medium text-indigo-500">
-                        Click to upload
+                        {t("knowledgebase.clickToUpload")}
                       </span>{" "}
-                      or drag and drop
+                      {t("knowledgebase.orDragAndDrop")}
                     </p>
                     <p className="text-xs text-gray-500">
-                      TXT, PDF, DOC, DOCX, CSV, JSON (max 10MB)
+                      {t("knowledgebase.allowedTypes")}
                     </p>
                   </div>
                 </div>
@@ -237,10 +239,12 @@ export function FileUploadModal({
 
           {/* Description */}
           <div className="space-y-2">
-            <Label htmlFor="description">Description (optional)</Label>
+            <Label htmlFor="description">
+              {t("knowledgebase.description")} (optional)
+            </Label>
             <Textarea
               id="description"
-              placeholder="Brief description of the file content"
+              placeholder={t("knowledgebase.briefDescription")}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               disabled={isLoading}
@@ -255,10 +259,10 @@ export function FileUploadModal({
               onClick={handleClose}
               disabled={isLoading}
             >
-              Cancel
+              {t("common.cancel")}
             </Button>
             <Button type="submit" disabled={!selectedFile || isLoading}>
-              {isLoading ? "Uploading..." : "Upload"}
+              {isLoading ? t("common.uploading") : t("common.upload")}
             </Button>
           </DialogFooter>
         </form>

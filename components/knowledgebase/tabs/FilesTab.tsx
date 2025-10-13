@@ -26,6 +26,7 @@ import { FileEditForm } from "@/components/knowledgebase/FileEditForm";
 import { DeleteConfirmationModal } from "@/components/shared/DeleteConfirmationModal";
 import { useToast } from "@/hooks/useToast";
 import { useAssistant } from "@/contexts/assistant-context";
+import { useTranslations } from "next-intl";
 
 interface KnowledgeFile {
   id: string;
@@ -43,6 +44,8 @@ interface KnowledgeFile {
 }
 
 export function BestandenTab() {
+  const t = useTranslations();
+  const { currentAssistant } = useAssistant();
   const router = useRouter();
   const [files, setFiles] = useState<KnowledgeFile[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -53,7 +56,6 @@ export function BestandenTab() {
   const [fileToDelete, setFileToDelete] = useState<KnowledgeFile | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const { toast } = useToast();
-  const { currentAssistant } = useAssistant();
 
   const fetchFiles = useCallback(async () => {
     try {
@@ -74,14 +76,14 @@ export function BestandenTab() {
     } catch (error) {
       console.error("Error fetching files:", error);
       toast({
-        title: "Error",
-        description: "Failed to load files",
+        title: t("error.saveFailed"),
+        description: t("error.failedToLoadFiles"),
         variant: "destructive",
       });
     } finally {
       setIsLoading(false);
     }
-  }, [currentAssistant?.id, toast]);
+  }, [currentAssistant?.id, toast, t]);
 
   // Fetch files on component mount
   useEffect(() => {
@@ -117,22 +119,24 @@ export function BestandenTab() {
 
       if (response.ok) {
         toast({
-          title: "File deleted",
-          description: "The file has been deleted successfully.",
+          title: t("success.fileDeleted"),
+          description: t("success.fileDeletedSuccessfully"),
         });
         fetchFiles();
         setIsDeleteModalOpen(false);
         setFileToDelete(null);
       } else {
         const error = await response.json();
-        throw new Error(error.error || "Failed to delete file");
+        throw new Error(error.error || t("error.failedToDeleteFile"));
       }
     } catch (error) {
       console.error("Error downloading file:", error);
       toast({
-        title: "Error",
+        title: t("error.saveFailed"),
         description:
-          error instanceof Error ? error.message : "Failed to delete file",
+          error instanceof Error
+            ? error.message
+            : t("error.failedToDeleteFile"),
         variant: "destructive",
       });
     } finally {
@@ -154,12 +158,12 @@ export function BestandenTab() {
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
       } else {
-        throw new Error("Failed to download file");
+        throw new Error(t("error.failedToDownloadFile"));
       }
     } catch {
       toast({
-        title: "Error",
-        description: "Failed to download file",
+        title: t("error.saveFailed"),
+        description: t("error.failedToDownloadFile"),
         variant: "destructive",
       });
     }
@@ -180,18 +184,21 @@ export function BestandenTab() {
 
       if (response.ok) {
         toast({
-          title: "File updated",
-          description: `File has been ${!file.enabled ? "enabled" : "disabled"}.`,
+          title: t("success.fileUpdated"),
+          description: t("success.fileUpdatedSuccessfully"),
         });
         fetchFiles();
       } else {
-        throw new Error("Failed to update file");
+        throw new Error(t("error.failedToUpdateFile"));
       }
     } catch (error) {
       console.error("Error updating file:", error);
       toast({
-        title: "Error",
-        description: "Failed to update file",
+        title: t("error.saveFailed"),
+        description:
+          error instanceof Error
+            ? error.message
+            : t("error.failedToUpdateFile"),
         variant: "destructive",
       });
     }
@@ -235,26 +242,36 @@ export function BestandenTab() {
     const diffInMs = now.getTime() - date.getTime();
     const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
 
-    if (diffInDays === 0) return "Today";
-    if (diffInDays === 1) return "Yesterday";
-    if (diffInDays < 7) return `${diffInDays} days ago`;
-    if (diffInDays < 30) return `${Math.floor(diffInDays / 7)} weeks ago`;
-    if (diffInDays < 365) return `${Math.floor(diffInDays / 30)} months ago`;
-    return `${Math.floor(diffInDays / 365)} years ago`;
+    if (diffInDays === 0) return t("knowledgebase.today");
+    if (diffInDays === 1) return t("knowledgebase.yesterday");
+    if (diffInDays < 7) return `${diffInDays} ${t("knowledgebase.daysAgo")}`;
+    if (diffInDays < 30)
+      return `${Math.floor(diffInDays / 7)} ${t("knowledgebase.weeksAgo")}`;
+    if (diffInDays < 365)
+      return `${Math.floor(diffInDays / 30)} ${t("knowledgebase.monthsAgo")}`;
+    return `${Math.floor(diffInDays / 365)} ${t("knowledgebase.yearsAgo")}`;
   };
 
   const getProcessingBadge = (status: KnowledgeFile["status"]) => {
     switch (status) {
       case "COMPLETED":
         return (
-          <Badge className="bg-green-100 text-green-800">✓ Completed</Badge>
+          <Badge className="bg-green-100 text-green-800">
+            ✓ {t("knowledgebase.completed")}
+          </Badge>
         );
       case "PROCESSING":
         return (
-          <Badge className="bg-yellow-100 text-yellow-800">Processing</Badge>
+          <Badge className="bg-yellow-100 text-yellow-800">
+            {t("knowledgebase.processing")}
+          </Badge>
         );
       case "ERROR":
-        return <Badge className="bg-red-100 text-red-800">Error</Badge>;
+        return (
+          <Badge className="bg-red-100 text-red-800">
+            {t("knowledgebase.error")}
+          </Badge>
+        );
     }
   };
 
@@ -262,25 +279,27 @@ export function BestandenTab() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-lg font-semibold text-gray-900">Bestanden</h2>
+          <h2 className="text-lg font-semibold text-gray-900">
+            {t("knowledgebase.files")}
+          </h2>
           <p className="text-sm text-gray-500">
-            Upload and manage documents to enhance the assistant&apos;s
-            knowledge base.
+            {t("knowledgebase.filesDescription")}{" "}
+            <strong>{currentAssistant?.name}</strong>.
           </p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" size="sm">
-            ↑ No changes
+            ↑ {t("common.noChanges")}
           </Button>
           <Button variant="outline" size="sm">
-            ► Test
+            ► {t("common.test")}
           </Button>
           <Button
             className="bg-indigo-500 hover:bg-indigo-600"
             onClick={handleUploadFile}
           >
             <Upload className="w-4 h-4 mr-2" />
-            Upload
+            {t("common.upload")}
           </Button>
         </div>
       </div>
@@ -291,22 +310,22 @@ export function BestandenTab() {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Name
+                  {t("knowledgebase.name")}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Size
+                  {t("knowledgebase.size")}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Enabled
+                  {t("knowledgebase.enabled")}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Processing
+                  {t("knowledgebase.processing")}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Modified
+                  {t("knowledgebase.modified")}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
+                  {t("common.actions")}
                 </th>
               </tr>
             </thead>
@@ -317,7 +336,7 @@ export function BestandenTab() {
                     colSpan={6}
                     className="px-6 py-8 text-center text-gray-500"
                   >
-                    Loading files...
+                    {t("knowledgebase.loadingFiles")}
                   </td>
                 </tr>
               ) : files.length === 0 ? (
@@ -326,8 +345,7 @@ export function BestandenTab() {
                     colSpan={6}
                     className="px-6 py-8 text-center text-gray-500"
                   >
-                    No files uploaded yet. Click &quot;Upload&quot; to get
-                    started.
+                    {t("knowledgebase.noFilesUploaded")}
                   </td>
                 </tr>
               ) : (
@@ -376,26 +394,26 @@ export function BestandenTab() {
                             onClick={() => handleViewFile(file)}
                           >
                             <Eye className="w-4 h-4 mr-2" />
-                            View
+                            {t("common.view")}
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             onClick={() => handleDownloadFile(file)}
                           >
                             <Download className="w-4 h-4 mr-2" />
-                            Download
+                            {t("common.download")}
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             onClick={() => handleEditFile(file)}
                           >
                             <Edit className="w-4 h-4 mr-2" />
-                            Edit
+                            {t("common.edit")}
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             className="text-red-600"
                             onClick={() => handleDeleteFile(file)}
                           >
                             <Trash2 className="w-4 h-4 mr-2" />
-                            Delete
+                            {t("common.delete")}
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
@@ -429,8 +447,8 @@ export function BestandenTab() {
         isOpen={isDeleteModalOpen}
         onClose={handleDeleteModalClose}
         onConfirm={confirmDeleteFile}
-        title="Delete File"
-        description="Are you sure you want to delete this file? This action cannot be undone."
+        title={t("knowledgebase.deleteFile")}
+        description={t("knowledgebase.deleteFileDescription")}
         itemName={fileToDelete?.originalName || ""}
         isLoading={isDeleting}
       />

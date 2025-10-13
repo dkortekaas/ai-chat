@@ -5,15 +5,25 @@ import { cn } from "@/lib/utils";
 import { WebsitesTab } from "@/components/knowledgebase/tabs/WebsitesTab";
 import { FaqsTab } from "@/components/knowledgebase/tabs/FaqsTab";
 import { BestandenTab } from "@/components/knowledgebase/tabs/FilesTab";
-
-const tabs = [
-  { id: "websites", name: "Websites", component: WebsitesTab },
-  { id: "faqs", name: "FAQs", component: FaqsTab },
-  { id: "bestanden", name: "Bestanden", component: BestandenTab },
-];
+import { useTranslations } from "next-intl";
 
 export default function KennisbankPage() {
-  const [activeTab, setActiveTab] = useState("websites");
+  const t = useTranslations();
+  const [activeTab, setActiveTab] = useState<string>("websites");
+
+  const tabs = [
+    {
+      id: "websites",
+      name: t("knowledgebase.tabs.websites"),
+      component: WebsitesTab,
+    },
+    { id: "faqs", name: t("knowledgebase.tabs.faqs"), component: FaqsTab },
+    {
+      id: "bestanden",
+      name: t("knowledgebase.tabs.bestanden"),
+      component: BestandenTab,
+    },
+  ];
 
   const ActiveComponent = tabs.find((tab) => tab.id === activeTab)?.component;
 
@@ -21,9 +31,11 @@ export default function KennisbankPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900">Kennisbank</h1>
+          <h1 className="text-2xl font-semibold text-gray-900">
+            {t("knowledgebase.title")}
+          </h1>
           <p className="mt-1 text-sm text-gray-500">
-            Beheer je kennisbronnen voor de AI assistent
+            {t("knowledgebase.description")}
           </p>
         </div>
       </div>

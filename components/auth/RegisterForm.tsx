@@ -181,7 +181,7 @@ export default function RegisterForm() {
             {config.appTitle}
           </CardTitle>
           <CardDescription className="text-base sm:text-lg">
-            {t("auth.register.title")}
+            {t("auth.registerForm.title")}
           </CardDescription>
         </CardHeader>
 
@@ -196,7 +196,7 @@ export default function RegisterForm() {
             <form
               onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-4 sm:space-y-6"
-              aria-label={t("auth.register.title")}
+              aria-label={t("auth.registerForm.title")}
             >
               <FormField
                 control={form.control}
@@ -361,15 +361,15 @@ export default function RegisterForm() {
                 type="submit"
                 className="w-full bg-indigo-500 hover:bg-indigo-600"
                 disabled={isSubmitting || isLoading || !form.formState.isValid}
-                aria-label={t("auth.register.registerButton")}
+                aria-label={t("auth.registerForm.registerButton")}
               >
                 {isSubmitting || isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    {t("actions.loading")}
+                    {t("common.loading")}
                   </>
                 ) : (
-                  t("auth.register.registerButton")
+                  t("auth.registerForm.registerButton")
                 )}
               </Button>
             </form>
@@ -382,7 +382,7 @@ export default function RegisterForm() {
               </div>
               <div className="relative flex justify-center text-sm">
                 <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
-                  {t("auth.register.alreadyAccount")}
+                  {t("auth.registerForm.alreadyAccount")}
                 </span>
               </div>
             </div>
@@ -393,9 +393,9 @@ export default function RegisterForm() {
                 className="w-full"
                 onClick={() => router.push("/login")}
                 disabled={isSubmitting || isLoading}
-                aria-label={t("auth.register.loginButton")}
+                aria-label={t("auth.registerForm.loginButton")}
               >
-                {t("auth.register.loginButton")}
+                {t("auth.registerForm.loginButton")}
               </Button>
             </div>
           </div>

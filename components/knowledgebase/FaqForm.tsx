@@ -27,6 +27,7 @@ interface FAQFormProps {
 }
 
 export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
+  const t = useTranslations();
   const { currentAssistant } = useAssistant();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -35,7 +36,6 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
     enabled: faq?.enabled ?? true,
     order: faq?.order || 0,
   });
-  const t = useTranslations();
   const { toast } = useToast();
 
   const isEditing = !!faq;
@@ -45,7 +45,7 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
 
     if (!currentAssistant) {
       toast({
-        title: t("common.error"),
+        title: t("error.saveFailed"),
         description: t("error.knowledgebase.noAssistantSelected"),
         variant: "destructive",
       });
@@ -72,23 +72,21 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || t("knowledgebase.faq.failedToSaveFAQ"));
+        throw new Error(error.error || t("error.failedToSaveFAQ"));
       }
 
       toast({
-        title: isEditing
-          ? t("knowledgebase.faq.updated")
-          : t("knowledgebase.faq.added"),
+        title: isEditing ? t("success.faqUpdated") : t("success.faqAdded"),
         description: isEditing
-          ? t("success.knowledgebase.updatedSuccessfully")
-          : t("success.knowledgebase.addedSuccessfully"),
+          ? t("success.faqUpdatedSuccessfully")
+          : t("success.faqAddedSuccessfully"),
       });
 
       onSuccess();
       onClose();
     } catch (error) {
       toast({
-        title: t("common.error"),
+        title: t("error.saveFailed"),
         description:
           error instanceof Error ? error.message : t("error.unknownError"),
         variant: "destructive",
@@ -115,25 +113,21 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>
-            {isEditing
-              ? t("knowledgebase.faq.edit")
-              : t("knowledgebase.faq.add")}
+            {isEditing ? t("knowledgebase.editFAQ") : t("knowledgebase.addFAQ")}
           </DialogTitle>
           <DialogDescription>
             {isEditing
-              ? t("knowledgebase.faq.updateInformation")
-              : t("knowledgebase.faq.addInformation")}
+              ? t("knowledgebase.updateFAQInformation")
+              : t("knowledgebase.addFAQInformation")}
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="question">
-              {t("knowledgebase.faq.question")} *
-            </Label>
+            <Label htmlFor="question">{t("knowledgebase.question")} *</Label>
             <Input
               id="question"
-              placeholder={t("knowledgebase.faq.questionPlaceholder")}
+              placeholder={t("knowledgebase.questionPlaceholder")}
               value={formData.question}
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, question: e.target.value }))
@@ -144,10 +138,10 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="answer">{t("knowledgebase.faq.answer")} *</Label>
+            <Label htmlFor="answer">{t("knowledgebase.answer")} *</Label>
             <Textarea
               id="answer"
-              placeholder={t("knowledgebase.faq.answerPlaceholder")}
+              placeholder={t("knowledgebase.answerPlaceholder")}
               value={formData.answer}
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, answer: e.target.value }))
@@ -159,7 +153,7 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="order">{t("knowledgebase.faq.order")}</Label>
+            <Label htmlFor="order">{t("knowledgebase.order")}</Label>
             <Input
               id="order"
               type="number"
@@ -175,7 +169,7 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
               min="0"
             />
             <p className="text-sm text-gray-500">
-              {t("knowledgebase.faq.orderDescription")}
+              {t("knowledgebase.orderDescription")}
             </p>
           </div>
 
@@ -189,7 +183,7 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
               disabled={isLoading}
               className="data-[state=checked]:bg-indigo-500"
             />
-            <Label htmlFor="enabled">{t("common.enabled")}</Label>
+            <Label htmlFor="enabled">{t("knowledgebase.enabled")}</Label>
           </div>
 
           <DialogFooter>

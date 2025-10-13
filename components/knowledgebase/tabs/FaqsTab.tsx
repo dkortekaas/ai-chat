@@ -23,6 +23,7 @@ import { FAQForm } from "@/components/knowledgebase/FaqForm";
 import { DeleteConfirmationModal } from "@/components/shared/DeleteConfirmationModal";
 import { useToast } from "@/hooks/useToast";
 import { useAssistant } from "@/contexts/assistant-context";
+import { useTranslations } from "next-intl";
 
 interface FAQ {
   id: string;
@@ -35,6 +36,7 @@ interface FAQ {
 }
 
 export function FaqsTab() {
+  const t = useTranslations();
   const { currentAssistant } = useAssistant();
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -56,18 +58,18 @@ export function FaqsTab() {
         const data = await response.json();
         setFaqs(data);
       } else {
-        throw new Error("Failed to fetch FAQs");
+        throw new Error(t("error.failedToFetchFAQs"));
       }
     } catch {
       toast({
-        title: "Error",
-        description: "Failed to load FAQs",
+        title: t("error.saveFailed"),
+        description: t("error.failedToLoadFAQs"),
         variant: "destructive",
       });
     } finally {
       setIsLoading(false);
     }
-  }, [currentAssistant, toast]);
+  }, [currentAssistant, toast, t]);
 
   // Fetch FAQs on component mount and when assistant changes
   useEffect(() => {
@@ -103,19 +105,21 @@ export function FaqsTab() {
 
       if (response.ok) {
         toast({
-          title: "FAQ duplicated",
-          description: "The FAQ has been duplicated successfully.",
+          title: t("success.faqDuplicated"),
+          description: t("success.faqDuplicatedSuccessfully"),
         });
         fetchFAQs();
       } else {
         const error = await response.json();
-        throw new Error(error.error || "Failed to duplicate FAQ");
+        throw new Error(error.error || t("error.failedToDuplicateFAQ"));
       }
     } catch (error) {
       toast({
-        title: "Error",
+        title: t("error.saveFailed"),
         description:
-          error instanceof Error ? error.message : "Failed to duplicate FAQ",
+          error instanceof Error
+            ? error.message
+            : t("error.failedToDuplicateFAQ"),
         variant: "destructive",
       });
     }
@@ -137,21 +141,21 @@ export function FaqsTab() {
 
       if (response.ok) {
         toast({
-          title: "FAQ deleted",
-          description: "The FAQ has been deleted successfully.",
+          title: t("success.faqDeleted"),
+          description: t("success.faqDeletedSuccessfully"),
         });
         fetchFAQs();
         setIsDeleteModalOpen(false);
         setFaqToDelete(null);
       } else {
         const error = await response.json();
-        throw new Error(error.error || "Failed to delete FAQ");
+        throw new Error(error.error || t("error.failedToDeleteFAQ"));
       }
     } catch (error) {
       toast({
-        title: "Error",
+        title: t("error.saveFailed"),
         description:
-          error instanceof Error ? error.message : "Failed to delete FAQ",
+          error instanceof Error ? error.message : t("error.failedToDeleteFAQ"),
         variant: "destructive",
       });
     } finally {
@@ -183,17 +187,17 @@ export function FaqsTab() {
 
       if (response.ok) {
         toast({
-          title: "FAQ updated",
-          description: `FAQ has been ${!faq.enabled ? "enabled" : "disabled"}.`,
+          title: t("success.faqUpdated"),
+          description: t("success.faqUpdatedSuccessfully"),
         });
         fetchFAQs();
       } else {
-        throw new Error("Failed to update FAQ");
+        throw new Error(t("error.failedToUpdateFAQ"));
       }
     } catch {
       toast({
-        title: "Error",
-        description: "Failed to update FAQ",
+        title: t("error.saveFailed"),
+        description: t("error.failedToUpdateFAQ"),
         variant: "destructive",
       });
     }
@@ -214,12 +218,14 @@ export function FaqsTab() {
     const diffInMs = now.getTime() - date.getTime();
     const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
 
-    if (diffInDays === 0) return "Today";
-    if (diffInDays === 1) return "Yesterday";
-    if (diffInDays < 7) return `${diffInDays} days ago`;
-    if (diffInDays < 30) return `${Math.floor(diffInDays / 7)} weeks ago`;
-    if (diffInDays < 365) return `${Math.floor(diffInDays / 30)} months ago`;
-    return `${Math.floor(diffInDays / 365)} years ago`;
+    if (diffInDays === 0) return t("knowledgebase.today");
+    if (diffInDays === 1) return t("knowledgebase.yesterday");
+    if (diffInDays < 7) return `${diffInDays} ${t("knowledgebase.daysAgo")}`;
+    if (diffInDays < 30)
+      return `${Math.floor(diffInDays / 7)} ${t("knowledgebase.weeksAgo")}`;
+    if (diffInDays < 365)
+      return `${Math.floor(diffInDays / 30)} ${t("knowledgebase.monthsAgo")}`;
+    return `${Math.floor(diffInDays / 365)} ${t("knowledgebase.yearsAgo")}`;
   };
 
   if (!currentAssistant) {
@@ -229,10 +235,10 @@ export function FaqsTab() {
           <div className="text-gray-500 mb-4">
             <Bot className="w-12 h-12 mx-auto mb-4 text-gray-300" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">
-              No Assistant Selected
+              {t("knowledgebase.noAssistantSelected")}
             </h3>
             <p className="text-sm text-gray-500">
-              Please select an assistant from the dropdown above to manage FAQs.
+              {t("knowledgebase.noAssistantSelectedDescription")}
             </p>
           </div>
         </div>
@@ -244,25 +250,27 @@ export function FaqsTab() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-lg font-semibold text-gray-900">FAQs</h2>
+          <h2 className="text-lg font-semibold text-gray-900">
+            {t("knowledgebase.faqs")}
+          </h2>
           <p className="text-sm text-gray-500">
-            Create and edit frequently asked questions to guide{" "}
-            <strong>{currentAssistant.name}</strong>&apos;s responses.
+            {t("knowledgebase.faqsDescription")}{" "}
+            <strong>{currentAssistant.name}</strong>.
           </p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" size="sm">
-            ↑ No changes
+            ↑ {t("common.noChanges")}
           </Button>
           <Button variant="outline" size="sm">
-            ► Test
+            ► {t("common.test")}
           </Button>
           <Button
             className="bg-indigo-500 hover:bg-indigo-600"
             onClick={handleAddFAQ}
           >
             <Plus className="w-4 h-4 mr-2" />
-            Add FAQ
+            {t("common.add")}
           </Button>
         </div>
       </div>
@@ -274,18 +282,18 @@ export function FaqsTab() {
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   <div className="flex items-center">
-                    Question
+                    {t("knowledgebase.question")}
                     <ChevronUp className="w-4 h-4 ml-1" />
                   </div>
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Enabled
+                  {t("knowledgebase.enabled")}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Modified
+                  {t("knowledgebase.modified")}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
+                  {t("common.actions")}
                 </th>
               </tr>
             </thead>
@@ -296,7 +304,7 @@ export function FaqsTab() {
                     colSpan={4}
                     className="px-6 py-8 text-center text-gray-500"
                   >
-                    Loading FAQs...
+                    {t("knowledgebase.loadingFAQs")}
                   </td>
                 </tr>
               ) : faqs.length === 0 ? (
@@ -305,7 +313,7 @@ export function FaqsTab() {
                     colSpan={4}
                     className="px-6 py-8 text-center text-gray-500"
                   >
-                    No FAQs added yet. Click &quot;Add FAQ&quot; to get started.
+                    {t("knowledgebase.noFAQsAdded")}
                   </td>
                 </tr>
               ) : (
@@ -336,20 +344,20 @@ export function FaqsTab() {
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem onClick={() => handleEditFAQ(faq)}>
                             <Edit className="w-4 h-4 mr-2" />
-                            Edit
+                            {t("common.edit")}
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             onClick={() => handleDuplicateFAQ(faq)}
                           >
                             <Copy className="w-4 h-4 mr-2" />
-                            Duplicate
+                            {t("common.duplicate")}
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             className="text-red-600"
                             onClick={() => handleDeleteFAQ(faq)}
                           >
                             <Trash2 className="w-4 h-4 mr-2" />
-                            Delete
+                            {t("common.delete")}
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
@@ -375,8 +383,8 @@ export function FaqsTab() {
         isOpen={isDeleteModalOpen}
         onClose={handleDeleteModalClose}
         onConfirm={confirmDeleteFAQ}
-        title="Delete FAQ"
-        description="Are you sure you want to delete this FAQ? This action cannot be undone."
+        title={t("knowledgebase.deleteFAQ")}
+        description={t("knowledgebase.deleteFAQDescription")}
         itemName={faqToDelete?.question || ""}
         isLoading={isDeleting}
       />

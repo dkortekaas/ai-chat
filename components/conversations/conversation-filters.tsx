@@ -8,7 +8,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Calendar, Filter, X } from "lucide-react";
+import { Filter, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface Filters {
   type: string;
@@ -25,6 +26,8 @@ export function ConversationFilters({
   filters,
   onChange,
 }: ConversationFiltersProps) {
+  const t = useTranslations();
+
   const handleFilterChange = (key: keyof Filters, value: string) => {
     onChange({
       ...filters,
@@ -49,7 +52,7 @@ export function ConversationFilters({
     <div className="flex items-center gap-3 mb-6">
       <div className="flex items-center gap-2">
         <Filter className="h-4 w-4 text-gray-500" />
-        <span className="text-sm text-gray-600">Filters:</span>
+        <span className="text-sm text-gray-600">{t("common.filter")}</span>
       </div>
 
       <Select
@@ -60,10 +63,10 @@ export function ConversationFilters({
           <SelectValue placeholder="Type" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">Alle types</SelectItem>
-          <SelectItem value="rated">Beoordeeld</SelectItem>
-          <SelectItem value="unrated">Niet beoordeeld</SelectItem>
-          <SelectItem value="empty">Leeg</SelectItem>
+          <SelectItem value="all">{t("common.all")}</SelectItem>
+          <SelectItem value="rated">{t("common.rated")}</SelectItem>
+          <SelectItem value="unrated">{t("common.unrated")}</SelectItem>
+          <SelectItem value="empty">{t("common.empty")}</SelectItem>
         </SelectContent>
       </Select>
 
@@ -72,14 +75,14 @@ export function ConversationFilters({
         onValueChange={(value) => handleFilterChange("time", value)}
       >
         <SelectTrigger className="w-32">
-          <SelectValue placeholder="Tijd" />
+          <SelectValue placeholder={t("common.time")} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">Alle tijd</SelectItem>
-          <SelectItem value="today">Vandaag</SelectItem>
-          <SelectItem value="week">Deze week</SelectItem>
-          <SelectItem value="month">Deze maand</SelectItem>
-          <SelectItem value="year">Dit jaar</SelectItem>
+          <SelectItem value="all">{t("common.all")}</SelectItem>
+          <SelectItem value="today">{t("common.today")}</SelectItem>
+          <SelectItem value="week">{t("common.week")}</SelectItem>
+          <SelectItem value="month">{t("common.month")}</SelectItem>
+          <SelectItem value="year">{t("common.year")}</SelectItem>
         </SelectContent>
       </Select>
 
@@ -88,13 +91,13 @@ export function ConversationFilters({
         onValueChange={(value) => handleFilterChange("duration", value)}
       >
         <SelectTrigger className="w-32">
-          <SelectValue placeholder="Duur" />
+          <SelectValue placeholder={t("common.duration")} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">Alle duur</SelectItem>
-          <SelectItem value="fast">Snel (&lt;1s)</SelectItem>
-          <SelectItem value="medium">Gemiddeld (1-3s)</SelectItem>
-          <SelectItem value="slow">Langzaam (&gt;3s)</SelectItem>
+          <SelectItem value="all">{t("common.all")}</SelectItem>
+          <SelectItem value="fast">{t("common.fast")} (&lt;1s)</SelectItem>
+          <SelectItem value="medium">{t("common.medium")} (1-3s)</SelectItem>
+          <SelectItem value="slow">{t("common.slow")} (&gt;3s)</SelectItem>
         </SelectContent>
       </Select>
 
@@ -106,7 +109,7 @@ export function ConversationFilters({
           className="text-sm text-gray-500 hover:text-gray-700"
         >
           <X className="h-3 w-3 mr-1" />
-          Wis filters
+          {t("common.clearFilters")}
         </Button>
       )}
     </div>

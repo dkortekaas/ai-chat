@@ -75,10 +75,10 @@ const toneOptions = [
 ];
 
 const languageOptions = [
-  { value: "nl", label: "Nederlands" },
+  { value: "nl", label: "Dutch" },
   { value: "en", label: "English" },
-  { value: "de", label: "Deutsch" },
-  { value: "fr", label: "Français" },
+  { value: "de", label: "German" },
+  { value: "fr", label: "French" },
 ];
 
 const positionOptions = [
@@ -112,7 +112,7 @@ export default function EditAssistantPage() {
   const params = useParams();
   const { toast } = useToast();
   const { setCurrentAssistant } = useAssistant();
-  const t = useTranslations("assistants");
+  const t = useTranslations();
 
   const [assistant, setAssistant] = useState<Assistant | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -184,8 +184,8 @@ export default function EditAssistantPage() {
           });
         } else {
           toast({
-            title: "Error",
-            description: "Failed to load assistant",
+            title: t("error"),
+            description: t("error.failedToLoadAssistant"),
             variant: "destructive",
           });
           router.push("/assistants");
@@ -193,8 +193,8 @@ export default function EditAssistantPage() {
       } catch (error) {
         console.error("Error loading assistant:", error);
         toast({
-          title: "Error",
-          description: "Failed to load assistant",
+          title: t("error"),
+          description: t("error.failedToLoadAssistant"),
           variant: "destructive",
         });
         router.push("/assistants");
@@ -204,7 +204,7 @@ export default function EditAssistantPage() {
     };
 
     loadAssistant();
-  }, [params.id, router, toast, setCurrentAssistant]);
+  }, [params.id, router, toast, setCurrentAssistant, t]);
 
   const handleInputChange = (
     field: string,
@@ -266,8 +266,8 @@ export default function EditAssistantPage() {
         setAssistant(updatedAssistant);
         setHasChanges(false);
         toast({
-          title: "Success",
-          description: "Assistant updated successfully",
+          title: t("success"),
+          description: t("success.assistantUpdatedSuccessfully"),
         });
       } else {
         throw new Error("Failed to update assistant");
@@ -275,21 +275,21 @@ export default function EditAssistantPage() {
     } catch (error) {
       console.error("Error updating assistant:", error);
       toast({
-        title: "Error",
-        description: "Failed to update assistant",
+        title: t("error"),
+        description: t("error.failedToUpdateAssistant"),
         variant: "destructive",
       });
     } finally {
       setIsSaving(false);
     }
-  }, [assistant, formData, toast, activeTab]);
+  }, [assistant, formData, toast, activeTab, t]);
 
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500 mx-auto"></div>
-          <p className="mt-2 text-gray-600">Loading assistant...</p>
+          <p className="mt-2 text-gray-600">{t("common.loading")}</p>
         </div>
       </div>
     );
@@ -299,10 +299,10 @@ export default function EditAssistantPage() {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <p className="text-gray-600">Assistant not found</p>
+          <p className="text-gray-600">{t("assistants.assistantNotFound")}</p>
           <Button onClick={() => router.push("/assistants")} className="mt-4">
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Assistants
+            {t("assistants.backToAssistants")}
           </Button>
         </div>
       </div>
@@ -313,8 +313,8 @@ export default function EditAssistantPage() {
     <div className="space-y-8">
       <div className="flex justify-between items-center">
         <PageHeader
-          title={t("editAssistant")}
-          description={t("configureYourAISettings")}
+          title={t("assistants.editAssistant")}
+          description={t("assistants.configureYourAISettings")}
         />
         <div className="flex gap-2">
           <Button
@@ -323,14 +323,14 @@ export default function EditAssistantPage() {
             disabled={isSaving}
           >
             <X className="w-4 h-4 mr-2" />
-            {t("cancel")}
+            {t("common.cancel")}
           </Button>
           <SaveButton
             onClick={handleSave}
             isLoading={isSaving}
             disabled={!hasChanges}
           >
-            {t("saveChanges")}
+            {t("common.saveChanges")}
           </SaveButton>
         </div>
       </div>
@@ -343,12 +343,20 @@ export default function EditAssistantPage() {
         className="space-y-6"
       >
         <TabsList>
-          <TabsTrigger value="basic">{t("basicInformation")}</TabsTrigger>
-          <TabsTrigger value="look-and-feel">{t("lookAndFeel")}</TabsTrigger>
-          <TabsTrigger value="action-buttons">{t("actionButtons")}</TabsTrigger>
-          <TabsTrigger value="forms">{t("forms")}</TabsTrigger>
-          <TabsTrigger value="integrations">{t("integrations")}</TabsTrigger>
-          <TabsTrigger value="widget">{t("widget")}</TabsTrigger>
+          <TabsTrigger value="basic">
+            {t("assistants.basicInformation")}
+          </TabsTrigger>
+          <TabsTrigger value="look-and-feel">
+            {t("assistants.lookAndFeel")}
+          </TabsTrigger>
+          <TabsTrigger value="action-buttons">
+            {t("assistants.actionButtons")}
+          </TabsTrigger>
+          <TabsTrigger value="forms">{t("assistants.forms")}</TabsTrigger>
+          <TabsTrigger value="integrations">
+            {t("assistants.integrations")}
+          </TabsTrigger>
+          <TabsTrigger value="widget">{t("assistants.widget")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="basic">
@@ -359,40 +367,42 @@ export default function EditAssistantPage() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
-                    <span>{t("basicInformation")}</span>
+                    <span>{t("assistants.basicInformation")}</span>
                     <Info className="w-4 h-4 text-gray-400" />
                   </CardTitle>
                   <CardDescription>
-                    {t("configureTheBasicSettingsForYourAssistant")}
+                    {t("assistants.configureTheBasicSettingsForYourAssistant")}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name">{t("name")} *</Label>
+                    <Label htmlFor="name">{t("assistants.name")} *</Label>
                     <Input
                       id="name"
                       value={formData.name}
                       onChange={(e) =>
                         handleInputChange("name", e.target.value)
                       }
-                      placeholder={t("enterAssistantName")}
+                      placeholder={t("assistants.enterAssistantName")}
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="description">{t("description")}</Label>
+                    <Label htmlFor="description">
+                      {t("assistants.description")}
+                    </Label>
                     <Textarea
                       id="description"
                       value={formData.description}
                       onChange={(e) =>
                         handleInputChange("description", e.target.value)
                       }
-                      placeholder={t("enterAssistantDescription")}
+                      placeholder={t("assistants.enterAssistantDescription")}
                       rows={3}
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="tone">{t("tone")}</Label>
+                      <Label htmlFor="tone">{t("assistants.tone")}</Label>
                       <Select
                         value={formData.tone}
                         onValueChange={(value) =>
@@ -412,7 +422,9 @@ export default function EditAssistantPage() {
                       </Select>
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="language">{t("language")}</Label>
+                      <Label htmlFor="language">
+                        {t("assistants.language")}
+                      </Label>
                       <Select
                         value={formData.language}
                         onValueChange={(value) =>
@@ -438,15 +450,15 @@ export default function EditAssistantPage() {
               {/* Messages */}
               <Card>
                 <CardHeader>
-                  <CardTitle>{t("messages")}</CardTitle>
+                  <CardTitle>{t("assistants.messages")}</CardTitle>
                   <CardDescription>
-                    {t("configureTheMessagesYourAssistantWillUse")}
+                    {t("assistants.configureTheMessagesYourAssistantWillUse")}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="welcomeMessage">
-                      {t("welcomeMessage")}
+                      {t("assistants.welcomeMessage")}
                     </Label>
                     <Textarea
                       id="welcomeMessage"
@@ -454,13 +466,13 @@ export default function EditAssistantPage() {
                       onChange={(e) =>
                         handleInputChange("welcomeMessage", e.target.value)
                       }
-                      placeholder={t("enterWelcomeMessage")}
+                      placeholder={t("assistants.enterWelcomeMessage")}
                       rows={2}
                     />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="placeholderText">
-                      {t("placeholderText")}
+                      {t("assistants.placeholderText")}
                     </Label>
                     <Input
                       id="placeholderText"
@@ -468,12 +480,12 @@ export default function EditAssistantPage() {
                       onChange={(e) =>
                         handleInputChange("placeholderText", e.target.value)
                       }
-                      placeholder={t("enterPlaceholderText")}
+                      placeholder={t("assistants.enterPlaceholderText")}
                     />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="fallbackMessage">
-                      {t("fallbackMessage")}
+                      {t("assistants.fallbackMessage")}
                     </Label>
                     <Textarea
                       id="fallbackMessage"
@@ -481,7 +493,7 @@ export default function EditAssistantPage() {
                       onChange={(e) =>
                         handleInputChange("fallbackMessage", e.target.value)
                       }
-                      placeholder={t("enterFallbackMessage")}
+                      placeholder={t("assistants.enterFallbackMessage")}
                       rows={2}
                     />
                   </div>
@@ -491,16 +503,16 @@ export default function EditAssistantPage() {
               {/* AI Settings */}
               <Card>
                 <CardHeader>
-                  <CardTitle>{t("aiSettings")}</CardTitle>
+                  <CardTitle>{t("assistants.aiSettings")}</CardTitle>
                   <CardDescription>
-                    {t("configureTheAIBehaviorAndResponses")}
+                    {t("assistants.configureTheAIBehaviorAndResponses")}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="maxResponseLength">
-                        {t("maxResponseLength")}
+                        {t("assistants.maxResponseLength")}
                       </Label>
                       <Input
                         id="maxResponseLength"
@@ -517,7 +529,9 @@ export default function EditAssistantPage() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="temperature">{t("temperature")}</Label>
+                      <Label htmlFor="temperature">
+                        {t("assistants.temperature")}
+                      </Label>
                       <Input
                         id="temperature"
                         type="number"
@@ -540,15 +554,16 @@ export default function EditAssistantPage() {
               {/* Security & Access */}
               <Card>
                 <CardHeader>
-                  <CardTitle>{t("securityAndAccess")}</CardTitle>
+                  <CardTitle>{t("assistants.securityAndAccess")}</CardTitle>
                   <CardDescription>
-                    {t("configureSecuritySettingsAndAccessControl")}
+                    {t("assistants.configureSecuritySettingsAndAccessControl")}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="rateLimit">
-                      {t("rateLimit")} (requests per minute)
+                      {t("assistants.rateLimit")} (
+                      {t("assistants.requestsPerMinute")})
                     </Label>
                     <Input
                       id="rateLimit"
@@ -563,12 +578,12 @@ export default function EditAssistantPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>{t("allowedDomains")}</Label>
+                    <Label>{t("assistants.allowedDomains")}</Label>
                     <div className="flex space-x-2">
                       <Input
                         value={domainInput}
                         onChange={(e) => setDomainInput(e.target.value)}
-                        placeholder={t("enterDomain")}
+                        placeholder={t("assistants.enterDomain")}
                         onKeyPress={(e) =>
                           e.key === "Enter" && (e.preventDefault(), addDomain())
                         }
@@ -603,17 +618,17 @@ export default function EditAssistantPage() {
               {/* Status */}
               <Card>
                 <CardHeader>
-                  <CardTitle>{t("status")}</CardTitle>
+                  <CardTitle>{t("assistants.status")}</CardTitle>
                   <CardDescription>
-                    {t("controlTheAvailabilityOfYourAssistant")}
+                    {t("assistants.controlTheAvailabilityOfYourAssistant")}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
-                      <Label>{t("active")}</Label>
+                      <Label>{t("assistants.active")}</Label>
                       <p className="text-sm text-gray-500">
-                        Enable or disable the assistant
+                        {t("assistants.enableOrDisableTheAssistant")}
                       </p>
                     </div>
                     <Switch
@@ -626,9 +641,9 @@ export default function EditAssistantPage() {
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
-                      <Label>{t("showBranding")}</Label>
+                      <Label>{t("assistants.showBranding")}</Label>
                       <p className="text-sm text-gray-500">
-                        {t("displayYourBrandingInTheChatWidget")}
+                        {t("assistants.displayYourBrandingInTheChatWidget")}
                       </p>
                     </div>
                     <Switch

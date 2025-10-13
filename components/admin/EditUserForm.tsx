@@ -104,7 +104,7 @@ export function EditUserForm({ user, onSuccess, onCancel }: EditUserFormProps) {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("admin.users.name")} *</FormLabel>
+                <FormLabel>{t("admin.userFields.name")} *</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -118,7 +118,7 @@ export function EditUserForm({ user, onSuccess, onCancel }: EditUserFormProps) {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("admin.users.email")} *</FormLabel>
+                <FormLabel>{t("admin.userFields.email")} *</FormLabel>
                 <FormControl>
                   <Input type="email" {...field} />
                 </FormControl>
@@ -132,7 +132,7 @@ export function EditUserForm({ user, onSuccess, onCancel }: EditUserFormProps) {
             name="role"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("admin.users.role")} *</FormLabel>
+                <FormLabel>{t("admin.userFields.role")} *</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}

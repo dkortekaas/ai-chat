@@ -1,13 +1,15 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Textarea } from '@/components/ui/textarea'
-import { Copy, Check, Code } from 'lucide-react'
+import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Copy, Check, Code } from "lucide-react";
 
 export function EmbedCodeDisplay() {
-  const [copied, setCopied] = useState(false)
+  const t = useTranslations();
+  const [copied, setCopied] = useState(false);
 
   // Mock embed code - replace with actual generated code
   const embedCode = `<!-- Cited Widget -->
@@ -21,17 +23,17 @@ export function EmbedCodeDisplay() {
     document.head.appendChild(script);
   })();
 </script>
-<!-- End Cited Widget -->`
+<!-- End Cited Widget -->`;
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(embedCode)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+      await navigator.clipboard.writeText(embedCode);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error('Failed to copy:', err)
+      console.error("Failed to copy:", err);
     }
-  }
+  };
 
   return (
     <div className="space-y-6">
@@ -39,14 +41,14 @@ export function EmbedCodeDisplay() {
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Code className="h-5 w-5" />
-            <span>Embed Code</span>
+            <span>{t("assistant.embedCode")}</span>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-sm text-gray-600">
-            Kopieer en plak deze code in de HTML van je website, vlak voor de sluitende &lt;/body&gt; tag.
+            {t("assistant.embedCodeDescription")}
           </p>
-          
+
           <div className="relative">
             <Textarea
               value={embedCode}
@@ -62,12 +64,12 @@ export function EmbedCodeDisplay() {
               {copied ? (
                 <>
                   <Check className="mr-2 h-3 w-3" />
-                  Gekopieerd!
+                  {t("assistant.copied")}
                 </>
               ) : (
                 <>
                   <Copy className="mr-2 h-3 w-3" />
-                  Kopiëren
+                  {t("assistant.copy")}
                 </>
               )}
             </Button>
@@ -77,7 +79,7 @@ export function EmbedCodeDisplay() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Installatie instructies</CardTitle>
+          <CardTitle>{t("assistant.installationInstructions")}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-3">
@@ -86,33 +88,33 @@ export function EmbedCodeDisplay() {
                 1
               </div>
               <div>
-                <h4 className="font-medium">Kopieer de embed code</h4>
+                <h4 className="font-medium">{t("assistant.step1Title")}</h4>
                 <p className="text-sm text-gray-600">
-                  Gebruik de kopieer knop hierboven om de code te kopiëren.
+                  {t("assistant.step1Description")}
                 </p>
               </div>
             </div>
-            
+
             <div className="flex items-start space-x-3">
               <div className="flex-shrink-0 w-6 h-6 bg-blue-100 text-indigo-500 rounded-full flex items-center justify-center text-sm font-medium">
                 2
               </div>
               <div>
-                <h4 className="font-medium">Plak in je website</h4>
+                <h4 className="font-medium">{t("assistant.step2Title")}</h4>
                 <p className="text-sm text-gray-600">
-                  Voeg de code toe aan elke pagina waar je de chatbot wilt tonen, vlak voor &lt;/body&gt;.
+                  {t("assistant.step2Description")}
                 </p>
               </div>
             </div>
-            
+
             <div className="flex items-start space-x-3">
               <div className="flex-shrink-0 w-6 h-6 bg-blue-100 text-indigo-500 rounded-full flex items-center justify-center text-sm font-medium">
                 3
               </div>
               <div>
-                <h4 className="font-medium">Test de chatbot</h4>
+                <h4 className="font-medium">{t("assistant.step3Title")}</h4>
                 <p className="text-sm text-gray-600">
-                  Bezoek je website om te controleren of de chatbot correct werkt.
+                  {t("assistant.step3Description")}
                 </p>
               </div>
             </div>
@@ -120,5 +122,5 @@ export function EmbedCodeDisplay() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

@@ -15,7 +15,6 @@ import {
   Trash2,
   Copy,
   Settings,
-  ArrowLeft,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -33,14 +32,13 @@ import { PageHeader } from "@/components/layouts";
 export default function AssistantsPage() {
   const router = useRouter();
   const { assistants, refreshAssistants, isLoading } = useAssistant();
-  // Form modal removed; navigation used instead
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [assistantToDelete, setAssistantToDelete] = useState<Assistant | null>(
     null
   );
   const [isDeleting, setIsDeleting] = useState(false);
   const { toast } = useToast();
-  const t = useTranslations("assistants");
+  const t = useTranslations();
 
   const handleAddAssistant = () => {
     router.push("/assistants/new");
@@ -78,13 +76,13 @@ export default function AssistantsPage() {
 
       if (response.ok) {
         toast({
-          title: t("assistantDuplicated"),
-          description: t("assistantDuplicatedDescription"),
+          title: t("success.assistantDuplicated"),
+          description: t("success.assistantDuplicatedDescription"),
         });
         refreshAssistants();
       } else {
         const error = await response.json();
-        throw new Error(error.error || t("failedToDuplicateAssistant"));
+        throw new Error(error.error || t("error.failedToDuplicateAssistant"));
       }
     } catch (error) {
       toast({
@@ -92,7 +90,7 @@ export default function AssistantsPage() {
         description:
           error instanceof Error
             ? error.message
-            : t("failedToDuplicateAssistant"),
+            : t("error.failedToDuplicateAssistant"),
         variant: "destructive",
       });
     }
@@ -114,21 +112,23 @@ export default function AssistantsPage() {
 
       if (response.ok) {
         toast({
-          title: t("assistantDeleted"),
-          description: t("assistantDeletedDescription"),
+          title: t("success.assistantDeleted"),
+          description: t("success.assistantDeletedDescription"),
         });
         refreshAssistants();
         setIsDeleteModalOpen(false);
         setAssistantToDelete(null);
       } else {
         const error = await response.json();
-        throw new Error(error.error || t("failedToDeleteAssistant"));
+        throw new Error(error.error || t("error.failedToDeleteAssistant"));
       }
     } catch (error) {
       toast({
         title: t("error"),
         description:
-          error instanceof Error ? error.message : t("failedToDeleteAssistant"),
+          error instanceof Error
+            ? error.message
+            : t("error.failedToDeleteAssistant"),
         variant: "destructive",
       });
     } finally {
@@ -143,30 +143,28 @@ export default function AssistantsPage() {
     }
   };
 
-  // Removed form callbacks; not needed with dedicated page
-
   const formatCreatedDate = (dateString: string) => {
     const date = new Date(dateString);
     const now = new Date();
     const diffInMs = now.getTime() - date.getTime();
     const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
 
-    if (diffInDays === 0) return t("today");
-    if (diffInDays === 1) return t("yesterday");
-    if (diffInDays < 7) return t("daysAgo", { days: diffInDays });
+    if (diffInDays === 0) return t("common.today");
+    if (diffInDays === 1) return t("common.yesterday");
+    if (diffInDays < 7) return t("common.daysAgo", { days: diffInDays });
     if (diffInDays < 30)
-      return t("weeksAgo", { weeks: Math.floor(diffInDays / 7) });
+      return t("common.weeksAgo", { weeks: Math.floor(diffInDays / 7) });
     if (diffInDays < 365)
-      return t("monthsAgo", { months: Math.floor(diffInDays / 30) });
-    return t("yearsAgo", { years: Math.floor(diffInDays / 365) });
+      return t("common.monthsAgo", { months: Math.floor(diffInDays / 30) });
+    return t("common.yearsAgo", { years: Math.floor(diffInDays / 365) });
   };
 
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
         <PageHeader
-          title={t("aiAssistants")}
-          description={t("aiAssistantsDescription")}
+          title={t("assistant.aiAssistants")}
+          description={t("assistant.aiAssistantsDescription")}
         />
         <div className="flex gap-2">
           <Button
@@ -174,7 +172,7 @@ export default function AssistantsPage() {
             onClick={handleAddAssistant}
           >
             <Plus className="w-4 h-4 mr-2" />
-            {t("createAssistant")}
+            {t("assistant.createAssistant")}
           </Button>
         </div>
       </div>
@@ -198,17 +196,17 @@ export default function AssistantsPage() {
             <Card className="p-12 text-center">
               <Bot className="w-16 h-16 mx-auto mb-4 text-gray-300" />
               <h3 className="text-lg font-medium text-gray-900 mb-2">
-                {t("noAssistantsYet")}
+                {t("assistant.noAssistantsYet")}
               </h3>
               <p className="text-gray-500 mb-6">
-                {t("noAssistantsYetDescription")}
+                {t("assistant.noAssistantsYetDescription")}
               </p>
               <Button
                 className="bg-indigo-500 hover:bg-indigo-600"
                 onClick={handleAddAssistant}
               >
                 <Plus className="w-4 h-4 mr-2" />
-                {t("createYourFirstAssistant")}
+                {t("assistant.createYourFirstAssistant")}
               </Button>
             </Card>
           </div>
@@ -248,24 +246,24 @@ export default function AssistantsPage() {
                         onClick={() => handleEditAssistant(assistant)}
                       >
                         <Edit className="w-4 h-4 mr-2" />
-                        {t("edit")}
+                        {t("common.edit")}
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => handleDuplicateAssistant(assistant)}
                       >
                         <Copy className="w-4 h-4 mr-2" />
-                        {t("duplicate")}
+                        {t("common.duplicate")}
                       </DropdownMenuItem>
                       <DropdownMenuItem>
                         <Settings className="w-4 h-4 mr-2" />
-                        {t("settings")}
+                        {t("common.settings")}
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         className="text-red-600"
                         onClick={() => handleDeleteAssistant(assistant)}
                       >
                         <Trash2 className="w-4 h-4 mr-2" />
-                        {t("delete")}
+                        {t("common.delete")}
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -281,16 +279,17 @@ export default function AssistantsPage() {
                   {assistant.isActive ? (
                     <Badge className="bg-green-100 text-green-800">
                       <CheckCircle className="w-3 h-3 mr-1" />
-                      {t("active")}
+                      {t("common.active")}
                     </Badge>
                   ) : (
                     <Badge className="bg-gray-100 text-gray-800">
                       <XCircle className="w-3 h-3 mr-1" />
-                      {t("inactive")}
+                      {t("common.inactive")}
                     </Badge>
                   )}
                   <span className="text-xs text-gray-500">
-                    {t("created")} {formatCreatedDate(assistant.createdAt)}
+                    {t("common.created")}{" "}
+                    {formatCreatedDate(assistant.createdAt)}
                   </span>
                 </div>
 
@@ -303,14 +302,14 @@ export default function AssistantsPage() {
                     onClick={() => handleEditAssistant(assistant)}
                   >
                     <Edit className="w-3 h-3 mr-1" />
-                    {t("edit")}
+                    {t("common.edit")}
                   </Button>
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => router.push("/kennisbank")}
                   >
-                    {t("knowledge")}
+                    {t("assistant.knowledge")}
                   </Button>
                 </div>
               </div>
@@ -318,8 +317,6 @@ export default function AssistantsPage() {
           ))
         )}
       </div>
-
-      {/* Creation moved to /assistants/new */}
 
       {/* Delete Confirmation Modal */}
       {/* <DeleteConfirmationModal

@@ -49,25 +49,25 @@ export default function WebsiteDetailPage() {
       case "COMPLETED":
         return (
           <Badge className="bg-green-100 text-green-800">
-            ✓ {t("knowledgebase.status.completed")}
+            ✓ {t("knowledgebase.statusDetails.completed")}
           </Badge>
         );
       case "PENDING":
         return (
           <Badge className="bg-yellow-100 text-yellow-800">
-            {t("knowledgebase.status.pending")}
+            {t("knowledgebase.statusDetails.pending")}
           </Badge>
         );
       case "SYNCING":
         return (
           <Badge className="bg-blue-100 text-blue-800">
-            {t("knowledgebase.status.syncing")}
+            {t("knowledgebase.statusDetails.syncing")}
           </Badge>
         );
       case "ERROR":
         return (
           <Badge className="bg-red-100 text-red-800">
-            {t("knowledgebase.status.error")}
+            {t("knowledgebase.statusDetails.error")}
           </Badge>
         );
     }

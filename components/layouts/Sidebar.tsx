@@ -315,9 +315,9 @@ export default function Sidebar({
                 x="17"
                 y="42"
                 fill="white"
-                font-family="Inter, sans-serif"
-                font-size="30"
-                font-weight="700"
+                fontFamily="Inter, sans-serif"
+                fontSize="30"
+                fontWeight="700"
               >
                 ‘ ’
               </text>
