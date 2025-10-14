@@ -88,7 +88,15 @@
     "scrapeNow": "Scrape Now",
     "viewContent": "View Content",
     "updating": "Updating...",
-    "update": "Update"
+    "update": "Update",
+    "yesterday": "Yesterday",
+    "daysAgo": "days ago",
+    "weeksAgo": "weeks ago",
+    "monthsAgo": "months ago",
+    "yearsAgo": "years ago",
+    "never": "Never",
+    "duplicate": "Duplicate",
+    "settings": "Settings"
   },
   "error": {
     "emailInvalid": "Please enter a valid email address",
@@ -148,6 +156,15 @@
     "roleRequired": "Role is required",
     "errorUpdatingMember": "Error updating member",
     "failedToLoadMembers": "Failed to load members",
+    "passwordMinLength": "Password must be at least 8 characters long",
+    "firstNameRequired": "First name is required",
+    "firstNameTooLong": "First name must be less than 50 characters",
+    "lastNameTooLong": "Last name must be less than 50 characters",
+    "newPasswordRequired": "New password is required",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "confirmPasswordRequired": "Confirm password is required",
+    "assistantNameRequired": "Assistant name is required",
+    "passwordComplexity": "Password must contain at least one uppercase letter, one lowercase letter, and one number",
     "knowledgebase": {
       "noAssistantSelected": "No assistant selected"
     }
@@ -504,7 +521,8 @@
     "overview": "Overview",
     "conversations": {
       "title": "Conversations",
-      "subtitle": "Total conversations this period"
+      "subtitle": "Total conversations this period",
+      "count": "count"
     },
     "knowledgeSources": {
       "title": "Knowledge Sources",
@@ -605,6 +623,8 @@
     "bottom-left": "Bottom Left",
     "top-right": "Top Right",
     "top-left": "Top Left",
+    "fontFamily": "Font Family",
+    "avatar": "Avatar",
     "assistantNameRequired": "Assistant name is required",
     "assistantCreatedSuccessfully": "Assistant created successfully",
     "failedToCreateAssistant": "Failed to create assistant",
@@ -747,6 +767,13 @@
       "subscription": "Subscription",
       "team": "Team"
     },
+    "personalDetails": "Personal Details",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "confirmNewPassword": "Confirm New Password",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "changePassword": "Change Password",
     "emailSettings": "Email Settings",
     "newEmail": "New Email",
     "currentPassword": "Current Password",
@@ -843,6 +870,9 @@
       "faqs": "FAQs",
       "bestanden": "Files"
     },
+    "websites": "Websites",
+    "faqs": "FAQs",
+    "files": "Files",
     "today": "Today",
     "yesterday": "Yesterday",
     "daysAgo": "days ago",

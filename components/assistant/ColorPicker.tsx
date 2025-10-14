@@ -48,7 +48,7 @@ export function ColorPicker({ color, onChange }: ColorPickerProps) {
         <div className="space-y-4">
           <div>
             <label className="text-sm font-medium mb-2 block">
-              {t("assistant.chooseColor")}
+              {t("assistants.chooseColor")}
             </label>
             <div className="grid grid-cols-4 gap-2">
               {presetColors.map((presetColor) => (
@@ -71,7 +71,7 @@ export function ColorPicker({ color, onChange }: ColorPickerProps) {
 
           <div>
             <label className="text-sm font-medium mb-2 block">
-              {t("assistant.orEnterHexCode")}
+              {t("assistants.orEnterHexCode")}
             </label>
             <Input
               value={safeColor}

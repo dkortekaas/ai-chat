@@ -41,12 +41,12 @@ export function EmbedCodeDisplay() {
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Code className="h-5 w-5" />
-            <span>{t("assistant.embedCode")}</span>
+            <span>{t("assistants.embedCode")}</span>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-sm text-gray-600">
-            {t("assistant.embedCodeDescription")}
+            {t("assistants.embedCodeDescription")}
           </p>
 
           <div className="relative">
@@ -64,12 +64,12 @@ export function EmbedCodeDisplay() {
               {copied ? (
                 <>
                   <Check className="mr-2 h-3 w-3" />
-                  {t("assistant.copied")}
+                  {t("assistants.copied")}
                 </>
               ) : (
                 <>
                   <Copy className="mr-2 h-3 w-3" />
-                  {t("assistant.copy")}
+                  {t("assistants.copy")}
                 </>
               )}
             </Button>
@@ -79,7 +79,7 @@ export function EmbedCodeDisplay() {
 
       <Card>
         <CardHeader>
-          <CardTitle>{t("assistant.installationInstructions")}</CardTitle>
+          <CardTitle>{t("assistants.installationInstructions")}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-3">
@@ -88,9 +88,9 @@ export function EmbedCodeDisplay() {
                 1
               </div>
               <div>
-                <h4 className="font-medium">{t("assistant.step1Title")}</h4>
+                <h4 className="font-medium">{t("assistants.step1Title")}</h4>
                 <p className="text-sm text-gray-600">
-                  {t("assistant.step1Description")}
+                  {t("assistants.step1Description")}
                 </p>
               </div>
             </div>
@@ -100,9 +100,9 @@ export function EmbedCodeDisplay() {
                 2
               </div>
               <div>
-                <h4 className="font-medium">{t("assistant.step2Title")}</h4>
+                <h4 className="font-medium">{t("assistants.step2Title")}</h4>
                 <p className="text-sm text-gray-600">
-                  {t("assistant.step2Description")}
+                  {t("assistants.step2Description")}
                 </p>
               </div>
             </div>
@@ -112,7 +112,7 @@ export function EmbedCodeDisplay() {
                 3
               </div>
               <div>
-                <h4 className="font-medium">{t("assistant.step3Title")}</h4>
+                <h4 className="font-medium">{t("assistants.step3Title")}</h4>
                 <p className="text-sm text-gray-600">
                   {t("assistant.step3Description")}
                 </p>

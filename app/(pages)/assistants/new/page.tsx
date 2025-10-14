@@ -47,24 +47,24 @@ export default function NewAssistantPage() {
   const [domainInput, setDomainInput] = useState("");
 
   const toneOptions = [
-    { value: "professional", label: t("professional") },
-    { value: "friendly", label: t("friendly") },
-    { value: "casual", label: t("casual") },
-    { value: "formal", label: t("formal") },
+    { value: "professional", label: t("assistants.professional") },
+    { value: "friendly", label: t("assistants.friendly") },
+    { value: "casual", label: t("assistants.casual") },
+    { value: "formal", label: t("assistants.formal") },
   ];
 
   const languageOptions = [
-    { value: "nl", label: t("nl") },
-    { value: "en", label: t("en") },
-    { value: "de", label: t("de") },
-    { value: "fr", label: t("fr") },
+    { value: "nl", label: t("assistants.nl") },
+    { value: "en", label: t("assistants.en") },
+    { value: "de", label: t("assistants.de") },
+    { value: "fr", label: t("assistants.fr") },
   ];
 
   const positionOptions = [
-    { value: "bottom-right", label: t("bottom-right") },
-    { value: "bottom-left", label: t("bottom-left") },
-    { value: "top-right", label: t("top-right") },
-    { value: "top-left", label: t("top-left") },
+    { value: "bottom-right", label: t("assistants.bottom-right") },
+    { value: "bottom-left", label: t("assistants.bottom-left") },
+    { value: "top-right", label: t("assistants.top-right") },
+    { value: "top-left", label: t("assistants.top-left") },
   ];
 
   const [formData, setFormData] = useState({
@@ -124,7 +124,7 @@ export default function NewAssistantPage() {
   const handleSave = async () => {
     if (!formData.name.trim()) {
       toast({
-        title: t("error"),
+        title: t("common.error"),
         description: t("error.assistantNameRequired"),
         variant: "destructive",
       });
@@ -161,13 +161,13 @@ export default function NewAssistantPage() {
 
       const created = await response.json();
       toast({
-        title: t("success"),
+        title: t("common.success"),
         description: t("success.assistantCreatedSuccessfully"),
       });
       router.push(`/assistants/${created.id}/edit`);
     } catch {
       toast({
-        title: t("error"),
+        title: t("common.error"),
         description: t("error.failedToCreateAssistant"),
         variant: "destructive",
       });

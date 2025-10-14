@@ -163,8 +163,8 @@ export default function AssistantsPage() {
     <div className="space-y-8">
       <div className="flex justify-between items-center">
         <PageHeader
-          title={t("assistant.aiAssistants")}
-          description={t("assistant.aiAssistantsDescription")}
+          title={t("assistants.aiAssistants")}
+          description={t("assistants.aiAssistantsDescription")}
         />
         <div className="flex gap-2">
           <Button
@@ -172,7 +172,7 @@ export default function AssistantsPage() {
             onClick={handleAddAssistant}
           >
             <Plus className="w-4 h-4 mr-2" />
-            {t("assistant.createAssistant")}
+            {t("assistants.createAssistant")}
           </Button>
         </div>
       </div>
@@ -309,7 +309,7 @@ export default function AssistantsPage() {
                     size="sm"
                     onClick={() => router.push("/kennisbank")}
                   >
-                    {t("assistant.knowledge")}
+                    {t("assistants.knowledge")}
                   </Button>
                 </div>
               </div>
