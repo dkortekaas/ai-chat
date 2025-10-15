@@ -144,13 +144,13 @@ export function InvitationsList({ refreshTrigger }: InvitationsListProps) {
   const getStatusText = (status: string) => {
     switch (status) {
       case "PENDING":
-        return t("common.status.pending");
+        return t("common.statuses.pending");
       case "ACCEPTED":
-        return t("common.status.accepted");
+        return t("common.statuses.accepted");
       case "EXPIRED":
-        return t("common.status.expired");
+        return t("common.statuses.expired");
       case "CANCELLED":
-        return t("common.status.cancelled");
+        return t("common.statuses.cancelled");
       default:
         return status;
     }
@@ -183,7 +183,7 @@ export function InvitationsList({ refreshTrigger }: InvitationsListProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <div className="text-gray-500">{t("common.loading")}</div>
+        <div className="text-gray-500">{t("common.statuses.loading")}</div>
       </div>
     );
   }
@@ -206,11 +206,11 @@ export function InvitationsList({ refreshTrigger }: InvitationsListProps) {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-medium text-gray-900">
-          {t("account.team.pendingInvitations")}
+          {t("account.pendingInvitations")}
         </h3>
         <span className="text-sm text-gray-500">
           {invitations.filter((inv) => inv.status === "PENDING").length}{" "}
-          {t("account.team.pending")}
+          {t("account.pending")}
         </span>
       </div>
 
@@ -273,7 +273,7 @@ export function InvitationsList({ refreshTrigger }: InvitationsListProps) {
                           className="text-red-600"
                         >
                           <XCircle className="w-4 h-4 mr-2" />
-                          {t("account.team.cancelInvitation")}
+                          {t("account.cancelInvitation")}
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>

@@ -330,7 +330,9 @@ export function AddPlanForm({ onSuccess }: AddPlanFormProps) {
             disabled={isSubmitting}
             className="bg-indigo-500 hover:bg-indigo-600"
           >
-            {isSubmitting ? t("common.status.processing") : t("actions.create")}
+            {isSubmitting
+              ? t("common.statuses.processing")
+              : t("actions.create")}
           </Button>
         </div>
       </form>

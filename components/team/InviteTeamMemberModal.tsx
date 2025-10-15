@@ -120,8 +120,8 @@ export function InviteTeamMemberModal({
       }
 
       toast({
-        title: t("team.invitationSent"),
-        description: t("team.invitationSentDescription", {
+        title: t("account.invitationSent"),
+        description: t("account.invitationSentDescription", {
           email: values.email,
         }),
         variant: "success",
@@ -152,9 +152,9 @@ export function InviteTeamMemberModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{t("team.inviteMember")}</DialogTitle>
+          <DialogTitle>{t("account.inviteMember")}</DialogTitle>
           <DialogDescription>
-            {t("team.inviteMemberDescription")}
+            {t("account.inviteMemberDescription")}
           </DialogDescription>
         </DialogHeader>
 
@@ -190,8 +190,12 @@ export function InviteTeamMemberModal({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="USER">{t("roles.user")}</SelectItem>
-                      <SelectItem value="ADMIN">{t("roles.admin")}</SelectItem>
+                      <SelectItem value="USER">
+                        {t("common.roles.user")}
+                      </SelectItem>
+                      <SelectItem value="ADMIN">
+                        {t("common.roles.admin")}
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -213,7 +217,9 @@ export function InviteTeamMemberModal({
                 disabled={isSubmitting}
                 className="bg-indigo-500 hover:bg-indigo-600"
               >
-                {isSubmitting ? t("common.sending") : t("team.sendInvitation")}
+                {isSubmitting
+                  ? t("common.sending")
+                  : t("account.sendInvitation")}
               </Button>
             </DialogFooter>
           </form>

@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { db } from "@/lib/db";
 
 // GET /api/websites/[id]/pages - Get all pages for a specific website
 export async function GET(
@@ -18,37 +16,54 @@ export async function GET(
 
     const { id: websiteId } = await params;
 
-    // Get the website and verify ownership
-    const website = await prisma.website.findFirst({
-      where: {
-        id: websiteId,
-        assistantId: {
-          not: null,
-        },
-      },
+    // Load current user with company for scoping
+    const currentUser = await db.user.findUnique({
+      where: { id: session.user.id },
+      select: { id: true, companyId: true },
+    });
+
+    if (!currentUser) {
+      console.error("User not found in database:", session.user.id);
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    // First find the website
+    const website = await db.website.findUnique({
+      where: { id: websiteId },
     });
 
     if (!website) {
       return NextResponse.json({ error: "Website not found" }, { status: 404 });
     }
 
-    // Verify the assistant belongs to the user
-    const assistant = await prisma.chatbotSettings.findFirst({
-      where: {
-        id: website.assistantId || undefined,
-        userId: session.user.id,
-      },
-    });
+    // Then verify the assistant belongs to the company
+    if (website.assistantId) {
+      const assistant = await db.chatbotSettings.findFirst({
+        where: {
+          id: website.assistantId,
+          users: {
+            companyId: currentUser.companyId,
+          },
+        },
+        include: {
+          users: {
+            select: {
+              companyId: true,
+            },
+          },
+        },
+      });
 
-    if (!assistant) {
-      return NextResponse.json(
-        { error: "Unauthorized to access this website" },
-        { status: 403 }
-      );
+      if (!assistant) {
+        return NextResponse.json(
+          { error: "Unauthorized to access this website" },
+          { status: 403 }
+        );
+      }
     }
 
     // Get all pages for this website
-    const pages = await prisma.websitePage.findMany({
+    const pages = await db.websitePage.findMany({
       where: {
         websiteId,
       },

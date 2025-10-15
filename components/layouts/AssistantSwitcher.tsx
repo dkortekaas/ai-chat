@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 import { Bot, ChevronDown, Check, Plus, Settings } from "lucide-react";
 import {
   Button,
@@ -20,6 +21,9 @@ export function AssistantSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const t = useTranslations();
+  const { data: session } = useSession();
+  const isAdmin =
+    session?.user?.role === "ADMIN" || session?.user?.role === "SUPERUSER";
 
   const handleAssistantSelect = (assistantId: string) => {
     const assistant = assistants.find((a) => a.id === assistantId);
@@ -38,21 +42,37 @@ export function AssistantSwitcher() {
     return (
       <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 animate-pulse">
         <Bot className="w-4 h-4 text-gray-400" />
-        <span className="text-sm text-gray-500">{t("common.loading")}</span>
+        <span className="text-sm text-gray-500">
+          {t("common.statuses.loading")}
+        </span>
       </div>
     );
   }
 
   if (!currentAssistant) {
+    if (isAdmin) {
+      return (
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleCreateNew}
+          className="flex items-center gap-2"
+        >
+          <Plus className="w-4 h-4" />
+          {t("assistants.createAssistant")}
+        </Button>
+      );
+    }
+    // Non-admins see an informative disabled state
     return (
       <Button
         variant="outline"
         size="sm"
-        onClick={handleCreateNew}
+        disabled
         className="flex items-center gap-2"
       >
-        <Plus className="w-4 h-4" />
-        {t("common.createAssistant")}
+        <Bot className="w-4 h-4" />
+        {t("assistants.noAssistantsYet")}
       </Button>
     );
   }
@@ -99,21 +119,28 @@ export function AssistantSwitcher() {
             )}
           </DropdownMenuItem>
         ))}
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onClick={() => {
-            router.push("/assistants");
-            setIsOpen(false);
-          }}
-          className="cursor-pointer"
-        >
-          <Settings className="w-4 h-4 mr-2" />
-          {t("assistants.manageAssistants")}
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={handleCreateNew} className="cursor-pointer">
-          <Plus className="w-4 h-4 mr-2" />
-          {t("assistants.createNewAssistant")}
-        </DropdownMenuItem>
+        {isAdmin && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() => {
+                router.push("/assistants");
+                setIsOpen(false);
+              }}
+              className="cursor-pointer"
+            >
+              <Settings className="w-4 h-4 mr-2" />
+              {t("assistants.manageAssistants")}
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={handleCreateNew}
+              className="cursor-pointer"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              {t("assistants.createNewAssistant")}
+            </DropdownMenuItem>
+          </>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

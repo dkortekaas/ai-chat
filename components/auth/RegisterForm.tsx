@@ -126,12 +126,26 @@ export default function RegisterForm() {
       setError(null);
 
       try {
-        const response = await fetch("/api/auth/register", {
+        const hasInvitationToken = !!token;
+
+        const endpoint = hasInvitationToken
+          ? "/api/invitations/accept"
+          : "/api/auth/register";
+
+        const payload = hasInvitationToken
+          ? {
+              token,
+              name: data.name,
+              password: data.password,
+            }
+          : data;
+
+        const response = await fetch(endpoint, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(payload),
         });
 
         if (!response.ok) {
@@ -151,7 +165,7 @@ export default function RegisterForm() {
         setIsSubmitting(false);
       }
     },
-    [router, t, setIsSubmitting, setError]
+    [router, t, setIsSubmitting, setError, token]
   );
 
   const onSubmit = (data: RegisterFormValues) => {
@@ -366,7 +380,7 @@ export default function RegisterForm() {
                 {isSubmitting || isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    {t("common.loading")}
+                    {t("common.statuses.loading")}
                   </>
                 ) : (
                   t("auth.registerForm.registerButton")

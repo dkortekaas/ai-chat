@@ -180,7 +180,9 @@ export default function TwoFactorSetup() {
               disabled={isLoading}
               className="bg-indigo-500 hover:bg-indigo-600"
             >
-              {isLoading ? t("common.status.loading") : t("settings.enable2FA")}
+              {isLoading
+                ? t("common.statuses.loading")
+                : t("settings.enable2FA")}
             </Button>
           </div>
         );

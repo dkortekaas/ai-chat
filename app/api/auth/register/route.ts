@@ -52,7 +52,17 @@ export async function POST(req: NextRequest) {
 
     // Calculate trial period (30 days from now)
     const now = new Date();
-    const trialEndDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000); // 30 dagen
+    const trialEndDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+
+    // Always create a default company for the registrant
+    const companyName = name ? `${name}'s Company` : `${email}'s Company`;
+    const company = await db.company.create({
+      data: {
+        name: companyName,
+        description: "Default company created at registration",
+      },
+    });
+    const companyId = company.id;
 
     // Create new user with trial period
     const user = await db.user.create({
@@ -60,11 +70,13 @@ export async function POST(req: NextRequest) {
         name,
         email,
         password: hashedPassword,
-        role: "USER", // Default role
+        // Registrant becomes ADMIN of their own company
+        role: "ADMIN",
         subscriptionStatus: "TRIAL",
         trialStartDate: now,
         trialEndDate: trialEndDate,
-        isActive: true, // Ensure user is active
+        isActive: true,
+        companyId: companyId,
       },
       select: {
         id: true,
@@ -75,6 +87,8 @@ export async function POST(req: NextRequest) {
         trialStartDate: true,
         trialEndDate: true,
         isActive: true,
+        role: true,
+        companyId: true,
       },
     });
 

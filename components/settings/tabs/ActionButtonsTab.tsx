@@ -265,7 +265,7 @@ export function ActionButtonsTab({ onChanges }: ActionButtonsTabProps) {
     return (
       <div className="flex items-center justify-center py-8">
         <Loader2 className="w-6 h-6 animate-spin" />
-        <span className="ml-2">{t("common.loading")}</span>
+        <span className="ml-2">{t("common.statuses.loading")}</span>
       </div>
     );
   }

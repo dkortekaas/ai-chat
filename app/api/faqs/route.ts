@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { db } from "@/lib/db";
 
 // GET /api/faqs - Get all FAQs for a specific assistant
 export async function GET(request: NextRequest) {
@@ -23,11 +21,24 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Verify the assistant belongs to the user
-    const assistant = await prisma.chatbotSettings.findFirst({
+    // Load current user with company for scoping
+    const currentUser = await db.user.findUnique({
+      where: { id: session.user.id },
+      select: { id: true, companyId: true },
+    });
+
+    if (!currentUser) {
+      console.error("User not found in database:", session.user.id);
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    // Verify the assistant belongs to the company
+    const assistant = await db.chatbotSettings.findFirst({
       where: {
         id: assistantId,
-        userId: session.user.id,
+        users: {
+          companyId: currentUser.companyId,
+        },
       },
     });
 
@@ -38,7 +49,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const faqs = await prisma.fAQ.findMany({
+    const faqs = await db.fAQ.findMany({
       where: {
         assistantId,
       },
@@ -80,11 +91,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Verify the assistant belongs to the user
-    const assistant = await prisma.chatbotSettings.findFirst({
+    // Load current user with company for scoping
+    const currentUser = await db.user.findUnique({
+      where: { id: session.user.id },
+      select: { id: true, companyId: true },
+    });
+
+    if (!currentUser) {
+      console.error("User not found in database:", session.user.id);
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    // Verify the assistant belongs to the company
+    const assistant = await db.chatbotSettings.findFirst({
       where: {
         id: assistantId,
-        userId: session.user.id,
+        users: {
+          companyId: currentUser.companyId,
+        },
       },
     });
 
@@ -95,7 +119,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const faq = await prisma.fAQ.create({
+    const faq = await db.fAQ.create({
       data: {
         assistantId,
         question,

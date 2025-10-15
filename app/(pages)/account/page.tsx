@@ -114,7 +114,7 @@ export default function AccountPage() {
   const t = useTranslations();
 
   return (
-    <Suspense fallback={<div>{t("common.loading")}</div>}>
+    <Suspense fallback={<div>{t("common.statuses.loading")}</div>}>
       <AccountPageContent />
     </Suspense>
   );

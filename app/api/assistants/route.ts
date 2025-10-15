@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { db } from "@/lib/db";
 
 export async function GET() {
   try {
@@ -13,23 +11,25 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Debug: Check if user exists in database
-    const userExists = await prisma.user.findUnique({
+    // Load current user with company for scoping
+    const currentUser = await db.user.findUnique({
       where: { id: session.user.id },
+      select: { id: true, companyId: true },
     });
 
-    if (!userExists) {
+    if (!currentUser) {
       console.error("User not found in database:", session.user.id);
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    const assistants = await prisma.chatbotSettings.findMany({
+    // Return assistants for the whole company (all owners within same company)
+    const assistants = await db.chatbotSettings.findMany({
       where: {
-        userId: session.user.id,
+        users: {
+          companyId: currentUser.companyId,
+        },
       },
-      orderBy: {
-        createdAt: "desc",
-      },
+      orderBy: { createdAt: "desc" },
     });
 
     return NextResponse.json(assistants);
@@ -50,14 +50,29 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Debug: Check if user exists in database
-    const userExists = await prisma.user.findUnique({
+    // Load current user and enforce ADMIN role and company membership for creation
+    const currentUser = await db.user.findUnique({
       where: { id: session.user.id },
+      select: { id: true, role: true, companyId: true },
     });
 
-    if (!userExists) {
+    if (!currentUser) {
       console.error("User not found in database:", session.user.id);
       return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    if (currentUser.role !== "ADMIN") {
+      return NextResponse.json(
+        { error: "Forbidden - Admin access required" },
+        { status: 403 }
+      );
+    }
+
+    if (!currentUser.companyId) {
+      return NextResponse.json(
+        { error: "User not associated with a company" },
+        { status: 400 }
+      );
     }
 
     const body = await request.json();
@@ -89,9 +104,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Name is required" }, { status: 400 });
     }
 
-    const assistant = await prisma.chatbotSettings.create({
+    const assistant = await db.chatbotSettings.create({
       data: {
         id: crypto.randomUUID(),
+        // Admin becomes the owner; visibility is company-wide via list filter
         userId: session.user.id,
         name: name || "AI Assistent",
         description: description || "",

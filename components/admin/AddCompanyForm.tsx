@@ -185,7 +185,7 @@ export function AddCompanyForm() {
           disabled={isSubmitting}
           className="inline-flex justify-center rounded-md border border-transparent bg-indigo-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? t("common.status.processing") : t("actions.create")}
+          {isSubmitting ? t("common.statuses.processing") : t("actions.create")}
         </button>
       </div>
     </form>

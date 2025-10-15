@@ -71,15 +71,15 @@ export default function Sidebar({
       activePath: isSuperuser ? "/admindashboard" : "/dashboard",
       sequence: 1,
     },
+    {
+      href: "/knowledgebase",
+      title: t("common.navigation.knowledgeBase"),
+      icon: <Library className="w-6 h-6" />,
+      activePath: "/knowledgebase",
+      sequence: 2,
+    },
     ...(hasValidSubscription
       ? [
-          {
-            href: "/knowledgebase",
-            title: t("common.navigation.knowledgeBase"),
-            icon: <Library className="w-6 h-6" />,
-            activePath: "/knowledgebase",
-            sequence: 2,
-          },
           {
             href: "/conversations",
             title: t("common.navigation.conversations"),

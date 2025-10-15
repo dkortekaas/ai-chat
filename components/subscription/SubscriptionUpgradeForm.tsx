@@ -114,7 +114,7 @@ export function SubscriptionUpgradeForm({
                   onClick={() => handleUpgrade(plan.id)}
                 >
                   {isLoading === plan.id
-                    ? t("common.status.processing")
+                    ? t("common.statuses.processing")
                     : isCurrentPlan
                       ? t("subscription.upgradeDetails.currentPlan")
                       : isUpgrade

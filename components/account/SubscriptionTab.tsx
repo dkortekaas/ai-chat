@@ -302,7 +302,7 @@ export function SubscriptionTab() {
                   className="border-indigo-500 text-indigo-500 hover:bg-indigo-50"
                 >
                   {managing
-                    ? t("common.loading")
+                    ? t("common.statuses.loading")
                     : t("account.subscriptions.manageSubscription")}
                 </Button>
               )}
@@ -343,7 +343,7 @@ export function SubscriptionTab() {
                     size="sm"
                   >
                     {upgrading
-                      ? t("common.loading")
+                      ? t("common.statuses.loading")
                       : user.subscriptionPlan === key
                         ? t("account.subscriptions.currentPlan")
                         : t("account.subscriptions.upgrade")}
@@ -380,7 +380,7 @@ export function SubscriptionTab() {
                 disabled={managing}
                 className="ml-auto"
               >
-                {managing ? t("common.loading") : t("common.manage")}
+                {managing ? t("common.statuses.loading") : t("common.manage")}
               </SaveButton>
             </div>
           </div>

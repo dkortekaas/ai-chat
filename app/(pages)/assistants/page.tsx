@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -39,6 +40,9 @@ export default function AssistantsPage() {
   const [isDeleting, setIsDeleting] = useState(false);
   const { toast } = useToast();
   const t = useTranslations();
+  const { data: session } = useSession();
+  const isAdmin =
+    session?.user?.role === "ADMIN" || session?.user?.role === "SUPERUSER";
 
   const handleAddAssistant = () => {
     router.push("/assistants/new");
@@ -166,15 +170,17 @@ export default function AssistantsPage() {
           title={t("assistants.aiAssistants")}
           description={t("assistants.aiAssistantsDescription")}
         />
-        <div className="flex gap-2">
-          <Button
-            className="bg-indigo-500 hover:bg-indigo-600"
-            onClick={handleAddAssistant}
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            {t("assistants.createAssistant")}
-          </Button>
-        </div>
+        {isAdmin && (
+          <div className="flex gap-2">
+            <Button
+              className="bg-indigo-500 hover:bg-indigo-600"
+              onClick={handleAddAssistant}
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              {t("assistants.createAssistant")}
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* Assistants Grid */}
@@ -196,18 +202,20 @@ export default function AssistantsPage() {
             <Card className="p-12 text-center">
               <Bot className="w-16 h-16 mx-auto mb-4 text-gray-300" />
               <h3 className="text-lg font-medium text-gray-900 mb-2">
-                {t("assistant.noAssistantsYet")}
+                {t("assistants.noAssistantsYet")}
               </h3>
               <p className="text-gray-500 mb-6">
-                {t("assistant.noAssistantsYetDescription")}
+                {t("assistants.noAssistantsYetDescription")}
               </p>
-              <Button
-                className="bg-indigo-500 hover:bg-indigo-600"
-                onClick={handleAddAssistant}
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                {t("assistant.createYourFirstAssistant")}
-              </Button>
+              {isAdmin ? (
+                <Button
+                  className="bg-indigo-500 hover:bg-indigo-600"
+                  onClick={handleAddAssistant}
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  {t("assistant.createYourFirstAssistant")}
+                </Button>
+              ) : null}
             </Card>
           </div>
         ) : (
@@ -248,12 +256,14 @@ export default function AssistantsPage() {
                         <Edit className="w-4 h-4 mr-2" />
                         {t("common.edit")}
                       </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => handleDuplicateAssistant(assistant)}
-                      >
-                        <Copy className="w-4 h-4 mr-2" />
-                        {t("common.duplicate")}
-                      </DropdownMenuItem>
+                      {isAdmin && (
+                        <DropdownMenuItem
+                          onClick={() => handleDuplicateAssistant(assistant)}
+                        >
+                          <Copy className="w-4 h-4 mr-2" />
+                          {t("common.duplicate")}
+                        </DropdownMenuItem>
+                      )}
                       <DropdownMenuItem>
                         <Settings className="w-4 h-4 mr-2" />
                         {t("common.settings")}

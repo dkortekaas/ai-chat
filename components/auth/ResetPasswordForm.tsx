@@ -182,7 +182,7 @@ export function ResetPasswordForm({ token }: { token?: string }) {
               disabled={isLoading}
             >
               {isLoading
-                ? t("actions.loading")
+                ? t("common.statuses.loading")
                 : t("auth.resetpassword.submitButton")}
             </Button>
           </form>

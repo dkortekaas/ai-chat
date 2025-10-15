@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { toast } from "@/components/ui/use-toast";
 import {
@@ -38,6 +39,7 @@ export function MembersList({
   onEditMember,
 }: MembersListProps) {
   const t = useTranslations();
+  const { data: session } = useSession();
   const [members, setMembers] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -161,13 +163,15 @@ export function MembersList({
   };
 
   const getStatusText = (isActive: boolean) => {
-    return isActive ? t("common.status.active") : t("common.status.inactive");
+    return isActive
+      ? t("common.statuses.active")
+      : t("common.statuses.inactive");
   };
 
   if (loading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <div className="text-gray-500">{t("common.loading")}</div>
+        <div className="text-gray-500">{t("common.statuses.loading")}</div>
       </div>
     );
   }
@@ -268,15 +272,17 @@ export function MembersList({
                         <Pencil className="w-4 h-4 mr-2" />
                         {t("common.edit")}
                       </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() =>
-                          handleDeleteMember(member.id, member.name)
-                        }
-                        className="text-red-600"
-                      >
-                        <Trash className="w-4 h-4 mr-2" />
-                        {t("common.remove")}
-                      </DropdownMenuItem>
+                      {member.id !== session?.user?.id && (
+                        <DropdownMenuItem
+                          onClick={() =>
+                            handleDeleteMember(member.id, member.name)
+                          }
+                          className="text-red-600"
+                        >
+                          <Trash className="w-4 h-4 mr-2" />
+                          {t("common.remove")}
+                        </DropdownMenuItem>
+                      )}
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>

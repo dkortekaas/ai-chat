@@ -165,7 +165,9 @@ export function EditUserForm({ user, onSuccess, onCancel }: EditUserFormProps) {
             disabled={isSubmitting}
             className="bg-indigo-500 hover:bg-indigo-600"
           >
-            {isSubmitting ? t("common.status.processing") : t("actions.update")}
+            {isSubmitting
+              ? t("common.statuses.processing")
+              : t("actions.update")}
           </Button>
         </div>
       </form>

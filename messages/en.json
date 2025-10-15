@@ -76,10 +76,16 @@
       "menu": "Menu",
       "logout": "Logout"
     },
-    "status": {
+    "status": "Status",
+    "statuses": {
       "loading": "Loading...",
-      "processing": "Processing..."
+      "processing": "Processing...",
+      "pending": "Pending",
+      "cancelled": "Cancelled",
+      "accepted": "Accepted",
+      "expired": "Expired"
     },
+    "sending": "Sending...",
     "verifying": "Verifying...",
     "verify": "Verify",
     "noChanges": "No changes",
@@ -96,7 +102,17 @@
     "yearsAgo": "years ago",
     "never": "Never",
     "duplicate": "Duplicate",
-    "settings": "Settings"
+    "settings": "Settings",
+    "uploading": "Uploading...",
+    "role": "Role",
+    "roles": {
+      "user": "User",
+      "admin": "Admin",
+      "superuser": "Super User"
+    },
+    "email": "Email",
+    "sentBy": "Sent By",
+    "sentAt": "Sent At"
   },
   "error": {
     "emailInvalid": "Please enter a valid email address",
@@ -374,6 +390,7 @@
     "deleteActionButton": "Delete Action Button",
     "deleteActionButtonDescription": "Are you sure you want to delete this action button?",
     "lookAndFeel": "Look & Feel",
+    "personality": "Personality",
     "forms": "Forms",
     "integrations": "Integrations",
     "widget": "Widget",
@@ -535,6 +552,22 @@
     },
     "totalUsers": "Total Users"
   },
+  "website": {
+    "notFound": "Not found",
+    "notFoundDescription": "Page not found",
+    "scrapeNow": "Scrape now",
+    "scraping": "Scraping...",
+    "pageScraped": "Page scraped",
+    "lastSync": "Last sync",
+    "syncInterval": "Sync interval"
+  },
+  "websites": {
+    "title": "Websites",
+    "description": "View and manage all your websites",
+    "subtitle": "Total websites this period",
+    "empty": "No websites yet",
+    "loading": "Loading websites..."
+  },
   "conversations": {
     "title": "Conversations",
     "description": "View and manage all your customer conversations",
@@ -670,10 +703,21 @@
     "configureYourAISettings": "Configure your AI assistant settings",
     "basicInformation": "Basic Information",
     "lookAndFeel": "Look and Feel",
+    "personality": "Personality",
     "actionButtons": "Action Buttons",
     "forms": "Forms",
     "integrations": "Integrations",
     "widget": "Widget",
+    "personalityPrompts": "Personality Prompts",
+    "personalityPromptsDescription": "Set up instructions to guide your assistant's objectives and behavior",
+    "mainPrompt": "Main Prompt",
+    "mainPromptInstructions": "Define the core behavior and personality of your assistant",
+    "enterMainPrompt": "Enter your main prompt instructions...",
+    "resetToDefault": "Reset to default",
+    "snippetExamples": "Snippet Examples",
+    "insert": "Insert",
+    "personalitySettingsSaved": "Personality settings saved successfully",
+    "failedToSavePersonalitySettings": "Failed to save personality settings",
     "configureTheBasicSettingsForYourAssistant": "Configure the basic settings for your assistant",
     "enterAssistantName": "Enter assistant name",
     "enterAssistantDescription": "Enter assistant description",
@@ -767,6 +811,9 @@
       "subscription": "Subscription",
       "team": "Team"
     },
+    "pendingInvitations": "Pending Invitations",
+    "pending": "Pending",
+    "cancelInvitation": "Cancel Invitation",
     "personalDetails": "Personal Details",
     "newPassword": "New Password",
     "confirmPassword": "Confirm Password",
@@ -779,7 +826,15 @@
     "currentPassword": "Current Password",
     "changeEmail": "Change Email",
     "myAccount": "My Account",
+    "inviteMember": "Invite Member",
+    "inviteMemberDescription": "Invite a member to your team",
+    "invitationSent": "Invitation sent",
+    "invitationSentDescription": "Invitation sent to {email}",
+    "sendInvitation": "Send Invitation",
     "team": {
+      "title": "Team",
+      "invite": "Invite Member",
+      "invitations": "Invitations",
       "memberDeleted": "Member deleted successfully",
       "noMembersFound": "No members found",
       "noMembersDescription": "No team members have been added yet",

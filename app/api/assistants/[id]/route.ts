@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { db } from "@/lib/db";
 
 export async function GET(
   request: NextRequest,
@@ -16,21 +14,23 @@ export async function GET(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Debug: Check if user exists in database
-    const userExists = await prisma.user.findUnique({
+    // Load current user for company scoping
+    const currentUser = await db.user.findUnique({
       where: { id: session.user.id },
+      select: { id: true, role: true, companyId: true },
     });
 
-    if (!userExists) {
+    if (!currentUser) {
       console.error("User not found in database:", session.user.id);
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     const { id } = await params;
-    const assistant = await prisma.chatbotSettings.findFirst({
+    // Allow read if assistant owner belongs to same company
+    const assistant = await db.chatbotSettings.findFirst({
       where: {
         id,
-        userId: session.user.id,
+        users: { companyId: currentUser.companyId },
       },
     });
 
@@ -62,12 +62,13 @@ export async function PUT(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Debug: Check if user exists in database
-    const userExists = await prisma.user.findUnique({
+    // Load current user for company scoping
+    const currentUser = await db.user.findUnique({
       where: { id: session.user.id },
+      select: { id: true, role: true, companyId: true },
     });
 
-    if (!userExists) {
+    if (!currentUser) {
       console.error("User not found in database:", session.user.id);
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
@@ -90,6 +91,7 @@ export async function PUT(
       maxResponseLength,
       temperature,
       fallbackMessage,
+      mainPrompt,
       position,
       showBranding,
       isActive,
@@ -97,11 +99,11 @@ export async function PUT(
       rateLimit,
     } = body;
 
-    // Check if assistant exists and belongs to user
-    const existingAssistant = await prisma.chatbotSettings.findFirst({
+    // Check if assistant exists and belongs to same company
+    const existingAssistant = await db.chatbotSettings.findFirst({
       where: {
         id,
-        userId: session.user.id,
+        users: { companyId: currentUser.companyId },
       },
     });
 
@@ -112,12 +114,20 @@ export async function PUT(
       );
     }
 
+    // Only ADMINs can update
+    if (currentUser.role !== "ADMIN") {
+      return NextResponse.json(
+        { error: "Forbidden - Admin access required" },
+        { status: 403 }
+      );
+    }
+
     // Validate required fields
     if (!name) {
       return NextResponse.json({ error: "Name is required" }, { status: 400 });
     }
 
-    const assistant = await prisma.chatbotSettings.update({
+    const assistant = await db.chatbotSettings.update({
       where: {
         id,
       },
@@ -137,6 +147,7 @@ export async function PUT(
         maxResponseLength,
         temperature,
         fallbackMessage,
+        mainPrompt,
         position,
         showBranding,
         isActive,
@@ -167,22 +178,23 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Debug: Check if user exists in database
-    const userExists = await prisma.user.findUnique({
+    // Load current user for company scoping
+    const currentUser = await db.user.findUnique({
       where: { id: session.user.id },
+      select: { id: true, role: true, companyId: true },
     });
 
-    if (!userExists) {
+    if (!currentUser) {
       console.error("User not found in database:", session.user.id);
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     const { id } = await params;
-    // Check if assistant exists and belongs to user
-    const existingAssistant = await prisma.chatbotSettings.findFirst({
+    // Check if assistant exists and belongs to same company
+    const existingAssistant = await db.chatbotSettings.findFirst({
       where: {
         id,
-        userId: session.user.id,
+        users: { companyId: currentUser.companyId },
       },
     });
 
@@ -193,8 +205,16 @@ export async function DELETE(
       );
     }
 
+    // Only ADMINs can delete
+    if (currentUser.role !== "ADMIN") {
+      return NextResponse.json(
+        { error: "Forbidden - Admin access required" },
+        { status: 403 }
+      );
+    }
+
     // Delete assistant (this will cascade delete all related data)
-    await prisma.chatbotSettings.delete({
+    await db.chatbotSettings.delete({
       where: {
         id,
       },

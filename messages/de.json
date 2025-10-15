@@ -780,6 +780,9 @@
     "changeEmail": "E-Mail ändern",
     "myAccount": "Mein Konto",
     "team": {
+      "title": "Team",
+      "invite": "Mitglied einladen",
+      "invitations": "Einladungen",
       "memberDeleted": "Mitglied erfolgreich gelöscht",
       "noMembersFound": "Keine Mitglieder gefunden",
       "noMembersDescription": "Es wurden noch keine Teammitglieder hinzugefügt",

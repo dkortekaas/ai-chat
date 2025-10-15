@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { PrismaClient } from "@prisma/client";
 import { writeFile, mkdir, readFile } from "fs/promises";
 import { join } from "path";
 import { existsSync } from "fs";
@@ -12,8 +11,7 @@ import {
   EMBEDDINGS_ENABLED,
 } from "@/lib/openai";
 import * as mammoth from "mammoth";
-
-const prisma = new PrismaClient();
+import { db } from "@/lib/db";
 
 // GET /api/files - Get all files
 export async function GET(request: NextRequest) {
@@ -33,9 +31,25 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Verify the assistant belongs to the current user
-    const assistant = await prisma.chatbotSettings.findFirst({
-      where: { id: assistantId, userId: session.user.id },
+    // Load current user with company for scoping
+    const currentUser = await db.user.findUnique({
+      where: { id: session.user.id },
+      select: { id: true, companyId: true },
+    });
+
+    if (!currentUser) {
+      console.error("User not found in database:", session.user.id);
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    // Verify the assistant belongs to the company
+    const assistant = await db.chatbotSettings.findFirst({
+      where: {
+        id: assistantId,
+        users: {
+          companyId: currentUser.companyId,
+        },
+      },
     });
 
     if (!assistant) {
@@ -45,11 +59,8 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const files = await prisma.knowledgeFile.findMany({
-      where: { assistantId, userId: session.user.id } as Record<
-        string,
-        unknown
-      >,
+    const files = await db.knowledgeFile.findMany({
+      where: { assistantId } as Record<string, unknown>,
       orderBy: { createdAt: "desc" },
     });
 
@@ -87,9 +98,25 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Verify the assistant belongs to the current user
-    const assistant = await prisma.chatbotSettings.findFirst({
-      where: { id: assistantId, userId: session.user.id },
+    // Load current user with company for scoping
+    const currentUser = await db.user.findUnique({
+      where: { id: session.user.id },
+      select: { id: true, companyId: true },
+    });
+
+    if (!currentUser) {
+      console.error("User not found in database:", session.user.id);
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    // Verify the assistant belongs to the company
+    const assistant = await db.chatbotSettings.findFirst({
+      where: {
+        id: assistantId,
+        users: {
+          companyId: currentUser.companyId,
+        },
+      },
     });
 
     if (!assistant) {
@@ -147,7 +174,7 @@ export async function POST(request: NextRequest) {
 
     // Save file info to database
     const knowledgeFile = await (
-      prisma.knowledgeFile as unknown as {
+      db.knowledgeFile as unknown as {
         create: (args: unknown) => Promise<unknown>;
       }
     ).create({
@@ -226,7 +253,7 @@ async function processDocumentForAI(
         );
       } catch (error) {
         console.error(`Error parsing PDF ${originalName}:`, error);
-        await prisma.knowledgeFile.update({
+        await db.knowledgeFile.update({
           where: { id: fileId },
           data: {
             status: "ERROR",
@@ -253,7 +280,7 @@ async function processDocumentForAI(
         }
       } catch (error) {
         console.error(`Error parsing Word document ${originalName}:`, error);
-        await prisma.knowledgeFile.update({
+        await db.knowledgeFile.update({
           where: { id: fileId },
           data: {
             status: "ERROR",
@@ -267,7 +294,7 @@ async function processDocumentForAI(
       console.warn(
         `File type ${mimeType} not yet supported for text extraction`
       );
-      await prisma.knowledgeFile.update({
+      await db.knowledgeFile.update({
         where: { id: fileId },
         data: {
           status: "ERROR",
@@ -278,7 +305,7 @@ async function processDocumentForAI(
     }
 
     if (!contentText || contentText.trim().length === 0) {
-      await prisma.knowledgeFile.update({
+      await db.knowledgeFile.update({
         where: { id: fileId },
         data: {
           status: "ERROR",
@@ -303,7 +330,7 @@ async function processDocumentForAI(
     }
 
     // Create a document entry in the documents table
-    const document = await prisma.document.create({
+    const document = await db.document.create({
       data: {
         name: originalName,
         originalName: originalName,
@@ -333,7 +360,7 @@ async function processDocumentForAI(
     });
 
     if (chunks.length === 0) {
-      await prisma.document.update({
+      await db.document.update({
         where: { id: document.id },
         data: {
           status: "FAILED",
@@ -341,7 +368,7 @@ async function processDocumentForAI(
         },
       });
 
-      await prisma.knowledgeFile.update({
+      await db.knowledgeFile.update({
         where: { id: fileId },
         data: { status: "ERROR" },
       });
@@ -367,7 +394,7 @@ async function processDocumentForAI(
         // Save chunks in batches
         for (const chunk of documentChunks) {
           await (
-            prisma.documentChunk as unknown as {
+            db.documentChunk as unknown as {
               create: (args: unknown) => Promise<unknown>;
             }
           ).create({
@@ -390,7 +417,7 @@ async function processDocumentForAI(
         // Still create chunks without embeddings
         for (const chunk of chunks) {
           await (
-            prisma.documentChunk as unknown as {
+            db.documentChunk as unknown as {
               create: (args: unknown) => Promise<unknown>;
             }
           ).create({
@@ -412,7 +439,7 @@ async function processDocumentForAI(
       // Create chunks without embeddings
       for (const chunk of chunks) {
         await (
-          prisma.documentChunk as unknown as {
+          db.documentChunk as unknown as {
             create: (args: unknown) => Promise<unknown>;
           }
         ).create({
@@ -432,7 +459,7 @@ async function processDocumentForAI(
     }
 
     // Update document status
-    await prisma.document.update({
+    await db.document.update({
       where: { id: document.id },
       data: {
         status: "COMPLETED",
@@ -449,7 +476,7 @@ async function processDocumentForAI(
     });
 
     // Update knowledge file status
-    await prisma.knowledgeFile.update({
+    await db.knowledgeFile.update({
       where: { id: fileId },
       data: {
         status: "COMPLETED",
@@ -466,7 +493,7 @@ async function processDocumentForAI(
 
     // Update both document and knowledge file status to failed
     try {
-      await prisma.knowledgeFile.update({
+      await db.knowledgeFile.update({
         where: { id: fileId },
         data: {
           status: "ERROR",

@@ -9,7 +9,7 @@ import { randomBytes } from "crypto";
 
 const createInvitationSchema = z.object({
   email: z.string().email(),
-  role: z.enum(["USER", "ADMIN"]),
+  role: z.enum(["USER", "ADMIN"]).optional().default("USER"),
 });
 
 export async function POST(req: NextRequest) {
@@ -89,7 +89,7 @@ export async function POST(req: NextRequest) {
     const invitation = await db.invitation.create({
       data: {
         email,
-        role,
+        role: role ?? "USER",
         token,
         expires: expiresAt,
         companyId: user.companyId!,
