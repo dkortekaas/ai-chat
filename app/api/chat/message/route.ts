@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { EMBEDDINGS_ENABLED } from "@/lib/openai";
-import { semanticSearch, hybridSearch } from "@/lib/VectorSearch";
+import {
+  EMBEDDINGS_ENABLED,
+  generateAIResponse,
+  getCachedOrGenerate,
+} from "@/lib/openai";
+import { searchRelevantContext, unifiedSearch } from "@/lib/search";
 import { z } from "zod";
 
 // CORS headers
@@ -127,11 +131,14 @@ export async function POST(request: NextRequest) {
       sessionId ||
       `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
-    // Search for relevant documents and FAQs
+    // Search for relevant information in all knowledge base tables
     let sources: any[] = [];
     let answer =
-      chatbotSettings.fallbackMessage ||
-      "Sorry, ik kan je vraag niet beantwoorden. Probeer het opnieuw.";
+      "Sorry, ik kan deze vraag niet beantwoorden op basis van de beschikbare informatie in onze knowledge base.";
+    let tokensUsed = 0;
+    let confidence = 0;
+    let finalTokensUsed = 0;
+    let assistantMessage: any = null;
 
     try {
       console.log("🔍 Searching for question:", question);
@@ -181,414 +188,147 @@ export async function POST(request: NextRequest) {
         }
       }
 
-      // 1. First, try to find FAQ matches (more flexible search)
-      const questionWords = question
-        .toLowerCase()
-        .split(" ")
-        .filter((word) => word.length > 2);
-      console.log("🔍 Searching for keywords:", questionWords);
-
-      const faqMatches = await db.fAQ.findMany({
-        where: {
-          assistantId: chatbotSettings.id,
-          enabled: true,
-          OR: [
-            // Exact match
-            {
-              question: {
-                contains: question,
-                mode: "insensitive" as const,
-              },
-            },
-            {
-              answer: {
-                contains: question,
-                mode: "insensitive" as const,
-              },
-            },
-            // Keyword matches
-            ...questionWords.map((word) => ({
-              question: {
-                contains: word,
-                mode: "insensitive" as const,
-              },
-            })),
-            ...questionWords.map((word) => ({
-              answer: {
-                contains: word,
-                mode: "insensitive" as const,
-              },
-            })),
-          ],
-        },
-        orderBy: { order: "asc" },
-        take: 5,
+      // Use comprehensive knowledge base search
+      console.log("🧠 Searching all knowledge base tables...");
+      console.log("🔍 Search parameters:", {
+        question: question,
+        assistantId: chatbotSettings.id,
+        limit: 8,
+        threshold: 0.5, // 50% minimum relevance voor unified search
+        useAI: EMBEDDINGS_ENABLED,
       });
 
-      console.log("📋 FAQ matches found:", faqMatches.length);
-      if (faqMatches.length > 0) {
-        // Find the best match based on relevance
-        let bestMatch = faqMatches[0];
-        let bestScore = 0;
+      const knowledgeResults = await searchRelevantContext(
+        question,
+        chatbotSettings.id,
+        {
+          limit: 8,
+          threshold: 0.5, // 50% minimum relevance
+        }
+      );
 
-        for (const faq of faqMatches) {
-          let score = 0;
-
-          // Check for exact question match
-          if (faq.question.toLowerCase().includes(question.toLowerCase())) {
-            score += 10;
-          }
-
-          // Check for exact answer match
-          if (faq.answer.toLowerCase().includes(question.toLowerCase())) {
-            score += 8;
-          }
-
-          // Check for keyword matches in question
-          const questionKeywords = questionWords.filter((word) =>
-            faq.question.toLowerCase().includes(word.toLowerCase())
+      console.log("📚 Found knowledge base results:", knowledgeResults.length);
+      if (knowledgeResults.length > 0) {
+        console.log("📋 Knowledge base results details:");
+        knowledgeResults.forEach((result, index) => {
+          console.log(`  ${index + 1}. [${result.type}] ${result.title}`);
+          console.log(`     Relevance: ${(result.score * 100).toFixed(1)}%`);
+          console.log(
+            `     Content preview: ${result.content.substring(0, 100)}...`
           );
-          score += questionKeywords.length * 3;
-
-          // Check for keyword matches in answer
-          const answerKeywords = questionWords.filter((word) =>
-            faq.answer.toLowerCase().includes(word.toLowerCase())
-          );
-          score += answerKeywords.length * 2;
-
-          // Check for specific contact-related keywords
-          const contactKeywords = [
-            "contact",
-            "telefoon",
-            "adres",
-            "email",
-            "bereik",
-            "bereikbaar",
-            "neem",
-            "op",
-          ];
-          const hasContactKeywords = contactKeywords.some(
-            (keyword) =>
-              question.toLowerCase().includes(keyword) &&
-              (faq.question.toLowerCase().includes(keyword) ||
-                faq.answer.toLowerCase().includes(keyword))
-          );
-          if (hasContactKeywords) {
-            score += 5;
-          }
-
-          if (score > bestScore) {
-            bestScore = score;
-            bestMatch = faq;
-          }
-        }
-
-        console.log(
-          "✅ Using FAQ match:",
-          bestMatch.question,
-          "Score:",
-          bestScore
-        );
-
-        // Only use FAQ if it has a reasonable score
-        if (bestScore >= 2) {
-          answer = bestMatch.answer;
-          sources = [
-            {
-              documentName: bestMatch.question,
-              documentType: "FAQ",
-              relevanceScore: Math.min(bestScore / 10, 1.0),
-            },
-          ];
-        } else {
-          console.log("❌ FAQ match score too low, trying other methods");
-        }
-      } else if (EMBEDDINGS_ENABLED) {
-        console.log("🧠 EMBEDDINGS_ENABLED:", EMBEDDINGS_ENABLED);
-        // 2. If no FAQ match, try vector search in documents
-        try {
-          const searchResults = await hybridSearch(question, {
-            limit: 5,
-            semanticWeight: 0.6,
-            documentTypes: ["URL", "PDF", "DOCX", "TXT"],
-          });
-
-          console.log("🔍 Vector search results:", searchResults.length);
-          if (searchResults.length > 0) {
-            console.log("✅ Using vector search results");
-            // Combine the most relevant chunks into an answer
-            const relevantChunks = searchResults.slice(0, 3);
-            const combinedContent = relevantChunks
-              .map((chunk) => chunk.content)
-              .join("\n\n")
-              .substring(0, 2000); // Limit to avoid token limits
-
-            answer = `Gebaseerd op onze documentatie:\n\n${combinedContent}`;
-
-            sources = searchResults.map((result) => ({
-              documentName: result.documentName,
-              documentType: result.documentType,
-              relevanceScore: result.similarity,
-              url: result.url,
-            }));
-          }
-        } catch (vectorError) {
-          console.error("❌ Vector search error:", vectorError);
-
-          // Try keyword search in websites/documents
-          console.log("🔍 Trying keyword search in documents...");
-          try {
-            const keywordResults = await db.document.findMany({
-              where: {
-                status: "COMPLETED",
-                type: { in: ["URL", "PDF", "DOCX", "TXT"] },
-                OR: questionWords.map((word) => ({
-                  name: {
-                    contains: word,
-                    mode: "insensitive" as const,
-                  },
-                })),
-              },
-              include: {
-                chunks: {
-                  where: {
-                    OR: questionWords.map((word) => ({
-                      content: {
-                        contains: word,
-                        mode: "insensitive" as const,
-                      },
-                    })),
-                  },
-                  take: 3,
-                },
-              },
-              take: 3,
-            });
-
-            if (keywordResults.length > 0) {
-              console.log(
-                "✅ Found documents with keyword matches:",
-                keywordResults.length
-              );
-              const relevantChunks = keywordResults
-                .flatMap((doc) => doc.chunks)
-                .slice(0, 3);
-
-              if (relevantChunks.length > 0) {
-                const combinedContent = relevantChunks
-                  .map((chunk) => chunk.content)
-                  .join("\n\n")
-                  .substring(0, 1500);
-
-                answer = `Gebaseerd op onze website content:\n\n${combinedContent}`;
-
-                sources = keywordResults.map((doc) => ({
-                  documentName: doc.name,
-                  documentType: doc.type,
-                  relevanceScore: 0.8,
-                  url: doc.url,
-                }));
-              }
-            }
-          } catch (keywordError) {
-            console.error("❌ Keyword search error:", keywordError);
-          }
-
-          // Fall back to simple keyword search in FAQs
-          const keywordFaqs = await db.fAQ.findMany({
-            where: {
-              assistantId: chatbotSettings.id,
-              enabled: true,
-              OR: [
-                {
-                  question: {
-                    contains: question.split(" ")[0], // Search for first word
-                    mode: "insensitive" as const,
-                  },
-                },
-              ],
-            },
-            take: 1,
-          });
-
-          if (keywordFaqs.length > 0) {
-            answer = keywordFaqs[0].answer;
-            sources = [
-              {
-                documentName: keywordFaqs[0].question,
-                documentType: "FAQ",
-                relevanceScore: 0.7,
-              },
-            ];
-          }
-        }
-      } else {
-        console.log("🔄 EMBEDDINGS disabled, using keyword search fallback");
-
-        // Try keyword search in documents first
-        console.log("🔍 Trying keyword search in documents...");
-        try {
-          const keywordResults = await db.document.findMany({
-            where: {
-              status: "COMPLETED",
-              type: { in: ["URL", "PDF", "DOCX", "TXT"] },
-              OR: questionWords.map((word) => ({
-                name: {
-                  contains: word,
-                  mode: "insensitive" as const,
-                },
-              })),
-            },
-            include: {
-              chunks: {
-                where: {
-                  OR: questionWords.map((word) => ({
-                    content: {
-                      contains: word,
-                      mode: "insensitive" as const,
-                    },
-                  })),
-                },
-                take: 3,
-              },
-            },
-            take: 3,
-          });
-
-          if (keywordResults.length > 0) {
-            console.log(
-              "✅ Found documents with keyword matches:",
-              keywordResults.length
-            );
-            const relevantChunks = keywordResults
-              .flatMap((doc) => doc.chunks)
-              .slice(0, 3);
-
-            if (relevantChunks.length > 0) {
-              const combinedContent = relevantChunks
-                .map((chunk) => chunk.content)
-                .join("\n\n")
-                .substring(0, 1500);
-
-              answer = `Gebaseerd op onze website content:\n\n${combinedContent}`;
-
-              sources = keywordResults.map((doc) => ({
-                documentName: doc.name,
-                documentType: doc.type,
-                relevanceScore: 0.8,
-                url: doc.url,
-              }));
-            }
-          }
-        } catch (keywordError) {
-          console.error("❌ Keyword search error:", keywordError);
-        }
-
-        // 3. Fallback: simple keyword search in FAQs if embeddings disabled
-        const keywordFaqs = await db.fAQ.findMany({
-          where: {
-            assistantId: chatbotSettings.id,
-            enabled: true,
-            OR: questionWords.map((word) => ({
-              question: {
-                contains: word,
-                mode: "insensitive" as const,
-              },
-            })),
-          },
-          take: 3,
+          if (result.url) console.log(`     URL: ${result.url}`);
         });
+      }
 
-        if (keywordFaqs.length > 0) {
-          // Find the best FAQ match using the same scoring logic
-          let bestFaq = keywordFaqs[0];
-          let bestScore = 0;
+      if (knowledgeResults.length > 0) {
+        // Use AI to generate response based on knowledge base context (with caching)
+        try {
+          console.log("🤖 Generating AI response...");
+          console.log("⚙️ AI Settings:", {
+            model: "gpt-4o-mini",
+            temperature: chatbotSettings.temperature || 0.7,
+            maxTokens: chatbotSettings.maxResponseLength || 500,
+            language: chatbotSettings.language || "nl",
+            tone: chatbotSettings.tone || "professional",
+            hasCustomPrompt: !!chatbotSettings.mainPrompt,
+          });
 
-          for (const faq of keywordFaqs) {
-            let score = 0;
+          const aiResponse = await getCachedOrGenerate(
+            question,
+            knowledgeResults
+          );
 
-            // Check for keyword matches in question
-            const questionKeywords = questionWords.filter((word) =>
-              faq.question.toLowerCase().includes(word.toLowerCase())
+          // Only accept AI response if confidence is high enough
+          // Lower threshold (0.3) to accept more responses, especially with text-based search
+          if (aiResponse.confidence >= 0.3) {
+            answer = aiResponse.answer;
+            tokensUsed = aiResponse.tokensUsed;
+            confidence = aiResponse.confidence;
+            sources = aiResponse.sources; // Sources komen al van de cache functie
+
+            console.log("✅ AI response accepted (high confidence)");
+            console.log("🎯 Final Answer:", answer);
+            console.log(
+              "📊 Confidence Score:",
+              (confidence * 100).toFixed(1) + "%"
             );
-            score += questionKeywords.length * 3;
-
-            // Check for specific contact-related keywords
-            const contactKeywords = [
-              "contact",
-              "telefoon",
-              "adres",
-              "email",
-              "bereik",
-              "bereikbaar",
-              "neem",
-              "op",
-            ];
-            const hasContactKeywords = contactKeywords.some(
-              (keyword) =>
-                question.toLowerCase().includes(keyword) &&
-                (faq.question.toLowerCase().includes(keyword) ||
-                  faq.answer.toLowerCase().includes(keyword))
+            console.log("🔢 Tokens Used:", tokensUsed);
+            console.log(
+              "📚 Sources Used:",
+              sources.length,
+              "sources with relevance:",
+              sources
+                .map((s) => `${(s.relevanceScore * 100).toFixed(0)}%`)
+                .join(", ")
             );
-            if (hasContactKeywords) {
-              score += 5;
-            }
-
-            if (score > bestScore) {
-              bestScore = score;
-              bestFaq = faq;
-            }
+          } else {
+            console.log(
+              "❌ AI response rejected (low confidence):",
+              (aiResponse.confidence * 100).toFixed(1) + "%"
+            );
+            console.log("🔄 Using fallback message instead");
+            // Keep the default fallback message
           }
+        } catch (aiError) {
+          console.error("❌ AI response generation failed:", aiError);
+          console.log("🔄 Falling back to best knowledge base result...");
 
-          if (bestScore >= 1) {
-            answer = bestFaq.answer;
+          // Fallback to best knowledge base result
+          const bestResult = knowledgeResults[0];
+          if (bestResult) {
+            answer = bestResult.content;
             sources = [
               {
-                documentName: bestFaq.question,
-                documentType: "FAQ",
-                relevanceScore: Math.min(bestScore / 10, 1.0),
+                documentName: bestResult.title,
+                documentType: bestResult.type,
+                relevanceScore: bestResult.score,
+                url: bestResult.url,
               },
             ];
+            confidence = bestResult.score;
+            console.log("✅ Using fallback result:", bestResult.title);
           }
         }
       }
 
-      // 4. Handle greeting messages
+      // If no knowledge base results found, don't provide fallback answers
+      if (knowledgeResults.length === 0) {
+        console.log(
+          "❌ No knowledge base results found - will use fallback message"
+        );
+        // Keep the original fallback message - don't try other methods
+      }
+
+      // Handle greeting messages - only if no knowledge base results found
       if (
-        question.toLowerCase().includes("hallo") ||
-        question.toLowerCase().includes("hello") ||
-        question.toLowerCase().includes("hi")
+        knowledgeResults.length === 0 &&
+        (question.toLowerCase().includes("hallo") ||
+          question.toLowerCase().includes("hello") ||
+          question.toLowerCase().includes("hi"))
       ) {
+        console.log(
+          "👋 Detected greeting message with no knowledge base results"
+        );
         answer =
           chatbotSettings.welcomeMessage || "Hallo! Hoe kan ik je helpen?";
         sources = [];
+        confidence = 1.0;
+        console.log("✅ Using welcome message");
       }
 
-      // 5. If no good answer found, provide a helpful fallback
+      // If no good answer found, provide a clear fallback message
       if (
         !answer ||
         answer ===
           "Sorry, ik kan deze vraag niet beantwoorden op basis van de beschikbare informatie."
       ) {
-        // Try to provide a more helpful response based on the question
-        if (
-          question.toLowerCase().includes("contact") ||
-          question.toLowerCase().includes("telefoon") ||
-          question.toLowerCase().includes("adres")
-        ) {
-          answer =
-            "Voor contactinformatie kunt u het beste direct contact opnemen met ons team. Ik kan u helpen met andere vragen over onze diensten.";
-        } else if (
-          question.toLowerCase().includes("prijs") ||
-          question.toLowerCase().includes("kost")
-        ) {
-          answer =
-            "Voor prijsinformatie kunt u het beste contact opnemen met ons team voor een offerte op maat.";
-        } else {
-          answer =
-            "Ik kan u helaas niet helpen met deze specifieke vraag. Probeer het anders te formuleren of neem contact op met ons team voor persoonlijke assistentie.";
-        }
+        console.log(
+          "❌ No suitable answer found, using knowledge base fallback"
+        );
+        answer =
+          "Sorry, ik kan deze vraag niet beantwoorden op basis van de beschikbare informatie in onze knowledge base. Neem contact op met ons team voor persoonlijke assistentie.";
         sources = [];
+        confidence = 0.1; // Very low confidence since no knowledge base info was found
       }
     } catch (searchError) {
       console.error("❌ Search error:", searchError);
@@ -601,7 +341,8 @@ export async function POST(request: NextRequest) {
     // Save conversation session and messages
     try {
       const startTime = Date.now();
-      const estimatedTokens = Math.ceil((question.length + answer.length) / 4); // Rough estimate
+      finalTokensUsed =
+        tokensUsed || Math.ceil((question.length + answer.length) / 4); // Use actual tokens or estimate
 
       // Get or create conversation session
       let conversationSession = await db.conversationSession.findUnique({
@@ -632,7 +373,7 @@ export async function POST(request: NextRequest) {
           data: {
             lastActivity: new Date(),
             messageCount: { increment: 2 }, // User message + assistant response
-            totalTokens: { increment: estimatedTokens },
+            totalTokens: { increment: finalTokensUsed },
           },
         });
       }
@@ -648,15 +389,15 @@ export async function POST(request: NextRequest) {
       });
 
       // Save assistant response
-      const assistantMessage = await db.conversationMessage.create({
+      assistantMessage = await db.conversationMessage.create({
         data: {
           sessionId: finalSessionId,
           messageType: "ASSISTANT",
           content: answer,
           responseTime: Date.now() - startTime,
-          tokensUsed: estimatedTokens,
-          model: "gpt-3.5-turbo", // TODO: Get actual model used
-          confidence: 0.8, // TODO: Calculate actual confidence
+          tokensUsed: finalTokensUsed,
+          model: "gpt-4o-mini", // Updated model
+          confidence: confidence,
           createdAt: new Date(),
         },
       });
@@ -693,10 +434,14 @@ export async function POST(request: NextRequest) {
         success: true,
         data: {
           conversationId: `conv_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          messageId: assistantMessage?.id || `msg_${Date.now()}`,
           answer,
           sources,
-          responseTime: Date.now(), // TODO: Calculate actual response time
+          responseTime: Date.now(),
           sessionId: finalSessionId,
+          confidence: confidence,
+          tokensUsed: finalTokensUsed,
+          feedbackEnabled: true, // Enable feedback for this response
         },
       },
       {

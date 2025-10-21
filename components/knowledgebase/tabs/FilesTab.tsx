@@ -100,7 +100,7 @@ export function BestandenTab() {
   };
 
   const handleViewFile = (file: KnowledgeFile) => {
-    router.push(`/documents/${file.id}`);
+    router.push(`/knowledgebase/files/${file.id}`);
   };
 
   const handleDeleteFile = (file: KnowledgeFile) => {

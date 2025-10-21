@@ -165,6 +165,7 @@ model ConversationMessage {
   confidence     Float?
   createdAt      DateTime             @default(now())
   sources        ConversationSource[]
+  feedback       MessageFeedback?
   session        ConversationSession  @relation(fields: [sessionId], references: [sessionId], onDelete: Cascade)
 
   @@index([sessionId])
@@ -575,4 +576,105 @@ enum MessageType {
   USER
   ASSISTANT
   SYSTEM
+}
+
+model MessageFeedback {
+  id        String   @id @default(cuid())
+  messageId String
+  sessionId String
+  rating    FeedbackRating
+  feedback  String?
+  userAgent String?
+  ipAddress String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  message ConversationMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@unique([messageId])
+  @@index([rating])
+  @@index([createdAt])
+  @@map("message_feedback")
+}
+
+model PoorResponseAnalysis {
+  id              String                @id @default(cuid())
+  messageId       String
+  sessionId       String
+  originalQuestion String
+  originalAnswer  String
+  userFeedback    String?
+  confidence      Float?
+  tokensUsed      Int?
+  model           String?
+  sourcesUsed     Int
+  analysisStatus  AnalysisStatus        @default(PENDING)
+  suggestionsCount Int?
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  // Relations
+  suggestions     ImprovementSuggestion[]
+
+  @@index([analysisStatus])
+  @@index([createdAt])
+  @@map("poor_response_analysis")
+}
+
+model ImprovementSuggestion {
+  id          String           @id @default(cuid())
+  analysisId  String
+  type        SuggestionType
+  description String
+  priority    SuggestionPriority @default(MEDIUM)
+  status      SuggestionStatus @default(PENDING)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  // Relations
+  analysis    PoorResponseAnalysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+
+  @@index([analysisId])
+  @@index([type])
+  @@index([priority])
+  @@index([status])
+  @@map("improvement_suggestions")
+}
+
+enum FeedbackRating {
+  THUMBS_UP
+  THUMBS_DOWN
+}
+
+enum AnalysisStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+enum SuggestionType {
+  LOW_CONFIDENCE
+  NO_SOURCES
+  INSUFFICIENT_SOURCES
+  TOO_SHORT
+  TOO_LONG
+  IRRELEVANT_CONTENT
+  INCOMPLETE_ANSWER
+  POOR_KNOWLEDGE_BASE
+  SYSTEM_ERROR
+}
+
+enum SuggestionPriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum SuggestionStatus {
+  PENDING
+  REVIEWED
+  IMPLEMENTED
+  DISMISSED
 }

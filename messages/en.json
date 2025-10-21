@@ -559,7 +559,15 @@
     "scraping": "Scraping...",
     "pageScraped": "Page scraped",
     "lastSync": "Last sync",
-    "syncInterval": "Sync interval"
+    "syncInterval": "Sync interval",
+    "pagesScraped": "Pages scraped",
+    "syncStatus": "Sync status",
+    "runNow": "Run now",
+    "scrapedContent": "Scraped content",
+    "scrapedLinks": "Scraped links",
+    "foundLinks": "Found links",
+    "individualPages": "Individual pages",
+    "linksFound": "Links found"
   },
   "websites": {
     "title": "Websites",
@@ -1018,7 +1026,22 @@
     "startedAt": "Started At",
     "duration": "Duration",
     "path": "Path",
-    "downloadedAt": "Downloaded At"
+    "downloadedAt": "Downloaded At",
+    "fileNotFound": "File not found",
+    "content": "Content",
+    "fileInformation": "File Information",
+    "fileName": "File Name",
+    "mimeType": "MIME Type",
+    "uploadedAt": "Uploaded At",
+    "processingStatus": "Processing Status",
+    "lastUpdated": "Last Updated",
+    "wordCount": "Word Count",
+    "chunks": "Chunks",
+    "embeddings": "Embeddings",
+    "fileContent": "File Content",
+    "words": "words",
+    "noContentAvailable": "No content available",
+    "title": "Title"
   },
   "status": {
     "active": "Active",

@@ -5,13 +5,24 @@ import { writeFile, mkdir, readFile } from "fs/promises";
 import { join } from "path";
 import { existsSync } from "fs";
 import { chunkText } from "@/lib/chunking";
-import {
-  generateEmbeddings,
-  estimateTokens,
-  EMBEDDINGS_ENABLED,
-} from "@/lib/openai";
+import { estimateTokens, EMBEDDINGS_ENABLED } from "@/lib/openai";
+import { generateBatchEmbeddings } from "@/lib/embedding-service";
 import * as mammoth from "mammoth";
 import { db } from "@/lib/db";
+
+/**
+ * Sanitize text to remove problematic Unicode characters
+ * Fixes "lone surrogate" errors when saving to database
+ */
+function sanitizeText(text: string): string {
+  // Remove or replace lone surrogates and other problematic characters
+  return text
+    .replace(/[\uD800-\uDFFF]/g, "") // Remove lone surrogates
+    .replace(/\uFFFD/g, "") // Remove replacement character
+    .replace(/[\u0000-\u0008\u000B-\u000C\u000E-\u001F\u007F-\u009F]/g, "") // Remove control characters
+    .replace(/\r\n/g, "\n") // Normalize line endings
+    .replace(/\r/g, "\n"); // Normalize line endings
+}
 
 // GET /api/files - Get all files
 export async function GET(request: NextRequest) {
@@ -378,14 +389,14 @@ async function processDocumentForAI(
     // Generate embeddings if enabled
     if (EMBEDDINGS_ENABLED && process.env.OPENAI_API_KEY) {
       try {
-        const chunkTexts = chunks.map((chunk) => chunk.content);
-        const embeddings = await generateEmbeddings(chunkTexts);
+        const chunkTexts = chunks.map((chunk) => sanitizeText(chunk.content));
+        const embeddings = await generateBatchEmbeddings(chunkTexts);
 
         // Create document chunks with embeddings
         const documentChunks = chunks.map((chunk, index) => ({
           documentId: document.id,
           chunkIndex: chunk.chunkIndex,
-          content: chunk.content,
+          content: sanitizeText(chunk.content),
           embedding: embeddings[index],
           tokenCount: estimateTokens(chunk.content),
           metadata: chunk.metadata,
@@ -424,7 +435,7 @@ async function processDocumentForAI(
             data: {
               documentId: document.id,
               chunkIndex: chunk.chunkIndex,
-              content: chunk.content,
+              content: sanitizeText(chunk.content),
               tokenCount: estimateTokens(chunk.content),
               metadata: chunk.metadata,
             },
@@ -446,7 +457,7 @@ async function processDocumentForAI(
           data: {
             documentId: document.id,
             chunkIndex: chunk.chunkIndex,
-            content: chunk.content,
+            content: sanitizeText(chunk.content),
             tokenCount: estimateTokens(chunk.content),
             metadata: chunk.metadata,
           },

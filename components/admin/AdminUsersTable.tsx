@@ -206,7 +206,7 @@ export function AdminUsersTable() {
       setEditForm({});
       fetchUsers();
     } catch (error) {
-      logger.error("Error updating user:", error as Error);
+      logger.error("Error updating user:", { error: error as Error });
       toast({
         title: "Error",
         description: "Failed to update user",
@@ -248,7 +248,7 @@ export function AdminUsersTable() {
 
       fetchUsers();
     } catch (error) {
-      logger.error("Error deleting user:", error as Error);
+      logger.error("Error deleting user:", { error: error as Error });
       toast({
         title: "Error",
         description: "Failed to delete user",
