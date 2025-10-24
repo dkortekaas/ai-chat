@@ -58,8 +58,12 @@ class LRUCache<K, V> {
     // Evict oldest entry if cache is full
     if (this.cache.size > this.maxSize) {
       const firstKey = this.cache.keys().next().value;
-      this.cache.delete(firstKey);
-      console.log(`🗑️ LRU cache evicted oldest entry (size: ${this.cache.size}/${this.maxSize})`);
+      if (firstKey !== undefined) {
+        this.cache.delete(firstKey);
+        console.log(
+          `🗑️ LRU cache evicted oldest entry (size: ${this.cache.size}/${this.maxSize})`
+        );
+      }
     }
   }
 
@@ -84,7 +88,7 @@ class LRUCache<K, V> {
       }
     }
 
-    keysToDelete.forEach(key => this.cache.delete(key));
+    keysToDelete.forEach((key) => this.cache.delete(key));
 
     if (keysToDelete.length > 0) {
       console.log(`🧹 Cleaned ${keysToDelete.length} expired cache entries`);
@@ -96,7 +100,7 @@ class LRUCache<K, V> {
 const responseCache = new LRUCache<string, CachedResponse>(10000, 3600000);
 
 // Periodically clean expired entries (every 10 minutes)
-if (typeof setInterval !== 'undefined') {
+if (typeof setInterval !== "undefined") {
   setInterval(() => {
     responseCache.cleanExpired((value) => value.timestamp);
   }, 600000); // 10 minutes
@@ -508,13 +512,16 @@ Antwoord:`;
 
   if (systemPrompt) {
     // User has a custom mainPrompt (personality) - combine it with context instructions
-    console.log("✅ Using custom mainPrompt (personality) combined with context instructions");
+    console.log(
+      "✅ Using custom mainPrompt (personality) combined with context instructions"
+    );
     finalSystemPrompt = `${systemPrompt}
 
 ${contextInstructions}`;
   } else {
     // No custom prompt - use default personality + context instructions
-    const defaultPersonality = "Je bent een behulpzame AI-assistent die vragen beantwoordt op basis van de gegeven context informatie.";
+    const defaultPersonality =
+      "Je bent een behulpzame AI-assistent die vragen beantwoordt op basis van de gegeven context informatie.";
     finalSystemPrompt = `${defaultPersonality}
 
 ${contextInstructions}`;
