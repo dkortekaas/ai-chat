@@ -14,21 +14,24 @@ const feedbackSchema = z.object({
 });
 
 export async function POST(request: NextRequest) {
+  // Get origin early for CORS headers in error cases
+  const origin = request.headers.get("origin");
+  let corsHeaders = getCorsHeaders(origin, []);
+
   try {
     const body = await request.json();
     const { messageId, sessionId, rating, feedback, userAgent, ipAddress } =
       feedbackSchema.parse(body);
 
-    // Get API key and origin from headers
+    // Get API key from headers
     const apiKey = request.headers.get("X-Chatbot-API-Key");
-    const origin = request.headers.get("origin");
 
     if (!apiKey) {
       return NextResponse.json(
         { success: false, error: "Missing API key" },
         {
           status: 401,
-          headers: getCorsHeaders(origin, []),
+          headers: corsHeaders,
         }
       );
     }
@@ -47,14 +50,17 @@ export async function POST(request: NextRequest) {
         { success: false, error: "Invalid API key" },
         {
           status: 401,
-          headers: getCorsHeaders(origin, []),
+          headers: corsHeaders,
         }
       );
     }
 
     // Validate CORS origin against allowed domains
-    const corsError = validateCorsOrigin(origin, chatbotSettings.allowedDomains);
-    const corsHeaders = getCorsHeaders(origin, chatbotSettings.allowedDomains);
+    const corsError = validateCorsOrigin(
+      origin,
+      chatbotSettings.allowedDomains
+    );
+    corsHeaders = getCorsHeaders(origin, chatbotSettings.allowedDomains);
 
     if (corsError) {
       return NextResponse.json(
