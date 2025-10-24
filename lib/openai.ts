@@ -396,10 +396,9 @@ ${item.content}
     };
   }
 
-  // Improved system prompt - less restrictive, more natural
-  const defaultSystemPrompt = `Je bent een behulpzame AI-assistent die vragen beantwoordt op basis van de gegeven context informatie.
-
-BELANGRIJKE RICHTLIJNEN:
+  // Build context-based answering instructions
+  const contextInstructions = `
+BELANGRIJKE RICHTLIJNEN VOOR ANTWOORDEN:
 1. Baseer je antwoord op de informatie in de onderstaande context
 2. Geef duidelijke, volledige antwoorden in natuurlijke taal
 3. Als de context het antwoord bevat, beantwoord de vraag dan direct en compleet
@@ -426,7 +425,22 @@ Vraag: ${question}
 
 Antwoord:`;
 
-  const finalSystemPrompt = systemPrompt || defaultSystemPrompt;
+  // Combine custom personality prompt with context instructions
+  let finalSystemPrompt: string;
+
+  if (systemPrompt) {
+    // User has a custom mainPrompt (personality) - combine it with context instructions
+    console.log("✅ Using custom mainPrompt (personality) combined with context instructions");
+    finalSystemPrompt = `${systemPrompt}
+
+${contextInstructions}`;
+  } else {
+    // No custom prompt - use default personality + context instructions
+    const defaultPersonality = "Je bent een behulpzame AI-assistent die vragen beantwoordt op basis van de gegeven context informatie.";
+    finalSystemPrompt = `${defaultPersonality}
+
+${contextInstructions}`;
+  }
 
   try {
     const completion = await openai.chat.completions.create({
