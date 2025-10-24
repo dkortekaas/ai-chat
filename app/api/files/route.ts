@@ -9,6 +9,7 @@ import { estimateTokens, EMBEDDINGS_ENABLED } from "@/lib/openai";
 import { generateBatchEmbeddings } from "@/lib/embedding-service";
 import * as mammoth from "mammoth";
 import { db } from "@/lib/db";
+import { randomBytes } from "crypto";
 
 /**
  * Sanitize text to remove problematic Unicode characters
@@ -172,10 +173,10 @@ export async function POST(request: NextRequest) {
       await mkdir(filesDir, { recursive: true });
     }
 
-    // Generate unique filename
+    // Generate unique filename - use crypto for security
     const timestamp = Date.now();
     const fileExtension = file.name.split(".").pop();
-    const fileName = `${timestamp}-${Math.random().toString(36).substring(2)}.${fileExtension}`;
+    const fileName = `${timestamp}-${randomBytes(8).toString("hex")}.${fileExtension}`;
     const filePath = join(filesDir, fileName);
 
     // Save file to filesystem
@@ -402,19 +403,14 @@ async function processDocumentForAI(
           metadata: chunk.metadata,
         }));
 
-        // Save chunks in batches
-        for (const chunk of documentChunks) {
-          await (
-            db.documentChunk as unknown as {
-              create: (args: unknown) => Promise<unknown>;
-            }
-          ).create({
-            data: {
-              ...chunk,
-              metadata: chunk.metadata,
-            },
-          });
-        }
+        // Batch insert all chunks at once for better performance
+        await (
+          db.documentChunk as unknown as {
+            createMany: (args: unknown) => Promise<unknown>;
+          }
+        ).createMany({
+          data: documentChunks,
+        });
 
         console.log(
           `Created ${chunks.length} chunks with embeddings for document: ${originalName}`
@@ -425,44 +421,44 @@ async function processDocumentForAI(
           embeddingError
         );
 
-        // Still create chunks without embeddings
-        for (const chunk of chunks) {
-          await (
-            db.documentChunk as unknown as {
-              create: (args: unknown) => Promise<unknown>;
-            }
-          ).create({
-            data: {
-              documentId: document.id,
-              chunkIndex: chunk.chunkIndex,
-              content: sanitizeText(chunk.content),
-              tokenCount: estimateTokens(chunk.content),
-              metadata: chunk.metadata,
-            },
-          });
-        }
+        // Still create chunks without embeddings (batch insert)
+        const documentChunks = chunks.map((chunk) => ({
+          documentId: document.id,
+          chunkIndex: chunk.chunkIndex,
+          content: sanitizeText(chunk.content),
+          tokenCount: estimateTokens(chunk.content),
+          metadata: chunk.metadata,
+        }));
+
+        await (
+          db.documentChunk as unknown as {
+            createMany: (args: unknown) => Promise<unknown>;
+          }
+        ).createMany({
+          data: documentChunks,
+        });
 
         console.log(
           `Created ${chunks.length} chunks without embeddings for document: ${originalName}`
         );
       }
     } else {
-      // Create chunks without embeddings
-      for (const chunk of chunks) {
-        await (
-          db.documentChunk as unknown as {
-            create: (args: unknown) => Promise<unknown>;
-          }
-        ).create({
-          data: {
-            documentId: document.id,
-            chunkIndex: chunk.chunkIndex,
-            content: sanitizeText(chunk.content),
-            tokenCount: estimateTokens(chunk.content),
-            metadata: chunk.metadata,
-          },
-        });
-      }
+      // Create chunks without embeddings (batch insert)
+      const documentChunks = chunks.map((chunk) => ({
+        documentId: document.id,
+        chunkIndex: chunk.chunkIndex,
+        content: sanitizeText(chunk.content),
+        tokenCount: estimateTokens(chunk.content),
+        metadata: chunk.metadata,
+      }));
+
+      await (
+        db.documentChunk as unknown as {
+          createMany: (args: unknown) => Promise<unknown>;
+        }
+      ).createMany({
+        data: documentChunks,
+      });
 
       console.log(
         `Created ${chunks.length} chunks without embeddings for document: ${originalName}`

@@ -2,9 +2,24 @@
 import crypto from "crypto";
 import { logger } from "@/lib/logger";
 
-// Use environment variables for your production app
-const ENCRYPTION_KEY =
-  process.env.ENCRYPTION_KEY || "your-32-character-encryption-key-here";
+// Encryption key MUST be set in environment variables
+const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY;
+
+// Validate encryption key on module load
+if (!ENCRYPTION_KEY) {
+  throw new Error(
+    "ENCRYPTION_KEY environment variable is required for encryption. " +
+    "Generate a secure key with: openssl rand -hex 32"
+  );
+}
+
+if (ENCRYPTION_KEY.length < 32) {
+  throw new Error(
+    "ENCRYPTION_KEY must be at least 32 characters long. " +
+    "Current length: " + ENCRYPTION_KEY.length
+  );
+}
+
 const IV_LENGTH = 16; // For AES, this is always 16
 
 /**

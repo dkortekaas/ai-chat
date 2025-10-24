@@ -256,16 +256,14 @@ async function createDocumentChunksForPage(
       metadata: chunk.metadata,
     }));
 
-    // Save chunks in batches
-    for (const chunk of documentChunks) {
-      await (
-        prisma.documentChunk as unknown as {
-          create: (args: unknown) => Promise<unknown>;
-        }
-      ).create({
-        data: chunk,
-      });
-    }
+    // Batch insert all chunks at once for better performance
+    await (
+      prisma.documentChunk as unknown as {
+        createMany: (args: unknown) => Promise<unknown>;
+      }
+    ).createMany({
+      data: documentChunks,
+    });
 
     // Update document status
     await prisma.document.update({

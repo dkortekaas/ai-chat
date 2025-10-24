@@ -22,6 +22,74 @@ export interface SearchOptions {
 }
 
 /**
+ * Preprocess query to improve search results
+ * - Expands synonyms for better recall
+ * - Removes stop words
+ * - Normalizes text
+ */
+export function preprocessQuery(query: string): string {
+  let processed = query.toLowerCase().trim();
+
+  // Synoniemen expansie voor betere recall
+  const synonyms: Record<string, string[]> = {
+    prijs: ["kosten", "tarief", "prijzen", "betalen"],
+    werkt: ["functioneert", "werking", "functionaliteit", "gebruik"],
+    integratie: ["koppeling", "verbinding", "samenwerking", "connectie"],
+    contact: ["bereikbaar", "telefoon", "email", "adres"],
+    openingstijden: ["open", "uren", "tijd", "geopend"],
+    betalen: ["betaling", "factuur", "rekening", "kosten"],
+    installatie: ["installeren", "setup", "configuratie", "instellen"],
+    ondersteuning: ["support", "hulp", "assistentie", "service"],
+    account: ["gebruiker", "profiel", "inloggen", "registreren"],
+    download: ["downloaden", "bestand", "software", "app"],
+    bestelling: ["bestellen", "order", "aanvragen"],
+    product: ["producten", "artikel", "artikelen", "item"],
+    levering: ["leverancier", "verzending", "leveren", "transport"],
+    voorraad: ["stock", "inventaris", "beschikbaar"],
+  };
+
+  // Voeg synoniemen toe aan query voor betere matching
+  Object.entries(synonyms).forEach(([term, syns]) => {
+    if (processed.includes(term)) {
+      processed += " " + syns.join(" ");
+    }
+  });
+
+  // Verwijder stop words maar behoud context
+  const stopWords = [
+    "een",
+    "het",
+    "de",
+    "van",
+    "met",
+    "voor",
+    "aan",
+    "op",
+    "in",
+    "bij",
+    "naar",
+    "over",
+    "onder",
+    "tussen",
+    "door",
+    "zonder",
+    "tijdens",
+    "na",
+    "om",
+    "te",
+    "dat",
+    "die",
+    "dit",
+  ];
+
+  const words = processed.split(/\s+/).filter((word) => {
+    return word.length > 2 && !stopWords.includes(word);
+  });
+
+  return words.join(" ");
+}
+
+/**
  * Genereert een embedding vector voor een gegeven tekst
  * Gebruikt de OpenAI embedding service met fallback logica uit lib/embedding-service.ts
  */
@@ -736,6 +804,11 @@ export async function searchRelevantContext(
   assistantId: string,
   options: Partial<SearchOptions> = {}
 ): Promise<SearchResult[]> {
+  // Preprocess query voor betere zoekresultaten
+  const preprocessedQuery = preprocessQuery(query);
+  console.log(`🔍 Original query: "${query}"`);
+  console.log(`🔍 Preprocessed query: "${preprocessedQuery}"`);
+
   const searchOptions: SearchOptions = {
     assistantId,
     limit: 5,
@@ -743,8 +816,8 @@ export async function searchRelevantContext(
     ...options,
   };
 
-  // Gebruik unified search voor beste dekking
-  const results = await unifiedSearch(query, searchOptions);
+  // Gebruik unified search voor beste dekking met preprocessed query
+  const results = await unifiedSearch(preprocessedQuery, searchOptions);
 
   return results;
 }

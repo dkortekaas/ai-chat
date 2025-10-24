@@ -7,6 +7,7 @@ import {
 } from "@/lib/openai";
 import { searchRelevantContext, unifiedSearch } from "@/lib/search";
 import { z } from "zod";
+import { randomBytes } from "crypto";
 
 // CORS headers
 const corsHeaders = {
@@ -44,73 +45,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // For testing, try to get the first available assistant
+    // Lookup chatbot settings by API key
     let chatbotSettings;
-    if (
-      apiKey === "cbk_test_123456789" ||
-      apiKey === "8ae4530d-03fe-4128-9e91-47bc9d66c599"
-    ) {
-      try {
-        // Get the first available assistant for testing
-        const firstAssistant = await db.chatbotSettings.findFirst({
-          include: {
-            users: true,
-          },
-        });
-
-        if (firstAssistant) {
-          chatbotSettings = firstAssistant;
-        } else {
-          // Fallback to mock data if no assistant found
-          chatbotSettings = {
-            id: "test_chatbot",
-            name: "Test Bot",
-            welcomeMessage: "Welkom bij de test chatbot! Hoe kan ik je helpen?",
-            placeholderText: "Stel een test vraag...",
-            primaryColor: "#FF6B6B",
-            secondaryColor: "#FF5252",
-            position: "bottom-right",
-            showBranding: true,
-            fallbackMessage:
-              "Sorry, ik kan deze vraag niet beantwoorden op basis van de beschikbare informatie.",
-            isActive: true,
-            user: { id: "test_user" },
-          } as any;
-        }
-      } catch (error) {
-        console.error("Error fetching test assistant:", error);
-        // Fallback to mock data
-        chatbotSettings = {
-          id: "test_chatbot",
-          name: "Test Bot",
-          welcomeMessage: "Welkom bij de test chatbot! Hoe kan ik je helpen?",
-          placeholderText: "Stel een test vraag...",
-          primaryColor: "#FF6B6B",
-          secondaryColor: "#FF5252",
-          position: "bottom-right",
-          showBranding: true,
-          fallbackMessage:
-            "Sorry, ik kan deze vraag niet beantwoorden op basis van de beschikbare informatie.",
-          isActive: true,
-          user: { id: "test_user" },
-        } as any;
-      }
-    } else {
-      // For real API keys, try database lookup
-      try {
-        chatbotSettings = await db.chatbotSettings.findUnique({
-          where: { apiKey },
-          include: {
-            users: true,
-          },
-        });
-      } catch (dbError) {
-        console.error("Database error:", dbError);
-        return NextResponse.json(
-          { success: false, error: "Database connection error" },
-          { status: 500 }
-        );
-      }
+    try {
+      chatbotSettings = await db.chatbotSettings.findUnique({
+        where: { apiKey },
+        include: {
+          users: true,
+        },
+      });
+    } catch (dbError) {
+      console.error("Database error:", dbError);
+      return NextResponse.json(
+        { success: false, error: "Database connection error" },
+        { status: 500, headers: corsHeaders }
+      );
     }
 
     if (!chatbotSettings || !chatbotSettings.isActive) {
@@ -126,10 +75,10 @@ export async function POST(request: NextRequest) {
     // Check rate limiting (basic implementation)
     // TODO: Implement proper rate limiting with Redis
 
-    // Generate session ID if not provided
+    // Generate session ID if not provided - use crypto for security
     const finalSessionId =
       sessionId ||
-      `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      `session_${randomBytes(16).toString("hex")}`;
 
     // Search for relevant information in all knowledge base tables
     let sources: any[] = [];
@@ -235,12 +184,20 @@ export async function POST(request: NextRequest) {
 
           const aiResponse = await getCachedOrGenerate(
             question,
-            knowledgeResults
+            knowledgeResults,
+            {
+              model: "gpt-4o-mini",
+              temperature: chatbotSettings.temperature || 0.7,
+              maxTokens: chatbotSettings.maxResponseLength || 500,
+              systemPrompt: chatbotSettings.mainPrompt || undefined,
+              language: chatbotSettings.language || "nl",
+              tone: chatbotSettings.tone || "professional",
+            }
           );
 
           // Only accept AI response if confidence is high enough
-          // Lower threshold (0.3) to accept more responses, especially with text-based search
-          if (aiResponse.confidence >= 0.3) {
+          // Raised threshold to 0.5 (50%) for better quality responses
+          if (aiResponse.confidence >= 0.5) {
             answer = aiResponse.answer;
             tokensUsed = aiResponse.tokensUsed;
             confidence = aiResponse.confidence;
@@ -433,8 +390,8 @@ export async function POST(request: NextRequest) {
       {
         success: true,
         data: {
-          conversationId: `conv_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-          messageId: assistantMessage?.id || `msg_${Date.now()}`,
+          conversationId: `conv_${randomBytes(16).toString("hex")}`,
+          messageId: assistantMessage?.id || `msg_${randomBytes(12).toString("hex")}`,
           answer,
           sources,
           responseTime: Date.now(),

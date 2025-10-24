@@ -47,6 +47,9 @@ model User {
   company               Company?           @relation(fields: [companyId], references: [id])
 
   @@index([isActive])
+  @@index([subscriptionStatus])
+  @@index([role])
+  @@index([companyId])
   @@map("users")
 }
 
@@ -66,6 +69,7 @@ model Account {
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
   @@map("accounts")
 }
 
@@ -76,6 +80,8 @@ model Session {
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([userId])
+  @@index([expires])
   @@map("sessions")
 }
 
@@ -124,6 +130,7 @@ model DocumentChunk {
   document   Document               @relation(fields: [documentId], references: [id], onDelete: Cascade)
 
   @@index([documentId])
+  @@index([documentId, chunkIndex])
   @@map("document_chunks")
 }
 
@@ -212,6 +219,7 @@ model ConversationSource {
 
   @@index([conversationId])
   @@index([messageId])
+  @@index([documentId])
   @@map("conversation_sources")
 }
 
@@ -362,6 +370,9 @@ model ChatbotSettings {
   updatedAt         DateTime
   users             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   actionButtons     ActionButton[]
+
+  @@index([userId])
+  @@index([userId, isActive])
 }
 
 model ActionButton {
@@ -595,6 +606,7 @@ model MessageFeedback {
   @@unique([messageId])
   @@index([rating])
   @@index([createdAt])
+  @@index([sessionId])
   @@map("message_feedback")
 }
 
@@ -619,6 +631,8 @@ model PoorResponseAnalysis {
 
   @@index([analysisStatus])
   @@index([createdAt])
+  @@index([messageId])
+  @@index([sessionId])
   @@map("poor_response_analysis")
 }
 

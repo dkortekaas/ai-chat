@@ -5,14 +5,25 @@ import {
   SubscriptionPlan,
 } from "@prisma/client";
 import { hash } from "bcryptjs";
+import crypto from "crypto";
 
 const prisma = new PrismaClient();
+
+// Generate secure random password
+function generateSecurePassword(length: number = 20): string {
+  return crypto.randomBytes(length).toString("base64").slice(0, length);
+}
 
 async function main() {
   console.log("🌱 Starting seed...");
 
+  // Generate random passwords for security
+  const superuserPlainPassword = generateSecurePassword();
+  const userPlainPassword = generateSecurePassword();
+  const adminPlainPassword = generateSecurePassword();
+
   // Create superuser
-  const superuserPassword = await hash("superuser123", 12);
+  const superuserPassword = await hash(superuserPlainPassword, 12);
   const superuser = await prisma.user.upsert({
     where: { email: "superuser@example.com" },
     update: {},
@@ -27,7 +38,7 @@ async function main() {
   });
 
   // Create normal user with trial
-  const userPassword = await hash("user123", 12);
+  const userPassword = await hash(userPlainPassword, 12);
   const now = new Date();
   const trialEndDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000); // 30 days
   const user = await prisma.user.upsert({
@@ -45,7 +56,7 @@ async function main() {
   });
 
   // Create admin user
-  const adminPassword = await hash("admin123", 12);
+  const adminPassword = await hash(adminPlainPassword, 12);
   const admin = await prisma.user.upsert({
     where: { email: "admin@example.com" },
     update: {},
@@ -183,10 +194,18 @@ async function main() {
   }
 
   console.log("✅ Seed completed successfully!");
-  console.log("👤 Superuser: superuser@example.com / superuser123");
-  console.log("👤 Admin: admin@example.com / admin123");
-  console.log("👤 User: user@example.com / user123");
-  console.log("📝 Created snippet categories and examples");
+  console.log("\n⚠️  IMPORTANT: Save these credentials securely - they won't be shown again!");
+  console.log("\n👤 Superuser:");
+  console.log("   Email: superuser@example.com");
+  console.log("   Password:", superuserPlainPassword);
+  console.log("\n👤 Admin:");
+  console.log("   Email: admin@example.com");
+  console.log("   Password:", adminPlainPassword);
+  console.log("\n👤 User:");
+  console.log("   Email: user@example.com");
+  console.log("   Password:", userPlainPassword);
+  console.log("\n📝 Created snippet categories and examples");
+  console.log("\n⚠️  SECURITY: Change these passwords immediately after first login!");
 }
 
 main()
