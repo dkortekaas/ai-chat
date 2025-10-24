@@ -1,8 +1,13 @@
 /**
- * Generate a unique session ID
+ * Generate a cryptographically secure unique session ID
+ * Uses Web Crypto API for better security than Math.random()
  */
 export function generateSessionId(): string {
-  return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  // Use Web Crypto API for secure random values
+  const array = new Uint8Array(16);
+  crypto.getRandomValues(array);
+  const randomPart = Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('').substring(0, 16);
+  return `session_${Date.now()}_${randomPart}`;
 }
 
 /**

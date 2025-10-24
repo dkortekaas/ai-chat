@@ -9,6 +9,7 @@ import { estimateTokens, EMBEDDINGS_ENABLED } from "@/lib/openai";
 import { generateBatchEmbeddings } from "@/lib/embedding-service";
 import * as mammoth from "mammoth";
 import { db } from "@/lib/db";
+import { randomBytes } from "crypto";
 
 /**
  * Sanitize text to remove problematic Unicode characters
@@ -172,10 +173,10 @@ export async function POST(request: NextRequest) {
       await mkdir(filesDir, { recursive: true });
     }
 
-    // Generate unique filename
+    // Generate unique filename - use crypto for security
     const timestamp = Date.now();
     const fileExtension = file.name.split(".").pop();
-    const fileName = `${timestamp}-${Math.random().toString(36).substring(2)}.${fileExtension}`;
+    const fileName = `${timestamp}-${randomBytes(8).toString("hex")}.${fileExtension}`;
     const filePath = join(filesDir, fileName);
 
     // Save file to filesystem

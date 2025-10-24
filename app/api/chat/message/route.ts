@@ -7,6 +7,7 @@ import {
 } from "@/lib/openai";
 import { searchRelevantContext, unifiedSearch } from "@/lib/search";
 import { z } from "zod";
+import { randomBytes } from "crypto";
 
 // CORS headers
 const corsHeaders = {
@@ -74,10 +75,10 @@ export async function POST(request: NextRequest) {
     // Check rate limiting (basic implementation)
     // TODO: Implement proper rate limiting with Redis
 
-    // Generate session ID if not provided
+    // Generate session ID if not provided - use crypto for security
     const finalSessionId =
       sessionId ||
-      `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      `session_${randomBytes(16).toString("hex")}`;
 
     // Search for relevant information in all knowledge base tables
     let sources: any[] = [];
@@ -389,8 +390,8 @@ export async function POST(request: NextRequest) {
       {
         success: true,
         data: {
-          conversationId: `conv_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-          messageId: assistantMessage?.id || `msg_${Date.now()}`,
+          conversationId: `conv_${randomBytes(16).toString("hex")}`,
+          messageId: assistantMessage?.id || `msg_${randomBytes(12).toString("hex")}`,
           answer,
           sources,
           responseTime: Date.now(),
