@@ -235,12 +235,20 @@ export async function POST(request: NextRequest) {
 
           const aiResponse = await getCachedOrGenerate(
             question,
-            knowledgeResults
+            knowledgeResults,
+            {
+              model: "gpt-4o-mini",
+              temperature: chatbotSettings.temperature || 0.7,
+              maxTokens: chatbotSettings.maxResponseLength || 500,
+              systemPrompt: chatbotSettings.mainPrompt || undefined,
+              language: chatbotSettings.language || "nl",
+              tone: chatbotSettings.tone || "professional",
+            }
           );
 
           // Only accept AI response if confidence is high enough
-          // Lower threshold (0.3) to accept more responses, especially with text-based search
-          if (aiResponse.confidence >= 0.3) {
+          // Raised threshold to 0.5 (50%) for better quality responses
+          if (aiResponse.confidence >= 0.5) {
             answer = aiResponse.answer;
             tokensUsed = aiResponse.tokensUsed;
             confidence = aiResponse.confidence;
