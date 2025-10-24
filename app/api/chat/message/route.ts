@@ -44,73 +44,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // For testing, try to get the first available assistant
+    // Lookup chatbot settings by API key
     let chatbotSettings;
-    if (
-      apiKey === "cbk_test_123456789" ||
-      apiKey === "8ae4530d-03fe-4128-9e91-47bc9d66c599"
-    ) {
-      try {
-        // Get the first available assistant for testing
-        const firstAssistant = await db.chatbotSettings.findFirst({
-          include: {
-            users: true,
-          },
-        });
-
-        if (firstAssistant) {
-          chatbotSettings = firstAssistant;
-        } else {
-          // Fallback to mock data if no assistant found
-          chatbotSettings = {
-            id: "test_chatbot",
-            name: "Test Bot",
-            welcomeMessage: "Welkom bij de test chatbot! Hoe kan ik je helpen?",
-            placeholderText: "Stel een test vraag...",
-            primaryColor: "#FF6B6B",
-            secondaryColor: "#FF5252",
-            position: "bottom-right",
-            showBranding: true,
-            fallbackMessage:
-              "Sorry, ik kan deze vraag niet beantwoorden op basis van de beschikbare informatie.",
-            isActive: true,
-            user: { id: "test_user" },
-          } as any;
-        }
-      } catch (error) {
-        console.error("Error fetching test assistant:", error);
-        // Fallback to mock data
-        chatbotSettings = {
-          id: "test_chatbot",
-          name: "Test Bot",
-          welcomeMessage: "Welkom bij de test chatbot! Hoe kan ik je helpen?",
-          placeholderText: "Stel een test vraag...",
-          primaryColor: "#FF6B6B",
-          secondaryColor: "#FF5252",
-          position: "bottom-right",
-          showBranding: true,
-          fallbackMessage:
-            "Sorry, ik kan deze vraag niet beantwoorden op basis van de beschikbare informatie.",
-          isActive: true,
-          user: { id: "test_user" },
-        } as any;
-      }
-    } else {
-      // For real API keys, try database lookup
-      try {
-        chatbotSettings = await db.chatbotSettings.findUnique({
-          where: { apiKey },
-          include: {
-            users: true,
-          },
-        });
-      } catch (dbError) {
-        console.error("Database error:", dbError);
-        return NextResponse.json(
-          { success: false, error: "Database connection error" },
-          { status: 500 }
-        );
-      }
+    try {
+      chatbotSettings = await db.chatbotSettings.findUnique({
+        where: { apiKey },
+        include: {
+          users: true,
+        },
+      });
+    } catch (dbError) {
+      console.error("Database error:", dbError);
+      return NextResponse.json(
+        { success: false, error: "Database connection error" },
+        { status: 500, headers: corsHeaders }
+      );
     }
 
     if (!chatbotSettings || !chatbotSettings.isActive) {
