@@ -174,7 +174,75 @@ export async function middleware(req: NextRequest) {
     maxAge: 31536000, // 1 year
   });
 
+  // Add comprehensive security headers
+  addSecurityHeaders(response);
+
   return response;
+}
+
+/**
+ * Add comprehensive security headers to protect against common web vulnerabilities
+ */
+function addSecurityHeaders(response: NextResponse): void {
+  const headers = response.headers;
+
+  // Content-Security-Policy (CSP)
+  // Prevents XSS attacks by controlling which resources can be loaded
+  const cspDirectives = [
+    "default-src 'self'",
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://unpkg.com",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "font-src 'self' https://fonts.gstatic.com data:",
+    "img-src 'self' data: https: blob:",
+    "connect-src 'self' https://api.openai.com",
+    "frame-ancestors 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+  ].join("; ");
+  headers.set("Content-Security-Policy", cspDirectives);
+
+  // X-Frame-Options
+  // Prevents clickjacking attacks by preventing the site from being embedded in iframes
+  headers.set("X-Frame-Options", "DENY");
+
+  // X-Content-Type-Options
+  // Prevents MIME sniffing attacks by forcing browsers to respect Content-Type headers
+  headers.set("X-Content-Type-Options", "nosniff");
+
+  // Strict-Transport-Security (HSTS)
+  // Forces browsers to use HTTPS for all future connections (1 year)
+  headers.set(
+    "Strict-Transport-Security",
+    "max-age=31536000; includeSubDomains; preload"
+  );
+
+  // X-XSS-Protection
+  // Enables browser's built-in XSS filter (legacy but still useful)
+  headers.set("X-XSS-Protection", "1; mode=block");
+
+  // Referrer-Policy
+  // Controls how much referrer information is sent with requests
+  headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+
+  // Permissions-Policy (formerly Feature-Policy)
+  // Controls which browser features and APIs can be used
+  const permissionsPolicy = [
+    "camera=()",
+    "microphone=()",
+    "geolocation=()",
+    "interest-cohort=()",
+    "payment=()",
+    "usb=()",
+  ].join(", ");
+  headers.set("Permissions-Policy", permissionsPolicy);
+
+  // X-Permitted-Cross-Domain-Policies
+  // Prevents Adobe Flash and PDF files from accessing content
+  headers.set("X-Permitted-Cross-Domain-Policies", "none");
+
+  // X-DNS-Prefetch-Control
+  // Controls DNS prefetching to prevent privacy leaks
+  headers.set("X-DNS-Prefetch-Control", "off");
 }
 
 // Specify paths that should run the middleware

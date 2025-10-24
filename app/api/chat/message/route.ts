@@ -8,14 +8,8 @@ import {
 import { searchRelevantContext, unifiedSearch } from "@/lib/search";
 import { z } from "zod";
 import { randomBytes } from "crypto";
-
-// CORS headers
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers":
-    "Content-Type, Authorization, X-Chatbot-API-Key",
-};
+import { getCorsHeaders, validateCorsOrigin } from "@/lib/cors";
+import { checkRateLimit, getRateLimitHeaders } from "@/lib/rate-limiter";
 
 const messageSchema = z.object({
   question: z.string().min(1).max(1000),
@@ -35,12 +29,14 @@ export async function POST(request: NextRequest) {
 
     // Get API key from headers
     const apiKey = request.headers.get("X-Chatbot-API-Key");
+    const origin = request.headers.get("origin");
+
     if (!apiKey) {
       return NextResponse.json(
         { success: false, error: "Missing API key" },
         {
           status: 401,
-          headers: corsHeaders,
+          headers: getCorsHeaders(origin, []),
         }
       );
     }
@@ -58,7 +54,7 @@ export async function POST(request: NextRequest) {
       console.error("Database error:", dbError);
       return NextResponse.json(
         { success: false, error: "Database connection error" },
-        { status: 500, headers: corsHeaders }
+        { status: 500, headers: getCorsHeaders(origin, []) }
       );
     }
 
@@ -67,13 +63,45 @@ export async function POST(request: NextRequest) {
         { success: false, error: "Invalid API key" },
         {
           status: 401,
+          headers: getCorsHeaders(origin, []),
+        }
+      );
+    }
+
+    // Validate CORS origin against allowed domains
+    const corsError = validateCorsOrigin(origin, chatbotSettings.allowedDomains);
+    const corsHeaders = getCorsHeaders(origin, chatbotSettings.allowedDomains);
+
+    if (corsError) {
+      return NextResponse.json(
+        { success: false, error: "Origin not allowed" },
+        {
+          status: 403,
           headers: corsHeaders,
         }
       );
     }
 
-    // Check rate limiting (basic implementation)
-    // TODO: Implement proper rate limiting with Redis
+    // Check rate limiting
+    // Use API key as the rate limit key, with limit from chatbot settings
+    const rateLimit = chatbotSettings.rateLimit || 10; // requests per minute
+    const rateLimitResult = checkRateLimit(apiKey, rateLimit, 60000);
+
+    if (!rateLimitResult.allowed) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Rate limit exceeded. Please try again later.",
+        },
+        {
+          status: 429,
+          headers: {
+            ...corsHeaders,
+            ...getRateLimitHeaders(rateLimitResult),
+          },
+        }
+      );
+    }
 
     // Generate session ID if not provided - use crypto for security
     const finalSessionId =
@@ -429,8 +457,19 @@ export async function POST(request: NextRequest) {
 }
 
 export async function OPTIONS(request: NextRequest) {
+  // For OPTIONS preflight requests, we need to allow the request
+  // The actual CORS validation happens in the POST request
+  // This is standard practice since OPTIONS doesn't have API key yet
+  const origin = request.headers.get("origin");
+
   return new NextResponse(null, {
     status: 200,
-    headers: corsHeaders,
+    headers: {
+      "Access-Control-Allow-Origin": origin || "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers":
+        "Content-Type, Authorization, X-Chatbot-API-Key",
+      "Access-Control-Max-Age": "86400",
+    },
   });
 }

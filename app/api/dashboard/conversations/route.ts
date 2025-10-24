@@ -57,7 +57,12 @@ export async function GET(request: NextRequest) {
 
     const userFileIds = new Set(userKnowledgeFiles.map((file) => file.id));
 
-    // Get all conversations in the date range
+    // OPTIMIZATION: Limit conversations to prevent memory exhaustion
+    // In production environments with millions of conversations, this prevents
+    // fetching the entire database. Consider using date-based archiving for older data.
+    const MAX_CONVERSATIONS = 10000;
+
+    // Get all conversations in the date range (with limit)
     const conversations = await db.conversation.findMany({
       where: {
         createdAt: {
@@ -80,6 +85,7 @@ export async function GET(request: NextRequest) {
       orderBy: {
         createdAt: "asc",
       },
+      take: MAX_CONVERSATIONS,
     });
 
     // Filter conversations to only include those from user's knowledge files

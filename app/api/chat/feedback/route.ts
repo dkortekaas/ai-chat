@@ -1,14 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { z } from "zod";
-
-// CORS headers
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers":
-    "Content-Type, Authorization, X-Chatbot-API-Key",
-};
+import { getCorsHeaders, validateCorsOrigin } from "@/lib/cors";
+import { checkRateLimit, getRateLimitHeaders } from "@/lib/rate-limiter";
 
 const feedbackSchema = z.object({
   messageId: z.string().min(1),
@@ -25,14 +19,68 @@ export async function POST(request: NextRequest) {
     const { messageId, sessionId, rating, feedback, userAgent, ipAddress } =
       feedbackSchema.parse(body);
 
-    // Get API key from headers
+    // Get API key and origin from headers
     const apiKey = request.headers.get("X-Chatbot-API-Key");
+    const origin = request.headers.get("origin");
+
     if (!apiKey) {
       return NextResponse.json(
         { success: false, error: "Missing API key" },
         {
           status: 401,
+          headers: getCorsHeaders(origin, []),
+        }
+      );
+    }
+
+    // Lookup chatbot settings by API key for CORS validation
+    const chatbotSettings = await db.chatbotSettings.findUnique({
+      where: { apiKey },
+      select: {
+        allowedDomains: true,
+        isActive: true,
+      },
+    });
+
+    if (!chatbotSettings || !chatbotSettings.isActive) {
+      return NextResponse.json(
+        { success: false, error: "Invalid API key" },
+        {
+          status: 401,
+          headers: getCorsHeaders(origin, []),
+        }
+      );
+    }
+
+    // Validate CORS origin against allowed domains
+    const corsError = validateCorsOrigin(origin, chatbotSettings.allowedDomains);
+    const corsHeaders = getCorsHeaders(origin, chatbotSettings.allowedDomains);
+
+    if (corsError) {
+      return NextResponse.json(
+        { success: false, error: "Origin not allowed" },
+        {
+          status: 403,
           headers: corsHeaders,
+        }
+      );
+    }
+
+    // Check rate limiting (more lenient for feedback - 30 requests per minute)
+    const rateLimitResult = checkRateLimit(`feedback:${apiKey}`, 30, 60000);
+
+    if (!rateLimitResult.allowed) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Rate limit exceeded. Please try again later.",
+        },
+        {
+          status: 429,
+          headers: {
+            ...corsHeaders,
+            ...getRateLimitHeaders(rateLimitResult),
+          },
         }
       );
     }
@@ -335,8 +383,18 @@ async function generateImprovementSuggestions(
 }
 
 export async function OPTIONS(request: NextRequest) {
+  // For OPTIONS preflight requests, we need to allow the request
+  // The actual CORS validation happens in the POST request
+  const origin = request.headers.get("origin");
+
   return new NextResponse(null, {
     status: 200,
-    headers: corsHeaders,
+    headers: {
+      "Access-Control-Allow-Origin": origin || "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers":
+        "Content-Type, Authorization, X-Chatbot-API-Key",
+      "Access-Control-Max-Age": "86400",
+    },
   });
 }

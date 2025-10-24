@@ -3,6 +3,11 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { z } from "zod";
+import {
+  getPaginationParams,
+  getPrismaOptions,
+  createPaginatedResponse,
+} from "@/lib/pagination";
 
 const formFieldSchema = z.object({
   id: z.string(),
@@ -50,11 +55,24 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Parse pagination parameters
+    const pagination = getPaginationParams(request);
+
+    const where = { assistantId };
+
+    // Get total count for pagination metadata
+    const total = await db.contactForm.count({ where });
+
     const forms = await db.contactForm.findMany({
-      where: { assistantId },
+      where,
       orderBy: { createdAt: "desc" },
+      ...getPrismaOptions(pagination),
     });
-    return NextResponse.json(forms);
+
+    // Return paginated response
+    return NextResponse.json(
+      createPaginatedResponse(forms, pagination.page, pagination.limit, total)
+    );
   } catch (error) {
     console.error("Error fetching forms:", error);
     return NextResponse.json(

@@ -9,6 +9,12 @@ import {
   estimateTokens,
   EMBEDDINGS_ENABLED,
 } from "@/lib/openai";
+import {
+  getPaginationParams,
+  getPrismaOptions,
+  createPaginatedResponse,
+} from "@/lib/pagination";
+import { validateScrapingUrl } from "@/lib/url-validator";
 
 // GET /api/websites - Get all websites for a specific assistant
 export async function GET(request: NextRequest) {
@@ -63,14 +69,26 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Parse pagination parameters
+    const pagination = getPaginationParams(request);
+
+    const where = {
+      assistantId: assistantId,
+    };
+
+    // Get total count for pagination metadata
+    const total = await db.website.count({ where });
+
     const websites = await db.website.findMany({
-      where: {
-        assistantId: assistantId,
-      },
+      where,
       orderBy: { createdAt: "desc" },
+      ...getPrismaOptions(pagination),
     });
 
-    return NextResponse.json(websites);
+    // Return paginated response
+    return NextResponse.json(
+      createPaginatedResponse(websites, pagination.page, pagination.limit, total)
+    );
   } catch (error) {
     console.error("Error fetching websites:", error);
     return NextResponse.json(
@@ -102,12 +120,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate URL format
-    try {
-      new URL(url);
-    } catch {
+    // Validate URL format and check for SSRF
+    const urlValidation = validateScrapingUrl(url);
+    if (!urlValidation.valid) {
+      console.warn(`🚫 Invalid/unsafe URL rejected: ${url} - ${urlValidation.error}`);
       return NextResponse.json(
-        { error: "Invalid URL format" },
+        { error: urlValidation.error || "Invalid URL" },
         { status: 400 }
       );
     }
