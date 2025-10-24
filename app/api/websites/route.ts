@@ -14,6 +14,7 @@ import {
   getPrismaOptions,
   createPaginatedResponse,
 } from "@/lib/pagination";
+import { validateScrapingUrl } from "@/lib/url-validator";
 
 // GET /api/websites - Get all websites for a specific assistant
 export async function GET(request: NextRequest) {
@@ -119,12 +120,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate URL format
-    try {
-      new URL(url);
-    } catch {
+    // Validate URL format and check for SSRF
+    const urlValidation = validateScrapingUrl(url);
+    if (!urlValidation.valid) {
+      console.warn(`🚫 Invalid/unsafe URL rejected: ${url} - ${urlValidation.error}`);
       return NextResponse.json(
-        { error: "Invalid URL format" },
+        { error: urlValidation.error || "Invalid URL" },
         { status: 400 }
       );
     }

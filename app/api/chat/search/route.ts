@@ -3,16 +3,18 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { searchRelevantContext, formatContextForAI } from "@/lib/search";
+import { z } from "zod";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-interface SearchRequest {
-  query: string;
-  assistantId: string;
-  limit?: number;
-  threshold?: number;
-}
+// Input validation schema
+const searchRequestSchema = z.object({
+  query: z.string().min(1).max(1000),
+  assistantId: z.string().min(1),
+  limit: z.number().int().min(1).max(50).optional().default(5),
+  threshold: z.number().min(0).max(1).optional().default(0.7),
+});
 
 /**
  * POST /api/chat/search
@@ -20,20 +22,26 @@ interface SearchRequest {
  */
 export async function POST(request: NextRequest) {
   try {
-    const body: SearchRequest = await request.json();
+    const body = await request.json();
 
-    // Validatie
-    if (!body.query || !body.assistantId) {
+    // Validate input with Zod
+    const validation = searchRequestSchema.safeParse(body);
+    if (!validation.success) {
       return NextResponse.json(
-        { error: "Query and assistantId are required" },
+        {
+          error: "Invalid input",
+          details: validation.error.format(),
+        },
         { status: 400 }
       );
     }
 
+    const { query, assistantId, limit, threshold } = validation.data;
+
     // Voer search uit
-    const results = await searchRelevantContext(body.query, body.assistantId, {
-      limit: body.limit || 5,
-      threshold: body.threshold || 0.7,
+    const results = await searchRelevantContext(query, assistantId, {
+      limit,
+      threshold,
     });
 
     // Format voor AI
@@ -47,6 +55,17 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error("Search API error:", error);
+
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        {
+          error: "Validation error",
+          details: error.format(),
+        },
+        { status: 400 }
+      );
+    }
+
     return NextResponse.json(
       {
         error: "Failed to perform search",
@@ -66,16 +85,33 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const query = searchParams.get("query");
     const assistantId = searchParams.get("assistantId");
-    const limit = parseInt(searchParams.get("limit") || "5");
+    const limitParam = searchParams.get("limit");
+    const thresholdParam = searchParams.get("threshold");
 
-    if (!query || !assistantId) {
+    // Parse and validate input
+    const validation = searchRequestSchema.safeParse({
+      query,
+      assistantId,
+      limit: limitParam ? parseInt(limitParam, 10) : undefined,
+      threshold: thresholdParam ? parseFloat(thresholdParam) : undefined,
+    });
+
+    if (!validation.success) {
       return NextResponse.json(
-        { error: "Query and assistantId parameters are required" },
+        {
+          error: "Invalid input",
+          details: validation.error.format(),
+        },
         { status: 400 }
       );
     }
 
-    const results = await searchRelevantContext(query, assistantId, { limit });
+    const { query: validQuery, assistantId: validAssistantId, limit, threshold } = validation.data;
+
+    const results = await searchRelevantContext(validQuery, validAssistantId, {
+      limit,
+      threshold,
+    });
 
     return NextResponse.json({
       success: true,
@@ -84,6 +120,17 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error("Search API error:", error);
+
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        {
+          error: "Validation error",
+          details: error.format(),
+        },
+        { status: 400 }
+      );
+    }
+
     return NextResponse.json(
       { error: "Failed to perform search" },
       { status: 500 }
