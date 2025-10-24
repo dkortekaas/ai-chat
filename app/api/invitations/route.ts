@@ -6,6 +6,11 @@ import { z } from "zod";
 import { sendInvitationEmail } from "@/lib/email";
 import { createInvitationNotification } from "@/lib/notifications";
 import { randomBytes } from "crypto";
+import {
+  getPaginationParams,
+  getPrismaOptions,
+  createPaginatedResponse,
+} from "@/lib/pagination";
 
 const createInvitationSchema = z.object({
   email: z.string().email(),
@@ -172,6 +177,9 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const status = searchParams.get("status");
 
+    // Parse pagination parameters
+    const pagination = getPaginationParams(req);
+
     // Build where clause
     const where: any = {
       companyId: user.companyId,
@@ -180,6 +188,9 @@ export async function GET(req: NextRequest) {
     if (status) {
       where.status = status;
     }
+
+    // Get total count for pagination metadata
+    const total = await db.invitation.count({ where });
 
     // Get invitations
     const invitations = await db.invitation.findMany({
@@ -194,9 +205,13 @@ export async function GET(req: NextRequest) {
           },
         },
       },
+      ...getPrismaOptions(pagination),
     });
 
-    return NextResponse.json({ invitations });
+    // Return paginated response
+    return NextResponse.json(
+      createPaginatedResponse(invitations, pagination.page, pagination.limit, total)
+    );
   } catch (error) {
     console.error("Error fetching invitations:", error);
     return NextResponse.json(

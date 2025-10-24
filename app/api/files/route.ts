@@ -10,6 +10,11 @@ import { generateBatchEmbeddings } from "@/lib/embedding-service";
 import * as mammoth from "mammoth";
 import { db } from "@/lib/db";
 import { randomBytes } from "crypto";
+import {
+  getPaginationParams,
+  getPrismaOptions,
+  createPaginatedResponse,
+} from "@/lib/pagination";
 
 /**
  * Sanitize text to remove problematic Unicode characters
@@ -71,12 +76,24 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Parse pagination parameters
+    const pagination = getPaginationParams(request);
+
+    const where = { assistantId } as Record<string, unknown>;
+
+    // Get total count for pagination metadata
+    const total = await db.knowledgeFile.count({ where });
+
     const files = await db.knowledgeFile.findMany({
-      where: { assistantId } as Record<string, unknown>,
+      where,
       orderBy: { createdAt: "desc" },
+      ...getPrismaOptions(pagination),
     });
 
-    return NextResponse.json(files);
+    // Return paginated response
+    return NextResponse.json(
+      createPaginatedResponse(files, pagination.page, pagination.limit, total)
+    );
   } catch (error) {
     console.error("Error fetching files:", error);
     return NextResponse.json(

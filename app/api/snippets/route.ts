@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import {
+  getPaginationParams,
+  getPrismaOptions,
+} from "@/lib/pagination";
 
 export async function GET(request: NextRequest) {
   try {
@@ -10,7 +14,10 @@ export async function GET(request: NextRequest) {
     await db.$connect();
     console.log("Database connected successfully");
 
-    // Get all categories with their snippets
+    // Parse pagination parameters
+    const pagination = getPaginationParams(request);
+
+    // Get all categories with their snippets (with pagination on snippets)
     console.log("Querying snippet categories...");
     const categories = await (db as any).snippetCategory.findMany({
       where: {
@@ -24,11 +31,17 @@ export async function GET(request: NextRequest) {
           orderBy: {
             order: "asc",
           },
+          ...getPrismaOptions(pagination),
         },
       },
       orderBy: {
         order: "asc",
       },
+    });
+
+    // Get total count of snippets
+    const totalSnippets = await (db as any).snippetExample.count({
+      where: { enabled: true },
     });
 
     console.log(`Found ${categories.length} categories`);
@@ -70,9 +83,20 @@ export async function GET(request: NextRequest) {
       `Returning ${finalCategories.length} categories and ${allSnippets.length} snippets`
     );
 
+    // Calculate pagination metadata
+    const totalPages = Math.ceil(totalSnippets / pagination.limit);
+
     return NextResponse.json({
       categories: finalCategories,
       snippets: allSnippets,
+      meta: {
+        page: pagination.page,
+        limit: pagination.limit,
+        total: totalSnippets,
+        totalPages,
+        hasNextPage: pagination.page < totalPages,
+        hasPreviousPage: pagination.page > 1,
+      },
     });
   } catch (error) {
     console.error("Error fetching snippets:", error);

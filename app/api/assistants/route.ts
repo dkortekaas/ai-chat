@@ -2,8 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
+import {
+  getPaginationParams,
+  getPrismaOptions,
+  createPaginatedResponse,
+} from "@/lib/pagination";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -22,17 +27,29 @@ export async function GET() {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
+    // Parse pagination parameters
+    const pagination = getPaginationParams(request);
+
+    const where = {
+      users: {
+        companyId: currentUser.companyId,
+      },
+    };
+
+    // Get total count for pagination metadata
+    const total = await db.chatbotSettings.count({ where });
+
     // Return assistants for the whole company (all owners within same company)
     const assistants = await db.chatbotSettings.findMany({
-      where: {
-        users: {
-          companyId: currentUser.companyId,
-        },
-      },
+      where,
       orderBy: { createdAt: "desc" },
+      ...getPrismaOptions(pagination),
     });
 
-    return NextResponse.json(assistants);
+    // Return paginated response
+    return NextResponse.json(
+      createPaginatedResponse(assistants, pagination.page, pagination.limit, total)
+    );
   } catch (error) {
     console.error("Error fetching assistants:", error);
     return NextResponse.json(
