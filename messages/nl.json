@@ -1,5 +1,7 @@
 {
   "common": {
+    "success": "Succes",
+    "deleting": "Verwijderen...",
     "submit": "Verzenden",
     "cancel": "Annuleren",
     "save": "Opslaan",
@@ -99,6 +101,11 @@
     "settings": "Instellingen"
   },
   "error": {
+    "title": "Fout",
+    "description": "Er is een fout opgetreden. Probeer het opnieuw.",
+    "tryAgain": "Probeer het opnieuw",
+    "backToDashboard": "Terug naar dashboard",
+    "errorReference": "Fout referentie",
     "emailInvalid": "Voer een geldig e-mailadres in",
     "passwordInvalid": "Wachtwoord moet minimaal 6 tekens lang zijn",
     "passwordTooLong": "Wachtwoord moet minder dan 128 tekens zijn",
@@ -170,6 +177,7 @@
     }
   },
   "success": {
+    "actionButton": "Actieknop succesvol toegevoegd",
     "userUpdated": "Gebruiker succesvol bijgewerkt",
     "createCompanySuccess": "Bedrijf succesvol aangemaakt",
     "profileUpdated": "Profiel succesvol bijgewerkt",
@@ -215,7 +223,18 @@
   },
   "metadata": {
     "title": "Cited",
-    "description": "Cited AI Chat Support"
+    "description": "Cited AI Chat Support",
+    "keywords": "Cited AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Cited, Cited AI, Cited AI Chat, Cited AI Chat Support",
+    "twitter": {
+      "title": "Cited AI Chat Support",
+      "description": "Cited AI Chat Support",
+      "keywords": "Cited AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Cited, Cited AI, Cited AI Chat, Cited AI Chat Support"
+    },
+    "og": {
+      "title": "Cited AI Chat Support",
+      "description": "Cited AI Chat Support",
+      "keywords": "Cited AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Cited, Cited AI, Cited AI Chat, Cited AI Chat Support"
+    }
   },
   "auth": {
     "login": "Inloggen",

@@ -25,7 +25,7 @@ import {
 } from "@/components/ui";
 import { Plus, Edit, Trash2, Loader2 } from "lucide-react";
 import { useAssistant } from "@/contexts/assistant-context";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/components/ui/use-toast";
 import { useTranslations } from "next-intl";
 
 interface ActionButtonsTabProps {

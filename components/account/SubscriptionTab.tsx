@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Button, Card, Badge, SaveButton } from "@/components/ui";
 import { RefreshCw, CreditCard, AlertCircle, CheckCircle } from "lucide-react";
 import { SUBSCRIPTION_PLANS } from "@/lib/subscriptionPlans";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/components/ui/use-toast";
 import { useTranslations } from "next-intl";
 import { SubscriptionData } from "@/types/account";
 
@@ -87,16 +87,38 @@ export function SubscriptionTab() {
     try {
       const response = await fetch("/api/subscriptions/manage");
       if (response.ok) {
-        const { url } = await response.json();
-        window.location.href = url;
+        const data = await response.json();
+
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          console.error("No URL returned from manage subscription API");
+          toast({
+            title: "Error",
+            description: "No subscription management URL available",
+            variant: "destructive",
+          });
+        }
       } else {
-        toast({
-          title: "Error",
-          description: t(
-            "account.subscriptions.failedToOpenSubscriptionManagement"
-          ),
-          variant: "destructive",
-        });
+        const errorData = await response.json();
+        //console.error("Manage subscription error:", errorData);
+
+        if (errorData.error === "No subscription found") {
+          toast({
+            title: "No Subscription",
+            description:
+              "You don't have an active subscription to manage. Please upgrade your plan first.",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Error",
+            description:
+              errorData.error ||
+              t("account.subscriptions.failedToOpenSubscriptionManagement"),
+            variant: "destructive",
+          });
+        }
       }
     } catch (error) {
       console.error("Error managing subscription:", error);

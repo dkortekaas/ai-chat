@@ -24,7 +24,7 @@ import {
 } from "@/components/ui";
 import { Info } from "lucide-react";
 import { useAssistant } from "@/contexts/assistant-context";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/components/ui/use-toast";
 import { ChatbotPreview } from "@/components/assistant/ChatbotPreview";
 import { useTranslations } from "next-intl";
 

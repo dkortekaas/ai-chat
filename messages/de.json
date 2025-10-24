@@ -1,5 +1,7 @@
 {
   "common": {
+    "success": "Erfolg",
+    "deleting": "Löschen...",
     "submit": "Absenden",
     "cancel": "Abbrechen",
     "save": "Speichern",
@@ -99,6 +101,11 @@
     "settings": "Einstellungen"
   },
   "error": {
+    "title": "Fehler",
+    "description": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
+    "tryAgain": "Versuchen Sie es erneut",
+    "backToDashboard": "Zurück zum Dashboard",
+    "errorReference": "Fehlerreferenz",
     "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
     "passwordInvalid": "Passwort muss mindestens 6 Zeichen lang sein",
     "passwordTooLong": "Passwort muss weniger als 128 Zeichen haben",
@@ -170,6 +177,7 @@
     }
   },
   "success": {
+    "actionButton": "Aktionsschaltfläche erfolgreich hinzugefügt",
     "userUpdated": "Benutzer erfolgreich aktualisiert",
     "createCompanySuccess": "Unternehmen erfolgreich erstellt",
     "profileUpdated": "Profil erfolgreich aktualisiert",
@@ -215,7 +223,18 @@
   },
   "metadata": {
     "title": "Cited",
-    "description": "Cited AI Chat Support"
+    "description": "Cited AI Chat Support",
+    "keywords": "Cited AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Cited, Cited AI, Cited AI Chat, Cited AI Chat Support",
+    "twitter": {
+      "title": "Cited AI Chat Support",
+      "description": "Cited AI Chat Support",
+      "keywords": "Cited AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Cited, Cited AI, Cited AI Chat, Cited AI Chat Support"
+    },
+    "og": {
+      "title": "Cited AI Chat Support",
+      "description": "Cited AI Chat Support",
+      "keywords": "Cited AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Cited, Cited AI, Cited AI Chat, Cited AI Chat Support"
+    }
   },
   "auth": {
     "login": "Anmelden",

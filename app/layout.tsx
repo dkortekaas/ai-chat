@@ -15,6 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations();
 
   return {
+    metadataBase: new URL(process.env.NEXTAUTH_URL || "http://localhost:3000"),
     title: t("metadata.title"),
     description: t("metadata.description"),
     icons: {

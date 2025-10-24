@@ -14,7 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/components/ui/use-toast";
 import { useAssistant } from "@/contexts/assistant-context";
 import { useTranslations } from "next-intl";
 import { FAQ } from "@/types/knowledgebase";
@@ -80,6 +80,7 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
         description: isEditing
           ? t("success.faqUpdatedSuccessfully")
           : t("success.faqAddedSuccessfully"),
+        variant: "success",
       });
 
       onSuccess();

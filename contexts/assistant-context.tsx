@@ -5,6 +5,7 @@ import {
   useContext,
   useState,
   useEffect,
+  useCallback,
   ReactNode,
 } from "react";
 
@@ -55,17 +56,19 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
   const [assistants, setAssistants] = useState<Assistant[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchAssistants = async () => {
+  const fetchAssistants = useCallback(async () => {
     try {
       setIsLoading(true);
       const response = await fetch("/api/assistants");
       if (response.ok) {
-        const data = await response.json();
-        setAssistants(data);
+        const paginatedData = await response.json();
+        // Extract the data array from the paginated response
+        const assistants = paginatedData.data || [];
+        setAssistants(assistants);
 
         // If no current assistant is set and we have assistants, set the first one
-        if (!currentAssistant && data.length > 0) {
-          setCurrentAssistant(data[0]);
+        if (!currentAssistant && assistants.length > 0) {
+          setCurrentAssistant(assistants[0]);
         }
       }
     } catch (error) {
@@ -73,7 +76,7 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [currentAssistant]);
 
   const refreshAssistants = async () => {
     await fetchAssistants();
@@ -81,7 +84,7 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     fetchAssistants();
-  }, []);
+  }, [fetchAssistants]);
 
   // Update current assistant if it's no longer in the list
   useEffect(() => {

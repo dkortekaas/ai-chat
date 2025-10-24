@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { FAQForm } from "@/components/knowledgebase/FaqForm";
 import { DeleteConfirmationModal } from "@/components/shared/DeleteConfirmationModal";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/components/ui/use-toast";
 import { useAssistant } from "@/contexts/assistant-context";
 import { useTranslations } from "next-intl";
 
@@ -107,6 +107,7 @@ export function FaqsTab() {
         toast({
           title: t("success.faqDuplicated"),
           description: t("success.faqDuplicatedSuccessfully"),
+          variant: "success",
         });
         fetchFAQs();
       } else {
@@ -143,6 +144,7 @@ export function FaqsTab() {
         toast({
           title: t("success.faqDeleted"),
           description: t("success.faqDeletedSuccessfully"),
+          variant: "success",
         });
         fetchFAQs();
         setIsDeleteModalOpen(false);
@@ -189,6 +191,7 @@ export function FaqsTab() {
         toast({
           title: t("success.faqUpdated"),
           description: t("success.faqUpdatedSuccessfully"),
+          variant: "success",
         });
         fetchFAQs();
       } else {

@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { WebsiteForm } from "@/components/knowledgebase/WebsiteForm";
 import { DeleteConfirmationModal } from "@/components/shared/DeleteConfirmationModal";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/components/ui/use-toast";
 import { useAssistant } from "@/contexts/assistant-context";
 import { useTranslations } from "next-intl";
 
@@ -66,8 +66,9 @@ export function WebsitesTab() {
         `/api/websites?assistantId=${currentAssistant.id}`
       );
       if (response.ok) {
-        const data = await response.json();
-        setWebsites(data);
+        const paginatedResponse = await response.json();
+        // Extract the data array from the paginated response
+        setWebsites(paginatedResponse.data || []);
       } else {
         throw new Error("Failed to fetch websites");
       }
@@ -115,6 +116,7 @@ export function WebsitesTab() {
         toast({
           title: t("success.websiteDeleted"),
           description: t("success.websiteDeletedSuccessfully"),
+          variant: "success",
         });
         setIsDeleteOpen(false);
         setWebsiteToDelete(null);
@@ -156,6 +158,7 @@ export function WebsitesTab() {
         toast({
           title: t("success.scrapingStarted"),
           description: t("success.scrapingStartedSuccessfully"),
+          variant: "success",
         });
         // Refresh the websites list to show updated status
         setTimeout(() => {

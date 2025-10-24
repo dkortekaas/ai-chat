@@ -21,7 +21,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/components/ui/use-toast";
 import { useAssistant } from "@/contexts/assistant-context";
 import { useTranslations } from "next-intl";
 
@@ -177,6 +177,7 @@ export function WebsiteForm({
         description: isEditing
           ? t("success.websiteUpdatedSuccessfully")
           : t("success.websiteAddedSuccessfully"),
+        variant: "success",
       });
 
       onSuccess();

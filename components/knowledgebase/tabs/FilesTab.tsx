@@ -24,7 +24,7 @@ import {
 import { FileUploadModal } from "@/components/knowledgebase/FileUploadModal";
 import { FileEditForm } from "@/components/knowledgebase/FileEditForm";
 import { DeleteConfirmationModal } from "@/components/shared/DeleteConfirmationModal";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/components/ui/use-toast";
 import { useAssistant } from "@/contexts/assistant-context";
 import { useTranslations } from "next-intl";
 
@@ -68,8 +68,9 @@ export function BestandenTab() {
         `/api/files?assistantId=${encodeURIComponent(currentAssistant.id)}`
       );
       if (response.ok) {
-        const data = await response.json();
-        setFiles(data);
+        const paginatedResponse = await response.json();
+        // Extract the data array from the paginated response
+        setFiles(paginatedResponse.data || []);
       } else {
         throw new Error("Failed to fetch files");
       }
@@ -121,6 +122,7 @@ export function BestandenTab() {
         toast({
           title: t("success.fileDeleted"),
           description: t("success.fileDeletedSuccessfully"),
+          variant: "success",
         });
         fetchFiles();
         setIsDeleteModalOpen(false);
@@ -186,6 +188,7 @@ export function BestandenTab() {
         toast({
           title: t("success.fileUpdated"),
           description: t("success.fileUpdatedSuccessfully"),
+          variant: "success",
         });
         fetchFiles();
       } else {

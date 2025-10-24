@@ -21,7 +21,7 @@ import {
 import { Plus, Save, Trash2 } from "lucide-react";
 import { useRouter, useParams } from "next/navigation";
 import { useAssistant } from "@/contexts/assistant-context";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/components/ui/use-toast";
 import { useTranslations } from "next-intl";
 
 export interface FormField {

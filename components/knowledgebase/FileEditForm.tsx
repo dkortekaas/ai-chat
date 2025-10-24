@@ -13,7 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/components/ui/use-toast";
 import { useTranslations } from "next-intl";
 
 interface KnowledgeFile {
@@ -74,6 +74,7 @@ export function FileEditForm({
       toast({
         title: t("success.fileUpdated"),
         description: t("success.fileUpdatedSuccessfully"),
+        variant: "success",
       });
 
       onSuccess();

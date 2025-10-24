@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Info, RotateCcw, ChevronLeft, ChevronRight } from "lucide-react";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/components/ui/use-toast";
 
 interface PersonalityTabRef {
   save: () => Promise<void>;

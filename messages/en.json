@@ -1,5 +1,7 @@
 {
   "common": {
+    "success": "Success",
+    "deleting": "Deleting...",
     "submit": "Submit",
     "cancel": "Cancel",
     "save": "Save",
@@ -115,6 +117,11 @@
     "sentAt": "Sent At"
   },
   "error": {
+    "title": "Error",
+    "description": "An error occurred. Please try again.",
+    "tryAgain": "Try again",
+    "backToDashboard": "Back to dashboard",
+    "errorReference": "Error reference",
     "emailInvalid": "Please enter a valid email address",
     "passwordInvalid": "Password must be at least 6 characters long",
     "passwordTooLong": "Password must be less than 128 characters",
@@ -186,6 +193,7 @@
     }
   },
   "success": {
+    "actionButton": "Action button added successfully",
     "userUpdated": "User updated successfully",
     "createCompanySuccess": "Company created successfully",
     "profileUpdated": "Profile updated successfully",
@@ -231,7 +239,18 @@
   },
   "metadata": {
     "title": "Cited",
-    "description": "Cited AI Chat Support"
+    "description": "Cited AI Chat Support",
+    "keywords": "Cited AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Cited, Cited AI, Cited AI Chat, Cited AI Chat Support",
+    "twitter": {
+      "title": "Cited AI Chat Support",
+      "description": "Cited AI Chat Support",
+      "keywords": "Cited AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Cited, Cited AI, Cited AI Chat, Cited AI Chat Support"
+    },
+    "og": {
+      "title": "Cited AI Chat Support",
+      "description": "Cited AI Chat Support",
+      "keywords": "Cited AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Cited, Cited AI, Cited AI Chat, Cited AI Chat Support"
+    }
   },
   "auth": {
     "login": "Login",
@@ -852,6 +871,23 @@
       "registered": "Registered",
       "lastLogin": "Last Login",
       "memberUpdated": "Member updated successfully"
+    },
+    "subscriptions": {
+      "title": "Subscriptions",
+      "description": "Manage your subscriptions",
+      "loadingSubscriptionData": "Loading subscription data...",
+      "currentPlan": "Current Plan",
+      "currentSubscription": "Current Subscription",
+      "price": "Price",
+      "conversationsPerMonth": "Conversations Per Month",
+      "manageSubscription": "Manage Subscription",
+      "availablePlans": "Available Plans",
+      "chatbots": "Chatbots",
+      "failedToOpenSubscriptionManagement": "Failed to open subscription management",
+      "upgrade": "Upgrade",
+      "downgrade": "Downgrade",
+      "cancel": "Cancel",
+      "renew": "Renew"
     }
   },
   "notifications": {

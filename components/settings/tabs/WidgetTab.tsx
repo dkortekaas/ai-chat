@@ -28,7 +28,7 @@ import {
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useAssistant } from "@/contexts/assistant-context";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/components/ui/use-toast";
 
 interface WidgetTabProps {
   onChanges: (hasChanges: boolean) => void;
@@ -83,7 +83,11 @@ export function WidgetTab({ onChanges }: WidgetTabProps) {
         // Use Web Crypto API for secure random values
         const array = new Uint8Array(16);
         crypto.getRandomValues(array);
-        const randomPart = Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('').substring(0, 16);
+        const randomPart = Array.from(array, (byte) =>
+          byte.toString(16).padStart(2, "0")
+        )
+          .join("")
+          .substring(0, 16);
         const newApiKey = `cbk_live_${Date.now()}_${randomPart}`;
         setApiKey(newApiKey);
 

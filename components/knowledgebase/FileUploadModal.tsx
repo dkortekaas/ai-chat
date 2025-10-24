@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/components/ui/use-toast";
 import { Upload, FileText, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -127,6 +127,7 @@ export function FileUploadModal({
       toast({
         title: t("success.fileUploaded"),
         description: t("success.fileUploadedSuccessfully"),
+        variant: "success",
       });
 
       onSuccess();

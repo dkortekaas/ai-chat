@@ -14,7 +14,7 @@ import {
 import { Plus, Trash2 } from "lucide-react";
 import { DeleteConfirmationModal } from "@/components/shared/DeleteConfirmationModal";
 import { useAssistant } from "@/contexts/assistant-context";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/components/ui/use-toast";
 import { useTranslations } from "next-intl";
 import { ContactForm } from "@/types/form";
 
