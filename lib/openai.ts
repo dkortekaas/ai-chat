@@ -8,9 +8,6 @@ export const openai = process.env.OPENAI_API_KEY
     })
   : null;
 
-// Cache frequente vragen om kosten en latency te reduceren
-const responseCache = new Map<string, CachedResponse>();
-
 interface CachedResponse {
   answer: string;
   confidence: number;
@@ -22,6 +19,87 @@ interface CachedResponse {
     url?: string;
   }>;
   tokensUsed: number;
+}
+
+/**
+ * LRU (Least Recently Used) Cache implementation
+ * Prevents memory leaks by limiting cache size and evicting old entries
+ */
+class LRUCache<K, V> {
+  private cache: Map<K, V>;
+  private maxSize: number;
+  private ttl: number; // Time-to-live in milliseconds
+
+  constructor(maxSize: number = 10000, ttl: number = 3600000) {
+    this.cache = new Map();
+    this.maxSize = maxSize;
+    this.ttl = ttl; // Default: 1 hour
+  }
+
+  get(key: K): V | undefined {
+    const item = this.cache.get(key);
+    if (!item) return undefined;
+
+    // Move to end (most recently used)
+    this.cache.delete(key);
+    this.cache.set(key, item);
+    return item;
+  }
+
+  set(key: K, value: V): void {
+    // Remove if already exists (to update position)
+    if (this.cache.has(key)) {
+      this.cache.delete(key);
+    }
+
+    // Add to end (most recently used)
+    this.cache.set(key, value);
+
+    // Evict oldest entry if cache is full
+    if (this.cache.size > this.maxSize) {
+      const firstKey = this.cache.keys().next().value;
+      this.cache.delete(firstKey);
+      console.log(`🗑️ LRU cache evicted oldest entry (size: ${this.cache.size}/${this.maxSize})`);
+    }
+  }
+
+  clear(): void {
+    this.cache.clear();
+    console.log("🧹 Response cache cleared");
+  }
+
+  size(): number {
+    return this.cache.size;
+  }
+
+  // Clean expired entries based on TTL
+  cleanExpired(getTimestamp: (value: V) => number): void {
+    const now = Date.now();
+    const keysToDelete: K[] = [];
+
+    for (const [key, value] of this.cache.entries()) {
+      const timestamp = getTimestamp(value);
+      if (now - timestamp > this.ttl) {
+        keysToDelete.push(key);
+      }
+    }
+
+    keysToDelete.forEach(key => this.cache.delete(key));
+
+    if (keysToDelete.length > 0) {
+      console.log(`🧹 Cleaned ${keysToDelete.length} expired cache entries`);
+    }
+  }
+}
+
+// Response cache with LRU eviction - max 10,000 entries, 1 hour TTL
+const responseCache = new LRUCache<string, CachedResponse>(10000, 3600000);
+
+// Periodically clean expired entries (every 10 minutes)
+if (typeof setInterval !== 'undefined') {
+  setInterval(() => {
+    responseCache.cleanExpired((value) => value.timestamp);
+  }, 600000); // 10 minutes
 }
 
 interface Response {
