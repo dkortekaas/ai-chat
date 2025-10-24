@@ -23,7 +23,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { ChatbotPreview } from "@/components/assistant/ChatbotPreview";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/components/ui/use-toast";
 import { useAssistant } from "@/contexts/assistant-context";
 import { useSession } from "next-auth/react";
 import { ArrowLeft, X, Plus, Info } from "lucide-react";
@@ -297,8 +297,8 @@ export default function EditAssistantPage() {
         setAssistant(updatedAssistant);
         setHasChanges(false);
         toast({
-          title: t("success"),
           description: t("success.assistantUpdatedSuccessfully"),
+          variant: "success",
         });
       } else {
         throw new Error("Failed to update assistant");
@@ -306,7 +306,6 @@ export default function EditAssistantPage() {
     } catch (error) {
       console.error("Error updating assistant:", error);
       toast({
-        title: t("error"),
         description: t("error.failedToUpdateAssistant"),
         variant: "destructive",
       });

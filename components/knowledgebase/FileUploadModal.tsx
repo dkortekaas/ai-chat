@@ -134,7 +134,6 @@ export function FileUploadModal({
       handleClose();
     } catch (error) {
       toast({
-        title: t("error.saveFailed"),
         description:
           error instanceof Error ? error.message : t("error.anErrorOccurred"),
         variant: "destructive",

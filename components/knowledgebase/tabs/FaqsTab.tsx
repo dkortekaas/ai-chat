@@ -62,7 +62,6 @@ export function FaqsTab() {
       }
     } catch {
       toast({
-        title: t("error.saveFailed"),
         description: t("error.failedToLoadFAQs"),
         variant: "destructive",
       });
@@ -89,6 +88,14 @@ export function FaqsTab() {
   };
 
   const handleDuplicateFAQ = async (faq: FAQ) => {
+    if (!currentAssistant) {
+      toast({
+        description: t("error.knowledgebase.noAssistantSelected"),
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
       const response = await fetch("/api/faqs", {
         method: "POST",
@@ -100,12 +107,12 @@ export function FaqsTab() {
           answer: faq.answer,
           enabled: faq.enabled,
           order: faq.order + 1,
+          assistantId: currentAssistant.id,
         }),
       });
 
       if (response.ok) {
         toast({
-          title: t("success.faqDuplicated"),
           description: t("success.faqDuplicatedSuccessfully"),
           variant: "success",
         });
@@ -116,7 +123,6 @@ export function FaqsTab() {
       }
     } catch (error) {
       toast({
-        title: t("error.saveFailed"),
         description:
           error instanceof Error
             ? error.message
@@ -142,7 +148,6 @@ export function FaqsTab() {
 
       if (response.ok) {
         toast({
-          title: t("success.faqDeleted"),
           description: t("success.faqDeletedSuccessfully"),
           variant: "success",
         });
@@ -155,7 +160,6 @@ export function FaqsTab() {
       }
     } catch (error) {
       toast({
-        title: t("error.saveFailed"),
         description:
           error instanceof Error ? error.message : t("error.failedToDeleteFAQ"),
         variant: "destructive",
@@ -189,7 +193,6 @@ export function FaqsTab() {
 
       if (response.ok) {
         toast({
-          title: t("success.faqUpdated"),
           description: t("success.faqUpdatedSuccessfully"),
           variant: "success",
         });
@@ -199,7 +202,6 @@ export function FaqsTab() {
       }
     } catch {
       toast({
-        title: t("error.saveFailed"),
         description: t("error.failedToUpdateFAQ"),
         variant: "destructive",
       });

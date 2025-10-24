@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { TestTube, ArrowUp, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAssistant } from "@/contexts/assistant-context";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/components/ui/use-toast";
 
 // Import tab components
 import { LookAndFeelTab } from "@/components/settings/tabs/LookAndFeelTab";

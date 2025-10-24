@@ -77,7 +77,6 @@ export function BestandenTab() {
     } catch (error) {
       console.error("Error fetching files:", error);
       toast({
-        title: t("error.saveFailed"),
         description: t("error.failedToLoadFiles"),
         variant: "destructive",
       });
@@ -120,7 +119,6 @@ export function BestandenTab() {
 
       if (response.ok) {
         toast({
-          title: t("success.fileDeleted"),
           description: t("success.fileDeletedSuccessfully"),
           variant: "success",
         });
@@ -134,7 +132,6 @@ export function BestandenTab() {
     } catch (error) {
       console.error("Error downloading file:", error);
       toast({
-        title: t("error.saveFailed"),
         description:
           error instanceof Error
             ? error.message
@@ -164,7 +161,6 @@ export function BestandenTab() {
       }
     } catch {
       toast({
-        title: t("error.saveFailed"),
         description: t("error.failedToDownloadFile"),
         variant: "destructive",
       });
@@ -186,7 +182,6 @@ export function BestandenTab() {
 
       if (response.ok) {
         toast({
-          title: t("success.fileUpdated"),
           description: t("success.fileUpdatedSuccessfully"),
           variant: "success",
         });
@@ -197,7 +192,6 @@ export function BestandenTab() {
     } catch (error) {
       console.error("Error updating file:", error);
       toast({
-        title: t("error.saveFailed"),
         description:
           error instanceof Error
             ? error.message

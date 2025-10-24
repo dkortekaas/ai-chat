@@ -72,7 +72,6 @@ export function FileEditForm({
       }
 
       toast({
-        title: t("success.fileUpdated"),
         description: t("success.fileUpdatedSuccessfully"),
         variant: "success",
       });
@@ -81,7 +80,6 @@ export function FileEditForm({
       onClose();
     } catch (error) {
       toast({
-        title: t("error.saveFailed"),
         description:
           error instanceof Error ? error.message : t("error.anErrorOccurred"),
         variant: "destructive",

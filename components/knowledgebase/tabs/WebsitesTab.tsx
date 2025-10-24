@@ -74,7 +74,6 @@ export function WebsitesTab() {
       }
     } catch {
       toast({
-        title: t("error.saveFailed"),
         description: t("error.failedToLoadWebsites"),
         variant: "destructive",
       });
@@ -127,7 +126,6 @@ export function WebsitesTab() {
       }
     } catch (error) {
       toast({
-        title: t("error.saveFailed"),
         description:
           error instanceof Error
             ? error.message
@@ -170,7 +168,6 @@ export function WebsitesTab() {
       }
     } catch (error) {
       toast({
-        title: t("error.saveFailed"),
         description:
           error instanceof Error
             ? error.message

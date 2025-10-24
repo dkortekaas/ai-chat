@@ -23,7 +23,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { ColorPicker } from "@/components/assistant/ColorPicker";
 import { ChatbotPreview } from "@/components/assistant/ChatbotPreview";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/components/ui/use-toast";
 import { ArrowLeft, Save, X, Plus, Info } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { PageHeader } from "@/components/layouts";

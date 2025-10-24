@@ -23,8 +23,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-//import { DeleteConfirmationModal } from "@/components/kennisbank/delete-confirmation-modal";
-import { useToast } from "@/hooks/useToast";
+import { DeleteConfirmationModal } from "@/components/shared/DeleteConfirmationModal";
+import { useToast } from "@/components/ui/use-toast";
 import { useAssistant } from "@/contexts/assistant-context";
 import { Assistant } from "@/types/assistant";
 import { useTranslations } from "next-intl";
@@ -80,8 +80,8 @@ export default function AssistantsPage() {
 
       if (response.ok) {
         toast({
-          title: t("success.assistantDuplicated"),
           description: t("success.assistantDuplicatedDescription"),
+          variant: "success",
         });
         refreshAssistants();
       } else {
@@ -90,7 +90,6 @@ export default function AssistantsPage() {
       }
     } catch (error) {
       toast({
-        title: t("error"),
         description:
           error instanceof Error
             ? error.message
@@ -116,8 +115,8 @@ export default function AssistantsPage() {
 
       if (response.ok) {
         toast({
-          title: t("success.assistantDeleted"),
           description: t("success.assistantDeletedDescription"),
+          variant: "success",
         });
         refreshAssistants();
         setIsDeleteModalOpen(false);
@@ -329,15 +328,15 @@ export default function AssistantsPage() {
       </div>
 
       {/* Delete Confirmation Modal */}
-      {/* <DeleteConfirmationModal
+      <DeleteConfirmationModal
         isOpen={isDeleteModalOpen}
         onClose={handleDeleteModalClose}
         onConfirm={confirmDeleteAssistant}
-        title={t("deleteAssistant")}
-        description={t("deleteAssistantDescription")}
+        title={t("assistants.deleteAssistant")}
+        description={t("assistants.deleteAssistantDescription")}
         itemName={assistantToDelete?.name || ""}
         isLoading={isDeleting}
-      /> */}
+      />
     </div>
   );
 }

@@ -152,7 +152,6 @@ export function WebsiteForm({
           errorData.error.toLowerCase().includes("failed to create website")
         ) {
           toast({
-            title: t("error.saveFailed"),
             description: t("error.urlAlreadyExistsDescription"),
             variant: "destructive",
           });
@@ -161,19 +160,13 @@ export function WebsiteForm({
 
         // Generic error toast
         toast({
-          title: t("error.saveFailed"),
-          description:
-            (errorData && (errorData.error || errorData.message)) ||
-            t("error.saveFailed"),
+          description: errorData && (errorData.error || errorData.message),
           variant: "destructive",
         });
         return;
       }
 
       toast({
-        title: isEditing
-          ? t("success.websiteUpdated")
-          : t("success.websiteAdded"),
         description: isEditing
           ? t("success.websiteUpdatedSuccessfully")
           : t("success.websiteAddedSuccessfully"),
@@ -184,7 +177,6 @@ export function WebsiteForm({
       onClose();
     } catch (error) {
       toast({
-        title: t("error.saveFailed"),
         description:
           error instanceof Error ? error.message : "An error occurred",
         variant: "destructive",

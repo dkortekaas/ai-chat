@@ -45,7 +45,6 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
 
     if (!currentAssistant) {
       toast({
-        title: t("error.saveFailed"),
         description: t("error.knowledgebase.noAssistantSelected"),
         variant: "destructive",
       });
@@ -76,7 +75,6 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
       }
 
       toast({
-        title: isEditing ? t("success.faqUpdated") : t("success.faqAdded"),
         description: isEditing
           ? t("success.faqUpdatedSuccessfully")
           : t("success.faqAddedSuccessfully"),
@@ -87,7 +85,6 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
       onClose();
     } catch (error) {
       toast({
-        title: t("error.saveFailed"),
         description:
           error instanceof Error ? error.message : t("error.unknownError"),
         variant: "destructive",
