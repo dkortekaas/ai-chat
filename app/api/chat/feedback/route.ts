@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { z } from "zod";
 import { getCorsHeaders, validateCorsOrigin } from "@/lib/cors";
+import { checkRateLimit, getRateLimitHeaders } from "@/lib/rate-limiter";
 
 const feedbackSchema = z.object({
   messageId: z.string().min(1),
@@ -61,6 +62,25 @@ export async function POST(request: NextRequest) {
         {
           status: 403,
           headers: corsHeaders,
+        }
+      );
+    }
+
+    // Check rate limiting (more lenient for feedback - 30 requests per minute)
+    const rateLimitResult = checkRateLimit(`feedback:${apiKey}`, 30, 60000);
+
+    if (!rateLimitResult.allowed) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Rate limit exceeded. Please try again later.",
+        },
+        {
+          status: 429,
+          headers: {
+            ...corsHeaders,
+            ...getRateLimitHeaders(rateLimitResult),
+          },
         }
       );
     }

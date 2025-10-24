@@ -9,6 +9,7 @@ import { searchRelevantContext, unifiedSearch } from "@/lib/search";
 import { z } from "zod";
 import { randomBytes } from "crypto";
 import { getCorsHeaders, validateCorsOrigin } from "@/lib/cors";
+import { checkRateLimit, getRateLimitHeaders } from "@/lib/rate-limiter";
 
 const messageSchema = z.object({
   question: z.string().min(1).max(1000),
@@ -81,8 +82,26 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check rate limiting (basic implementation)
-    // TODO: Implement proper rate limiting with Redis
+    // Check rate limiting
+    // Use API key as the rate limit key, with limit from chatbot settings
+    const rateLimit = chatbotSettings.rateLimit || 10; // requests per minute
+    const rateLimitResult = checkRateLimit(apiKey, rateLimit, 60000);
+
+    if (!rateLimitResult.allowed) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Rate limit exceeded. Please try again later.",
+        },
+        {
+          status: 429,
+          headers: {
+            ...corsHeaders,
+            ...getRateLimitHeaders(rateLimitResult),
+          },
+        }
+      );
+    }
 
     // Generate session ID if not provided - use crypto for security
     const finalSessionId =
