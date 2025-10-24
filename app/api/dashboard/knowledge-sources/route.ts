@@ -87,7 +87,12 @@ export async function GET(request: NextRequest) {
 
     const userFaqIds = new Set(userFaqs.map((faq) => faq.id));
 
-    // Get conversations in the date range
+    // OPTIMIZATION: Limit conversations to prevent memory exhaustion
+    // In production environments with millions of conversations, this prevents
+    // fetching the entire database. Consider using date-based archiving for older data.
+    const MAX_CONVERSATIONS = 10000;
+
+    // Get conversations in the date range (with limit to prevent memory exhaustion)
     const conversations = await db.conversation.findMany({
       where: {
         createdAt: {
@@ -107,6 +112,10 @@ export async function GET(request: NextRequest) {
             },
           },
         },
+      },
+      take: MAX_CONVERSATIONS,
+      orderBy: {
+        createdAt: "desc", // Get most recent conversations first
       },
     });
 
