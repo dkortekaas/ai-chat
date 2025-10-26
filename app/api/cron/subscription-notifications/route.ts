@@ -5,6 +5,14 @@ import {
   sendSubscriptionExpiredEmail,
 } from "@/lib/email";
 import { logger } from "@/lib/logger";
+import {
+  triggerWebhooks,
+  buildTrialExpiringPayload,
+  buildTrialExpiredPayload,
+  buildSubscriptionExpiringPayload,
+  buildSubscriptionExpiredPayload,
+  buildGracePeriodStartedPayload,
+} from "@/lib/webhooks";
 
 /**
  * Subscription Expiration Notification Cron Job
@@ -62,6 +70,7 @@ export async function POST(request: NextRequest) {
     const stats = {
       checked: 0,
       notified: 0,
+      webhooksTriggered: 0,
       errors: 0,
       byStatus: {
         expiring7Days: 0,
@@ -93,7 +102,10 @@ export async function POST(request: NextRequest) {
         email: true,
         name: true,
         subscriptionStatus: true,
+        subscriptionPlan: true,
+        trialStartDate: true,
         trialEndDate: true,
+        subscriptionStartDate: true,
         subscriptionEndDate: true,
       },
     });
@@ -183,6 +195,51 @@ export async function POST(request: NextRequest) {
               sentAt: now,
             },
           });
+
+          // Trigger webhooks based on event type
+          try {
+            const isTrial = user.subscriptionStatus === "TRIAL";
+
+            if (daysUntilExpiration > 0) {
+              // Expiring soon
+              if (isTrial) {
+                await triggerWebhooks(
+                  buildTrialExpiringPayload(user, daysUntilExpiration)
+                );
+              } else {
+                await triggerWebhooks(
+                  buildSubscriptionExpiringPayload(user, daysUntilExpiration)
+                );
+              }
+            } else if (daysUntilExpiration === 0) {
+              // Expiring today - also trigger grace period started
+              if (isTrial) {
+                await triggerWebhooks(buildTrialExpiredPayload(user));
+              } else {
+                await triggerWebhooks(buildSubscriptionExpiredPayload(user));
+              }
+
+              // Grace period starts when subscription expires
+              await triggerWebhooks(buildGracePeriodStartedPayload(user));
+            } else {
+              // Already expired (during grace period)
+              if (isTrial) {
+                await triggerWebhooks(buildTrialExpiredPayload(user));
+              } else {
+                await triggerWebhooks(buildSubscriptionExpiredPayload(user));
+              }
+            }
+
+            stats.webhooksTriggered++;
+          } catch (webhookError) {
+            // Don't fail the whole process if webhooks fail
+            logger.error("Failed to trigger webhook", {
+              context: {
+                userId: user.id,
+                error: webhookError instanceof Error ? webhookError.message : String(webhookError),
+              },
+            });
+          }
 
           stats.notified++;
 
