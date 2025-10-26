@@ -240,6 +240,16 @@ export function SubscriptionTab() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">
+                    {t("account.subscriptions.trialPeriodEnds")}:
+                  </span>
+                  <span className="font-medium">
+                    {user.trialEndDate
+                      ? new Date(user.trialEndDate).toLocaleDateString("nl-NL")
+                      : "-"}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">
                     {t("account.subscriptions.chatbots")}:
                   </span>
                   <span className="font-medium">

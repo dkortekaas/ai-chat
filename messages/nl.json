@@ -889,6 +889,8 @@
     "monthly": "Maandelijks",
     "yearly": "Jaarlijks",
     "lifetime": "Levenslang",
+    "noValidSubscription": "Geen geldig abonnement gevonden",
+    "upgradeSubscription": "Abonnement upgraden",
     "upgradeDetails": {
       "currentPlan": "Huidig plan",
       "monthly": "maand",

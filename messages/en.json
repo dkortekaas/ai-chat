@@ -872,6 +872,7 @@
       "loadingSubscriptionData": "Loading subscription data...",
       "currentPlan": "Current Plan",
       "currentSubscription": "Current Subscription",
+      "trialPeriodEnds": "Trial Period Ends",
       "price": "Price",
       "conversationsPerMonth": "Conversations Per Month",
       "manageSubscription": "Manage Subscription",
@@ -881,7 +882,11 @@
       "upgrade": "Upgrade",
       "downgrade": "Downgrade",
       "cancel": "Cancel",
-      "renew": "Renew"
+      "renew": "Renew",
+      "trial": "Trial",
+      "trialPeriod": "Trial Period",
+      "trialPeriodExpired": "Trial Period Expired",
+      "trialPeriodExpiredDescription": "Your trial period has expired. Please upgrade to a paid plan to continue using the chatbot."
     }
   },
   "notifications": {
@@ -947,6 +952,8 @@
     "monthly": "Monthly",
     "yearly": "Yearly",
     "lifetime": "Lifetime",
+    "noValidSubscription": "No valid subscription found",
+    "upgradeSubscription": "Upgrade subscription",
     "upgradeDetails": {
       "currentPlan": "Current Plan",
       "monthly": "month",
