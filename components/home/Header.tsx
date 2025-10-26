@@ -3,11 +3,12 @@
 
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, MessageSquare } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useParams, useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import config from "@/config";
+import { Button } from "../ui";
 
 const languages = [
   { code: "nl", name: "Nederlands", flag: "🇳🇱" },
@@ -18,14 +19,16 @@ const languages = [
 ];
 
 export default function Header() {
+  const t = useTranslations("header");
   const [isOpen, setIsOpen] = useState(false);
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
-  const t = useTranslations("header");
   const params = useParams();
   const pathname = usePathname();
   const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
+
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const locale = params?.locale as string;
 
@@ -73,154 +76,117 @@ export default function Header() {
   const currentLanguage = languages.find((lang) => lang.code === locale);
 
   return (
-    <header className="w-full bg-white/70 backdrop-blur-md fixed top-0 z-50 border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
-          <Link href={`/${locale}`} className="flex items-center space-x-2">
-            <Image
-              src="/declair-logo.svg"
-              alt={config.appTitle}
-              width={80}
-              height={80}
-              className="w-10 h-10"
-            />
-            <span className="text-xl font-bold text-gray-900">
-              {config.appTitle}
-            </span>
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-border">
+      <nav
+        className="container mx-auto px-4 sm:px-6 lg:px-8"
+        aria-label="Hoofdnavigatie"
+      >
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <Link
+            href="/"
+            className="flex items-center gap-2 group"
+            aria-label="EmbedIQ Home"
+          >
+            <div className="w-10 h-10 bg-indigo-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+              <MessageSquare
+                className="w-6 h-6 text-white"
+                aria-hidden="true"
+              />
+            </div>
+            <span className="text-xl font-bold text-foreground">EmbedIQ</span>
           </Link>
 
-          <nav className="hidden md:flex items-center space-x-6">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-8">
             <Link
-              href={`/${locale}#features`}
-              className="text-gray-600 hover:text-indigo-400"
+              href="/#features"
+              className="text-foreground hover:text-primary transition-colors font-medium"
             >
               {t("features")}
             </Link>
             <Link
-              href={`/${locale}#pricing`}
-              className="text-gray-600 hover:text-indigo-400"
+              href="/pricing"
+              className="text-foreground hover:text-primary transition-colors font-medium"
             >
               {t("pricing")}
             </Link>
             <Link
-              href={`/${locale}#testimonials`}
-              className="text-gray-600 hover:text-indigo-400"
+              href="/contact"
+              className="text-foreground hover:text-primary transition-colors font-medium"
             >
-              {t("testimonials")}
+              {t("contact")}
             </Link>
-            <Link
-              href={`/login`}
-              className="text-gray-600 hover:text-indigo-400"
+          </div>
+
+          {/* CTA Buttons */}
+          <div className="hidden md:flex items-center gap-4">
+            <Button
+              variant="ghost"
+              asChild
+              className="text-foreground hover:text-primary font-medium"
             >
-              {t("login")}
-            </Link>
-            <Link
-              href={`/register`}
-              className="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg"
-            >
+              <Link href="/login">{t("login")}</Link>
+            </Button>
+            <Button className="bg-indigo-500 hover:bg-indigo-500-dark text-primary-foreground font-semibold">
               {t("tryFree")}
-            </Link>
+            </Button>
+          </div>
 
-            {/* Language Dropdown */}
-            <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
-                className="flex items-center space-x-1 text-gray-600 hover:text-indigo-400 p-2"
-                disabled={isTransitioning}
-              >
-                <span>{currentLanguage?.flag}</span>
-                <ChevronDown
-                  size={14}
-                  className={`transition-transform ${isLangDropdownOpen ? "rotate-180" : ""}`}
-                />
-              </button>
-
-              {isLangDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
-                  {languages.map((lang) => (
-                    <button
-                      key={lang.code}
-                      onClick={() => switchLocale(lang.code)}
-                      disabled={isTransitioning}
-                      className={`w-full px-4 py-2 text-left flex items-center space-x-2 hover:bg-gray-50 disabled:opacity-50 ${
-                        lang.code === locale
-                          ? "bg-indigo-50 text-indigo-400"
-                          : "text-gray-700"
-                      }`}
-                    >
-                      <span>{lang.flag}</span>
-                      <span>{lang.name}</span>
-                      {isTransitioning && lang.code !== locale && (
-                        <span className="ml-auto text-xs">...</span>
-                      )}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          </nav>
-
-          <button onClick={() => setIsOpen(!isOpen)} className="md:hidden">
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          {/* Mobile menu button */}
+          <button
+            type="button"
+            className="md:hidden p-2 text-foreground"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu"
+            aria-label="Open menu"
+          >
+            <Menu className="w-6 h-6" aria-hidden="true" />
           </button>
         </div>
-      </div>
 
-      {/* Mobile menu */}
-      {isOpen && (
-        <div className="md:hidden bg-white border-b border-gray-200">
-          <div className="px-4 py-2 space-y-1">
-            <Link
-              href={`/${locale}#features`}
-              className="block px-3 py-2 text-gray-600"
-            >
-              {t("features")}
-            </Link>
-            <Link
-              href={`/${locale}#pricing`}
-              className="block px-3 py-2 text-gray-600"
-            >
-              {t("pricing")}
-            </Link>
-            <Link
-              href={`/${locale}#testimonials`}
-              className="block px-3 py-2 text-gray-600"
-            >
-              {t("testimonials")}
-            </Link>
-            <Link href={`/login`} className="block px-3 py-2 text-gray-600">
-              {t("login")}
-            </Link>
-            <Link
-              href={`/register`}
-              className="block px-3 py-2 bg-indigo-500 font-medium transition-colors duration-300 hover:bg-indigo-600"
-            >
-              {t("tryFree")}
-            </Link>
-
-            <div className="border-t pt-2">
-              <p className="px-3 py-1 text-sm text-gray-500">
-                {t("language", { defaultMessage: "Language" })}
-              </p>
-              {languages.map((lang) => (
-                <button
-                  key={lang.code}
-                  onClick={() => switchLocale(lang.code)}
-                  disabled={isTransitioning}
-                  className={`w-full px-3 py-2 text-left flex items-center space-x-2 disabled:opacity-50 ${
-                    lang.code === locale
-                      ? "text-indigo-400 font-medium"
-                      : "text-gray-600"
-                  }`}
+        {/* Mobile Navigation */}
+        {mobileMenuOpen && (
+          <div
+            id="mobile-menu"
+            className="md:hidden py-4 border-t border-border"
+          >
+            <div className="flex flex-col gap-4">
+              <Link
+                href="/#features"
+                className="text-foreground hover:text-primary transition-colors font-medium py-2"
+              >
+                {t("features")}
+              </Link>
+              <Link
+                href="/pricing"
+                className="text-foreground hover:text-primary transition-colors font-medium py-2"
+              >
+                {t("pricing")}
+              </Link>
+              <Link
+                href="/contact"
+                className="text-foreground hover:text-primary transition-colors font-medium py-2"
+              >
+                {t("contact")}
+              </Link>
+              <div className="flex flex-col gap-2 pt-4 border-t border-border">
+                <Button
+                  variant="ghost"
+                  asChild
+                  className="text-foreground hover:text-primary font-medium justify-start"
                 >
-                  <span>{lang.flag}</span>
-                  <span>{lang.name}</span>
-                </button>
-              ))}
+                  <Link href="/login">{t("login")}</Link>
+                </Button>
+                <Button className="bg-indigo-500 hover:bg-indigo-500-dark text-primary-foreground font-semibold">
+                  {t("tryFree")}
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </nav>
     </header>
   );
 }

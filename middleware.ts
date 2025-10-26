@@ -23,6 +23,8 @@ const noLocalePaths = [
 // Paths that don't require authentication
 const publicPaths = [
   "/",
+  "/pricing",
+  "/contact",
   "/login",
   "/register",
   "/forgot-password",

@@ -4,7 +4,7 @@
 import Header from "@/components/home/Header";
 import Hero from "@/components/home/Hero";
 import Features from "@/components/home/Features";
-import HowItWorks from "@/components/home/HowItWorks";
+import Benefits from "@/components/home/Benefits";
 import Pricing from "@/components/home/Pricing";
 import Testimonials from "@/components/home/Testimonials";
 import FAQ from "@/components/home/FAQ";
@@ -14,16 +14,41 @@ import "./landing.css";
 
 export default function ClientLayout() {
   return (
-    <main>
+    <div className="min-h-screen">
       <Header />
-      <Hero />
-      <Features />
-      <HowItWorks />
-      <Pricing />
-      <Testimonials />
-      <FAQ />
-      <CTA />
+      <main>
+        <Hero />
+        <Features />
+        <Benefits />
+        <FAQ />
+        <CTA />
+      </main>
       <Footer />
-    </main>
+
+      {/* Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "EmbedIQ",
+            applicationCategory: "BusinessApplication",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "EUR",
+            },
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: "4.9",
+              ratingCount: "250",
+            },
+            description:
+              "Intelligente AI chat assistentie voor betere klantbeleving en meer conversies. Automatiseer klantenservice 24/7.",
+          }),
+        }}
+      />
+    </div>
   );
 }
