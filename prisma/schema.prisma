@@ -38,13 +38,14 @@ model User {
   subscriptionCanceled  Boolean            @default(false)
   isActive              Boolean            @default(true)
   companyId             String?
-  accounts              Account[]
-  chatbot_settings      ChatbotSettings[]
-  sessions              Session[]
-  notifications         Notification[]
-  sentInvitations       Invitation[]       @relation("InvitationSender")
-  receivedInvitations   Invitation[]       @relation("InvitationRecipient")
-  company               Company?           @relation(fields: [companyId], references: [id])
+  accounts                   Account[]
+  chatbot_settings           ChatbotSettings[]
+  sessions                   Session[]
+  notifications              Notification[]
+  sentInvitations            Invitation[]                 @relation("InvitationSender")
+  receivedInvitations        Invitation[]                 @relation("InvitationRecipient")
+  subscriptionNotifications  SubscriptionNotification[]
+  company                    Company?                     @relation(fields: [companyId], references: [id])
 
   @@index([isActive])
   @@index([subscriptionStatus])
@@ -691,4 +692,21 @@ enum SuggestionStatus {
   REVIEWED
   IMPLEMENTED
   DISMISSED
+}
+
+model SubscriptionNotification {
+  id                   String   @id @default(cuid())
+  userId               String
+  notificationType     String   // "7_days", "3_days", "1_day", "today", "expired_1_day"
+  daysUntilExpiration  Int
+  sentAt               DateTime @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([notificationType])
+  @@index([sentAt])
+  @@index([userId, notificationType, sentAt])
+  @@map("subscription_notifications")
 }

@@ -520,3 +520,265 @@ export async function sendDeclarationDeletedEmail(
     throw error;
   }
 }
+
+/**
+ * Subscription Expiration Notification Emails
+ */
+
+export async function sendSubscriptionExpiringEmail(
+  email: string,
+  user: {
+    id: string;
+    name: string | null;
+    subscriptionStatus: string;
+    trialEndDate?: Date | null;
+    subscriptionEndDate?: Date | null;
+  },
+  daysRemaining: number
+) {
+  const isTrial = user.subscriptionStatus === "TRIAL";
+  const subscriptionType = isTrial ? "trial" : "abonnement";
+  const upgradeLink = `${process.env.NEXT_PUBLIC_APP_URL}/account?tab=subscription`;
+
+  const subject =
+    daysRemaining === 0
+      ? `Je ${subscriptionType} verloopt vandaag!`
+      : daysRemaining === 1
+        ? `Je ${subscriptionType} verloopt morgen!`
+        : `Je ${subscriptionType} verloopt over ${daysRemaining} dagen`;
+
+  try {
+    await resend.emails.send({
+      from: `${config.appTitle} <${config.email}>`,
+      to: email,
+      subject: subject,
+      html: await createEmailTemplate(`
+        <h1 style="color: #333; margin-bottom: 20px;">
+          ${daysRemaining === 0 ? "⏰ Laatste dag van je " + subscriptionType : "📅 " + subject}
+        </h1>
+
+        <p style="color: #666; line-height: 1.6; font-size: 16px;">
+          Beste ${user.name || "gebruiker"},
+        </p>
+
+        <p style="color: #666; line-height: 1.6; font-size: 16px;">
+          ${
+            daysRemaining === 0
+              ? `Je ${subscriptionType} verloopt <strong>vandaag</strong>.`
+              : daysRemaining === 1
+                ? `Je ${subscriptionType} verloopt <strong>morgen</strong>.`
+                : `Je ${subscriptionType} verloopt over <strong>${daysRemaining} dagen</strong>.`
+          }
+        </p>
+
+        ${
+          isTrial
+            ? `
+        <div style="background-color: #FEF3C7; border-left: 4px solid #F59E0B; padding: 15px; margin: 20px 0;">
+          <p style="color: #92400E; margin: 0; line-height: 1.6;">
+            <strong>Trial periode bijna voorbij</strong><br/>
+            Na ${daysRemaining === 0 ? "vandaag" : daysRemaining === 1 ? "morgen" : daysRemaining + " dagen"} kun je geen premium features meer gebruiken:
+          </p>
+          <ul style="color: #92400E; margin: 10px 0; padding-left: 20px;">
+            <li>AI Assistenten bewerken</li>
+            <li>Knowledge base beheren</li>
+            <li>Chatbot widget op je website</li>
+          </ul>
+        </div>
+        `
+            : `
+        <div style="background-color: #FEE2E2; border-left: 4px solid #EF4444; padding: 15px; margin: 20px 0;">
+          <p style="color: #991B1B; margin: 0; line-height: 1.6;">
+            <strong>Abonnement verloopt binnenkort</strong><br/>
+            Na ${daysRemaining === 0 ? "vandaag" : daysRemaining === 1 ? "morgen" : daysRemaining + " dagen"} worden je premium features uitgeschakeld.
+          </p>
+        </div>
+        `
+        }
+
+        <h2 style="color: #333; margin: 30px 0 15px;">Wat gebeurt er na expiratie?</h2>
+        <ul style="color: #666; line-height: 1.6; list-style: none; padding: 0;">
+          <li style="margin-bottom: 10px;">❌ Je kunt geen assistenten meer bewerken</li>
+          <li style="margin-bottom: 10px;">❌ Je knowledge base wordt niet meer bijgewerkt</li>
+          <li style="margin-bottom: 10px;">❌ Je chatbot widget stopt met werken op je website</li>
+          <li style="margin-bottom: 10px;">❌ Bezoekers kunnen geen vragen meer stellen</li>
+        </ul>
+
+        ${
+          isTrial
+            ? `
+        <h2 style="color: #333; margin: 30px 0 15px;">🎯 Upgrade nu en krijg:</h2>
+        <ul style="color: #666; line-height: 1.6; list-style: none; padding: 0;">
+          <li style="margin-bottom: 10px;">✅ Onbeperkt assistenten</li>
+          <li style="margin-bottom: 10px;">✅ Onbeperkte knowledge base items</li>
+          <li style="margin-bottom: 10px;">✅ 24/7 actieve chatbot widget</li>
+          <li style="margin-bottom: 10px;">✅ Premium support</li>
+          <li style="margin-bottom: 10px;">✅ Uitgebreide analytics</li>
+          <li style="margin-bottom: 10px;">✅ Aangepaste branding</li>
+        </ul>
+        `
+            : `
+        <h2 style="color: #333; margin: 30px 0 15px;">🔄 Verlengen is eenvoudig</h2>
+        <p style="color: #666; line-height: 1.6;">
+          Behoud toegang tot alle features door je abonnement te verlengen.
+        </p>
+        `
+        }
+
+        <div style="text-align: center; margin: 40px 0;">
+          <a href="${upgradeLink}" style="background-color: #3B82F6; color: white; padding: 16px 32px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: bold; font-size: 16px;">
+            ${isTrial ? "🚀 Upgrade naar Premium" : "🔄 Verlengen Abonnement"}
+          </a>
+        </div>
+
+        <div style="background-color: #F3F4F6; border-radius: 8px; padding: 20px; margin: 30px 0;">
+          <h3 style="color: #333; margin: 0 0 10px 0;">💡 Heb je vragen?</h3>
+          <p style="color: #666; line-height: 1.6; margin: 0;">
+            Neem contact met ons op via <a href="mailto:${config.email}" style="color: #3B82F6; text-decoration: none;">${config.email}</a><br/>
+            We helpen je graag met het kiezen van het juiste abonnement.
+          </p>
+        </div>
+
+        <p style="color: #666; line-height: 1.6; margin: 30px 0;">
+          Met vriendelijke groet,<br/>
+          Het ${config.appTitle} Team
+        </p>
+      `),
+    });
+
+    logger.info("Subscription expiring email sent", {
+      context: {
+        userId: user.id,
+        daysRemaining,
+        isTrial,
+      },
+    });
+  } catch (error) {
+    logger.error("Failed to send subscription expiring email", {
+      context: {
+        error: error instanceof Error ? error.message : String(error),
+        userId: user.id,
+        daysRemaining,
+      },
+    });
+    throw error;
+  }
+}
+
+export async function sendSubscriptionExpiredEmail(
+  email: string,
+  user: {
+    id: string;
+    name: string | null;
+    subscriptionStatus: string;
+  },
+  daysExpired: number = 0
+) {
+  const isTrial = user.subscriptionStatus === "TRIAL";
+  const subscriptionType = isTrial ? "trial" : "abonnement";
+  const upgradeLink = `${process.env.NEXT_PUBLIC_APP_URL}/account?tab=subscription`;
+
+  const subject =
+    daysExpired === 0
+      ? `Je ${subscriptionType} is verlopen`
+      : `Je ${subscriptionType} is ${daysExpired} ${daysExpired === 1 ? "dag" : "dagen"} geleden verlopen`;
+
+  try {
+    await resend.emails.send({
+      from: `${config.appTitle} <${config.email}>`,
+      to: email,
+      subject: subject,
+      html: await createEmailTemplate(`
+        <h1 style="color: #333; margin-bottom: 20px;">
+          🔒 Je ${subscriptionType} is verlopen
+        </h1>
+
+        <p style="color: #666; line-height: 1.6; font-size: 16px;">
+          Beste ${user.name || "gebruiker"},
+        </p>
+
+        <p style="color: #666; line-height: 1.6; font-size: 16px;">
+          Je ${subscriptionType} is ${daysExpired === 0 ? "vandaag" : daysExpired + (daysExpired === 1 ? " dag" : " dagen") + " geleden"} verlopen.
+        </p>
+
+        <div style="background-color: #FEE2E2; border-left: 4px solid #EF4444; padding: 20px; margin: 20px 0;">
+          <h3 style="color: #991B1B; margin: 0 0 15px 0;">⚠️ Premium features zijn nu uitgeschakeld</h3>
+          <ul style="color: #991B1B; margin: 0; padding-left: 20px; line-height: 1.8;">
+            <li>Je kunt geen assistenten meer bewerken</li>
+            <li>Je knowledge base is alleen-lezen</li>
+            <li>Je chatbot widget werkt niet meer op je website</li>
+            <li>Bezoekers zien geen chatbot op je site</li>
+          </ul>
+        </div>
+
+        ${
+          isTrial
+            ? `
+        <h2 style="color: #333; margin: 30px 0 15px;">🎁 Speciale trial-to-premium aanbieding</h2>
+        <div style="background-color: #DBEAFE; border-radius: 8px; padding: 20px; margin: 20px 0;">
+          <p style="color: #1E40AF; line-height: 1.6; margin: 0; font-size: 16px;">
+            <strong>Upgrade vandaag nog</strong> en krijg <strong>10% korting</strong> op je eerste maand!<br/>
+            Use code: <code style="background-color: #3B82F6; color: white; padding: 4px 8px; border-radius: 4px; font-weight: bold;">TRIAL10</code>
+          </p>
+        </div>
+        `
+            : ""
+        }
+
+        <h2 style="color: #333; margin: 30px 0 15px;">✅ Heractiveer je account nu</h2>
+        <p style="color: #666; line-height: 1.6;">
+          ${isTrial ? "Upgrade naar een premium abonnement" : "Verlengen je abonnement"} om direct weer toegang te krijgen tot:
+        </p>
+        <ul style="color: #666; line-height: 1.6; padding-left: 20px;">
+          <li>Al je assistenten en instellingen</li>
+          <li>Complete knowledge base</li>
+          <li>Actieve chatbot widget</li>
+          <li>Conversatie geschiedenis</li>
+          <li>Analytics en rapportages</li>
+        </ul>
+
+        <div style="text-align: center; margin: 40px 0;">
+          <a href="${upgradeLink}" style="background-color: #10B981; color: white; padding: 16px 32px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: bold; font-size: 16px;">
+            ${isTrial ? "🚀 Upgrade Naar Premium" : "🔄 Heractiveer Abonnement"}
+          </a>
+        </div>
+
+        <div style="background-color: #FEF3C7; border-radius: 8px; padding: 20px; margin: 30px 0;">
+          <h3 style="color: #92400E; margin: 0 0 10px 0;">⏰ Je data wordt bewaard</h3>
+          <p style="color: #92400E; line-height: 1.6; margin: 0;">
+            Maak je geen zorgen! Al je assistenten, knowledge base items en instellingen
+            worden bewaard. Na heractivatie kun je direct weer aan de slag.
+          </p>
+        </div>
+
+        <h2 style="color: #333; margin: 30px 0 15px;">💬 Hulp nodig?</h2>
+        <p style="color: #666; line-height: 1.6;">
+          Twijfel je nog of heb je vragen over de verschillende abonnementen?<br/>
+          Neem contact met ons op via <a href="mailto:${config.email}" style="color: #3B82F6; text-decoration: none;">${config.email}</a>
+        </p>
+
+        <p style="color: #666; line-height: 1.6; margin: 30px 0;">
+          We hopen je snel weer te zien!<br/><br/>
+          Met vriendelijke groet,<br/>
+          Het ${config.appTitle} Team
+        </p>
+      `),
+    });
+
+    logger.info("Subscription expired email sent", {
+      context: {
+        userId: user.id,
+        daysExpired,
+        isTrial,
+      },
+    });
+  } catch (error) {
+    logger.error("Failed to send subscription expired email", {
+      context: {
+        error: error instanceof Error ? error.message : String(error),
+        userId: user.id,
+      },
+    });
+    throw error;
+  }
+}
