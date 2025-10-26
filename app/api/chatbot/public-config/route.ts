@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { checkGracePeriod } from "@/lib/subscription";
 
 // CORS headers
 const corsHeaders = {
@@ -87,23 +88,15 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Check subscription status
-    const now = new Date();
-    const isTrialExpired =
-      user.subscriptionStatus === "TRIAL" &&
-      user.trialEndDate &&
-      new Date(user.trialEndDate) < now;
+    // Check subscription status with grace period support
+    const gracePeriodCheck = checkGracePeriod(
+      user.subscriptionStatus,
+      user.trialEndDate,
+      user.subscriptionEndDate
+    );
 
-    const isSubscriptionExpired =
-      user.subscriptionEndDate &&
-      new Date(user.subscriptionEndDate) < now;
-
-    const isInactiveStatus = ![
-      "TRIAL",
-      "ACTIVE",
-    ].includes(user.subscriptionStatus);
-
-    if (isTrialExpired || isSubscriptionExpired || isInactiveStatus) {
+    // Only block access if grace period has ended
+    if (gracePeriodCheck.shouldBlockAccess) {
       return NextResponse.json(
         {
           success: false,
@@ -113,6 +106,13 @@ export async function GET(request: NextRequest) {
           status: 403,
           headers: corsHeaders,
         }
+      );
+    }
+
+    // Log if in grace period (for monitoring)
+    if (gracePeriodCheck.isInGracePeriod) {
+      console.log(
+        `⚠️ Widget config accessed during grace period: ${user.id}, ${gracePeriodCheck.daysRemainingInGrace} days remaining`
       );
     }
 

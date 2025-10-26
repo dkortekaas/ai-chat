@@ -10,6 +10,7 @@ import { z } from "zod";
 import { randomBytes } from "crypto";
 import { getCorsHeaders, validateCorsOrigin } from "@/lib/cors";
 import { checkRateLimit, getRateLimitHeaders } from "@/lib/rate-limiter";
+import { checkGracePeriod } from "@/lib/subscription";
 
 const messageSchema = z.object({
   question: z.string().min(1).max(1000),
@@ -89,32 +90,38 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check subscription status
-    const now = new Date();
-    const isTrialExpired =
-      user.subscriptionStatus === "TRIAL" &&
-      user.trialEndDate &&
-      new Date(user.trialEndDate) < now;
+    // Check subscription status with grace period support
+    const gracePeriodCheck = checkGracePeriod(
+      user.subscriptionStatus,
+      user.trialEndDate,
+      user.subscriptionEndDate
+    );
 
-    const isSubscriptionExpired =
-      user.subscriptionEndDate &&
-      new Date(user.subscriptionEndDate) < now;
-
-    const isInactiveStatus = ![
-      "TRIAL",
-      "ACTIVE",
-    ].includes(user.subscriptionStatus);
-
-    if (isTrialExpired || isSubscriptionExpired || isInactiveStatus) {
+    // Only block access if grace period has ended
+    if (gracePeriodCheck.shouldBlockAccess) {
       return NextResponse.json(
         {
           success: false,
           error: "Subscription expired. Please renew your subscription to continue using the chatbot.",
+          gracePeriod: gracePeriodCheck.isInGracePeriod
+            ? {
+                active: true,
+                daysRemaining: gracePeriodCheck.daysRemainingInGrace,
+                message: gracePeriodCheck.message,
+              }
+            : { active: false },
         },
         {
           status: 403,
           headers: getCorsHeaders(origin, chatbotSettings.allowedDomains),
         }
+      );
+    }
+
+    // Log if in grace period (for monitoring)
+    if (gracePeriodCheck.isInGracePeriod) {
+      console.log(
+        `⚠️ Widget used during grace period: ${user.id}, ${gracePeriodCheck.daysRemainingInGrace} days remaining`
       );
     }
 
