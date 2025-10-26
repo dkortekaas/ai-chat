@@ -6,6 +6,7 @@ import { WebsitesTab } from "@/components/knowledgebase/tabs/WebsitesTab";
 import { FaqsTab } from "@/components/knowledgebase/tabs/FaqsTab";
 import { BestandenTab } from "@/components/knowledgebase/tabs/FilesTab";
 import { useTranslations } from "next-intl";
+import { TrialGuard } from "@/components/guards/TrialGuard";
 
 export default function KennisbankPage() {
   const t = useTranslations();
@@ -28,7 +29,8 @@ export default function KennisbankPage() {
   const ActiveComponent = tabs.find((tab) => tab.id === activeTab)?.component;
 
   return (
-    <div className="space-y-6">
+    <TrialGuard feature="document">
+      <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-semibold text-gray-900">
@@ -62,6 +64,7 @@ export default function KennisbankPage() {
 
       {/* Tab Content */}
       <div className="mt-6">{ActiveComponent && <ActiveComponent />}</div>
-    </div>
+      </div>
+    </TrialGuard>
   );
 }

@@ -10,6 +10,7 @@ import { z } from "zod";
 import { randomBytes } from "crypto";
 import { getCorsHeaders, validateCorsOrigin } from "@/lib/cors";
 import { checkRateLimit, getRateLimitHeaders } from "@/lib/rate-limiter";
+import { checkGracePeriod } from "@/lib/subscription";
 
 const messageSchema = z.object({
   question: z.string().min(1).max(1000),
@@ -50,7 +51,16 @@ export async function POST(request: NextRequest) {
       chatbotSettings = await db.chatbotSettings.findUnique({
         where: { apiKey },
         include: {
-          users: true,
+          users: {
+            select: {
+              id: true,
+              subscriptionStatus: true,
+              trialEndDate: true,
+              subscriptionEndDate: true,
+              subscriptionCanceled: true,
+              isActive: true,
+            },
+          },
         },
       });
     } catch (dbError) {
@@ -68,6 +78,56 @@ export async function POST(request: NextRequest) {
           status: 401,
           headers: corsHeaders,
         }
+      );
+    }
+
+    // Check if user's subscription is active
+    const user = chatbotSettings.users;
+    if (!user || !user.isActive) {
+      corsHeaders = getCorsHeaders(origin, chatbotSettings.allowedDomains);
+      return NextResponse.json(
+        { success: false, error: "User account is inactive" },
+        {
+          status: 403,
+          headers: corsHeaders,
+        }
+      );
+    }
+
+    // Check subscription status with grace period support
+    const gracePeriodCheck = checkGracePeriod(
+      user.subscriptionStatus,
+      user.trialEndDate,
+      user.subscriptionEndDate
+    );
+
+    // Only block access if grace period has ended
+    if (gracePeriodCheck.shouldBlockAccess) {
+      corsHeaders = getCorsHeaders(origin, chatbotSettings.allowedDomains);
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            "Subscription expired. Please renew your subscription to continue using the chatbot.",
+          gracePeriod: gracePeriodCheck.isInGracePeriod
+            ? {
+                active: true,
+                daysRemaining: gracePeriodCheck.daysRemainingInGrace,
+                message: gracePeriodCheck.message,
+              }
+            : { active: false },
+        },
+        {
+          status: 403,
+          headers: corsHeaders,
+        }
+      );
+    }
+
+    // Log if in grace period (for monitoring)
+    if (gracePeriodCheck.isInGracePeriod) {
+      console.log(
+        `⚠️ Widget used during grace period: ${user.id}, ${gracePeriodCheck.daysRemainingInGrace} days remaining`
       );
     }
 

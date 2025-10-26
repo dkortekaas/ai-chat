@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { checkGracePeriod } from "@/lib/subscription";
 
 // CORS headers
 const corsHeaders = {
@@ -50,6 +51,16 @@ export async function GET(request: NextRequest) {
             priority: true,
           },
         },
+        users: {
+          select: {
+            id: true,
+            subscriptionStatus: true,
+            trialEndDate: true,
+            subscriptionEndDate: true,
+            subscriptionCanceled: true,
+            isActive: true,
+          },
+        },
       },
     });
 
@@ -62,6 +73,46 @@ export async function GET(request: NextRequest) {
           status: 401,
           headers: corsHeaders,
         }
+      );
+    }
+
+    // Check if user's subscription is active
+    const user = chatbotSettings.users;
+    if (!user || !user.isActive) {
+      return NextResponse.json(
+        { success: false, error: "User account is inactive" },
+        {
+          status: 403,
+          headers: corsHeaders,
+        }
+      );
+    }
+
+    // Check subscription status with grace period support
+    const gracePeriodCheck = checkGracePeriod(
+      user.subscriptionStatus,
+      user.trialEndDate,
+      user.subscriptionEndDate
+    );
+
+    // Only block access if grace period has ended
+    if (gracePeriodCheck.shouldBlockAccess) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Subscription expired. Please renew your subscription to continue using the chatbot.",
+        },
+        {
+          status: 403,
+          headers: corsHeaders,
+        }
+      );
+    }
+
+    // Log if in grace period (for monitoring)
+    if (gracePeriodCheck.isInGracePeriod) {
+      console.log(
+        `⚠️ Widget config accessed during grace period: ${user.id}, ${gracePeriodCheck.daysRemainingInGrace} days remaining`
       );
     }
 

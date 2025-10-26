@@ -179,3 +179,177 @@ export async function getUsageStats(userId: string) {
     conversations: monthlyConversations,
   };
 }
+
+/**
+ * Grace Period Support
+ *
+ * Allows users to continue using premium features for a limited time
+ * after their subscription expires.
+ */
+
+// Grace period duration in days (configurable via env)
+export const GRACE_PERIOD_DAYS = process.env.SUBSCRIPTION_GRACE_PERIOD_DAYS
+  ? parseInt(process.env.SUBSCRIPTION_GRACE_PERIOD_DAYS)
+  : 3;
+
+export interface GracePeriodCheck {
+  isExpired: boolean;
+  isInGracePeriod: boolean;
+  daysInGracePeriod: number;
+  daysRemainingInGrace: number;
+  gracePeriodEndsAt: Date | null;
+  shouldBlockAccess: boolean;
+  canAccessFeatures: boolean;
+  message: string;
+  urgency: "none" | "info" | "warning" | "critical";
+}
+
+/**
+ * Check if a subscription is in grace period
+ */
+export function checkGracePeriod(
+  subscriptionStatus: string,
+  trialEndDate: Date | null | undefined,
+  subscriptionEndDate: Date | null | undefined
+): GracePeriodCheck {
+  const now = new Date();
+
+  // Determine which end date to use
+  const isTrial = subscriptionStatus === "TRIAL";
+  const endDate = isTrial ? trialEndDate : subscriptionEndDate;
+
+  // Default response for active subscriptions
+  if (!endDate) {
+    return {
+      isExpired: false,
+      isInGracePeriod: false,
+      daysInGracePeriod: 0,
+      daysRemainingInGrace: 0,
+      gracePeriodEndsAt: null,
+      shouldBlockAccess: !["TRIAL", "ACTIVE"].includes(subscriptionStatus),
+      canAccessFeatures: ["TRIAL", "ACTIVE"].includes(subscriptionStatus),
+      message: "Subscription is active",
+      urgency: "none",
+    };
+  }
+
+  const endDateTime = new Date(endDate).getTime();
+  const nowTime = now.getTime();
+
+  // Check if expired
+  const isExpired = endDateTime < nowTime;
+
+  if (!isExpired) {
+    // Not expired yet
+    const daysRemaining = Math.ceil(
+      (endDateTime - nowTime) / (1000 * 60 * 60 * 24)
+    );
+    return {
+      isExpired: false,
+      isInGracePeriod: false,
+      daysInGracePeriod: 0,
+      daysRemainingInGrace: 0,
+      gracePeriodEndsAt: null,
+      shouldBlockAccess: false,
+      canAccessFeatures: true,
+      message: `Subscription expires in ${daysRemaining} day${daysRemaining === 1 ? "" : "s"}`,
+      urgency: daysRemaining <= 3 ? "warning" : "info",
+    };
+  }
+
+  // Calculate days since expiration
+  const daysSinceExpiration = Math.floor(
+    (nowTime - endDateTime) / (1000 * 60 * 60 * 24)
+  );
+
+  // Calculate grace period end date
+  const gracePeriodEndsAt = new Date(endDateTime);
+  gracePeriodEndsAt.setDate(gracePeriodEndsAt.getDate() + GRACE_PERIOD_DAYS);
+
+  // Check if in grace period
+  const isInGracePeriod = daysSinceExpiration < GRACE_PERIOD_DAYS;
+  const daysRemainingInGrace = Math.max(
+    0,
+    GRACE_PERIOD_DAYS - daysSinceExpiration
+  );
+
+  if (isInGracePeriod) {
+    return {
+      isExpired: true,
+      isInGracePeriod: true,
+      daysInGracePeriod: daysSinceExpiration,
+      daysRemainingInGrace,
+      gracePeriodEndsAt,
+      shouldBlockAccess: false, // Still allow access during grace period
+      canAccessFeatures: true,
+      message: `Grace period: ${daysRemainingInGrace} day${daysRemainingInGrace === 1 ? "" : "s"} remaining`,
+      urgency: daysRemainingInGrace === 0 ? "critical" : "warning",
+    };
+  }
+
+  // Grace period has ended
+  return {
+    isExpired: true,
+    isInGracePeriod: false,
+    daysInGracePeriod: daysSinceExpiration,
+    daysRemainingInGrace: 0,
+    gracePeriodEndsAt,
+    shouldBlockAccess: true,
+    canAccessFeatures: false,
+    message: `Subscription expired ${daysSinceExpiration} days ago`,
+    urgency: "critical",
+  };
+}
+
+/**
+ * Format grace period message for UI display
+ */
+export function getGracePeriodMessage(check: GracePeriodCheck): {
+  title: string;
+  description: string;
+  actionText: string;
+} {
+  if (!check.isInGracePeriod) {
+    return {
+      title: "",
+      description: "",
+      actionText: "",
+    };
+  }
+
+  if (check.daysRemainingInGrace === 0) {
+    return {
+      title: "⚠️ Laatste dag van grace period!",
+      description:
+        "Je abonnement is verlopen. Verlengen vandaag om toegang te behouden.",
+      actionText: "Verlengen Nu",
+    };
+  }
+
+  if (check.daysRemainingInGrace === 1) {
+    return {
+      title: "⏰ Grace period eindigt morgen",
+      description:
+        "Je abonnement is verlopen. Verlengen nu om je features te behouden.",
+      actionText: "Direct Verlengen",
+    };
+  }
+
+  return {
+    title: `📅 Grace period: ${check.daysRemainingInGrace} dagen resterend`,
+    description:
+      "Je abonnement is verlopen, maar je hebt nog tijdelijk toegang. Verlengen binnenkort om geen onderbreking te ervaren.",
+    actionText: "Verlengen Abonnement",
+  };
+}
+
+/**
+ * Get grace period configuration
+ */
+export function getGracePeriodConfig() {
+  return {
+    enabled: GRACE_PERIOD_DAYS > 0,
+    days: GRACE_PERIOD_DAYS,
+  };
+}
+

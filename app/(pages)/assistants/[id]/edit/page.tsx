@@ -40,6 +40,7 @@ import { FormsTab } from "@/components/settings/tabs/FormsTab";
 import { IntegrationsTab } from "@/components/settings/tabs/IntegrationsTab";
 import { WidgetTab } from "@/components/settings/tabs/WidgetTab";
 import { PersonalityTab } from "@/components/settings/tabs/PersonalityTab";
+import { TrialGuard } from "@/components/guards/TrialGuard";
 
 interface Assistant {
   id: string;
@@ -340,8 +341,9 @@ export default function EditAssistantPage() {
   }
 
   return (
-    <div className="space-y-8">
-      <div className="flex justify-between items-center">
+    <TrialGuard feature="assistant">
+      <div className="space-y-8">
+        <div className="flex justify-between items-center">
         <PageHeader
           title={t("assistants.editAssistant")}
           description={t("assistants.configureYourAISettings")}
@@ -761,6 +763,7 @@ export default function EditAssistantPage() {
           </>
         )}
       </Tabs>
-    </div>
+      </div>
+    </TrialGuard>
   );
 }

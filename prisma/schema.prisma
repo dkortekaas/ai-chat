@@ -38,13 +38,14 @@ model User {
   subscriptionCanceled  Boolean            @default(false)
   isActive              Boolean            @default(true)
   companyId             String?
-  accounts              Account[]
-  chatbot_settings      ChatbotSettings[]
-  sessions              Session[]
-  notifications         Notification[]
-  sentInvitations       Invitation[]       @relation("InvitationSender")
-  receivedInvitations   Invitation[]       @relation("InvitationRecipient")
-  company               Company?           @relation(fields: [companyId], references: [id])
+  accounts                   Account[]
+  chatbot_settings           ChatbotSettings[]
+  sessions                   Session[]
+  notifications              Notification[]
+  sentInvitations            Invitation[]                 @relation("InvitationSender")
+  receivedInvitations        Invitation[]                 @relation("InvitationRecipient")
+  subscriptionNotifications  SubscriptionNotification[]
+  company                    Company?                     @relation(fields: [companyId], references: [id])
 
   @@index([isActive])
   @@index([subscriptionStatus])
@@ -691,4 +692,96 @@ enum SuggestionStatus {
   REVIEWED
   IMPLEMENTED
   DISMISSED
+}
+
+model SubscriptionNotification {
+  id                   String   @id @default(cuid())
+  userId               String
+  notificationType     String   // "7_days", "3_days", "1_day", "today", "expired_1_day"
+  daysUntilExpiration  Int
+  sentAt               DateTime @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([notificationType])
+  @@index([sentAt])
+  @@index([userId, notificationType, sentAt])
+  @@map("subscription_notifications")
+}
+
+model WebhookConfig {
+  id          String   @id @default(cuid())
+  url         String
+  secret      String   // Encrypted secret for signature verification
+  events      String[] // Array of WebhookEventType enum values
+  isActive    Boolean  @default(true)
+  description String?
+  maxRetries  Int      @default(3)
+  retryDelays Json?    // Array of retry delays in milliseconds
+  headers     Json?    // Custom headers to include in webhook requests
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  deliveries  WebhookDelivery[]
+  eventLogs   WebhookEventLog[]
+
+  @@index([isActive])
+  @@index([createdAt])
+  @@map("webhook_configs")
+}
+
+model WebhookDelivery {
+  id              String   @id @default(cuid())
+  webhookConfigId String
+  eventType       String   // WebhookEventType enum value
+  payload         Json     // Full webhook payload
+  status          WebhookDeliveryStatus @default(PENDING)
+  attempts        Int      @default(0)
+  lastAttemptAt   DateTime?
+  nextRetryAt     DateTime?
+  responseStatus  Int?
+  responseBody    String?
+  error           String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  webhookConfig WebhookConfig @relation(fields: [webhookConfigId], references: [id], onDelete: Cascade)
+
+  @@index([webhookConfigId])
+  @@index([status])
+  @@index([eventType])
+  @@index([createdAt])
+  @@index([nextRetryAt])
+  @@map("webhook_deliveries")
+}
+
+model WebhookEventLog {
+  id              String   @id @default(cuid())
+  webhookConfigId String?  // Optional: null if event wasn't triggered
+  userId          String
+  eventType       String   // WebhookEventType enum value
+  eventData       Json     // Event payload data
+  triggered       Boolean  @default(false)
+  deliveryId      String?  // Link to WebhookDelivery if triggered
+  createdAt       DateTime @default(now())
+
+  // Relations
+  webhookConfig WebhookConfig? @relation(fields: [webhookConfigId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([eventType])
+  @@index([triggered])
+  @@index([createdAt])
+  @@map("webhook_event_logs")
+}
+
+enum WebhookDeliveryStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  RETRYING
 }

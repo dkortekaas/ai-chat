@@ -6,6 +6,7 @@ import { Badge, Button, Card } from "@/components/ui";
 import { ArrowLeft, FileText, Download, Edit } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import { TrialGuard } from "@/components/guards/TrialGuard";
 
 interface FileContent {
   id: string;
@@ -161,7 +162,8 @@ export default function FileDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="space-y-6">
+      <TrialGuard feature="document">
+        <div className="space-y-6">
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="sm" onClick={() => router.back()}>
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -170,13 +172,15 @@ export default function FileDetailPage() {
           <div className="h-8 bg-gray-200 rounded w-64 animate-pulse"></div>
         </div>
         <div className="h-96 bg-gray-200 rounded animate-pulse"></div>
-      </div>
+        </div>
+      </TrialGuard>
     );
   }
 
   if (!file) {
     return (
-      <div className="space-y-6">
+      <TrialGuard feature="document">
+        <div className="space-y-6">
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="sm" onClick={() => router.back()}>
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -186,12 +190,14 @@ export default function FileDetailPage() {
             {t("knowledgebase.fileNotFound")}
           </h1>
         </div>
-      </div>
+        </div>
+      </TrialGuard>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <TrialGuard feature="document">
+      <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -386,6 +392,7 @@ export default function FileDetailPage() {
           </Card>
         )}
       </div>
-    </div>
+      </div>
+    </TrialGuard>
   );
 }

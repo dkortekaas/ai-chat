@@ -7,6 +7,7 @@ import {
   type SubscriptionPlanType,
 } from "@/lib/stripe";
 import { stripe } from "@/lib/stripe";
+import { checkGracePeriod } from "@/lib/subscription";
 
 export async function GET() {
   try {
@@ -56,6 +57,13 @@ export async function GET() {
         )
       : 0;
 
+    // Check grace period status
+    const gracePeriodCheck = checkGracePeriod(
+      user.subscriptionStatus,
+      user.trialEndDate,
+      user.subscriptionEndDate
+    );
+
     return NextResponse.json({
       user: {
         ...user,
@@ -64,6 +72,13 @@ export async function GET() {
         currentPlan: user.subscriptionPlan
           ? SUBSCRIPTION_PLANS_WITH_PRICES[user.subscriptionPlan]
           : null,
+        gracePeriod: {
+          isInGracePeriod: gracePeriodCheck.isInGracePeriod,
+          daysRemaining: gracePeriodCheck.daysRemainingInGrace,
+          endsAt: gracePeriodCheck.gracePeriodEndsAt,
+          message: gracePeriodCheck.message,
+          urgency: gracePeriodCheck.urgency,
+        },
       },
     });
   } catch (error) {
