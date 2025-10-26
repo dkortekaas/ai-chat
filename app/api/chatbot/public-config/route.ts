@@ -50,6 +50,16 @@ export async function GET(request: NextRequest) {
             priority: true,
           },
         },
+        users: {
+          select: {
+            id: true,
+            subscriptionStatus: true,
+            trialEndDate: true,
+            subscriptionEndDate: true,
+            subscriptionCanceled: true,
+            isActive: true,
+          },
+        },
       },
     });
 
@@ -60,6 +70,47 @@ export async function GET(request: NextRequest) {
         { success: false, error: "Invalid API key" },
         {
           status: 401,
+          headers: corsHeaders,
+        }
+      );
+    }
+
+    // Check if user's subscription is active
+    const user = chatbotSettings.users;
+    if (!user || !user.isActive) {
+      return NextResponse.json(
+        { success: false, error: "User account is inactive" },
+        {
+          status: 403,
+          headers: corsHeaders,
+        }
+      );
+    }
+
+    // Check subscription status
+    const now = new Date();
+    const isTrialExpired =
+      user.subscriptionStatus === "TRIAL" &&
+      user.trialEndDate &&
+      new Date(user.trialEndDate) < now;
+
+    const isSubscriptionExpired =
+      user.subscriptionEndDate &&
+      new Date(user.subscriptionEndDate) < now;
+
+    const isInactiveStatus = ![
+      "TRIAL",
+      "ACTIVE",
+    ].includes(user.subscriptionStatus);
+
+    if (isTrialExpired || isSubscriptionExpired || isInactiveStatus) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Subscription expired. Please renew your subscription to continue using the chatbot.",
+        },
+        {
+          status: 403,
           headers: corsHeaders,
         }
       );

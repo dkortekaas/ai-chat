@@ -47,7 +47,16 @@ export async function POST(request: NextRequest) {
       chatbotSettings = await db.chatbotSettings.findUnique({
         where: { apiKey },
         include: {
-          users: true,
+          users: {
+            select: {
+              id: true,
+              subscriptionStatus: true,
+              trialEndDate: true,
+              subscriptionEndDate: true,
+              subscriptionCanceled: true,
+              isActive: true,
+            },
+          },
         },
       });
     } catch (dbError) {
@@ -64,6 +73,47 @@ export async function POST(request: NextRequest) {
         {
           status: 401,
           headers: getCorsHeaders(origin, []),
+        }
+      );
+    }
+
+    // Check if user's subscription is active
+    const user = chatbotSettings.users;
+    if (!user || !user.isActive) {
+      return NextResponse.json(
+        { success: false, error: "User account is inactive" },
+        {
+          status: 403,
+          headers: getCorsHeaders(origin, chatbotSettings.allowedDomains),
+        }
+      );
+    }
+
+    // Check subscription status
+    const now = new Date();
+    const isTrialExpired =
+      user.subscriptionStatus === "TRIAL" &&
+      user.trialEndDate &&
+      new Date(user.trialEndDate) < now;
+
+    const isSubscriptionExpired =
+      user.subscriptionEndDate &&
+      new Date(user.subscriptionEndDate) < now;
+
+    const isInactiveStatus = ![
+      "TRIAL",
+      "ACTIVE",
+    ].includes(user.subscriptionStatus);
+
+    if (isTrialExpired || isSubscriptionExpired || isInactiveStatus) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Subscription expired. Please renew your subscription to continue using the chatbot.",
+        },
+        {
+          status: 403,
+          headers: getCorsHeaders(origin, chatbotSettings.allowedDomains),
         }
       );
     }

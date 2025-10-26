@@ -1,8 +1,8 @@
 /**
- * Trial Expiration Guard
+ * Subscription Guard
  *
- * Component that checks if user's trial has expired and redirects
- * to subscription page if necessary.
+ * Component that checks if user's subscription is active and redirects
+ * to subscription page if expired or inactive.
  */
 
 "use client";
@@ -29,13 +29,9 @@ export function TrialGuard({
   useEffect(() => {
     if (loading) return;
 
-    // Check if trial has expired
-    if (
-      subscriptionStatus?.isTrial &&
-      subscriptionStatus?.isExpired &&
-      !subscriptionStatus?.isActive
-    ) {
-      console.log("🚫 Trial expired - redirecting to subscription page");
+    // Check if subscription is expired or inactive
+    if (subscriptionStatus?.isExpired || !subscriptionStatus?.isActive) {
+      console.log("🚫 Subscription expired or inactive - redirecting to subscription page");
       router.push(redirectUrl);
       return;
     }
@@ -79,12 +75,8 @@ export function TrialGuard({
     );
   }
 
-  // If trial expired, show nothing (redirect is happening)
-  if (
-    subscriptionStatus?.isTrial &&
-    subscriptionStatus?.isExpired &&
-    !subscriptionStatus?.isActive
-  ) {
+  // If subscription expired or inactive, show nothing (redirect is happening)
+  if (subscriptionStatus?.isExpired || !subscriptionStatus?.isActive) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
