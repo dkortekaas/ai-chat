@@ -11,7 +11,7 @@ import { WebhookEventType } from "@/lib/webhooks/types";
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -36,8 +36,11 @@ export async function GET(
       );
     }
 
+    // Await params to get the actual values
+    const { id } = await params;
+
     const webhook = await db.webhookConfig.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         _count: {
           select: {
@@ -49,10 +52,7 @@ export async function GET(
     });
 
     if (!webhook) {
-      return NextResponse.json(
-        { error: "Webhook not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Webhook not found" }, { status: 404 });
     }
 
     return NextResponse.json({
@@ -67,7 +67,9 @@ export async function GET(
     });
   } catch (error) {
     logger.error("Failed to fetch webhook", {
-      context: { error: error instanceof Error ? error.message : String(error) },
+      context: {
+        error: error instanceof Error ? error.message : String(error),
+      },
     });
 
     return NextResponse.json(
@@ -83,7 +85,7 @@ export async function GET(
  */
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -108,15 +110,15 @@ export async function PATCH(
       );
     }
 
+    // Await params to get the actual values
+    const { id } = await params;
+
     const webhook = await db.webhookConfig.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!webhook) {
-      return NextResponse.json(
-        { error: "Webhook not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Webhook not found" }, { status: 404 });
     }
 
     const body = await request.json();
@@ -159,7 +161,7 @@ export async function PATCH(
 
     // Update webhook
     const updatedWebhook = await db.webhookConfig.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         ...(url && { url }),
         ...(events && { events }),
@@ -189,7 +191,9 @@ export async function PATCH(
     });
   } catch (error) {
     logger.error("Failed to update webhook", {
-      context: { error: error instanceof Error ? error.message : String(error) },
+      context: {
+        error: error instanceof Error ? error.message : String(error),
+      },
     });
 
     return NextResponse.json(
@@ -205,7 +209,7 @@ export async function PATCH(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -230,24 +234,24 @@ export async function DELETE(
       );
     }
 
+    // Await params to get the actual values
+    const { id } = await params;
+
     const webhook = await db.webhookConfig.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!webhook) {
-      return NextResponse.json(
-        { error: "Webhook not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Webhook not found" }, { status: 404 });
     }
 
     await db.webhookConfig.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     logger.info("Webhook configuration deleted", {
       context: {
-        webhookId: params.id,
+        webhookId: id,
         deletedBy: user.id,
       },
     });
@@ -258,7 +262,9 @@ export async function DELETE(
     });
   } catch (error) {
     logger.error("Failed to delete webhook", {
-      context: { error: error instanceof Error ? error.message : String(error) },
+      context: {
+        error: error instanceof Error ? error.message : String(error),
+      },
     });
 
     return NextResponse.json(

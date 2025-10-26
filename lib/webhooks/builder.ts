@@ -45,7 +45,7 @@ export function buildWebhookData(
   const isTrial = user.subscriptionStatus === "TRIAL";
   const endDate = isTrial ? user.trialEndDate : user.subscriptionEndDate;
   const startDate = isTrial ? user.trialStartDate : user.subscriptionStartDate;
-  const daysRemaining = calculateDaysRemaining(endDate);
+  const daysRemaining = calculateDaysRemaining(endDate || null);
 
   // Check grace period status
   const gracePeriodCheck = checkGracePeriod(
@@ -169,7 +169,9 @@ export function buildSubscriptionExpiringPayload(
   });
 }
 
-export function buildSubscriptionExpiredPayload(user: UserData): WebhookPayload {
+export function buildSubscriptionExpiredPayload(
+  user: UserData
+): WebhookPayload {
   return buildWebhookPayload(WebhookEventType.SUBSCRIPTION_EXPIRED, user);
 }
 

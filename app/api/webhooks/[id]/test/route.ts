@@ -13,7 +13,7 @@ import { WebhookEventType } from "@/lib/webhooks/types";
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -49,16 +49,16 @@ export async function POST(
       );
     }
 
+    // Await params to get the actual values
+    const { id } = await params;
+
     // Fetch webhook config
     const webhook = await db.webhookConfig.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!webhook) {
-      return NextResponse.json(
-        { error: "Webhook not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Webhook not found" }, { status: 404 });
     }
 
     if (!webhook.isActive) {
@@ -97,6 +97,8 @@ export async function POST(
       await sendWebhook(
         {
           ...webhook,
+          events: webhook.events as any[], // Cast to WebhookEventType[]
+          description: webhook.description || undefined, // Convert null to undefined
           retryConfig: webhook.retryDelays
             ? {
                 maxRetries: webhook.maxRetries,
@@ -156,7 +158,9 @@ export async function POST(
     }
   } catch (error) {
     logger.error("Failed to send test webhook", {
-      context: { error: error instanceof Error ? error.message : String(error) },
+      context: {
+        error: error instanceof Error ? error.message : String(error),
+      },
     });
 
     return NextResponse.json(

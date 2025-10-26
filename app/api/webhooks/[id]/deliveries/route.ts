@@ -10,7 +10,7 @@ import { logger } from "@/lib/logger";
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -35,16 +35,16 @@ export async function GET(
       );
     }
 
+    // Await params to get the actual values
+    const { id } = await params;
+
     // Verify webhook exists
     const webhook = await db.webhookConfig.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!webhook) {
-      return NextResponse.json(
-        { error: "Webhook not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Webhook not found" }, { status: 404 });
     }
 
     // Get query parameters for pagination
@@ -58,7 +58,7 @@ export async function GET(
 
     // Build where clause
     const where: any = {
-      webhookConfigId: params.id,
+      webhookConfigId: id,
     };
 
     if (status) {
@@ -96,7 +96,7 @@ export async function GET(
     // Calculate statistics
     const stats = await db.webhookDelivery.groupBy({
       by: ["status"],
-      where: { webhookConfigId: params.id },
+      where: { webhookConfigId: id },
       _count: true,
     });
 
@@ -121,7 +121,9 @@ export async function GET(
     });
   } catch (error) {
     logger.error("Failed to fetch webhook deliveries", {
-      context: { error: error instanceof Error ? error.message : String(error) },
+      context: {
+        error: error instanceof Error ? error.message : String(error),
+      },
     });
 
     return NextResponse.json(

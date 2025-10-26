@@ -49,7 +49,11 @@ export function verifyWebhookSignature(
     return false;
   }
 
-  const expectedSignature = generateWebhookSignature(payload, secret, timestamp);
+  const expectedSignature = generateWebhookSignature(
+    payload,
+    secret,
+    timestamp
+  );
   return crypto.timingSafeEqual(
     Buffer.from(signature),
     Buffer.from(expectedSignature)
@@ -325,6 +329,8 @@ export async function triggerWebhooks(payload: WebhookPayload): Promise<void> {
       sendWebhook(
         {
           ...config,
+          events: config.events as any[], // Cast to WebhookEventType[]
+          description: config.description || undefined, // Convert null to undefined
           retryConfig: config.retryDelays
             ? {
                 maxRetries: config.maxRetries,
@@ -383,6 +389,8 @@ export async function retryFailedWebhooks(): Promise<{
       await sendWebhook(
         {
           ...delivery.webhookConfig,
+          events: delivery.webhookConfig.events as any[], // Cast to WebhookEventType[]
+          description: delivery.webhookConfig.description || undefined, // Convert null to undefined
           retryConfig: delivery.webhookConfig.retryDelays
             ? {
                 maxRetries: delivery.webhookConfig.maxRetries,
@@ -393,7 +401,7 @@ export async function retryFailedWebhooks(): Promise<{
             | Record<string, string>
             | undefined,
         },
-        delivery.payload as WebhookPayload
+        delivery.payload as unknown as WebhookPayload
       );
 
       stats.succeeded++;
