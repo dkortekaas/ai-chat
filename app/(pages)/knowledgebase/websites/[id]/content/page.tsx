@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 import { useTranslations } from "next-intl";
+import { TrialGuard } from "@/components/guards/TrialGuard";
 
 interface Website {
   id: string;
@@ -178,46 +179,51 @@ export default function WebsiteContentPage() {
 
   if (isLoading) {
     return (
-      <div className="space-y-6">
-        <div className="flex items-center gap-4">
-          <Button variant="outline" onClick={() => router.back()}>
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back
-          </Button>
-          <div className="h-6 bg-gray-200 rounded w-48 animate-pulse"></div>
+      <TrialGuard feature="website">
+        <div className="space-y-6">
+          <div className="flex items-center gap-4">
+            <Button variant="outline" onClick={() => router.back()}>
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back
+            </Button>
+            <div className="h-6 bg-gray-200 rounded w-48 animate-pulse"></div>
+          </div>
+          <div className="space-y-4">
+            <div className="h-32 bg-gray-200 rounded animate-pulse"></div>
+            <div className="h-64 bg-gray-200 rounded animate-pulse"></div>
+          </div>
         </div>
-        <div className="space-y-4">
-          <div className="h-32 bg-gray-200 rounded animate-pulse"></div>
-          <div className="h-64 bg-gray-200 rounded animate-pulse"></div>
-        </div>
-      </div>
+      </TrialGuard>
     );
   }
 
   if (!website) {
     return (
-      <div className="space-y-6">
-        <div className="flex items-center gap-4">
-          <Button variant="outline" onClick={() => router.back()}>
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back
-          </Button>
+      <TrialGuard feature="website">
+        <div className="space-y-6">
+          <div className="flex items-center gap-4">
+            <Button variant="outline" onClick={() => router.back()}>
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back
+            </Button>
+          </div>
+          <div className="text-center py-12">
+            <AlertCircle className="w-12 h-12 mx-auto mb-4 text-gray-400" />
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              {t("website.notFound")}
+            </h3>
+            <p className="text-sm text-gray-500">
+              {t("website.notFoundDescription")}
+            </p>
+          </div>
         </div>
-        <div className="text-center py-12">
-          <AlertCircle className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
-            {t("website.notFound")}
-          </h3>
-          <p className="text-sm text-gray-500">
-            {t("website.notFoundDescription")}
-          </p>
-        </div>
-      </div>
+      </TrialGuard>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <TrialGuard feature="website">
+      <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -429,6 +435,7 @@ export default function WebsiteContentPage() {
           </div>
         </Card>
       )}
-    </div>
+      </div>
+    </TrialGuard>
   );
 }

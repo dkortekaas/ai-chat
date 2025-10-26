@@ -7,6 +7,7 @@ import { ArrowLeft, Settings, Play } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Website, Webpage, SyncLog } from "@/types/knowledgebase";
 import { useTranslations } from "next-intl";
+import { TrialGuard } from "@/components/guards/TrialGuard";
 
 export default function WebsiteDetailPage() {
   const params = useParams();
@@ -94,37 +95,42 @@ export default function WebsiteDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="space-y-6">
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="sm" onClick={() => router.back()}>
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back
-          </Button>
-          <div className="h-8 bg-gray-200 rounded w-64 animate-pulse"></div>
+      <TrialGuard feature="website">
+        <div className="space-y-6">
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" size="sm" onClick={() => router.back()}>
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back
+            </Button>
+            <div className="h-8 bg-gray-200 rounded w-64 animate-pulse"></div>
+          </div>
+          <div className="h-96 bg-gray-200 rounded animate-pulse"></div>
         </div>
-        <div className="h-96 bg-gray-200 rounded animate-pulse"></div>
-      </div>
+      </TrialGuard>
     );
   }
 
   if (!website) {
     return (
-      <div className="space-y-6">
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="sm" onClick={() => router.back()}>
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back
-          </Button>
-          <h1 className="text-2xl font-semibold text-gray-900">
-            {t("knowledgebase.websiteNotFound")}
-          </h1>
+      <TrialGuard feature="website">
+        <div className="space-y-6">
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" size="sm" onClick={() => router.back()}>
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back
+            </Button>
+            <h1 className="text-2xl font-semibold text-gray-900">
+              {t("knowledgebase.websiteNotFound")}
+            </h1>
+          </div>
         </div>
-      </div>
+      </TrialGuard>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <TrialGuard feature="website">
+      <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -372,6 +378,7 @@ export default function WebsiteDetailPage() {
           </Card>
         )}
       </div>
-    </div>
+      </div>
+    </TrialGuard>
   );
 }
