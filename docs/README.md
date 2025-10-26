@@ -4,13 +4,14 @@ Een self-hosted chatbot platform waarmee organisaties een AI-gestuurde chatbot k
 
 ## 📋 Inhoudsopgave
 
-1. [Architectuur & Tech Stack](./docs/ARCHITECTURE.md)
-2. [Database Schema](./docs/DATABASE.md)
-3. [API Endpoints](./docs/API.md)
-4. [Component Architectuur](./docs/COMPONENTS.md)
-5. [Deployment Guide](./docs/DEPLOYMENT.md)
-6. [AI/RAG Pipeline](./docs/RAG.md)
-7. [Widget Implementatie](./docs/WIDGET.md)
+1. [Architectuur & Tech Stack](./ARCHITECTURE.md)
+2. [Database Schema](./DATABASE.md)
+3. [API Endpoints](./API.md)
+4. [Component Architectuur](./COMPONENTS.md)
+5. [Deployment Guide](./DEPLOYMENT.md)
+6. [AI/RAG Pipeline](./RAG.md)
+7. [Widget Implementatie](./WIDGET.md)
+8. [Subscription Protection](./SUBSCRIPTION-PROTECTION.md)
 
 ## 🚀 Quick Start
 

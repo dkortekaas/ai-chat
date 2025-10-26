@@ -1077,6 +1077,150 @@ export function useUpdateRating() {
   })
 }
 
+## 7. Protection Components
+
+### SubscriptionGuard (TrialGuard)
+
+**Locatie:** `components/guards/TrialGuard.tsx`
+
+Een guard component die controleert of de gebruiker een actieve subscription heeft voordat toegang wordt verleend tot premium features.
+
+```tsx
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useSubscription } from "@/hooks/useSubscription";
+import { Loader2 } from "lucide-react";
+
+interface TrialGuardProps {
+  children: React.ReactNode;
+  feature?: "assistant" | "document" | "website";
+  redirectUrl?: string;
+}
+
+export function TrialGuard({
+  children,
+  feature,
+  redirectUrl = "/account?tab=subscription",
+}: TrialGuardProps) {
+  const router = useRouter();
+  const { subscriptionStatus, loading } = useSubscription();
+
+  useEffect(() => {
+    if (loading) return;
+
+    // Check if subscription is expired or inactive
+    if (subscriptionStatus?.isExpired || !subscriptionStatus?.isActive) {
+      console.log("🚫 Subscription expired - redirecting");
+      router.push(redirectUrl);
+      return;
+    }
+
+    // Feature-specific checks
+    if (feature && subscriptionStatus) {
+      let canAccess = false;
+      switch (feature) {
+        case "assistant":
+          canAccess = subscriptionStatus.canCreateAssistant;
+          break;
+        case "document":
+          canAccess = subscriptionStatus.canCreateDocument;
+          break;
+        case "website":
+          canAccess = subscriptionStatus.canCreateWebsite;
+          break;
+      }
+
+      if (!canAccess) {
+        router.push(redirectUrl);
+      }
+    }
+  }, [subscriptionStatus, loading, feature, router, redirectUrl]);
+
+  if (loading) {
+    return <LoadingState message="Abonnement wordt gecontroleerd..." />;
+  }
+
+  if (subscriptionStatus?.isExpired || !subscriptionStatus?.isActive) {
+    return <LoadingState message="Je wordt doorgestuurd..." />;
+  }
+
+  return <>{children}</>;
+}
+```
+
+#### Props
+
+| Prop | Type | Default | Beschrijving |
+|------|------|---------|--------------|
+| `children` | `React.ReactNode` | - | Content die beschermd moet worden |
+| `feature` | `"assistant" \| "document" \| "website"` | - | Optionele feature-specifieke check |
+| `redirectUrl` | `string` | `"/account?tab=subscription"` | URL waar naartoe geredirect wordt |
+
+#### Gebruik
+
+**Basis bescherming:**
+```tsx
+import { TrialGuard } from "@/components/guards/TrialGuard";
+
+export default function ProtectedPage() {
+  return (
+    <TrialGuard>
+      <div>
+        {/* Alleen toegankelijk voor gebruikers met actief abonnement */}
+      </div>
+    </TrialGuard>
+  );
+}
+```
+
+**Met feature check:**
+```tsx
+export default function AssistantEditPage() {
+  return (
+    <TrialGuard feature="assistant">
+      <div>
+        {/* Alleen toegankelijk als canCreateAssistant === true */}
+      </div>
+    </TrialGuard>
+  );
+}
+```
+
+**Custom redirect:**
+```tsx
+export default function PremiumPage() {
+  return (
+    <TrialGuard redirectUrl="/pricing">
+      <div>Premium content</div>
+    </TrialGuard>
+  );
+}
+```
+
+#### Features
+
+- ✅ Controleert trial én reguliere subscription expiration
+- ✅ Optionele feature-specifieke toegangscontrole
+- ✅ Automatische redirect bij verlopen subscription
+- ✅ Loading states tijdens verificatie
+- ✅ Gebruikt `useSubscription` hook voor status
+- ✅ Console logging voor debugging
+
+#### Beschermde Pagina's
+
+Momenteel gebruikt door:
+- `/assistants/[id]/edit` - Assistent bewerken
+- `/knowledgebase` - Knowledge base hoofdpagina
+- `/knowledgebase/files/[id]` - Bestand details
+- `/knowledgebase/websites/[id]` - Website details
+- `/knowledgebase/websites/[id]/content` - Website content
+
+Zie [Subscription Protection](./SUBSCRIPTION-PROTECTION.md) voor volledige documentatie.
+
+---
+
 State Management
 React Query Configuration
 app/providers.tsx

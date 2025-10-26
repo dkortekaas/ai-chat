@@ -368,6 +368,20 @@ json{
 Errors:
 
 401 Unauthorized - Ongeldige API key
+403 Forbidden - Subscription expired (verlopen trial of regulier abonnement)
+
+**Subscription Validation:**
+
+Dit endpoint controleert automatisch of de subscription van de chatbot eigenaar actief is:
+- Trial abonnementen: Check `trialEndDate < now`
+- Reguliere abonnementen: Check `subscriptionEndDate < now`
+- Status check: Alleen `TRIAL` en `ACTIVE` zijn toegestaan
+
+Bij verlopen subscription:
+json{
+  "success": false,
+  "error": "Subscription expired. Please renew your subscription to continue using the chatbot."
+}
 
 
 4. Chat Endpoints (Public - Widget)
@@ -410,10 +424,23 @@ json{
 }
 Errors:
 
-401 Unauthorized - Ongeldige API key
-429 Too Many Requests - Rate limit overschreden
-403 Forbidden - Domain niet toegestaan
 400 Bad Request - Validatiefout
+401 Unauthorized - Ongeldige API key
+403 Forbidden - Domain niet toegestaan OF subscription expired
+429 Too Many Requests - Rate limit overschreden
+
+**Subscription Validation:**
+
+Dit endpoint controleert automatisch of de subscription van de chatbot eigenaar actief is:
+- Trial abonnementen: Check `trialEndDate < now`
+- Reguliere abonnementen: Check `subscriptionEndDate < now`
+- Status check: Alleen `TRIAL` en `ACTIVE` zijn toegestaan
+
+Bij verlopen subscription (403):
+json{
+  "success": false,
+  "error": "Subscription expired. Please renew your subscription to continue using the chatbot."
+}
 
 Rate Limiting:
 
