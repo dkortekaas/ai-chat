@@ -443,15 +443,20 @@ export function SubscriptionTab() {
                   </ul>
                   <Button
                     onClick={() => handleUpgrade(key)}
-                    disabled={upgrading || user.subscriptionPlan === key}
+                    disabled={
+                      upgrading ||
+                      (!isExpired && !isTrial && user.subscriptionPlan === key)
+                    }
                     className="w-full bg-indigo-500 hover:bg-indigo-600 text-white"
                     size="sm"
                   >
                     {upgrading
                       ? t("common.statuses.loading")
-                      : user.subscriptionPlan === key
+                      : (!isExpired && !isTrial && user.subscriptionPlan === key)
                         ? t("account.subscriptions.currentPlan")
-                        : t("account.subscriptions.upgrade")}
+                        : isExpired
+                          ? "Upgrade"
+                          : t("account.subscriptions.upgrade")}
                   </Button>
                 </div>
               ))}
