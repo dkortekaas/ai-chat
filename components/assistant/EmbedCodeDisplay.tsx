@@ -12,7 +12,7 @@ export function EmbedCodeDisplay() {
   const [copied, setCopied] = useState(false);
 
   // Mock embed code - replace with actual generated code
-  const embedCode = `<!-- Cited Widget -->
+  const embedCode = `<!-- EmbedIQ Widget -->
 <script>
   (function() {
     var script = document.createElement('script');
@@ -23,7 +23,7 @@ export function EmbedCodeDisplay() {
     document.head.appendChild(script);
   })();
 </script>
-<!-- End Cited Widget -->`;
+<!-- End EmbedIQ Widget -->`;
 
   const handleCopy = async () => {
     try {

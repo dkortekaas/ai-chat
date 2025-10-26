@@ -65,6 +65,7 @@
     "enabled": "Ingeschakeld",
     "actions": "Acties",
     "toggleTheme": "Thema wisselen",
+    "openMenu": "Menu openen",
     "navigation": {
       "dashboard": "Dashboard",
       "knowledgeBase": "Kennisbank",
@@ -86,7 +87,8 @@
       "pending": "Aanstaand",
       "cancelled": "Geannuleerd",
       "accepted": "Geaccepteerd",
-      "expired": "Verlopen"
+      "expired": "Verlopen",
+      "redirecting": "Doorverwijzen..."
     },
     "verifying": "Verifiëren...",
     "verify": "Verifiëren",
@@ -221,18 +223,18 @@
     "backToPortal": "Terug naar Portal"
   },
   "metadata": {
-    "title": "Cited",
-    "description": "Cited AI Chat Support",
-    "keywords": "Cited AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Cited, Cited AI, Cited AI Chat, Cited AI Chat Support",
+    "title": "EmbedIQ",
+    "description": "EmbedIQ AI Chat Support",
+    "keywords": "EmbedIQ AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, EmbedIQ, EmbedIQ AI, EmbedIQ AI Chat, EmbedIQ AI Chat Support",
     "twitter": {
-      "title": "Cited AI Chat Support",
-      "description": "Cited AI Chat Support",
-      "keywords": "Cited AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Cited, Cited AI, Cited AI Chat, Cited AI Chat Support"
+      "title": "EmbedIQ AI Chat Support",
+      "description": "EmbedIQ AI Chat Support",
+      "keywords": "EmbedIQ AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, EmbedIQ, EmbedIQ AI, EmbedIQ AI Chat, EmbedIQ AI Chat Support"
     },
     "og": {
-      "title": "Cited AI Chat Support",
-      "description": "Cited AI Chat Support",
-      "keywords": "Cited AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Cited, Cited AI, Cited AI Chat, Cited AI Chat Support"
+      "title": "EmbedIQ AI Chat Support",
+      "description": "EmbedIQ AI Chat Support",
+      "keywords": "EmbedIQ AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, EmbedIQ, EmbedIQ AI, EmbedIQ AI Chat, EmbedIQ AI Chat Support"
     }
   },
   "auth": {
@@ -784,7 +786,9 @@
     "removeMember": "Lid verwijderen",
     "memberDetails": "Liddetails",
     "invitations": "Uitnodigingen",
-    "pendingInvitations": "Wachtende uitnodigingen"
+    "pendingInvitations": "Wachtende uitnodigingen",
+    "noInvitations": "Geen uitnodigingen",
+    "noInvitationsDescription": "Geen uitnodigingen gevonden"
   },
   "account": {
     "title": "Account instellingen",

@@ -118,7 +118,7 @@ src/
 
 `app/(dashboard)/layout.tsx`
 
-```tsx
+````tsx
 import { Sidebar } from '@/components/dashboard/sidebar'
 import { Header } from '@/components/dashboard/header'
 
@@ -180,7 +180,7 @@ export function Sidebar() {
       {/* Logo */}
       <div className="h-16 flex items-center px-6 border-b border-gray-200">
         <h1 className="text-xl font-bold text-gray-900">
-          Cited
+          EmbedIQ
         </h1>
       </div>
 
@@ -1148,19 +1148,20 @@ export function TrialGuard({
 
   return <>{children}</>;
 }
-```
+````
 
 #### Props
 
-| Prop | Type | Default | Beschrijving |
-|------|------|---------|--------------|
-| `children` | `React.ReactNode` | - | Content die beschermd moet worden |
-| `feature` | `"assistant" \| "document" \| "website"` | - | Optionele feature-specifieke check |
-| `redirectUrl` | `string` | `"/account?tab=subscription"` | URL waar naartoe geredirect wordt |
+| Prop          | Type                                     | Default                       | Beschrijving                       |
+| ------------- | ---------------------------------------- | ----------------------------- | ---------------------------------- |
+| `children`    | `React.ReactNode`                        | -                             | Content die beschermd moet worden  |
+| `feature`     | `"assistant" \| "document" \| "website"` | -                             | Optionele feature-specifieke check |
+| `redirectUrl` | `string`                                 | `"/account?tab=subscription"` | URL waar naartoe geredirect wordt  |
 
 #### Gebruik
 
 **Basis bescherming:**
+
 ```tsx
 import { TrialGuard } from "@/components/guards/TrialGuard";
 
@@ -1176,19 +1177,19 @@ export default function ProtectedPage() {
 ```
 
 **Met feature check:**
+
 ```tsx
 export default function AssistantEditPage() {
   return (
     <TrialGuard feature="assistant">
-      <div>
-        {/* Alleen toegankelijk als canCreateAssistant === true */}
-      </div>
+      <div>{/* Alleen toegankelijk als canCreateAssistant === true */}</div>
     </TrialGuard>
   );
 }
 ```
 
 **Custom redirect:**
+
 ```tsx
 export default function PremiumPage() {
   return (
@@ -1211,6 +1212,7 @@ export default function PremiumPage() {
 #### Beschermde Pagina's
 
 Momenteel gebruikt door:
+
 - `/assistants/[id]/edit` - Assistent bewerken
 - `/knowledgebase` - Knowledge base hoofdpagina
 - `/knowledgebase/files/[id]` - Bestand details
@@ -1231,25 +1233,25 @@ import { SessionProvider } from 'next-auth/react'
 import { useState } from 'react'
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            staleTime: 60 * 1000, // 1 minute
-            refetchOnWindowFocus: false,
-          },
-        },
-      })
-  )
+const [queryClient] = useState(
+() =>
+new QueryClient({
+defaultOptions: {
+queries: {
+staleTime: 60 \* 1000, // 1 minute
+refetchOnWindowFocus: false,
+},
+},
+})
+)
 
-  return (
-    <SessionProvider>
-      <QueryClientProvider client={queryClient}>
-        {children}
-      </QueryClientProvider>
-    </SessionProvider>
-  )
+return (
+<SessionProvider>
+<QueryClientProvider client={queryClient}>
+{children}
+</QueryClientProvider>
+</SessionProvider>
+)
 }
 
 Styling Conventions
@@ -1274,11 +1276,11 @@ css/* Primary */
 --blue-50: #EFF6FF
 --blue-600: #3B82F6
 
-/* Semantic */
---green-600: #16A34A  /* Success */
---red-600: #DC2626    /* Error */
---yellow-600: #CA8A04 /* Warning */
---gray-600: #4B5563   /* Neutral */
+/_ Semantic _/
+--green-600: #16A34A /_ Success _/
+--red-600: #DC2626 /_ Error _/
+--yellow-600: #CA8A04 /_ Warning _/
+--gray-600: #4B5563 /_ Neutral _/
 
 Component Best Practices
 
@@ -1287,28 +1289,27 @@ Server Components by Default
 Use 'use client' only when needed
 Keep client components small
 
-
 Prop Types
 
 Always define TypeScript interfaces
 Use React.ComponentProps<typeof Component> voor compositie
-
 
 Error Boundaries
 
 Wrap async components in error boundaries
 Provide fallback UI
 
-
 Loading States
 
 Show skeletons or spinners
 Provide feedback tijdens acties
-
 
 Accessibility
 
 Use semantic HTML
 Include ARIA labels
 Keyboard navigatie support
+
+```
+
 ```

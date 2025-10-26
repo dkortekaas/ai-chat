@@ -1,4 +1,4 @@
-# Development Guidelines voor Cited
+# Development Guidelines voor EmbedIQ
 
 ## Algemene Setup
 

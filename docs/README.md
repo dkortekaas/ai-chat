@@ -1,4 +1,4 @@
-# Cited - MVP Documentatie
+# EmbedIQ - MVP Documentatie
 
 Een self-hosted chatbot platform waarmee organisaties een AI-gestuurde chatbot kunnen creëren die vragen beantwoordt op basis van hun eigen documenten en kennisbank.
 

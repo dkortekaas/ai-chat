@@ -1,6 +1,6 @@
-# Cited
+# EmbedIQ
 
-A modern, fully functional Cited platform built with Next.js 15, TypeScript, and Prisma. This platform enables users to create Citedbots, upload and process documents, manage knowledge bases, and view comprehensive analytics with a complete notification system.
+A modern, fully functional EmbedIQ platform built with Next.js 15, TypeScript, and Prisma. This platform enables users to create EmbedIQbots, upload and process documents, manage knowledge bases, and view comprehensive analytics with a complete notification system.
 
 ## 🚀 Features
 
@@ -935,4 +935,4 @@ This project is licensed under the MIT License.
 
 ---
 
-**Made with ❤️ for modern Cited solutions**
+**Made with ❤️ for modern EmbedIQ solutions**

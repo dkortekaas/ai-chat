@@ -193,11 +193,9 @@ export function InvitationsList({ refreshTrigger }: InvitationsListProps) {
       <div className="text-center py-8">
         <Mail className="h-12 w-12 text-gray-400 mx-auto mb-4" />
         <h3 className="text-lg font-medium text-gray-900 mb-2">
-          {t("account.team.noInvitations")}
+          {t("team.noInvitations")}
         </h3>
-        <p className="text-gray-500">
-          {t("account.team.noInvitationsDescription")}
-        </p>
+        <p className="text-gray-500">{t("team.noInvitationsDescription")}</p>
       </div>
     );
   }

@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSubscription } from "@/hooks/useSubscription";
 import { Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface TrialGuardProps {
   children: React.ReactNode;
@@ -25,13 +26,16 @@ export function TrialGuard({
 }: TrialGuardProps) {
   const router = useRouter();
   const { subscriptionStatus, loading } = useSubscription();
+  const t = useTranslations();
 
   useEffect(() => {
     if (loading) return;
 
     // Check if subscription is expired or inactive
     if (subscriptionStatus?.isExpired || !subscriptionStatus?.isActive) {
-      console.log("🚫 Subscription expired or inactive - redirecting to subscription page");
+      console.log(
+        "🚫 Subscription expired or inactive - redirecting to subscription page"
+      );
       router.push(redirectUrl);
       return;
     }
@@ -67,9 +71,6 @@ export function TrialGuard({
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <Loader2 className="h-8 w-8 animate-spin text-indigo-600 mx-auto mb-4" />
-          <p className="text-sm text-gray-600">
-            Abonnement wordt gecontroleerd...
-          </p>
         </div>
       </div>
     );
@@ -82,7 +83,7 @@ export function TrialGuard({
         <div className="text-center">
           <Loader2 className="h-8 w-8 animate-spin text-indigo-600 mx-auto mb-4" />
           <p className="text-sm text-gray-600">
-            Je wordt doorgestuurd naar de abonnementpagina...
+            {t("common.statuses.redirecting")}
           </p>
         </div>
       </div>

@@ -65,6 +65,7 @@
     "enabled": "Enabled",
     "actions": "Actions",
     "toggleTheme": "Toggle Theme",
+    "openMenu": "Open Menu",
     "navigation": {
       "dashboard": "Dashboard",
       "knowledgeBase": "Knowledge Base",
@@ -86,7 +87,8 @@
       "pending": "Pending",
       "cancelled": "Cancelled",
       "accepted": "Accepted",
-      "expired": "Expired"
+      "expired": "Expired",
+      "redirecting": "Redirecting..."
     },
     "sending": "Sending...",
     "verifying": "Verifying...",
@@ -232,18 +234,18 @@
     "backToPortal": "Back to Portal"
   },
   "metadata": {
-    "title": "Cited",
-    "description": "Cited AI Chat Support",
-    "keywords": "Cited AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Cited, Cited AI, Cited AI Chat, Cited AI Chat Support",
+    "title": "EmbedIQ",
+    "description": "EmbedIQ AI Chat Support",
+    "keywords": "EmbedIQ AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, EmbedIQ, EmbedIQ AI, EmbedIQ AI Chat, EmbedIQ AI Chat Support",
     "twitter": {
-      "title": "Cited AI Chat Support",
-      "description": "Cited AI Chat Support",
-      "keywords": "Cited AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Cited, Cited AI, Cited AI Chat, Cited AI Chat Support"
+      "title": "EmbedIQ AI Chat Support",
+      "description": "EmbedIQ AI Chat Support",
+      "keywords": "EmbedIQ AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, EmbedIQ, EmbedIQ AI, EmbedIQ AI Chat, EmbedIQ AI Chat Support"
     },
     "og": {
-      "title": "Cited AI Chat Support",
-      "description": "Cited AI Chat Support",
-      "keywords": "Cited AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Cited, Cited AI, Cited AI Chat, Cited AI Chat Support"
+      "title": "EmbedIQ AI Chat Support",
+      "description": "EmbedIQ AI Chat Support",
+      "keywords": "EmbedIQ AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, EmbedIQ, EmbedIQ AI, EmbedIQ AI Chat, EmbedIQ AI Chat Support"
     }
   },
   "auth": {
@@ -817,7 +819,9 @@
     "removeMember": "Remove Member",
     "memberDetails": "Member Details",
     "invitations": "Invitations",
-    "pendingInvitations": "Pending Invitations"
+    "pendingInvitations": "Pending Invitations",
+    "noInvitations": "No invitations",
+    "noInvitationsDescription": "No invitations found"
   },
   "account": {
     "title": "Account Settings",

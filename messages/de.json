@@ -65,6 +65,7 @@
     "enabled": "Aktiviert",
     "actions": "Aktionen",
     "toggleTheme": "Design wechseln",
+    "openMenu": "Menü öffnen",
     "navigation": {
       "dashboard": "Dashboard",
       "knowledgeBase": "Wissensdatenbank",
@@ -86,7 +87,8 @@
       "pending": "Ausstehend",
       "cancelled": "Abgebrochen",
       "accepted": "Akzeptiert",
-      "expired": "Abgelaufen"
+      "expired": "Abgelaufen",
+      "redirecting": "Weiterleiten..."
     },
     "verifying": "Verifizieren...",
     "verify": "Verifizieren",
@@ -220,18 +222,18 @@
     "backToPortal": "Zurück zum Portal"
   },
   "metadata": {
-    "title": "Cited",
-    "description": "Cited AI Chat Support",
-    "keywords": "Cited AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Cited, Cited AI, Cited AI Chat, Cited AI Chat Support",
+    "title": "EmbedIQ",
+    "description": "EmbedIQ AI Chat Support",
+    "keywords": "EmbedIQ AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, EmbedIQ, EmbedIQ AI, EmbedIQ AI Chat, EmbedIQ AI Chat Support",
     "twitter": {
-      "title": "Cited AI Chat Support",
-      "description": "Cited AI Chat Support",
-      "keywords": "Cited AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Cited, Cited AI, Cited AI Chat, Cited AI Chat Support"
+      "title": "EmbedIQ AI Chat Support",
+      "description": "EmbedIQ AI Chat Support",
+      "keywords": "EmbedIQ AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, EmbedIQ, EmbedIQ AI, EmbedIQ AI Chat, EmbedIQ AI Chat Support"
     },
     "og": {
-      "title": "Cited AI Chat Support",
-      "description": "Cited AI Chat Support",
-      "keywords": "Cited AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Cited, Cited AI, Cited AI Chat, Cited AI Chat Support"
+      "title": "EmbedIQ AI Chat Support",
+      "description": "EmbedIQ AI Chat Support",
+      "keywords": "EmbedIQ AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, EmbedIQ, EmbedIQ AI, EmbedIQ AI Chat, EmbedIQ AI Chat Support"
     }
   },
   "auth": {
@@ -771,7 +773,9 @@
     "removeMember": "Mitglied entfernen",
     "memberDetails": "Mitgliederdetails",
     "invitations": "Einladungen",
-    "pendingInvitations": "Ausstehende Einladungen"
+    "pendingInvitations": "Ausstehende Einladungen",
+    "noInvitations": "Keine Einladungen",
+    "noInvitationsDescription": "Keine Einladungen gefunden"
   },
   "account": {
     "title": "Konto-Einstellungen",
