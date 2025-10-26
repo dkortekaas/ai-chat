@@ -24,20 +24,23 @@ const messageSchema = z.object({
 });
 
 export async function POST(request: NextRequest) {
+  // Get origin early for CORS headers in error cases
+  const origin = request.headers.get("origin");
+  let corsHeaders = getCorsHeaders(origin, []);
+
   try {
     const body = await request.json();
     const { question, sessionId, metadata } = messageSchema.parse(body);
 
     // Get API key from headers
     const apiKey = request.headers.get("X-Chatbot-API-Key");
-    const origin = request.headers.get("origin");
 
     if (!apiKey) {
       return NextResponse.json(
         { success: false, error: "Missing API key" },
         {
           status: 401,
-          headers: getCorsHeaders(origin, []),
+          headers: corsHeaders,
         }
       );
     }
@@ -64,7 +67,7 @@ export async function POST(request: NextRequest) {
       console.error("Database error:", dbError);
       return NextResponse.json(
         { success: false, error: "Database connection error" },
-        { status: 500, headers: getCorsHeaders(origin, []) }
+        { status: 500, headers: corsHeaders }
       );
     }
 
@@ -73,7 +76,7 @@ export async function POST(request: NextRequest) {
         { success: false, error: "Invalid API key" },
         {
           status: 401,
-          headers: getCorsHeaders(origin, []),
+          headers: corsHeaders,
         }
       );
     }
@@ -81,11 +84,12 @@ export async function POST(request: NextRequest) {
     // Check if user's subscription is active
     const user = chatbotSettings.users;
     if (!user || !user.isActive) {
+      corsHeaders = getCorsHeaders(origin, chatbotSettings.allowedDomains);
       return NextResponse.json(
         { success: false, error: "User account is inactive" },
         {
           status: 403,
-          headers: getCorsHeaders(origin, chatbotSettings.allowedDomains),
+          headers: corsHeaders,
         }
       );
     }
@@ -99,10 +103,12 @@ export async function POST(request: NextRequest) {
 
     // Only block access if grace period has ended
     if (gracePeriodCheck.shouldBlockAccess) {
+      corsHeaders = getCorsHeaders(origin, chatbotSettings.allowedDomains);
       return NextResponse.json(
         {
           success: false,
-          error: "Subscription expired. Please renew your subscription to continue using the chatbot.",
+          error:
+            "Subscription expired. Please renew your subscription to continue using the chatbot.",
           gracePeriod: gracePeriodCheck.isInGracePeriod
             ? {
                 active: true,
@@ -113,7 +119,7 @@ export async function POST(request: NextRequest) {
         },
         {
           status: 403,
-          headers: getCorsHeaders(origin, chatbotSettings.allowedDomains),
+          headers: corsHeaders,
         }
       );
     }
@@ -126,8 +132,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate CORS origin against allowed domains
-    const corsError = validateCorsOrigin(origin, chatbotSettings.allowedDomains);
-    const corsHeaders = getCorsHeaders(origin, chatbotSettings.allowedDomains);
+    const corsError = validateCorsOrigin(
+      origin,
+      chatbotSettings.allowedDomains
+    );
+    corsHeaders = getCorsHeaders(origin, chatbotSettings.allowedDomains);
 
     if (corsError) {
       return NextResponse.json(
@@ -162,8 +171,7 @@ export async function POST(request: NextRequest) {
 
     // Generate session ID if not provided - use crypto for security
     const finalSessionId =
-      sessionId ||
-      `session_${randomBytes(16).toString("hex")}`;
+      sessionId || `session_${randomBytes(16).toString("hex")}`;
 
     // Search for relevant information in all knowledge base tables
     let sources: any[] = [];
@@ -476,7 +484,8 @@ export async function POST(request: NextRequest) {
         success: true,
         data: {
           conversationId: `conv_${randomBytes(16).toString("hex")}`,
-          messageId: assistantMessage?.id || `msg_${randomBytes(12).toString("hex")}`,
+          messageId:
+            assistantMessage?.id || `msg_${randomBytes(12).toString("hex")}`,
           answer,
           sources,
           responseTime: Date.now(),
