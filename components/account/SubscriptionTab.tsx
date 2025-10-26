@@ -213,63 +213,138 @@ export function SubscriptionTab() {
                   : user.currentPlan?.name ||
                     t("account.subscriptions.noSubscription")}
               </h4>
-              <Badge
-                className={`mt-1 ${
-                  isTrial
-                    ? "bg-blue-100 text-blue-800"
-                    : isActive
-                      ? "bg-green-100 text-green-800"
-                      : "bg-gray-100 text-gray-800"
-                }`}
-              >
-                {isTrial
-                  ? t("account.subscriptions.trial")
-                  : user.subscriptionStatus}
-              </Badge>
+              <div className="flex items-center gap-2 mt-2 flex-wrap">
+                <Badge
+                  className={`${
+                    isTrial
+                      ? "bg-blue-100 text-blue-800"
+                      : isActive
+                        ? "bg-green-100 text-green-800"
+                        : "bg-gray-100 text-gray-800"
+                  }`}
+                >
+                  {isTrial
+                    ? t("account.subscriptions.trial")
+                    : user.subscriptionStatus}
+                </Badge>
+                {user.subscriptionCanceled && (
+                  <Badge className="bg-orange-100 text-orange-800">
+                    Geannuleerd
+                  </Badge>
+                )}
+                {subscriptionData.user.gracePeriod?.isInGracePeriod && (
+                  <Badge className="bg-amber-100 text-amber-800">
+                    Grace Period ({subscriptionData.user.gracePeriod.daysRemaining} dagen)
+                  </Badge>
+                )}
+              </div>
             </div>
 
-            {user.currentPlan && (
+            {/* Subscription Status Section */}
+            <div className="pt-4 border-t">
+              <h5 className="font-medium text-gray-900 mb-2">
+                Status & Datums
+              </h5>
               <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">
-                    {t("account.subscriptions.price")}:
-                  </span>
-                  <span className="font-medium">
-                    €{user.currentPlan.price}/{t("common.month")}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">
-                    {t("account.subscriptions.chatbots")}:
-                  </span>
-                  <span className="font-medium">
-                    {user.currentPlan.limits?.assistants === -1
-                      ? t("account.subscriptions.unlimited")
-                      : user.currentPlan.limits?.assistants || 0}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">
-                    {t("account.subscriptions.conversationsPerMonth")}:
-                  </span>
-                  <span className="font-medium">
-                    {user.currentPlan.limits?.conversationsPerMonth === -1
-                      ? t("account.subscriptions.unlimited")
-                      : user.currentPlan.limits?.conversationsPerMonth || 0}
-                  </span>
-                </div>
-                {user.subscriptionEndDate && (
+                {!isTrial && user.subscriptionStartDate && (
                   <div className="flex justify-between">
                     <span className="text-gray-600">
-                      {t("account.subscriptions.expires")}:
+                      Abonnement gestart:
                     </span>
                     <span className="font-medium">
-                      {new Date(user.subscriptionEndDate).toLocaleDateString(
-                        "nl-NL"
+                      {new Date(user.subscriptionStartDate).toLocaleDateString(
+                        "nl-NL",
+                        { day: 'numeric', month: 'long', year: 'numeric' }
                       )}
                     </span>
                   </div>
                 )}
+                {user.subscriptionEndDate && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">
+                      {user.subscriptionCanceled ? "Verloopt op:" : t("account.subscriptions.expires")}:
+                    </span>
+                    <span className={`font-medium ${user.subscriptionCanceled ? "text-orange-600" : ""}`}>
+                      {new Date(user.subscriptionEndDate).toLocaleDateString(
+                        "nl-NL",
+                        { day: 'numeric', month: 'long', year: 'numeric' }
+                      )}
+                    </span>
+                  </div>
+                )}
+                {subscriptionData.user.gracePeriod?.isInGracePeriod && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">
+                      Grace period eindigt:
+                    </span>
+                    <span className="font-medium text-amber-600">
+                      {subscriptionData.user.gracePeriod.endsAt
+                        ? new Date(subscriptionData.user.gracePeriod.endsAt).toLocaleDateString(
+                            "nl-NL",
+                            { day: 'numeric', month: 'long', year: 'numeric' }
+                          )
+                        : "-"}
+                    </span>
+                  </div>
+                )}
+                <div className="flex justify-between">
+                  <span className="text-gray-600">
+                    Status:
+                  </span>
+                  <span className={`font-medium ${
+                    isActive && !user.subscriptionCanceled
+                      ? "text-green-600"
+                      : subscriptionData.user.gracePeriod?.isInGracePeriod
+                        ? "text-amber-600"
+                        : "text-gray-600"
+                  }`}>
+                    {isActive && !user.subscriptionCanceled
+                      ? "Actief"
+                      : subscriptionData.user.gracePeriod?.isInGracePeriod
+                        ? "Verlopen (Grace Period actief)"
+                        : isExpired
+                          ? "Verlopen"
+                          : "Inactief"}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {user.currentPlan && (
+              <div className="pt-4 border-t">
+                <h5 className="font-medium text-gray-900 mb-2">
+                  Plan Details
+                </h5>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">
+                      {t("account.subscriptions.price")}:
+                    </span>
+                    <span className="font-medium">
+                      €{user.currentPlan.price}/{t("common.month")}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">
+                      {t("account.subscriptions.chatbots")}:
+                    </span>
+                    <span className="font-medium">
+                      {user.currentPlan.limits?.assistants === -1
+                        ? t("account.subscriptions.unlimited")
+                        : user.currentPlan.limits?.assistants || 0}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">
+                      {t("account.subscriptions.conversationsPerMonth")}:
+                    </span>
+                    <span className="font-medium">
+                      {user.currentPlan.limits?.conversationsPerMonth === -1
+                        ? t("account.subscriptions.unlimited")
+                        : user.currentPlan.limits?.conversationsPerMonth || 0}
+                    </span>
+                  </div>
+                </div>
               </div>
             )}
 
