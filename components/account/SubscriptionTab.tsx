@@ -161,6 +161,9 @@ export function SubscriptionTab() {
   const isActive = user.subscriptionStatus === "ACTIVE";
   const isExpired = isTrial ? !user.isTrialActive : false;
 
+  // Consider trial as active if not expired
+  const isEffectivelyActive = (isTrial && !isExpired) || (isActive && !isExpired);
+
   return (
     <div className="space-y-6">
       {/* Trial Status Alert */}
@@ -299,7 +302,7 @@ export function SubscriptionTab() {
                   <span className="text-gray-600">Status:</span>
                   <span
                     className={`font-medium ${
-                      isActive && !user.subscriptionCanceled
+                      isEffectivelyActive && !user.subscriptionCanceled
                         ? "text-green-600"
                         : (subscriptionData.user as any).gracePeriod
                               ?.isInGracePeriod
@@ -307,7 +310,7 @@ export function SubscriptionTab() {
                           : "text-gray-600"
                     }`}
                   >
-                    {isActive && !user.subscriptionCanceled
+                    {isEffectivelyActive && !user.subscriptionCanceled
                       ? "Actief"
                       : (subscriptionData.user as any).gracePeriod
                             ?.isInGracePeriod

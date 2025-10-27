@@ -49,6 +49,9 @@ export async function getUserSubscriptionStatus(
       ? user.subscriptionEndDate < now
       : false;
 
+  // Consider trial as active if not expired
+  const isEffectivelyActive = (isTrial && !isExpired) || (isActive && !isExpired);
+
   const trialDaysRemaining = user.trialEndDate
     ? Math.max(
         0,
@@ -68,7 +71,7 @@ export async function getUserSubscriptionStatus(
   const canCreateWebsite = !isExpired;
 
   return {
-    isActive: isActive && !isExpired,
+    isActive: isEffectivelyActive,
     isTrial,
     isExpired,
     plan,
