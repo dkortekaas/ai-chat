@@ -1,13 +1,12 @@
 // middleware.ts
+import createMiddleware from "next-intl/middleware";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
-import { match } from "@formatjs/intl-localematcher";
-import Negotiator from "negotiator";
+import { routing } from "./i18n/routing";
 
-// List of supported locales
-const locales = ["nl", "en", "de", "fr", "es"];
-const defaultLocale = "nl";
+// Create the next-intl middleware
+const intlMiddleware = createMiddleware(routing);
 
 // Paths that don't require authentication and should not have locale prefix
 const noLocalePaths = [
@@ -36,34 +35,6 @@ const publicPaths = [
 // Paths related to 2FA that are accessible during partial authentication
 const twoFactorPaths = ["/2fa-verify"];
 
-// Get the preferred locale from headers
-function getLocale(request: NextRequest) {
-  // First, check for locale in URL path (e.g., /nl/, /en/)
-  const pathSegments = request.nextUrl.pathname.split("/");
-  const firstSegment = pathSegments[1];
-
-  if (firstSegment && locales.includes(firstSegment)) {
-    return firstSegment;
-  }
-
-  // Check for NEXT_LOCALE cookie
-  const cookieLocale = request.cookies.get("NEXT_LOCALE")?.value;
-  if (cookieLocale && locales.includes(cookieLocale)) {
-    return cookieLocale;
-  }
-
-  // Use Accept-Language header as fallback
-  const headers = Object.fromEntries(request.headers);
-  const languages = new Negotiator({ headers }).languages();
-
-  try {
-    // Match the best available locale
-    return match(languages, locales, defaultLocale);
-  } catch (error) {
-    return defaultLocale;
-  }
-}
-
 export async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
 
@@ -78,18 +49,11 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // Get the preferred locale
-  const locale = getLocale(req);
-
   // Extract the path without locale if present
-  const pathWithoutLocale =
-    path.replace(new RegExp(`^/(${locales.join("|")})`), "") || "/";
+  const pathWithoutLocale = path.replace(/^\/(nl|en|de|fr|es)/, "") || "/";
 
   // Check if the current path has a locale prefix
-  const hasLocalePrefix = path.match(new RegExp(`^/(${locales.join("|")})`));
-
-  // Create a response object that we can modify
-  let response: NextResponse;
+  const hasLocalePrefix = /^\/(nl|en|de|fr|es)/.test(path);
 
   // Check if path should not have locale prefix
   const isNoLocalePath = noLocalePaths.some(
@@ -119,21 +83,14 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // Check if this is the root path that needs locale redirection
-  if (pathWithoutLocale === "/" && !hasLocalePrefix) {
-    // Redirect to the default route with locale prefix
-    const url = new URL(`/${locale}`, req.url);
-    response = NextResponse.redirect(url);
+  // Handle public paths with locale prefix
+  if (isPublicPath && !isNoLocalePath) {
+    // Let next-intl handle the routing for public paths
+    return intlMiddleware(req);
   }
-  // Check if this is a public path that needs locale prefix (excluding no-locale paths)
-  else if (isPublicPath && !isNoLocalePath && !hasLocalePrefix) {
-    // Redirect to public path with locale prefix
-    const url = new URL(`/${locale}${pathWithoutLocale}`, req.url);
-    response = NextResponse.redirect(url);
-  } else if (isPublicPath) {
-    // Allow access to public paths with locale
-    response = NextResponse.next();
-  } else {
+
+  // For protected routes, check authentication
+  if (!isPublicPath || isNoLocalePath) {
     // Get user token for protected routes
     const token = await getToken({
       req,
@@ -154,7 +111,7 @@ export async function middleware(req: NextRequest) {
     if (token.requires2FA === true && token.twoFactorAuthenticated !== true) {
       // If already on a 2FA path, allow access
       if (is2FAPath) {
-        response = NextResponse.next();
+        return NextResponse.next();
       } else {
         // Redirect to 2FA verification without locale
         const url = new URL(`/2fa-verify`, req.url);
@@ -164,17 +121,16 @@ export async function middleware(req: NextRequest) {
         url.searchParams.set("callbackUrl", req.url);
         return NextResponse.redirect(url);
       }
-    } else {
-      // Fully authenticated, allow access to all paths
-      response = NextResponse.next();
     }
   }
 
-  // Store the detected locale in a cookie for future requests
-  response.cookies.set("NEXT_LOCALE", locale, {
-    path: "/",
-    maxAge: 31536000, // 1 year
-  });
+  // For public paths, let next-intl handle the routing
+  if (isPublicPath && !isNoLocalePath) {
+    return intlMiddleware(req);
+  }
+
+  // For all other cases, continue with the request
+  const response = NextResponse.next();
 
   // Add comprehensive security headers
   addSecurityHeaders(response);

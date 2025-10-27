@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 import { useParams, useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import config from "@/config";
-import { Button } from "../ui";
+import { Button } from "@/components/ui";
 
 const languages = [
   { code: "nl", name: "Nederlands", flag: "🇳🇱" },

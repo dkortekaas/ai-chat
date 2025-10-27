@@ -508,6 +508,14 @@
       }
     }
   },
+  "benefits": {
+    "title": "Voordelen",
+    "description": "Profiteer van onze AI-aangedreven klantenservice platform",
+    "item_1": "24/7 Beschikbaarheid",
+    "item_1_description": "Uw AI-assistent slaapt nooit en biedt directe antwoorden op klantvragen de klok rond.",
+    "item_2": "Slimme kennisbank",
+    "item_2_description": "Leer automatisch van uw documenten, FAQ's en website-inhoud om accurate antwoorden te bieden."
+  },
   "how_it_works": {
     "title": "Hoe het werkt",
     "description": "Begin binnen minuten met ons eenvoudige 4-stappen proces",
@@ -522,7 +530,7 @@
   },
   "faq": {
     "title": "Veelgestelde vragen",
-    "subtitle": "Alles wat u moet weten over ons AI klantenservice platform",
+    "description": "Alles wat u moet weten over ons AI klantenservice platform",
     "question_1": "Hoe snel kan ik beginnen?",
     "answer_1": "U kunt uw AI-assistent binnen 10 minuten aan de slag hebben. Upload gewoon uw inhoud, pas het uiterlijk aan en embed de widget op uw website.",
     "question_2": "Welke soorten inhoud kan de AI van leren?",
@@ -1042,7 +1050,9 @@
   "header": {
     "features": "Functies",
     "pricing": "Prijzen",
+    "contact": "Contact",
     "testimonials": "Testimonials",
+    "faq": "FAQ",
     "login": "Inloggen",
     "tryFree": "Gratis proberen",
     "language": "Taal"
@@ -1120,6 +1130,31 @@
         "href": "/contact"
       }
     }
+  },
+  "contact": {
+    "contact_title": "Contact",
+    "contact_description": "Contacteer ons voor meer informatie",
+    "contact_form_title": "Contact formulier",
+    "contact_form_description": "Vul het formulier in en we nemen zo snel mogelijk contact met u op.",
+    "name": "Naam",
+    "email": "E-mail",
+    "phone": "Telefoon",
+    "company": "Bedrijf",
+    "address": "Adres",
+    "hours": "Openingstijden",
+    "message": "Bericht",
+    "send_message": "Verstuur bericht",
+    "message_sent_title": "Bericht verzonden!",
+    "message_sent_description": "We nemen binnen 24 uur contact met u op.",
+    "contact_info_title": "Contactinformatie",
+    "contact_info_description": "We staan altijd klaar om uw vragen te beantwoorden en u te helpen met de beste oplossing voor uw bedrijf.",
+    "email_content": "help@embediq.app",
+    "phone_content": "+31 6 12345678",
+    "address_content": "Houten, Nederland",
+    "hours_content": "Ma-Vr: 9:00 - 18:00",
+    "plan_demo_title": "Plan een demo",
+    "plan_demo_description": "Wilt u zien hoe EmbedIQ werkt? Plan een gratis demo in met een van onze experts.",
+    "plan_demo_button": "Plan Demo"
   },
   "roles": {
     "user": "Gebruiker",
