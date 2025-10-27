@@ -27,12 +27,17 @@ export function useSubscription() {
         if (response.ok) {
           const data = await response.json();
           // Convert the API response to our SubscriptionStatus format
+          const isTrial = data.user.subscriptionStatus === "TRIAL";
+          const isActive = data.user.subscriptionStatus === "ACTIVE";
+          const isExpired = isTrial ? !data.user.isTrialActive : false;
+
+          // Consider trial as active if not expired
+          const isEffectivelyActive = (isTrial && !isExpired) || (isActive && !isExpired);
+
           const status: SubscriptionStatus = {
-            isActive: data.user.subscriptionStatus === "ACTIVE",
-            isTrial: data.user.subscriptionStatus === "TRIAL",
-            isExpired:
-              data.user.isTrialActive === false &&
-              data.user.subscriptionStatus === "TRIAL",
+            isActive: isEffectivelyActive,
+            isTrial,
+            isExpired,
             plan: data.user.subscriptionPlan,
             trialDaysRemaining: data.user.trialDaysRemaining,
             subscriptionEndDate: data.user.subscriptionEndDate
@@ -126,12 +131,17 @@ export function useSubscription() {
       const response = await fetch("/api/subscriptions");
       if (response.ok) {
         const data = await response.json();
+        const isTrial = data.user.subscriptionStatus === "TRIAL";
+        const isActive = data.user.subscriptionStatus === "ACTIVE";
+        const isExpired = isTrial ? !data.user.isTrialActive : false;
+
+        // Consider trial as active if not expired
+        const isEffectivelyActive = (isTrial && !isExpired) || (isActive && !isExpired);
+
         const status: SubscriptionStatus = {
-          isActive: data.user.subscriptionStatus === "ACTIVE",
-          isTrial: data.user.subscriptionStatus === "TRIAL",
-          isExpired:
-            data.user.isTrialActive === false &&
-            data.user.subscriptionStatus === "TRIAL",
+          isActive: isEffectivelyActive,
+          isTrial,
+          isExpired,
           plan: data.user.subscriptionPlan,
           trialDaysRemaining: data.user.trialDaysRemaining,
           subscriptionEndDate: data.user.subscriptionEndDate
