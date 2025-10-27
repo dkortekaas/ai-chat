@@ -31,6 +31,7 @@ const verifyLoginSchema = z.object({
   companyId: z.string().min(1), // Added companyId requirement
   trustDevice: z.boolean().optional(),
   isRecoveryCode: z.boolean().optional(),
+  isEmailRecovery: z.boolean().optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -49,6 +50,7 @@ export async function POST(req: NextRequest) {
       companyId, // Extract companyId from validated data
       trustDevice = false,
       isRecoveryCode = false,
+      isEmailRecovery = false,
     } = validationResult.data;
 
     // Get the user using compound unique constraint
@@ -63,6 +65,8 @@ export async function POST(req: NextRequest) {
         twoFactorEnabled: true,
         twoFactorVerified: true,
         companyId: true,
+        resetToken: true,
+        resetTokenExpiry: true,
       },
     });
 
@@ -100,10 +104,39 @@ export async function POST(req: NextRequest) {
 
     let isValid = false;
     let isUsingRecoveryCode = false;
+    let isUsingEmailRecovery = false;
+    let needsReset2FA = false;
     let remainingCodes: string[] = [];
 
-    // Check if using recovery code or TOTP
-    if (isRecoveryCode) {
+    // Check if using email recovery code
+    if (isEmailRecovery) {
+      if (!user.resetToken || !user.resetTokenExpiry) {
+        return NextResponse.json(
+          { error: "Geen geldige herstelcode gevonden. Vraag een nieuwe aan." },
+          { status: 400 }
+        );
+      }
+
+      // Check if recovery code is expired
+      if (user.resetTokenExpiry < new Date()) {
+        return NextResponse.json(
+          { error: "Herstelcode is verlopen. Vraag een nieuwe aan." },
+          { status: 400 }
+        );
+      }
+
+      // Hash the provided token and compare
+      const crypto = require('crypto');
+      const hashedProvidedToken = crypto
+        .createHash('sha256')
+        .update(token.toUpperCase())
+        .digest('hex');
+
+      isValid = hashedProvidedToken === user.resetToken;
+      isUsingEmailRecovery = true;
+      needsReset2FA = true; // Force user to reset 2FA after email recovery
+    } else if (isRecoveryCode) {
+      // Check if using backup recovery code
       if (!user.twoFactorBackupCodes) {
         return NextResponse.json(
           { error: t("error.noRecoveryCodesAvailable") },
@@ -154,6 +187,16 @@ export async function POST(req: NextRequest) {
     const updateData: Record<string, unknown> = {
       twoFactorVerified: true,
     };
+
+    // If email recovery was used, reset 2FA completely and clear recovery token
+    if (isUsingEmailRecovery) {
+      updateData.twoFactorEnabled = false;
+      updateData.twoFactorSecret = null;
+      updateData.twoFactorBackupCodes = null;
+      updateData.twoFactorVerified = false;
+      updateData.resetToken = null;
+      updateData.resetTokenExpiry = null;
+    }
 
     // If recovery code was used, update the remaining codes
     if (
@@ -244,6 +287,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       twoFactorAuthenticated: true,
+      needsReset2FA: isUsingEmailRecovery,
+      message: isUsingEmailRecovery
+        ? "Ingelogd met email herstelcode. Je moet 2FA opnieuw instellen voor je account veiligheid."
+        : undefined,
     });
   } catch (error) {
     console.error("[2FA_VERIFY_LOGIN_POST]", error);

@@ -21,6 +21,8 @@ export default function TwoFactorVerification({
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isUsingRecoveryCode, setIsUsingRecoveryCode] = useState(false);
+  const [showEmailRecovery, setShowEmailRecovery] = useState(false);
+  const [emailRecoverySent, setEmailRecoverySent] = useState(false);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   // Initialize refs array
@@ -44,7 +46,8 @@ export default function TwoFactorVerification({
           email: session?.user?.email,
           companyId: session?.user?.companyId,
           trustDevice: false,
-          isRecoveryCode: isUsingRecoveryCode,
+          isRecoveryCode: isUsingRecoveryCode && !showEmailRecovery,
+          isEmailRecovery: showEmailRecovery,
         }),
       });
 
@@ -122,8 +125,47 @@ export default function TwoFactorVerification({
 
   const toggleRecoveryMode = () => {
     setIsUsingRecoveryCode(!isUsingRecoveryCode);
+    setShowEmailRecovery(false);
     setCode("");
     setError("");
+  };
+
+  const requestEmailRecovery = async () => {
+    if (!session?.user?.email) return;
+
+    setIsLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch("/api/auth/2fa/request-recovery", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: session.user.email,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to send recovery code");
+      }
+
+      setEmailRecoverySent(true);
+      setShowEmailRecovery(true);
+      setIsUsingRecoveryCode(false);
+    } catch (error) {
+      console.error("Email recovery error:", error);
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Failed to send recovery code"
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -134,26 +176,39 @@ export default function TwoFactorVerification({
             {config.appTitle}
           </h2>
           <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300">
-            {isUsingRecoveryCode
-              ? t("auth.twoFactorVerification.recoveryTitle")
-              : t("auth.twoFactorVerification.title")}
+            {showEmailRecovery
+              ? "Voer de herstelcode in die naar je email is verstuurd"
+              : isUsingRecoveryCode
+                ? t("auth.twoFactorVerification.recoveryTitle")
+                : t("auth.twoFactorVerification.title")}
           </p>
+          {emailRecoverySent && (
+            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md p-3">
+              <p className="text-sm text-blue-800 dark:text-blue-200">
+                ✉️ Een herstelcode is verstuurd naar je email. Controleer ook je spam folder.
+                De code is 15 minuten geldig.
+              </p>
+            </div>
+          )}
         </div>
         <form
           className="mt-6 sm:mt-8 space-y-4 sm:space-y-6"
           onSubmit={handleSubmit}
         >
-          {isUsingRecoveryCode ? (
+          {isUsingRecoveryCode || showEmailRecovery ? (
             <div className="space-y-4">
               <input
                 type="text"
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
-                placeholder={t(
-                  "auth.twoFactorVerification.recoveryPlaceholder"
-                )}
-                className="w-full px-4 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-400 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                placeholder={
+                  showEmailRecovery
+                    ? "Bijv: A1B2C3D4"
+                    : t("auth.twoFactorVerification.recoveryPlaceholder")
+                }
+                className="w-full px-4 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-400 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white uppercase"
                 disabled={isLoading}
+                maxLength={showEmailRecovery ? 8 : undefined}
               />
             </div>
           ) : (
@@ -190,23 +245,56 @@ export default function TwoFactorVerification({
             <Button
               type="submit"
               disabled={
-                isLoading || (isUsingRecoveryCode ? !code : code.length !== 6)
+                isLoading ||
+                (isUsingRecoveryCode || showEmailRecovery ? !code : code.length !== 6)
               }
               className="w-full bg-indigo-500 hover:bg-indigo-600"
             >
               {isLoading ? t("actions.verifying") : t("actions.verify")}
             </Button>
 
-            <div className="text-center">
-              <button
-                type="button"
-                onClick={toggleRecoveryMode}
-                className="text-sm text-indigo-400 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-200"
-              >
-                {isUsingRecoveryCode
-                  ? t("auth.twoFactorVerification.useAuthenticator")
-                  : t("auth.twoFactorVerification.useRecoveryCode")}
-              </button>
+            <div className="text-center space-y-2">
+              {!showEmailRecovery && (
+                <button
+                  type="button"
+                  onClick={toggleRecoveryMode}
+                  className="block w-full text-sm text-indigo-400 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-200"
+                >
+                  {isUsingRecoveryCode
+                    ? t("auth.twoFactorVerification.useAuthenticator")
+                    : t("auth.twoFactorVerification.useRecoveryCode")}
+                </button>
+              )}
+
+              {!isUsingRecoveryCode && !showEmailRecovery && (
+                <div className="pt-2 border-t border-gray-200 dark:border-gray-700">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                    Geen toegang tot authenticator EN backup codes?
+                  </p>
+                  <button
+                    type="button"
+                    onClick={requestEmailRecovery}
+                    disabled={isLoading || emailRecoverySent}
+                    className="text-sm text-amber-600 hover:text-amber-700 dark:text-amber-400 dark:hover:text-amber-300 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    📧 Vraag een herstelcode per email aan
+                  </button>
+                </div>
+              )}
+
+              {showEmailRecovery && !emailRecoverySent && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowEmailRecovery(false);
+                    setCode("");
+                    setError("");
+                  }}
+                  className="block w-full text-sm text-indigo-400 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-200"
+                >
+                  Terug naar authenticator code
+                </button>
+              )}
             </div>
           </div>
         </form>
