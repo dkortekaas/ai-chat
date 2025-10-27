@@ -5,14 +5,20 @@ import { cn } from "@/lib/utils";
 import { WebsitesTab } from "@/components/knowledgebase/tabs/WebsitesTab";
 import { FaqsTab } from "@/components/knowledgebase/tabs/FaqsTab";
 import { BestandenTab } from "@/components/knowledgebase/tabs/FilesTab";
+import { ProjectsTab } from "@/components/projects/ProjectsTab";
 import { useTranslations } from "next-intl";
 import { TrialGuard } from "@/components/guards/TrialGuard";
 
 export default function KennisbankPage() {
   const t = useTranslations();
-  const [activeTab, setActiveTab] = useState<string>("websites");
+  const [activeTab, setActiveTab] = useState<string>("projects");
 
   const tabs = [
+    {
+      id: "projects",
+      name: "Projects",
+      component: ProjectsTab,
+    },
     {
       id: "websites",
       name: t("knowledgebase.tabs.websites"),

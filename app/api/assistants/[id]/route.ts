@@ -97,6 +97,7 @@ export async function PUT(
       isActive,
       allowedDomains,
       rateLimit,
+      projectId,
     } = body;
 
     // Check if assistant exists and belongs to same company
@@ -153,6 +154,7 @@ export async function PUT(
         isActive,
         allowedDomains,
         rateLimit,
+        projectId: projectId !== undefined ? projectId : undefined,
         updatedAt: new Date(),
       },
     });
