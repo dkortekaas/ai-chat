@@ -665,6 +665,31 @@ export async function sendSubscriptionExpiringEmail(
   }
 }
 
+export async function sendEmail(
+  email: string,
+  subject: string,
+  html: string,
+  user?: { id: string; companyId?: string | null | undefined }
+) {
+  try {
+    await resend.emails.send({
+      from: `${config.appTitle} <${config.email}>`,
+      to: email,
+      subject: subject,
+      html: await createEmailTemplate(html),
+    });
+  } catch (error) {
+    logger.error("Failed to send email", {
+      context: {
+        error: error instanceof Error ? error.message : String(error),
+      },
+      userId: user?.id,
+      companyId: user?.companyId,
+    });
+    throw error;
+  }
+}
+
 export async function sendSubscriptionExpiredEmail(
   email: string,
   user: {

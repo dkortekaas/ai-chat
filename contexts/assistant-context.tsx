@@ -33,6 +33,7 @@ interface Assistant {
   apiKey: string;
   allowedDomains: string[];
   rateLimit: number;
+  projectId?: string | null;
   createdAt: string;
   updatedAt: string;
 }

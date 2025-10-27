@@ -122,7 +122,8 @@ export function KnowledgeTab({ onChanges }: KnowledgeTabProps) {
         <CardHeader>
           <CardTitle>Project Koppeling</CardTitle>
           <CardDescription>
-            Koppel een project aan deze assistant voor snellere en betere responses
+            Koppel een project aan deze assistant voor snellere en betere
+            responses
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -144,7 +145,10 @@ export function KnowledgeTab({ onChanges }: KnowledgeTabProps) {
           {/* Project Selector */}
           <div className="space-y-2">
             <Label>Selecteer Project</Label>
-            <Select value={selectedProjectId} onValueChange={handleProjectChange}>
+            <Select
+              value={selectedProjectId}
+              onValueChange={handleProjectChange}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Kies een project of gebruik legacy knowledge base" />
               </SelectTrigger>
@@ -166,8 +170,8 @@ export function KnowledgeTab({ onChanges }: KnowledgeTabProps) {
               </SelectContent>
             </Select>
             <p className="text-xs text-gray-500">
-              Geen project selecteren betekent dat de oude methode wordt gebruikt
-              (langzamer, meer database queries)
+              Geen project selecteren betekent dat de oude methode wordt
+              gebruikt (langzamer, meer database queries)
             </p>
           </div>
 
@@ -175,9 +179,7 @@ export function KnowledgeTab({ onChanges }: KnowledgeTabProps) {
           {selectedProject && (
             <div className="bg-gray-50 border rounded-lg p-4 space-y-2">
               <div className="flex items-center justify-between">
-                <h4 className="font-medium text-sm">
-                  {selectedProject.name}
-                </h4>
+                <h4 className="font-medium text-sm">{selectedProject.name}</h4>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -229,7 +231,6 @@ export function KnowledgeTab({ onChanges }: KnowledgeTabProps) {
               onClick={handleSave}
               disabled={!hasChanges}
               isLoading={isSaving}
-              hasChanges={hasChanges}
             />
           </div>
         </CardContent>

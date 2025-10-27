@@ -7,7 +7,9 @@ import { invalidateProjectCaches } from "@/lib/project-context";
 
 // Validation schema for adding documents
 const addDocumentsSchema = z.object({
-  documentIds: z.array(z.string()).min(1, "At least one document ID is required"),
+  documentIds: z
+    .array(z.string())
+    .min(1, "At least one document ID is required"),
 });
 
 // Validation schema for removing a document
@@ -21,13 +23,15 @@ const removeDocumentSchema = z.object({
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+
+    const { id } = await params;
 
     // Load current user with company
     const currentUser = await db.user.findUnique({
@@ -45,16 +49,13 @@ export async function POST(
     // Verify project exists and belongs to company
     const project = await db.project.findFirst({
       where: {
-        id: params.id,
+        id,
         companyId: currentUser.companyId,
       },
     });
 
     if (!project) {
-      return NextResponse.json(
-        { error: "Project not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
     // Parse and validate request body
@@ -80,7 +81,7 @@ export async function POST(
     // Add documents to project (using createMany with skipDuplicates)
     const result = await db.projectDocument.createMany({
       data: documentIds.map((documentId) => ({
-        projectId: params.id,
+        projectId: id,
         documentId,
         addedById: currentUser.id,
       })),
@@ -89,16 +90,16 @@ export async function POST(
 
     // Update project document count
     const documentCount = await db.projectDocument.count({
-      where: { projectId: params.id },
+      where: { projectId: id },
     });
 
     await db.project.update({
-      where: { id: params.id },
+      where: { id },
       data: { documentCount },
     });
 
     // Invalidate all caches for this project
-    invalidateProjectCaches(params.id);
+    invalidateProjectCaches(id);
     console.log("🗑️ Invalidated project caches after adding documents");
 
     return NextResponse.json({
@@ -127,13 +128,15 @@ export async function POST(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+
+    const { id } = await params;
 
     // Load current user with company
     const currentUser = await db.user.findUnique({
@@ -151,16 +154,13 @@ export async function DELETE(
     // Verify project exists and belongs to company
     const project = await db.project.findFirst({
       where: {
-        id: params.id,
+        id,
         companyId: currentUser.companyId,
       },
     });
 
     if (!project) {
-      return NextResponse.json(
-        { error: "Project not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
     // Parse request body
@@ -171,7 +171,7 @@ export async function DELETE(
     await db.projectDocument.delete({
       where: {
         projectId_documentId: {
-          projectId: params.id,
+          projectId: id,
           documentId,
         },
       },
@@ -179,16 +179,16 @@ export async function DELETE(
 
     // Update project document count
     const documentCount = await db.projectDocument.count({
-      where: { projectId: params.id },
+      where: { projectId: id },
     });
 
     await db.project.update({
-      where: { id: params.id },
+      where: { id },
       data: { documentCount },
     });
 
     // Invalidate all caches for this project
-    invalidateProjectCaches(params.id);
+    invalidateProjectCaches(id);
     console.log("🗑️ Invalidated project caches after removing document");
 
     return NextResponse.json({ success: true });

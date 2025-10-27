@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -55,7 +55,7 @@ export function ProjectDetailModal({
   const [removingDocId, setRemovingDocId] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const fetchProjectDetails = async () => {
+  const fetchProjectDetails = useCallback(async () => {
     setIsLoading(true);
     try {
       const response = await fetch(`/api/projects/${project.id}`);
@@ -75,13 +75,13 @@ export function ProjectDetailModal({
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [project.id, toast]);
 
   useEffect(() => {
     if (isOpen) {
       fetchProjectDetails();
     }
-  }, [isOpen, project.id]);
+  }, [isOpen, project.id, fetchProjectDetails]);
 
   const handleRemoveDocument = async (documentId: string) => {
     setRemovingDocId(documentId);
@@ -152,7 +152,9 @@ export function ProjectDetailModal({
               {project._count && (
                 <div className="flex items-center gap-2 text-sm">
                   <Users className="h-4 w-4 text-gray-500" />
-                  <span className="font-medium">{project._count.assistants}</span>
+                  <span className="font-medium">
+                    {project._count.assistants}
+                  </span>
                   <span className="text-gray-600">assistants</span>
                 </div>
               )}
@@ -199,7 +201,10 @@ export function ProjectDetailModal({
                           {doc.document.type}
                         </Badge>
                         {doc.document.status === "COMPLETED" && (
-                          <Badge variant="default" className="text-xs bg-green-100 text-green-800">
+                          <Badge
+                            variant="default"
+                            className="text-xs bg-green-100 text-green-800"
+                          >
                             ✓
                           </Badge>
                         )}
@@ -207,9 +212,7 @@ export function ProjectDetailModal({
                       <div className="flex items-center gap-3 text-xs text-gray-500">
                         <span>{formatFileSize(doc.document.fileSize)}</span>
                         <span>•</span>
-                        <span>
-                          Toegevoegd {formatDate(doc.addedAt)}
-                        </span>
+                        <span>Toegevoegd {formatDate(doc.addedAt)}</span>
                       </div>
                     </div>
                     <Button

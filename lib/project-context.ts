@@ -10,7 +10,7 @@
 
 import { db } from "@/lib/db";
 import { searchDocumentChunks } from "@/lib/search";
-import { generateEmbedding } from "@/lib/embedding-service";
+import { generateOpenAIEmbedding } from "@/lib/embedding-service";
 
 export interface ProjectContextCache {
   projectId: string;
@@ -57,7 +57,10 @@ function isCacheValid(cache: ProjectContextCache): boolean {
   }
 
   // Low confidence indicates cache might not be relevant
-  if (cache.avgConfidence < LOW_CONFIDENCE_THRESHOLD && cache.messageCount > 5) {
+  if (
+    cache.avgConfidence < LOW_CONFIDENCE_THRESHOLD &&
+    cache.messageCount > 5
+  ) {
     console.log("🔄 Cache expired by low confidence");
     return false;
   }
@@ -85,13 +88,9 @@ export async function loadProjectContext(
             document: {
               include: {
                 chunks: {
-                  where: {
-                    embedding: { not: null },
-                  },
                   select: {
                     id: true,
                     content: true,
-                    embedding: true,
                     chunkIndex: true,
                   },
                   take: 100, // Limit to prevent memory issues
@@ -108,7 +107,11 @@ export async function loadProjectContext(
       return [];
     }
 
-    console.log("✅ Project loaded with", project.documents.length, "documents");
+    console.log(
+      "✅ Project loaded with",
+      project.documents.length,
+      "documents"
+    );
 
     // Flatten all chunks
     const allChunks = project.documents.flatMap((pd) =>
@@ -128,11 +131,10 @@ export async function loadProjectContext(
       try {
         console.log("🔍 Pre-filtering chunks with initial query");
         // Use semantic search to get top relevant chunks
-        const searchResults = await searchDocumentChunks(
-          initialQuery,
-          undefined, // No assistant filter, we're using project docs
-          { limit: 20, threshold: 0.3 }
-        );
+        const searchResults = await searchDocumentChunks(initialQuery, {
+          limit: 20,
+          threshold: 0.3,
+        });
 
         // Filter to only chunks from this project
         const projectChunkIds = new Set(allChunks.map((c) => c.id));
@@ -142,9 +144,15 @@ export async function loadProjectContext(
             const chunk = allChunks.find((c) => c.id === result.chunkId);
             return chunk ? { ...chunk, relevanceScore: result.score } : null;
           })
-          .filter(Boolean);
+          .filter(
+            (chunk): chunk is NonNullable<typeof chunk> => chunk !== null
+          );
 
-        console.log("✅ Pre-filtered to", relevantChunks.length, "relevant chunks");
+        console.log(
+          "✅ Pre-filtered to",
+          relevantChunks.length,
+          "relevant chunks"
+        );
       } catch (error) {
         console.error("⚠️ Error pre-filtering chunks, using all:", error);
         relevantChunks = allChunks;
@@ -227,7 +235,8 @@ export function updateCacheConfidence(
 
   if (cached) {
     // Running average of confidence
-    const totalConfidence = cached.avgConfidence * (cached.messageCount - 1) + confidence;
+    const totalConfidence =
+      cached.avgConfidence * (cached.messageCount - 1) + confidence;
     cached.avgConfidence = totalConfidence / cached.messageCount;
 
     console.log("📊 Updated cache confidence:", {

@@ -29,6 +29,7 @@ export async function POST(req: NextRequest) {
         name: true,
         twoFactorEnabled: true,
         twoFactorVerified: true,
+        companyId: true,
       },
     });
 
@@ -36,18 +37,19 @@ export async function POST(req: NextRequest) {
     if (!user || !user.twoFactorEnabled) {
       return NextResponse.json({
         success: true,
-        message: "Als dit email adres bij ons bekend is, wordt er een herstelcode verstuurd.",
+        message:
+          "Als dit email adres bij ons bekend is, wordt er een herstelcode verstuurd.",
       });
     }
 
     // Generate a secure 8-character recovery code
-    const recoveryCode = crypto.randomBytes(4).toString('hex').toUpperCase();
+    const recoveryCode = crypto.randomBytes(4).toString("hex").toUpperCase();
 
     // Hash the code before storing (for security)
     const hashedCode = crypto
-      .createHash('sha256')
+      .createHash("sha256")
       .update(recoveryCode)
-      .digest('hex');
+      .digest("hex");
 
     // Store recovery code with 15 minute expiry
     const expiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
@@ -61,10 +63,10 @@ export async function POST(req: NextRequest) {
     });
 
     // Send recovery email
-    await sendEmail({
-      to: user.email,
-      subject: "2FA Herstelcode - AI Chat",
-      html: `
+    await sendEmail(
+      user.email,
+      "2FA Herstelcode - AI Chat",
+      `
         <!DOCTYPE html>
         <html>
           <head>
@@ -77,7 +79,7 @@ export async function POST(req: NextRequest) {
             </div>
 
             <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
-              <p style="font-size: 16px; margin-bottom: 20px;">Hallo${user.name ? ' ' + user.name : ''},</p>
+              <p style="font-size: 16px; margin-bottom: 20px;">Hallo${user.name ? " " + user.name : ""},</p>
 
               <p style="font-size: 16px; margin-bottom: 20px;">
                 Je hebt een herstelcode aangevraagd voor je twee-factor authenticatie. Gebruik de onderstaande code om in te loggen:
@@ -123,16 +125,20 @@ export async function POST(req: NextRequest) {
           </body>
         </html>
       `,
-    });
+      { id: user.id, companyId: user.companyId }
+    );
 
     return NextResponse.json({
       success: true,
-      message: "Een herstelcode is verstuurd naar je email adres. Controleer ook je spam folder.",
+      message:
+        "Een herstelcode is verstuurd naar je email adres. Controleer ook je spam folder.",
     });
   } catch (error) {
     console.error("[2FA_REQUEST_RECOVERY]", error);
     return NextResponse.json(
-      { error: "Er is een fout opgetreden bij het versturen van de herstelcode" },
+      {
+        error: "Er is een fout opgetreden bij het versturen van de herstelcode",
+      },
       { status: 500 }
     );
   }

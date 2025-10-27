@@ -14,6 +14,7 @@ import { logSecurityEvent, checkRateLimit, sanitizeIp } from "@/lib/security";
 import { getToken } from "next-auth/jwt";
 import { cookies } from "next/headers";
 import { getTranslations } from "next-intl/server";
+import crypto from "crypto";
 
 interface ExtendedToken {
   id: string;
@@ -126,11 +127,10 @@ export async function POST(req: NextRequest) {
       }
 
       // Hash the provided token and compare
-      const crypto = require('crypto');
       const hashedProvidedToken = crypto
-        .createHash('sha256')
+        .createHash("sha256")
         .update(token.toUpperCase())
-        .digest('hex');
+        .digest("hex");
 
       isValid = hashedProvidedToken === user.resetToken;
       isUsingEmailRecovery = true;

@@ -16,13 +16,15 @@ const updateProjectSchema = z.object({
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+
+    const { id } = await params;
 
     // Load current user with company
     const currentUser = await db.user.findUnique({
@@ -40,7 +42,7 @@ export async function GET(
     // Get project with documents and assistants
     const project = await db.project.findFirst({
       where: {
-        id: params.id,
+        id,
         companyId: currentUser.companyId,
       },
       include: {
@@ -74,10 +76,7 @@ export async function GET(
     });
 
     if (!project) {
-      return NextResponse.json(
-        { error: "Project not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
     return NextResponse.json(project);
@@ -96,13 +95,15 @@ export async function GET(
  */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+
+    const { id } = await params;
 
     // Load current user with company
     const currentUser = await db.user.findUnique({
@@ -120,16 +121,13 @@ export async function PUT(
     // Verify project exists and belongs to company
     const existingProject = await db.project.findFirst({
       where: {
-        id: params.id,
+        id,
         companyId: currentUser.companyId,
       },
     });
 
     if (!existingProject) {
-      return NextResponse.json(
-        { error: "Project not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
     // Parse and validate request body
@@ -138,7 +136,7 @@ export async function PUT(
 
     // Update the project
     const project = await db.project.update({
-      where: { id: params.id },
+      where: { id },
       data: validatedData,
       include: {
         _count: {
@@ -170,13 +168,15 @@ export async function PUT(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+
+    const { id } = await params;
 
     // Load current user with company
     const currentUser = await db.user.findUnique({
@@ -194,21 +194,18 @@ export async function DELETE(
     // Verify project exists and belongs to company
     const existingProject = await db.project.findFirst({
       where: {
-        id: params.id,
+        id,
         companyId: currentUser.companyId,
       },
     });
 
     if (!existingProject) {
-      return NextResponse.json(
-        { error: "Project not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
     // Delete the project (will cascade to project_documents)
     await db.project.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json({ success: true });

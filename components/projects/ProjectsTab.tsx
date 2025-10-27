@@ -190,7 +190,10 @@ export function ProjectsTab() {
                   </h3>
                 </div>
                 <DropdownMenu>
-                  <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                  <DropdownMenuTrigger
+                    asChild
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                       <MoreVertical className="h-4 w-4" />
                     </Button>
@@ -293,7 +296,8 @@ export function ProjectsTab() {
         onConfirm={confirmDelete}
         title="Project verwijderen"
         description={`Weet je zeker dat je het project "${projectToDelete?.name}" wilt verwijderen? Dit kan niet ongedaan worden gemaakt.`}
-        isDeleting={isDeleting}
+        itemName={projectToDelete?.name || ""}
+        isLoading={isDeleting}
       />
     </div>
   );
