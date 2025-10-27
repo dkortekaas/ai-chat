@@ -4,9 +4,9 @@ import { authOptions } from "@/lib/auth";
 import { writeFile, mkdir, readFile } from "fs/promises";
 import { join } from "path";
 import { existsSync } from "fs";
-import { chunkText } from "@/lib/chunking";
+import { chunkTextOptimized, estimateTokenCount } from "@/lib/chunking-optimized";
 import { estimateTokens, EMBEDDINGS_ENABLED } from "@/lib/openai";
-import { generateBatchEmbeddings } from "@/lib/embedding-service";
+import { generateBatchEmbeddings } from "@/lib/embedding-service-optimized";
 import * as mammoth from "mammoth";
 import { db } from "@/lib/db";
 import { randomBytes } from "crypto";
@@ -376,10 +376,13 @@ async function processDocumentForAI(
       },
     });
 
-    // Chunk the content for better AI processing
-    const chunks = chunkText(contentText, {
-      chunkSize: 1000,
-      chunkOverlap: 200,
+    // Chunk the content for better AI processing with optimized strategy
+    // New: 1500 chars chunks, 100 overlap, 200 min size = 30-50% fewer chunks!
+    console.log(`📊 Starting optimized chunking for: ${originalName}`);
+    const chunks = chunkTextOptimized(contentText, {
+      chunkSize: 1500,      // Increased from 1000 (30-50% fewer chunks)
+      chunkOverlap: 100,    // Reduced from 200 (50% less redundancy)
+      minChunkSize: 200,    // Filter tiny chunks
       metadata: {
         fileId: fileId,
         documentId: document.id,
@@ -387,6 +390,7 @@ async function processDocumentForAI(
         mimeType: mimeType,
       },
     });
+    console.log(`✅ Created ${chunks.length} optimized chunks`);
 
     if (chunks.length === 0) {
       await db.document.update({
@@ -407,7 +411,11 @@ async function processDocumentForAI(
     // Generate embeddings if enabled
     if (EMBEDDINGS_ENABLED && process.env.OPENAI_API_KEY) {
       try {
+        console.log(`\n🚀 Generating optimized embeddings with cost reduction...`);
         const chunkTexts = chunks.map((chunk) => sanitizeText(chunk.content));
+
+        // Use optimized batch embeddings with automatic deduplication
+        // This will detect duplicate chunks and reuse embeddings = cost savings!
         const embeddings = await generateBatchEmbeddings(chunkTexts);
 
         // Create document chunks with embeddings
@@ -416,7 +424,7 @@ async function processDocumentForAI(
           chunkIndex: chunk.chunkIndex,
           content: sanitizeText(chunk.content),
           embedding: embeddings[index],
-          tokenCount: estimateTokens(chunk.content),
+          tokenCount: chunk.tokenCount || estimateTokens(chunk.content),
           metadata: chunk.metadata,
         }));
 
@@ -429,9 +437,15 @@ async function processDocumentForAI(
           data: documentChunks,
         });
 
-        console.log(
-          `Created ${chunks.length} chunks with embeddings for document: ${originalName}`
-        );
+        // Calculate estimated cost
+        const totalTokens = chunks.reduce((sum, chunk) => sum + (chunk.tokenCount || 0), 0);
+        const estimatedCost = (totalTokens / 1000) * 0.00002; // text-embedding-3-small
+        console.log(`\n💰 Embedding Stats:`);
+        console.log(`   Chunks: ${chunks.length}`);
+        console.log(`   Tokens: ${totalTokens}`);
+        console.log(`   Estimated cost: $${estimatedCost.toFixed(6)}`);
+        console.log(`   (Using text-embedding-3-small - 5x cheaper than ada-002!)`);
+        console.log(`✅ Created ${chunks.length} chunks with embeddings for: ${originalName}`);
       } catch (embeddingError) {
         console.warn(
           `Failed to create embeddings for document ${originalName}:`,
