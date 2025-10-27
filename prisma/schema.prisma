@@ -112,6 +112,7 @@ model Document {
   updatedAt           DateTime             @updatedAt
   conversationSources ConversationSource[]
   chunks              DocumentChunk[]
+  projects            ProjectDocument[]
 
   @@index([type])
   @@index([status])
@@ -139,6 +140,7 @@ model ConversationSession {
   id           String               @id @default(cuid())
   sessionId    String               @unique
   assistantId  String?
+  projectId    String?
   ipAddress    String?
   userAgent    String?
   referrer     String?
@@ -152,10 +154,13 @@ model ConversationSession {
   ratedAt      DateTime?
   ratedBy      String?
   isActive     Boolean              @default(true)
+  contextCache Json?
+  contextCachedAt DateTime?
   messages     ConversationMessage[]
 
   @@index([sessionId])
   @@index([assistantId])
+  @@index([projectId])
   @@index([startedAt])
   @@index([lastActivity])
   @@index([rating])
@@ -344,6 +349,7 @@ model ContactForm {
 model ChatbotSettings {
   id                String   @id
   userId            String
+  projectId         String?
   name              String   @default("AI Assistent")
   description       String?  @default("")
   welcomeMessage    String   @default("Hallo! Hoe kan ik je helpen?")
@@ -370,10 +376,12 @@ model ChatbotSettings {
   createdAt         DateTime @default(now())
   updatedAt         DateTime
   users             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project           Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
   actionButtons     ActionButton[]
 
   @@index([userId])
   @@index([userId, isActive])
+  @@index([projectId])
 }
 
 model ActionButton {
@@ -573,8 +581,56 @@ model Company {
   // Relations
   users       User[]
   invitations Invitation[]
+  projects    Project[]
 
   @@map("companies")
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  companyId   String
+  createdById String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Pre-computed search index for fast retrieval
+  searchIndex Json?
+  lastIndexed DateTime?
+
+  // Total document stats
+  documentCount Int @default(0)
+  totalChunks   Int @default(0)
+
+  // Relations
+  company     Company           @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  documents   ProjectDocument[]
+  assistants  ChatbotSettings[]
+
+  @@index([companyId])
+  @@index([createdById])
+  @@index([createdAt])
+  @@map("projects")
+}
+
+model ProjectDocument {
+  projectId  String
+  documentId String
+  addedAt    DateTime @default(now())
+  addedById  String?
+
+  // Pre-computed relevance for this project context
+  relevanceScore Float?
+
+  // Relations
+  project  Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@id([projectId, documentId])
+  @@index([projectId])
+  @@index([documentId])
+  @@map("project_documents")
 }
 
 enum InvitationStatus {
