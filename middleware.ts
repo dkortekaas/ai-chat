@@ -83,50 +83,46 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // Handle public paths with locale prefix
-  if (isPublicPath && !isNoLocalePath) {
-    // Let next-intl handle the routing for public paths
-    return intlMiddleware(req);
+  // Allow public paths without authentication check
+  if (isPublicPath || isNoLocalePath) {
+    // For public paths with locale prefix, use next-intl
+    if (isPublicPath && !isNoLocalePath) {
+      return intlMiddleware(req);
+    }
+    // For no-locale paths (like /login), just continue
+    return NextResponse.next();
   }
 
   // For protected routes, check authentication
-  if (!isPublicPath || isNoLocalePath) {
-    // Get user token for protected routes
-    const token = await getToken({
-      req,
-      secret: process.env.NEXTAUTH_SECRET,
-    });
+  const token = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
 
-    // Not authenticated, redirect to login without locale
-    if (!token) {
-      const url = new URL(`/login`, req.url);
-      // Only set callbackUrl if we're not on the root path
-      if (pathWithoutLocale !== "/") {
-        url.searchParams.set("callbackUrl", req.url);
-      }
-      return NextResponse.redirect(url);
+  // Not authenticated, redirect to login without locale
+  if (!token) {
+    const url = new URL(`/login`, req.url);
+    // Only set callbackUrl if we're not already on a public path
+    if (pathWithoutLocale !== "/" && pathWithoutLocale !== "/login") {
+      url.searchParams.set("callbackUrl", req.url);
     }
-
-    // If the user requires 2FA but hasn't completed it yet
-    if (token.requires2FA === true && token.twoFactorAuthenticated !== true) {
-      // If already on a 2FA path, allow access
-      if (is2FAPath) {
-        return NextResponse.next();
-      } else {
-        // Redirect to 2FA verification without locale
-        const url = new URL(`/2fa-verify`, req.url);
-        if (token.email) {
-          url.searchParams.set("email", token.email as string);
-        }
-        url.searchParams.set("callbackUrl", req.url);
-        return NextResponse.redirect(url);
-      }
-    }
+    return NextResponse.redirect(url);
   }
 
-  // For public paths, let next-intl handle the routing
-  if (isPublicPath && !isNoLocalePath) {
-    return intlMiddleware(req);
+  // If the user requires 2FA but hasn't completed it yet
+  if (token.requires2FA === true && token.twoFactorAuthenticated !== true) {
+    // If already on a 2FA path, allow access
+    if (is2FAPath) {
+      return NextResponse.next();
+    } else {
+      // Redirect to 2FA verification without locale
+      const url = new URL(`/2fa-verify`, req.url);
+      if (token.email) {
+        url.searchParams.set("email", token.email as string);
+      }
+      url.searchParams.set("callbackUrl", req.url);
+      return NextResponse.redirect(url);
+    }
   }
 
   // For all other cases, continue with the request
