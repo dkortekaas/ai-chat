@@ -16,7 +16,6 @@ declare module "next-auth" {
       twoFactorAuthenticated?: boolean;
       needsVerification?: boolean;
     } & DefaultSession["user"];
-    csrfToken?: string;
   }
 
   interface User {
@@ -32,6 +31,6 @@ declare module "next-auth/jwt" {
     role: string;
     requires2FA: boolean;
     twoFactorAuthenticated: boolean;
-    csrfToken?: string;
+    companyId: string;
   }
 }

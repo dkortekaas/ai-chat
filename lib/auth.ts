@@ -7,7 +7,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { logSecurityEvent, sanitizeIp } from "./security";
 import { User, UserRole } from "@prisma/client";
-import { randomBytes } from "crypto";
 import { getTranslations } from "next-intl/server";
 
 interface ExtendedUser extends User {
@@ -169,7 +168,6 @@ export const authOptions: NextAuthOptions = {
           user as ExtendedUser
         ).twoFactorAuthenticated;
         token.companyId = (user as ExtendedUser).companyId;
-        token.csrfToken = randomBytes(32).toString("hex");
       }
 
       return token;
@@ -184,7 +182,6 @@ export const authOptions: NextAuthOptions = {
         session.user.twoFactorAuthenticated =
           token.twoFactorAuthenticated as boolean;
         session.user.companyId = token.companyId as string;
-        session.csrfToken = token.csrfToken as string;
       }
       return session;
     },
