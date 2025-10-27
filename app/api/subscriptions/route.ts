@@ -165,10 +165,39 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ url: session_url.url });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error creating subscription:", error);
+
+    // Provide helpful error messages for common Stripe errors
+    if (error.type === "StripeAuthenticationError") {
+      return NextResponse.json(
+        {
+          error: "Stripe configuration error",
+          message:
+            "Invalid Stripe API key. Please check your .env.local file and ensure STRIPE_SECRET_KEY is set correctly. See docs/STRIPE_SETUP_NL.md for help.",
+        },
+        { status: 500 }
+      );
+    }
+
+    if (error.type === "StripeInvalidRequestError") {
+      if (error.message?.includes("price")) {
+        return NextResponse.json(
+          {
+            error: "Stripe configuration error",
+            message:
+              "Invalid Stripe Price ID. Please check your .env.local file and ensure all STRIPE_*_PRICE_ID variables are set correctly. See docs/STRIPE_SETUP_NL.md for help.",
+          },
+          { status: 500 }
+        );
+      }
+    }
+
     return NextResponse.json(
-      { error: "Internal server error" },
+      {
+        error: "Internal server error",
+        message: "Failed to create subscription. Please try again later.",
+      },
       { status: 500 }
     );
   }
