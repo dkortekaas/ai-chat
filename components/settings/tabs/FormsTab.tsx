@@ -39,8 +39,9 @@ export function FormsTab({ onChanges }: FormsTabProps) {
       // setIsLoading(true)
       const res = await fetch(`/api/forms?assistantId=${currentAssistant.id}`);
       if (res.ok) {
-        const data = await res.json();
-        setForms(data);
+        const response = await res.json();
+        // API returns paginated response with { data: [...], meta: {...} }
+        setForms(response.data || []);
       } else {
         toast({
           title: t("common.error"),
