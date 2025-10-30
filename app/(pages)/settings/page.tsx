@@ -68,6 +68,7 @@ function SettingsPageContent() {
       toast({
         title: t("success"),
         description: t("allChangesSavedSuccessfully"),
+        variant: "success",
       });
       setHasChanges(false);
     } catch (error) {

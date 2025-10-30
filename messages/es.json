@@ -269,6 +269,7 @@
     },
     "registrationSuccess": "¡Registro exitoso! Revisa tu correo para verificar tu cuenta.",
     "passwordStrength": {
+      "label": "Fuerza de la contraseña",
       "weak": "Débil",
       "medium": "Media",
       "strong": "Fuerte"

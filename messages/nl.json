@@ -269,6 +269,7 @@
     },
     "registrationSuccess": "Registratie succesvol! Controleer uw e-mail om uw account te verifiëren.",
     "passwordStrength": {
+      "label": "Wachtwoord sterkte",
       "weak": "Zwak",
       "medium": "Gemiddeld",
       "strong": "Sterk"

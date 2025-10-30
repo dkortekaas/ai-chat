@@ -37,6 +37,7 @@ const Contact = () => {
     toast({
       title: t("message_sent_title"),
       description: t("message_sent_description"),
+      variant: "success",
     });
     setFormData({ name: "", email: "", company: "", message: "" });
   };

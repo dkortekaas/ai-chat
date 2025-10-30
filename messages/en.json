@@ -280,6 +280,7 @@
     },
     "registrationSuccess": "Registration successful! Please check your email to verify your account.",
     "passwordStrength": {
+      "label": "Password Strength",
       "weak": "Weak",
       "medium": "Medium",
       "strong": "Strong"

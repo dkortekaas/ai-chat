@@ -163,6 +163,7 @@ export default function NewAssistantPage() {
       toast({
         title: t("common.success"),
         description: t("success.assistantCreatedSuccessfully"),
+        variant: "success",
       });
       router.push(`/assistants/${created.id}/edit`);
     } catch {
