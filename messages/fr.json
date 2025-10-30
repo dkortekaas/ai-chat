@@ -151,6 +151,7 @@
     "failedToDownloadFile": "Échec du téléchargement du fichier",
     "failedToUpdateFile": "Échec de la mise à jour du fichier",
     "failedToLoadWebsites": "Échec du chargement des sites web",
+    "failedToLoadSubmissions": "Échec du chargement des soumissions",
     "failedToDeleteWebsite": "Échec de la suppression du site web",
     "failedToStartScraping": "Échec du démarrage de l'extraction",
     "failedToSaveFAQ": "Échec de l'enregistrement de la FAQ",
@@ -376,6 +377,9 @@
     "contactSupport": "Contacter le support",
     "contactForms": "Formulaires de contact",
     "contactFormsDescription": "Gérez les formulaires de contact pour votre assistant",
+    "submissions": "Soumissions",
+    "formSubmissions": "Soumissions de formulaire",
+    "noSubmissionsFound": "Aucune soumission trouvée",
     "formFields": "Champs de formulaire",
     "deleteForm": "Supprimer le formulaire",
     "deleteFormDescription": "Êtes-vous sûr de vouloir supprimer ce formulaire ?",
@@ -449,7 +453,8 @@
     "name": "Nom",
     "emailCannotBeChanged": "L'e-mail ne peut pas être modifié",
     "department": "Département",
-    "profileUpdatedDescription": "Votre profil a été mis à jour avec succès"
+    "profileUpdatedDescription": "Votre profil a été mis à jour avec succès",
+    "noChanges": "Aucune modification"
   },
   "languageSelector": {
     "dutch": "Nederlands",
@@ -830,6 +835,7 @@
     "validation": {
       "required": "Ce champ est requis",
       "email": "Veuillez saisir une adresse e-mail valide",
+      "phone": "Veuillez saisir un numéro de téléphone valide",
       "minLength": "Doit contenir au moins {min} caractères",
       "maxLength": "Ne doit pas dépasser {max} caractères",
       "passwordMatch": "Les mots de passe doivent correspondre"
@@ -1112,5 +1118,8 @@
     "user": "Utilisateur",
     "admin": "Administrateur",
     "superuser": "Super utilisateur"
+  },
+  "widget": {
+    "confirmReset": "Êtes-vous sûr de vouloir réinitialiser la conversation ?"
   }
 }

@@ -154,7 +154,7 @@ export function FormsTab({ onChanges }: FormsTabProps) {
       } else {
         toast({
           title: t("common.error"),
-          description: "Failed to load submissions",
+          description: t("error.failedToLoadSubmissions"),
           variant: "destructive",
         });
       }
@@ -162,7 +162,7 @@ export function FormsTab({ onChanges }: FormsTabProps) {
       console.error("Failed to load submissions:", error);
       toast({
         title: t("common.error"),
-        description: "Failed to load submissions",
+        description: t("error.failedToLoadSubmissions"),
         variant: "destructive",
       });
     } finally {
@@ -213,8 +213,8 @@ export function FormsTab({ onChanges }: FormsTabProps) {
                     size="sm"
                     onClick={() => handleViewSubmissions(form.id)}
                   >
-                    <FileText className="w-4 h-4 mr-2" />
-                    Inzendingen
+                  <FileText className="w-4 h-4 mr-2" />
+                  {t("settings.submissions")}
                   </Button>
                   <Button
                     variant="outline"
@@ -274,15 +274,13 @@ export function FormsTab({ onChanges }: FormsTabProps) {
       <Dialog open={submissionsModalOpen} onOpenChange={setSubmissionsModalOpen}>
         <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Formulier Inzendingen</DialogTitle>
+            <DialogTitle>{t("settings.formSubmissions")}</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             {loadingSubmissions ? (
-              <p className="text-center py-4 text-gray-500">Laden...</p>
+              <p className="text-center py-4 text-gray-500">{t("common.loading")}</p>
             ) : submissions.length === 0 ? (
-              <p className="text-center py-4 text-gray-500">
-                Geen inzendingen gevonden
-              </p>
+              <p className="text-center py-4 text-gray-500">{t("settings.noSubmissionsFound")}</p>
             ) : (
               <div className="space-y-4">
                 {submissions.map((submission) => (

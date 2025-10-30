@@ -6,6 +6,7 @@ import { useWidget } from "./hooks/useWidget";
 import { useSession } from "./hooks/useSession";
 import { ChatbotApiClient } from "./api/client";
 import type { WidgetConfig } from "./types";
+import { t } from "./utils/i18n";
 
 interface AppProps {
   config: WidgetConfig;
@@ -27,7 +28,7 @@ export function App({ config }: AppProps) {
   useSession(apiClient);
 
   const handleClearChat = () => {
-    if (confirm("Weet je zeker dat je het gesprek wilt resetten?")) {
+    if (confirm(t("widget.confirmReset"))) {
       clearChat();
     }
   };

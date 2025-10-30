@@ -107,10 +107,6 @@ function SettingsPageContent() {
                   : t("noChanges")}
             </span>
           </Button>
-          <Button size="sm" className="bg-indigo-500 hover:bg-indigo-600">
-            <TestTube className="w-4 h-4 mr-2" />
-            {t("test")}
-          </Button>
         </div>
       </div>
 

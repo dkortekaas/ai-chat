@@ -151,6 +151,7 @@
     "failedToDownloadFile": "Error al descargar el archivo",
     "failedToUpdateFile": "Error al actualizar el archivo",
     "failedToLoadWebsites": "Error al cargar los sitios web",
+    "failedToLoadSubmissions": "Error al cargar las respuestas",
     "failedToDeleteWebsite": "Error al eliminar el sitio web",
     "failedToStartScraping": "Error al iniciar el rastreo",
     "failedToSaveFAQ": "Error al guardar la FAQ",
@@ -376,6 +377,9 @@
     "contactSupport": "Contactar soporte",
     "contactForms": "Formularios de contacto",
     "contactFormsDescription": "Administra formularios de contacto para tu asistente",
+    "submissions": "Envíos",
+    "formSubmissions": "Envíos del formulario",
+    "noSubmissionsFound": "No se encontraron envíos",
     "formFields": "Campos del formulario",
     "deleteForm": "Eliminar formulario",
     "deleteFormDescription": "¿Seguro que deseas eliminar este formulario?",
@@ -449,7 +453,8 @@
     "name": "Nombre",
     "emailCannotBeChanged": "El correo no se puede cambiar",
     "department": "Departamento",
-    "profileUpdatedDescription": "Tu perfil se actualizó correctamente"
+    "profileUpdatedDescription": "Tu perfil se actualizó correctamente",
+    "noChanges": "No hay cambios"
   },
   "languageSelector": {
     "dutch": "Nederlands",
@@ -730,7 +735,7 @@
     "deleteAssistant": "Eliminar asistente",
     "deleteAssistantDescription": "¿Seguro que deseas eliminar este asistente? Esta acción no se puede deshacer.",
     "cancel": "Cancelar",
-    "saveChanges": "Guardar cambios",
+    "noChanges": "No hay cambios",
     "saving": "Guardando",
     "error": "Error",
     "success": "Éxito",
@@ -830,6 +835,7 @@
     "validation": {
       "required": "Este campo es obligatorio",
       "email": "Introduce una dirección de correo válida",
+      "phone": "Introduce un número de teléfono válido",
       "minLength": "Debe tener al menos {min} caracteres",
       "maxLength": "No debe superar {max} caracteres",
       "passwordMatch": "Las contraseñas deben coincidir"
@@ -1112,5 +1118,8 @@
     "user": "Usuario",
     "admin": "Admin",
     "superuser": "Súper usuario"
+  },
+  "widget": {
+    "confirmReset": "¿Seguro que deseas restablecer la conversación?"
   }
 }

@@ -151,6 +151,7 @@
     "failedToDownloadFile": "Bestand downloaden mislukt",
     "failedToUpdateFile": "Bestand bijwerken mislukt",
     "failedToLoadWebsites": "Websites laden mislukt",
+    "failedToLoadSubmissions": "Inzendingen laden mislukt",
     "failedToDeleteWebsite": "Website verwijderen mislukt",
     "failedToStartScraping": "Scrapen starten mislukt",
     "failedToSaveFAQ": "FAQ opslaan mislukt",
@@ -376,6 +377,9 @@
     "contactSupport": "Contact opnemen met ondersteuning",
     "contactForms": "Contactformulieren",
     "contactFormsDescription": "Beheer contactformulieren voor uw assistent",
+    "submissions": "Inzendingen",
+    "formSubmissions": "Formulierinzendingen",
+    "noSubmissionsFound": "Geen inzendingen gevonden",
     "formFields": "Formuliervelden",
     "deleteForm": "Formulier verwijderen",
     "deleteFormDescription": "Weet u zeker dat u dit formulier wilt verwijderen?",
@@ -450,7 +454,8 @@
     "name": "Naam",
     "emailCannotBeChanged": "E-mail kan niet worden gewijzigd",
     "department": "Afdeling",
-    "profileUpdatedDescription": "Uw profiel is succesvol bijgewerkt"
+    "profileUpdatedDescription": "Uw profiel is succesvol bijgewerkt",
+    "noChanges": "Geen wijzigingen"
   },
   "languageSelector": {
     "dutch": "Nederlands",
@@ -850,6 +855,7 @@
     "validation": {
       "required": "Dit veld is verplicht",
       "email": "Voer een geldig e-mailadres in",
+      "phone": "Voer een geldig telefoonnummer in",
       "minLength": "Moet minimaal {min} tekens zijn",
       "maxLength": "Moet maximaal {max} tekens zijn",
       "passwordMatch": "Wachtwoorden moeten overeenkomen"
@@ -1161,5 +1167,8 @@
     "user": "Gebruiker",
     "admin": "Beheerder",
     "superuser": "Super gebruiker"
+  },
+  "widget": {
+    "confirmReset": "Weet je zeker dat je het gesprek wilt resetten?"
   }
 }

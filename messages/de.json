@@ -151,6 +151,7 @@
     "failedToDownloadFile": "Datei herunterladen fehlgeschlagen",
     "failedToUpdateFile": "Datei aktualisieren fehlgeschlagen",
     "failedToLoadWebsites": "Websites laden fehlgeschlagen",
+    "failedToLoadSubmissions": "Laden der Einsendungen fehlgeschlagen",
     "failedToDeleteWebsite": "Website löschen fehlgeschlagen",
     "failedToStartScraping": "Scraping starten fehlgeschlagen",
     "failedToSaveFAQ": "FAQ speichern fehlgeschlagen",
@@ -375,6 +376,9 @@
     "contactSupport": "Support kontaktieren",
     "contactForms": "Kontaktformulare",
     "contactFormsDescription": "Verwalten Sie Kontaktformulare für Ihren Assistenten",
+    "submissions": "Einsendungen",
+    "formSubmissions": "Formulareinsendungen",
+    "noSubmissionsFound": "Keine Einsendungen gefunden",
     "formFields": "Formularfelder",
     "deleteForm": "Formular löschen",
     "deleteFormDescription": "Sind Sie sicher, dass Sie dieses Formular löschen möchten?",
@@ -448,7 +452,8 @@
     "name": "Name",
     "emailCannotBeChanged": "E-Mail kann nicht geändert werden",
     "department": "Abteilung",
-    "profileUpdatedDescription": "Ihr Profil wurde erfolgreich aktualisiert"
+    "profileUpdatedDescription": "Ihr Profil wurde erfolgreich aktualisiert",
+    "noChanges": "Keine Änderungen"
   },
   "languageSelector": {
     "dutch": "Nederlands",
@@ -829,6 +834,7 @@
     "validation": {
       "required": "Dieses Feld ist erforderlich",
       "email": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+      "phone": "Bitte geben Sie eine gültige Telefonnummer ein",
       "minLength": "Muss mindestens {min} Zeichen haben",
       "maxLength": "Darf nicht mehr als {max} Zeichen haben",
       "passwordMatch": "Passwörter müssen übereinstimmen"
@@ -1111,5 +1117,8 @@
     "user": "Benutzer",
     "admin": "Administrator",
     "superuser": "Super-Benutzer"
+  },
+  "widget": {
+    "confirmReset": "Sind Sie sicher, dass Sie die Unterhaltung zurücksetzen möchten?"
   }
 }

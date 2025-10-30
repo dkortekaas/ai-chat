@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Message, FormField } from "../types";
 import { formatTime } from "../utils/helpers";
+import { t } from "../utils/i18n";
 
 interface FormMessageProps {
   message: Message;
@@ -40,7 +41,7 @@ export function FormMessage({
       const value = formValues[field.id] || "";
 
       if (field.required && !value.trim()) {
-        newErrors[field.id] = "Dit veld is verplicht";
+        newErrors[field.id] = t("forms.required");
         return;
       }
 
@@ -48,7 +49,7 @@ export function FormMessage({
       if (field.type === "email" && value) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(value)) {
-          newErrors[field.id] = "Voer een geldig e-mailadres in";
+          newErrors[field.id] = t("forms.email");
         }
       }
 
@@ -56,7 +57,7 @@ export function FormMessage({
       if (field.type === "phone" && value) {
         const phoneRegex = /^[0-9\s\-\+\(\)]{10,}$/;
         if (!phoneRegex.test(value)) {
-          newErrors[field.id] = "Voer een geldig telefoonnummer in";
+          newErrors[field.id] = t("forms.phone");
         }
       }
     });
@@ -125,7 +126,7 @@ export function FormMessage({
       case "select":
         return (
           <select {...commonProps}>
-            <option value="">Selecteer een optie...</option>
+            <option value="">{t("forms.selectPlaceholder")}</option>
             {field.options?.map((option, index) => (
               <option key={index} value={option}>
                 {option}
@@ -208,7 +209,7 @@ export function FormMessage({
                 e.currentTarget.style.opacity = "1";
               }}
             >
-              {isSubmitting ? "Verzenden..." : "Verzenden"}
+              {isSubmitting ? t("forms.submitting") : t("forms.submit")}
             </button>
           </div>
         </form>
