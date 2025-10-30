@@ -19,37 +19,22 @@ export function MessageBubble({ message, primaryColor }: MessageBubbleProps) {
       >
         <p className="chatbot-message-content">{message.content}</p>
 
-        {/* Sources */}
-        {message.sources && message.sources.length > 0 && (
-          <div className="chatbot-message-sources">
-            <p className="chatbot-sources-label">Bronnen:</p>
-            <ul className="chatbot-sources-list">
-              {message.sources.map((source, idx) => (
-                <li key={idx} className="chatbot-source-item">
-                  {source.url ? (
-                    <a
-                      href={source.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ color: "inherit", textDecoration: "underline" }}
-                    >
-                      {source.documentName}
-                    </a>
-                  ) : (
-                    source.documentName
-                  )}
-                  <span
-                    style={{
-                      fontSize: "0.8em",
-                      opacity: 0.7,
-                      marginLeft: "8px",
-                    }}
-                  >
-                    ({source.documentType})
-                  </span>
-                </li>
-              ))}
-            </ul>
+        {/* Relevant URL */}
+        {message.relevantUrl && (
+          <div className="chatbot-message-link" style={{ marginTop: "8px" }}>
+            <a
+              href={message.relevantUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: primaryColor,
+                textDecoration: "none",
+                fontSize: "0.9em",
+                fontWeight: 500,
+              }}
+            >
+              → Lees meer
+            </a>
           </div>
         )}
       </div>

@@ -50,7 +50,7 @@ export function useChat(apiClient: ChatbotApiClient) {
           role: "assistant",
           content: response.data.answer,
           timestamp: new Date(),
-          sources: response.data.sources,
+          relevantUrl: response.data.relevantUrl,
         };
 
         // Update messages

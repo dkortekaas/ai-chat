@@ -25,14 +25,7 @@ export interface Message {
   role: "user" | "assistant";
   content: string;
   timestamp: Date;
-  sources?: Source[];
-}
-
-export interface Source {
-  documentName: string;
-  documentType: string;
-  relevanceScore: number;
-  url?: string;
+  relevantUrl?: string;
 }
 
 export interface ChatResponse {
@@ -40,7 +33,7 @@ export interface ChatResponse {
   data: {
     conversationId: string;
     answer: string;
-    sources: Source[];
+    relevantUrl?: string;
     responseTime: number;
     sessionId: string;
   };

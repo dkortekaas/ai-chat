@@ -485,6 +485,16 @@ export async function POST(request: NextRequest) {
       // Don't fail the request if saving fails
     }
 
+    // Extract relevant URL from sources (website pages only)
+    let relevantUrl: string | undefined = undefined;
+    if (sources && sources.length > 0) {
+      // Find first source with a URL (likely a website page)
+      const sourceWithUrl = sources.find((s: any) => s.url);
+      if (sourceWithUrl) {
+        relevantUrl = sourceWithUrl.url;
+      }
+    }
+
     return NextResponse.json(
       {
         success: true,
@@ -493,7 +503,7 @@ export async function POST(request: NextRequest) {
           messageId:
             assistantMessage?.id || `msg_${randomBytes(12).toString("hex")}`,
           answer,
-          sources,
+          relevantUrl, // Only include URL if available
           responseTime: Date.now(),
           sessionId: finalSessionId,
           confidence: confidence,
