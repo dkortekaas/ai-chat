@@ -11,7 +11,6 @@ import { randomBytes } from "crypto";
 import { getCorsHeaders, validateCorsOrigin } from "@/lib/cors";
 import { checkRateLimit, getRateLimitHeaders } from "@/lib/rate-limiter";
 import { checkGracePeriod } from "@/lib/subscription";
-import { getSessionContext, updateCacheConfidence } from "@/lib/project-context";
 
 const messageSchema = z.object({
   question: z.string().min(1).max(1000),
@@ -60,12 +59,6 @@ export async function POST(request: NextRequest) {
               subscriptionEndDate: true,
               subscriptionCanceled: true,
               isActive: true,
-            },
-          },
-          project: {
-            select: {
-              id: true,
-              name: true,
             },
           },
         },
@@ -237,51 +230,24 @@ export async function POST(request: NextRequest) {
         }
       }
 
-      // Check if assistant uses project-based context
-      let knowledgeResults: any[] = [];
+      // Search all knowledge base tables
+      console.log("🧠 Searching all knowledge base tables...");
+      console.log("🔍 Search parameters:", {
+        question: question,
+        assistantId: chatbotSettings.id,
+        limit: 8,
+        threshold: 0.5, // 50% minimum relevance voor unified search
+        useAI: EMBEDDINGS_ENABLED,
+      });
 
-      if (chatbotSettings.projectId && chatbotSettings.project) {
-        console.log("📦 Using project-based context:", chatbotSettings.project.name);
-        console.log("🔍 Project ID:", chatbotSettings.projectId);
-
-        // Use cached project context
-        const projectChunks = await getSessionContext(
-          finalSessionId,
-          chatbotSettings.projectId,
-          question
-        );
-
-        console.log("✅ Retrieved", projectChunks.length, "chunks from project context");
-
-        // Transform chunks to knowledge results format
-        knowledgeResults = projectChunks.map((chunk: any) => ({
-          type: "document",
-          title: chunk.documentName || "Document",
-          content: chunk.content,
-          score: chunk.relevanceScore || 0.8,
-          id: chunk.id,
-          url: undefined,
-        }));
-      } else {
-        // Use comprehensive knowledge base search (legacy)
-        console.log("🧠 Searching all knowledge base tables (legacy mode)...");
-        console.log("🔍 Search parameters:", {
-          question: question,
-          assistantId: chatbotSettings.id,
+      const knowledgeResults = await searchRelevantContext(
+        question,
+        chatbotSettings.id,
+        {
           limit: 8,
-          threshold: 0.5, // 50% minimum relevance voor unified search
-          useAI: EMBEDDINGS_ENABLED,
-        });
-
-        knowledgeResults = await searchRelevantContext(
-          question,
-          chatbotSettings.id,
-          {
-            limit: 8,
-            threshold: 0.5, // 50% minimum relevance
-          }
-        );
-      }
+          threshold: 0.5, // 50% minimum relevance
+        }
+      );
 
       console.log("📚 Found knowledge base results:", knowledgeResults.length);
       if (knowledgeResults.length > 0) {

@@ -5,19 +5,18 @@ import { cn } from "@/lib/utils";
 import { WebsitesTab } from "@/components/knowledgebase/tabs/WebsitesTab";
 import { FaqsTab } from "@/components/knowledgebase/tabs/FaqsTab";
 import { BestandenTab } from "@/components/knowledgebase/tabs/FilesTab";
-import { ProjectsTab } from "@/components/projects/ProjectsTab";
 import { useTranslations } from "next-intl";
 import { TrialGuard } from "@/components/guards/TrialGuard";
 
 export default function KennisbankPage() {
   const t = useTranslations();
-  const [activeTab, setActiveTab] = useState<string>("projects");
+  const [activeTab, setActiveTab] = useState<string>("bestanden");
 
   const tabs = [
     {
-      id: "projects",
-      name: "Projects",
-      component: ProjectsTab,
+      id: "bestanden",
+      name: t("knowledgebase.tabs.bestanden"),
+      component: BestandenTab,
     },
     {
       id: "websites",
@@ -25,11 +24,6 @@ export default function KennisbankPage() {
       component: WebsitesTab,
     },
     { id: "faqs", name: t("knowledgebase.tabs.faqs"), component: FaqsTab },
-    {
-      id: "bestanden",
-      name: t("knowledgebase.tabs.bestanden"),
-      component: BestandenTab,
-    },
   ];
 
   const ActiveComponent = tabs.find((tab) => tab.id === activeTab)?.component;

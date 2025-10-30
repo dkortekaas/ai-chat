@@ -14,7 +14,6 @@ import { ActionButtonsTab } from "@/components/settings/tabs/ActionButtonsTab";
 import { FormsTab } from "@/components/settings/tabs/FormsTab";
 import { IntegrationsTab } from "@/components/settings/tabs/IntegrationsTab";
 import { WidgetTab } from "@/components/settings/tabs/WidgetTab";
-import { KnowledgeTab } from "@/components/settings/tabs/KnowledgeTab";
 import { PageHeader } from "@/components/layouts";
 import { useTranslations } from "next-intl";
 
@@ -33,11 +32,6 @@ function SettingsPageContent() {
         id: "look-and-feel",
         name: t("lookAndFeel"),
         component: LookAndFeelTab,
-      },
-      {
-        id: "knowledge",
-        name: "Knowledge",
-        component: KnowledgeTab,
       },
       {
         id: "action-buttons",
