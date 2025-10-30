@@ -9,5 +9,5 @@ ALTER TABLE "conversation_sessions" DROP COLUMN IF EXISTS "projectId";
 ALTER TABLE "conversation_sessions" DROP COLUMN IF EXISTS "contextCache";
 ALTER TABLE "conversation_sessions" DROP COLUMN IF EXISTS "contextCachedAt";
 
--- Remove projectId from chatbot_settings
-ALTER TABLE "chatbot_settings" DROP COLUMN IF EXISTS "projectId";
+-- Remove projectId from ChatbotSettings
+ALTER TABLE "ChatbotSettings" DROP COLUMN IF EXISTS "projectId";
