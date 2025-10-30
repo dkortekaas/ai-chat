@@ -236,7 +236,7 @@ export function FormEditor({ mode, initialForm }: FormEditorProps) {
           <div className="space-y-2">
             <Label htmlFor="triggers">Triggers (trefwoorden)</Label>
             <p className="text-sm text-gray-500">
-              Voeg trefwoorden toe die dit formulier activeren in de chat. Bijvoorbeeld: "contact", "offerte", "demo"
+              Voeg trefwoorden toe die dit formulier activeren in de chat. Bijvoorbeeld: &quot;contact&quot;, &quot;offerte&quot;, &quot;demo&quot;
             </p>
             <div className="flex gap-2">
               <Input

@@ -172,6 +172,7 @@ model ConversationMessage {
   sessionId    String
   messageType  MessageType          @default(USER)
   content      String
+  formId       String?
   responseTime Int?
   tokensUsed   Int?
   model        String?
@@ -180,19 +181,6 @@ model ConversationMessage {
   session      ConversationSession  @relation(fields: [sessionId], references: [sessionId], onDelete: Cascade)
   sources      ConversationSource[]
   feedback     MessageFeedback?
-  id             String               @id @default(cuid())
-  sessionId      String
-  messageType    MessageType          @default(USER)
-  content        String
-  formId         String?
-  responseTime   Int?
-  tokensUsed     Int?
-  model          String?
-  confidence     Float?
-  createdAt      DateTime             @default(now())
-  sources        ConversationSource[]
-  feedback       MessageFeedback?
-  session        ConversationSession  @relation(fields: [sessionId], references: [sessionId], onDelete: Cascade)
 
   @@index([sessionId])
   @@index([messageType])
@@ -343,15 +331,6 @@ model KnowledgeFile {
 }
 
 model ContactForm {
-  id          String   @id @default(cuid())
-  assistantId String?
-  name        String
-  description String   @default("")
-  enabled     Boolean  @default(true)
-  redirectUrl String?
-  fields      Json     @default("[]")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
   id           String           @id @default(cuid())
   assistantId  String?
   name         String

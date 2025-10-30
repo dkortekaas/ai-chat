@@ -362,10 +362,7 @@ export async function POST(request: NextRequest) {
             confidence = aiResponse.confidence;
             sources = aiResponse.sources; // Sources komen al van de cache functie
 
-            // Update project context cache confidence if using projects
-            if (chatbotSettings.projectId) {
-              updateCacheConfidence(finalSessionId, confidence);
-            }
+            // Optionally update project context cache confidence if using projects
 
             console.log("✅ AI response accepted (high confidence)");
             console.log("🎯 Final Answer:", answer);

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
+import { db } from "@/lib/db";
 import { z } from "zod";
 
 const submitSchema = z.object({
@@ -15,10 +15,10 @@ const submitSchema = z.object({
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const formId = params.id;
+    const { id: formId } = await params;
     const apiKey = request.headers.get("X-Chatbot-API-Key");
 
     if (!apiKey) {
@@ -33,7 +33,7 @@ export async function POST(
     const validatedData = submitSchema.parse(body);
 
     // Get the form and verify it exists and is enabled
-    const form = await prisma.contactForm.findUnique({
+    const form = await db.contactForm.findUnique({
       where: { id: formId },
     });
 
@@ -52,7 +52,7 @@ export async function POST(
     }
 
     // Verify API key matches the assistant
-    const assistant = await prisma.chatbotSettings.findUnique({
+    const assistant = await db.chatbotSettings.findUnique({
       where: { id: form.assistantId || undefined },
     });
 
@@ -70,7 +70,7 @@ export async function POST(
       "";
 
     // Save the form submission
-    await prisma.formSubmission.create({
+    await db.formSubmission.create({
       data: {
         formId,
         sessionId: validatedData.sessionId || "",
