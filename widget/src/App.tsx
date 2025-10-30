@@ -21,7 +21,7 @@ export function App({ config }: AppProps) {
   );
 
   const { isOpen, toggle, close } = useWidget();
-  const { messages, isLoading, sendMessage, clearChat } = useChat(apiClient);
+  const { messages, isLoading, sendMessage, submitForm, clearChat } = useChat(apiClient);
 
   // Initialize session
   useSession(apiClient);
@@ -48,6 +48,7 @@ export function App({ config }: AppProps) {
           onSend={sendMessage}
           onClose={close}
           onClear={handleClearChat}
+          onSubmitForm={submitForm}
         />
       )}
     </div>

@@ -173,6 +173,72 @@ export async function POST(request: NextRequest) {
     const finalSessionId =
       sessionId || `session_${randomBytes(16).toString("hex")}`;
 
+    // Check if question triggers any forms
+    const forms = await db.contactForm.findMany({
+      where: {
+        assistantId: chatbotSettings.id,
+        enabled: true,
+      },
+    });
+
+    const questionLower = question.toLowerCase();
+    const triggeredForm = forms.find((form) => {
+      if (!form.triggers || (form.triggers as string[]).length === 0)
+        return false;
+      return (form.triggers as string[]).some((trigger) =>
+        questionLower.includes(trigger.toLowerCase())
+      );
+    });
+
+    // If a form is triggered, return form data instead of regular response
+    if (triggeredForm) {
+      console.log("📋 Form triggered:", triggeredForm.name);
+
+      // Save user message
+      await db.conversationMessage.create({
+        data: {
+          sessionId: finalSessionId,
+          messageType: "USER",
+          content: question,
+          createdAt: new Date(),
+        },
+      });
+
+      // Save form message
+      const formMessage = await db.conversationMessage.create({
+        data: {
+          sessionId: finalSessionId,
+          messageType: "FORM",
+          content: `Vul het volgende formulier in: ${triggeredForm.name}`,
+          formId: triggeredForm.id,
+          createdAt: new Date(),
+        },
+      });
+
+      return NextResponse.json(
+        {
+          success: true,
+          data: {
+            conversationId: `conv_${randomBytes(16).toString("hex")}`,
+            messageId: formMessage.id,
+            answer: `Graag zou ik wat meer informatie van je willen verzamelen. Kun je het volgende formulier invullen?`,
+            sessionId: finalSessionId,
+            formData: {
+              id: triggeredForm.id,
+              name: triggeredForm.name,
+              description: triggeredForm.description,
+              fields: triggeredForm.fields,
+              redirectUrl: triggeredForm.redirectUrl,
+            },
+            responseTime: 0,
+          },
+        },
+        {
+          headers: corsHeaders,
+        }
+      );
+    }
+
     // Search for relevant information in all knowledge base tables
     let sources: any[] = [];
     let answer =
