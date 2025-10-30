@@ -180,10 +180,24 @@ model ConversationMessage {
   session      ConversationSession  @relation(fields: [sessionId], references: [sessionId], onDelete: Cascade)
   sources      ConversationSource[]
   feedback     MessageFeedback?
+  id             String               @id @default(cuid())
+  sessionId      String
+  messageType    MessageType          @default(USER)
+  content        String
+  formId         String?
+  responseTime   Int?
+  tokensUsed     Int?
+  model          String?
+  confidence     Float?
+  createdAt      DateTime             @default(now())
+  sources        ConversationSource[]
+  feedback       MessageFeedback?
+  session        ConversationSession  @relation(fields: [sessionId], references: [sessionId], onDelete: Cascade)
 
   @@index([sessionId])
   @@index([messageType])
   @@index([createdAt])
+  @@index([formId])
   @@map("conversation_messages")
 }
 
@@ -338,6 +352,17 @@ model ContactForm {
   fields      Json     @default("[]")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  id           String           @id @default(cuid())
+  assistantId  String?
+  name         String
+  description  String           @default("")
+  enabled      Boolean          @default(true)
+  redirectUrl  String?
+  fields       Json             @default("[]")
+  triggers     String[]         @default([])
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  submissions  FormSubmission[]
 
   @@index([assistantId])
   @@index([createdAt])
@@ -761,6 +786,7 @@ enum MessageType {
   USER
   ASSISTANT
   SYSTEM
+  FORM
 }
 
 enum FeedbackRating {
@@ -805,4 +831,24 @@ enum WebhookDeliveryStatus {
   SUCCESS
   FAILED
   RETRYING
+}
+
+model FormSubmission {
+  id          String   @id @default(cuid())
+  formId      String
+  sessionId   String
+  assistantId String?
+  data        Json
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime @default(now())
+
+  // Relations
+  form ContactForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+
+  @@index([formId])
+  @@index([sessionId])
+  @@index([assistantId])
+  @@index([createdAt])
+  @@map("form_submissions")
 }

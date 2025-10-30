@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { MessageBubble } from "./MessageBubble";
+import { FormMessage } from "./FormMessage";
 import { TypingIndicator } from "./TypingIndicator";
 import type { Message } from "../types";
 
@@ -7,12 +8,14 @@ interface MessageListProps {
   messages: Message[];
   isLoading: boolean;
   primaryColor: string;
+  onSubmitForm: (formId: string, data: Record<string, string>) => Promise<void>;
 }
 
 export function MessageList({
   messages,
   isLoading,
   primaryColor,
+  onSubmitForm,
 }: MessageListProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -23,13 +26,25 @@ export function MessageList({
 
   return (
     <div className="chatbot-messages">
-      {messages.map((message) => (
-        <MessageBubble
-          key={message.id}
-          message={message}
-          primaryColor={primaryColor}
-        />
-      ))}
+      {messages.map((message) => {
+        if (message.role === "form") {
+          return (
+            <FormMessage
+              key={message.id}
+              message={message}
+              primaryColor={primaryColor}
+              onSubmit={onSubmitForm}
+            />
+          );
+        }
+        return (
+          <MessageBubble
+            key={message.id}
+            message={message}
+            primaryColor={primaryColor}
+          />
+        );
+      })}
 
       {isLoading && <TypingIndicator primaryColor={primaryColor} />}
 

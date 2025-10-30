@@ -10,6 +10,7 @@ interface ChatWindowProps {
   onSend: (message: string) => void;
   onClose: () => void;
   onClear: () => void;
+  onSubmitForm: (formId: string, data: Record<string, string>) => Promise<void>;
 }
 
 export function ChatWindow({
@@ -19,6 +20,7 @@ export function ChatWindow({
   onSend,
   onClose,
   onClear,
+  onSubmitForm,
 }: ChatWindowProps) {
   return (
     <div className={`chatbot-window chatbot-position-${config.position}`}>
@@ -60,6 +62,7 @@ export function ChatWindow({
           messages={messages}
           isLoading={isLoading}
           primaryColor={config.primaryColor}
+          onSubmitForm={onSubmitForm}
         />
       )}
 

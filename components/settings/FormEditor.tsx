@@ -40,6 +40,7 @@ export interface ContactForm {
   fields: FormField[];
   enabled: boolean;
   redirectUrl?: string;
+  triggers?: string[];
 }
 
 interface FormEditorProps {
@@ -61,8 +62,10 @@ export function FormEditor({ mode, initialForm }: FormEditorProps) {
       fields: [],
       enabled: true,
       redirectUrl: "",
+      triggers: [],
     }
   );
+  const [triggerInput, setTriggerInput] = useState("");
 
   useEffect(() => {
     if (mode === "edit" && !initialForm) {
@@ -141,6 +144,7 @@ export function FormEditor({ mode, initialForm }: FormEditorProps) {
             enabled: form.enabled,
             ...(normalizedRedirect ? { redirectUrl: normalizedRedirect } : {}),
             fields: form.fields,
+            triggers: form.triggers || [],
           }),
         });
         toast({
@@ -159,6 +163,7 @@ export function FormEditor({ mode, initialForm }: FormEditorProps) {
               ? { redirectUrl: normalizedRedirect }
               : {}),
             fields: form.fields,
+            triggers: form.triggers || [],
           }),
         });
         toast({
@@ -226,6 +231,69 @@ export function FormEditor({ mode, initialForm }: FormEditorProps) {
               }
               placeholder={t("settings.describeThePurposeOfThisForm")}
             />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="triggers">Triggers (trefwoorden)</Label>
+            <p className="text-sm text-gray-500">
+              Voeg trefwoorden toe die dit formulier activeren in de chat. Bijvoorbeeld: "contact", "offerte", "demo"
+            </p>
+            <div className="flex gap-2">
+              <Input
+                id="triggers"
+                value={triggerInput}
+                onChange={(e) => setTriggerInput(e.target.value)}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter" && triggerInput.trim()) {
+                    e.preventDefault();
+                    setForm({
+                      ...form,
+                      triggers: [...(form.triggers || []), triggerInput.trim()],
+                    });
+                    setTriggerInput("");
+                  }
+                }}
+                placeholder="Voeg een trigger toe en druk op Enter"
+              />
+              <Button
+                type="button"
+                onClick={() => {
+                  if (triggerInput.trim()) {
+                    setForm({
+                      ...form,
+                      triggers: [...(form.triggers || []), triggerInput.trim()],
+                    });
+                    setTriggerInput("");
+                  }
+                }}
+              >
+                <Plus className="w-4 h-4" />
+              </Button>
+            </div>
+            <div className="flex flex-wrap gap-2 mt-2">
+              {(form.triggers || []).map((trigger, index) => (
+                <div
+                  key={index}
+                  className="inline-flex items-center gap-1 px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm"
+                >
+                  <span>{trigger}</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setForm({
+                        ...form,
+                        triggers: (form.triggers || []).filter(
+                          (_, i) => i !== index
+                        ),
+                      });
+                    }}
+                    className="hover:text-indigo-900"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="space-y-4">

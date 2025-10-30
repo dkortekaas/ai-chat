@@ -59,6 +59,42 @@ export class ChatbotApiClient {
   }
 
   /**
+   * Submit a form
+   */
+  async submitForm(
+    formId: string,
+    data: Record<string, string>
+  ): Promise<{ success: boolean }> {
+    try {
+      const response = await fetch(`${this.apiUrl}/api/forms/${formId}/submit`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Chatbot-API-Key": this.apiKey,
+        },
+        body: JSON.stringify({
+          data,
+          sessionId: this.sessionId,
+          metadata: {
+            userAgent: navigator.userAgent,
+            referrer: document.referrer || window.location.href,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        const error: ApiError = await response.json();
+        throw new Error(error.error || `HTTP ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("ChatbotApiClient: Submit form error:", error);
+      throw error;
+    }
+  }
+
+  /**
    * Get public configuration
    */
   async getConfig(): Promise<Partial<WidgetConfig>> {

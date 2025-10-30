@@ -19,6 +19,7 @@ const formUpdateSchema = z.object({
   enabled: z.boolean().optional(),
   redirectUrl: z.string().url().nullable().optional(),
   fields: z.array(formFieldSchema).optional(),
+  triggers: z.array(z.string()).optional(),
 });
 
 // Helper to ensure ownership via assistantId
@@ -79,10 +80,11 @@ export async function PUT(
         { status: 400 }
       );
     }
-    const { name, description, enabled, redirectUrl, fields } = parsed.data;
+    const { name, description, enabled, redirectUrl, fields, triggers } =
+      parsed.data;
     const updated = await db.contactForm.update({
       where: { id },
-      data: { name, description, enabled, redirectUrl, fields },
+      data: { name, description, enabled, redirectUrl, fields, triggers },
     });
     return NextResponse.json(updated);
   } catch (error) {

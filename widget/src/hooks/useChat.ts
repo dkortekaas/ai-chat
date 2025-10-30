@@ -44,21 +44,40 @@ export function useChat(apiClient: ChatbotApiClient) {
         // Send to API
         const response = await apiClient.sendMessage(content.trim());
 
-        // Create assistant message
-        const assistantMessage: Message = {
-          id: response.data.conversationId,
-          role: "assistant",
-          content: response.data.answer,
-          timestamp: new Date(),
-          relevantUrl: response.data.relevantUrl,
-        };
+        // Check if response contains a form
+        if (response.data.formData) {
+          // Create form message
+          const formMessage: Message = {
+            id: `form_${Date.now()}`,
+            role: "form",
+            content: response.data.answer || "",
+            timestamp: new Date(),
+            formData: response.data.formData,
+          };
 
-        // Update messages
-        setMessages((prev) => {
-          const updated = [...prev, assistantMessage];
-          storage.setMessages(updated);
-          return updated;
-        });
+          // Update messages
+          setMessages((prev) => {
+            const updated = [...prev, formMessage];
+            storage.setMessages(updated);
+            return updated;
+          });
+        } else {
+          // Create assistant message
+          const assistantMessage: Message = {
+            id: response.data.conversationId,
+            role: "assistant",
+            content: response.data.answer,
+            timestamp: new Date(),
+            relevantUrl: response.data.relevantUrl,
+          };
+
+          // Update messages
+          setMessages((prev) => {
+            const updated = [...prev, assistantMessage];
+            storage.setMessages(updated);
+            return updated;
+          });
+        }
       } catch (err) {
         const errorMessage =
           err instanceof Error ? err.message : "Er ging iets mis";
@@ -86,6 +105,58 @@ export function useChat(apiClient: ChatbotApiClient) {
   );
 
   /**
+   * Submit a form
+   */
+  const submitForm = useCallback(
+    async (formId: string, data: Record<string, string>) => {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        // Submit form to API
+        await apiClient.submitForm(formId, data);
+
+        // Create confirmation message
+        const confirmationMessage: Message = {
+          id: `confirm_${Date.now()}`,
+          role: "assistant",
+          content: "Bedankt! Uw formulier is succesvol verzonden.",
+          timestamp: new Date(),
+        };
+
+        // Update messages
+        setMessages((prev) => {
+          const updated = [...prev, confirmationMessage];
+          storage.setMessages(updated);
+          return updated;
+        });
+      } catch (err) {
+        const errorMessage =
+          err instanceof Error ? err.message : "Er ging iets mis";
+        setError(errorMessage);
+
+        // Add error message
+        const errorMsg: Message = {
+          id: `error_${Date.now()}`,
+          role: "assistant",
+          content:
+            "Sorry, er is een fout opgetreden bij het verzenden. Probeer het later opnieuw.",
+          timestamp: new Date(),
+        };
+
+        setMessages((prev) => {
+          const updated = [...prev, errorMsg];
+          storage.setMessages(updated);
+          return updated;
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [apiClient]
+  );
+
+  /**
    * Clear chat history
    */
   const clearChat = useCallback(() => {
@@ -98,6 +169,7 @@ export function useChat(apiClient: ChatbotApiClient) {
     isLoading,
     error,
     sendMessage,
+    submitForm,
     clearChat,
   };
 }

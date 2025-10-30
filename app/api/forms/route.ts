@@ -25,6 +25,7 @@ const formCreateSchema = z.object({
   enabled: z.boolean().optional().default(true),
   redirectUrl: z.string().url().optional(),
   fields: z.array(formFieldSchema).optional().default([]),
+  triggers: z.array(z.string()).optional().default([]),
 });
 
 // GET /api/forms?assistantId=...
@@ -98,8 +99,15 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    const { assistantId, name, description, enabled, redirectUrl, fields } =
-      parse.data;
+    const {
+      assistantId,
+      name,
+      description,
+      enabled,
+      redirectUrl,
+      fields,
+      triggers,
+    } = parse.data;
 
     const assistant = await db.chatbotSettings.findFirst({
       where: { id: assistantId, userId: session.user.id },
@@ -112,7 +120,15 @@ export async function POST(request: NextRequest) {
     }
 
     const created = await db.contactForm.create({
-      data: { assistantId, name, description, enabled, redirectUrl, fields },
+      data: {
+        assistantId,
+        name,
+        description,
+        enabled,
+        redirectUrl,
+        fields,
+        triggers,
+      },
     });
     return NextResponse.json(created, { status: 201 });
   } catch (error) {

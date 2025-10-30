@@ -11,12 +11,18 @@ import {
   CardTitle,
   Switch,
 } from "@/components/ui";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, FileText } from "lucide-react";
 import { DeleteConfirmationModal } from "@/components/shared/DeleteConfirmationModal";
 import { useAssistant } from "@/contexts/assistant-context";
 import { useToast } from "@/components/ui/use-toast";
 import { useTranslations } from "next-intl";
 import { ContactForm } from "@/types/form";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 interface FormsTabProps {
   onChanges: (hasChanges: boolean) => void;
@@ -30,6 +36,10 @@ export function FormsTab({ onChanges }: FormsTabProps) {
   const [forms, setForms] = useState<ContactForm[]>([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [formToDelete, setFormToDelete] = useState<ContactForm | null>(null);
+  const [submissionsModalOpen, setSubmissionsModalOpen] = useState(false);
+  const [selectedFormId, setSelectedFormId] = useState<string | null>(null);
+  const [submissions, setSubmissions] = useState<any[]>([]);
+  const [loadingSubmissions, setLoadingSubmissions] = useState(false);
   const t = useTranslations();
   // const [isLoading, setIsLoading] = useState(false)
 
@@ -131,6 +141,35 @@ export function FormsTab({ onChanges }: FormsTabProps) {
     router.push(`/settings/forms/${form.id}/edit`);
   };
 
+  const handleViewSubmissions = async (formId: string) => {
+    setSelectedFormId(formId);
+    setSubmissionsModalOpen(true);
+    setLoadingSubmissions(true);
+
+    try {
+      const res = await fetch(`/api/forms/${formId}/submissions`);
+      if (res.ok) {
+        const data = await res.json();
+        setSubmissions(data.submissions || []);
+      } else {
+        toast({
+          title: t("common.error"),
+          description: "Failed to load submissions",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Failed to load submissions:", error);
+      toast({
+        title: t("common.error"),
+        description: "Failed to load submissions",
+        variant: "destructive",
+      });
+    } finally {
+      setLoadingSubmissions(false);
+    }
+  };
+
   // Inline editor handlers removed; editing happens on dedicated pages
 
   return (
@@ -169,6 +208,14 @@ export function FormsTab({ onChanges }: FormsTabProps) {
                     onCheckedChange={() => handleToggleForm(form.id)}
                     className="data-[state=checked]:bg-indigo-500"
                   />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleViewSubmissions(form.id)}
+                  >
+                    <FileText className="w-4 h-4 mr-2" />
+                    Inzendingen
+                  </Button>
                   <Button
                     variant="outline"
                     size="sm"
@@ -222,6 +269,53 @@ export function FormsTab({ onChanges }: FormsTabProps) {
         itemName={formToDelete?.name || ""}
         isLoading={false}
       />
+
+      {/* Submissions Modal */}
+      <Dialog open={submissionsModalOpen} onOpenChange={setSubmissionsModalOpen}>
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Formulier Inzendingen</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            {loadingSubmissions ? (
+              <p className="text-center py-4 text-gray-500">Laden...</p>
+            ) : submissions.length === 0 ? (
+              <p className="text-center py-4 text-gray-500">
+                Geen inzendingen gevonden
+              </p>
+            ) : (
+              <div className="space-y-4">
+                {submissions.map((submission) => (
+                  <Card key={submission.id}>
+                    <CardHeader>
+                      <CardTitle className="text-sm">
+                        {new Date(submission.createdAt).toLocaleString("nl-NL")}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-2">
+                        {Object.entries(submission.data as Record<string, string>).map(
+                          ([key, value]) => (
+                            <div key={key} className="flex gap-2">
+                              <span className="font-medium text-sm">{key}:</span>
+                              <span className="text-sm text-gray-700">{value}</span>
+                            </div>
+                          )
+                        )}
+                        {submission.ipAddress && (
+                          <div className="text-xs text-gray-500 mt-2">
+                            IP: {submission.ipAddress}
+                          </div>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

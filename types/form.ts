@@ -5,6 +5,7 @@ export interface ContactForm {
   fields: FormField[];
   enabled: boolean;
   redirectUrl?: string;
+  triggers?: string[];
 }
 
 export interface FormField {
@@ -14,4 +15,15 @@ export interface FormField {
   required: boolean;
   placeholder?: string;
   options?: string[];
+}
+
+export interface FormSubmission {
+  id: string;
+  formId: string;
+  sessionId: string;
+  assistantId?: string;
+  data: Record<string, string>;
+  ipAddress?: string;
+  userAgent?: string;
+  createdAt: Date;
 }

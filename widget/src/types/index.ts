@@ -20,12 +20,30 @@ export interface WidgetConfig {
   actionButtons?: ActionButton[];
 }
 
+export interface FormField {
+  id: string;
+  name: string;
+  type: "text" | "email" | "phone" | "textarea" | "select";
+  required: boolean;
+  placeholder?: string;
+  options?: string[];
+}
+
+export interface FormData {
+  id: string;
+  name: string;
+  description: string;
+  fields: FormField[];
+  redirectUrl?: string;
+}
+
 export interface Message {
   id: string;
-  role: "user" | "assistant";
+  role: "user" | "assistant" | "form";
   content: string;
   timestamp: Date;
   relevantUrl?: string;
+  formData?: FormData;
 }
 
 export interface ChatResponse {
@@ -36,6 +54,7 @@ export interface ChatResponse {
     relevantUrl?: string;
     responseTime: number;
     sessionId: string;
+    formData?: FormData;
   };
 }
 
