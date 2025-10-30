@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import {
   Badge,
   Button,
@@ -13,6 +14,7 @@ import {
   Input,
   Label,
 } from "@/components/ui";
+import { DeleteConfirmationModal } from "@/components/shared/DeleteConfirmationModal";
 import {
   Copy,
   Check,
@@ -37,13 +39,15 @@ interface WidgetTabProps {
 export function WidgetTab({ onChanges }: WidgetTabProps) {
   const [isEnabled, setIsEnabled] = useState(true);
   const [copied, setCopied] = useState(false);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [apiKey, setApiKey] = useState<string>("");
   const [isLoadingApiKey, setIsLoadingApiKey] = useState(false);
   const [isRegenerating, setIsRegenerating] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const t = useTranslations();
-  const { currentAssistant } = useAssistant();
+  const { currentAssistant, refreshAssistants } = useAssistant();
   const { toast } = useToast();
+  const router = useRouter();
 
   // Load API key when component mounts
   useEffect(() => {
@@ -147,11 +151,35 @@ export function WidgetTab({ onChanges }: WidgetTabProps) {
     onChanges(true);
   };
 
-  const handleDeleteAssistant = () => {
-    // Here you would typically call an API to delete the assistant
-    console.log("Deleting assistant...");
-    setShowDeleteConfirm(false);
-    onChanges(true);
+  const handleDeleteAssistant = async () => {
+    if (!currentAssistant?.id || isDeleting) return;
+    setIsDeleting(true);
+    try {
+      const res = await fetch(`/api/assistants/${currentAssistant.id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data?.error || "Failed to delete assistant");
+      }
+      toast({
+        title: t("common.success"),
+        description: t("settings.assistantDeletedSuccessfully"),
+        variant: "success",
+      });
+      await refreshAssistants();
+      setIsDeleteModalOpen(false);
+      router.push("/assistants");
+    } catch (error) {
+      console.error("Error deleting assistant:", error);
+      toast({
+        title: t("common.error"),
+        description: t("settings.failedToDeleteAssistant"),
+        variant: "destructive",
+      });
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   return (
@@ -215,20 +243,7 @@ export function WidgetTab({ onChanges }: WidgetTabProps) {
               Installatie instructies:
             </h4>
             <ol className="text-sm text-blue-800 space-y-1 list-decimal list-inside">
-              <li>
-                Vervang{" "}
-                <code className="bg-blue-100 px-1 rounded">
-                  YOUR_API_KEY_HERE
-                </code>{" "}
-                met je echte API key
-              </li>
-              <li>
-                Vervang{" "}
-                <code className="bg-blue-100 px-1 rounded">
-                  https://your-app.vercel.app
-                </code>{" "}
-                met je domein
-              </li>
+              <li>Kopieer de code hierboven.</li>
               <li>
                 Plak het script in de{" "}
                 <code className="bg-blue-100 px-1 rounded">&lt;/body&gt;</code>{" "}
@@ -315,7 +330,7 @@ export function WidgetTab({ onChanges }: WidgetTabProps) {
             Voorbeelden voor verschillende platforms en frameworks
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* WordPress */}
           <div className="space-y-2">
             <h4 className="font-medium text-gray-900">WordPress</h4>
@@ -324,9 +339,8 @@ export function WidgetTab({ onChanges }: WidgetTabProps) {
             </p>
             <div className="bg-gray-900 text-gray-100 p-3 rounded-lg font-mono text-xs overflow-x-auto">
               <pre className="whitespace-pre-wrap">{`<?php wp_footer(); ?>
-<script src="https://your-app.vercel.app/widget/loader.js" 
-        data-chatbot-id="YOUR_API_KEY_HERE">
-</script>`}</pre>
+              <script src="https://your-app.vercel.app/widget/loader.js" data-chatbot-id="${apiKey || "YOUR_API_KEY_HERE"}"></script>
+              `}</pre>
             </div>
           </div>
 
@@ -338,9 +352,9 @@ export function WidgetTab({ onChanges }: WidgetTabProps) {
             </p>
             <div className="bg-gray-900 text-gray-100 p-3 rounded-lg font-mono text-xs overflow-x-auto">
               <pre className="whitespace-pre-wrap">{`// In public/index.html
-<script src="https://your-app.vercel.app/widget/loader.js" 
-        data-chatbot-id="YOUR_API_KEY_HERE">
-</script>`}</pre>
+              <script src="https://your-app.vercel.app/widget/loader.js" 
+                      data-chatbot-id="${apiKey || "YOUR_API_KEY_HERE"}"">
+              </script>`}</pre>
             </div>
           </div>
 
@@ -352,170 +366,103 @@ export function WidgetTab({ onChanges }: WidgetTabProps) {
             </p>
             <div className="bg-gray-900 text-gray-100 p-3 rounded-lg font-mono text-xs overflow-x-auto">
               <pre className="whitespace-pre-wrap">{`<!-- In theme.liquid before </body> -->
-<script src="https://your-app.vercel.app/widget/loader.js" 
-        data-chatbot-id="YOUR_API_KEY_HERE">
-</script>`}</pre>
+              <script src="https://your-app.vercel.app/widget/loader.js" 
+                      data-chatbot-id="${apiKey || "YOUR_API_KEY_HERE"}">
+              </script>`}</pre>
             </div>
           </div>
         </CardContent>
       </Card>
 
-      {/* Enable/Disable Section */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <Power className="w-5 h-5" />
-            <span>{t("settings.enableDisableAssistant")}</span>
-          </CardTitle>
-          <CardDescription>
-            {t("settings.enableDisableAssistantDescription")}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <Switch
-                checked={isEnabled}
-                onCheckedChange={handleToggleEnabled}
-                className="data-[state=checked]:bg-indigo-500"
-              />
-              <div>
-                <p className="font-medium text-gray-900">
-                  {isEnabled ? t("settings.enabled") : t("settings.disabled")}
-                </p>
-                <p className="text-sm text-gray-600">
-                  {isEnabled
-                    ? t("settings.assistantActiveAndVisibleOnWebsite")
-                    : t("settings.assistantHiddenFromVisitors")}
-                </p>
-              </div>
-            </div>
-            <Badge
-              variant={isEnabled ? "default" : "secondary"}
-              className={isEnabled ? "bg-green-100 text-green-800" : ""}
-            >
-              {isEnabled ? t("settings.active") : t("settings.inactive")}
-            </Badge>
-          </div>
-
-          {!isEnabled && (
-            <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-              <div className="flex items-start space-x-2">
-                <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Enable/Disable Section */}
+        <Card className="">
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <Power className="w-5 h-5" />
+              <span>{t("settings.enableDisableAssistant")}</span>
+            </CardTitle>
+            <CardDescription>
+              {t("settings.enableDisableAssistantDescription")}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <Switch
+                  checked={isEnabled}
+                  onCheckedChange={handleToggleEnabled}
+                  className="data-[state=checked]:bg-indigo-500"
+                />
                 <div>
-                  <p className="text-sm font-medium text-yellow-800">
-                    {t("settings.assistantDisabled")}
+                  <p className="font-medium text-gray-900">
+                    {isEnabled ? t("settings.enabled") : t("settings.disabled")}
                   </p>
-                  <p className="text-sm text-yellow-700">
-                    {t("settings.assistantDisabledDescription")}
+                  <p className="text-sm text-gray-600">
+                    {isEnabled
+                      ? t("settings.assistantActiveAndVisibleOnWebsite")
+                      : t("settings.assistantHiddenFromVisitors")}
                   </p>
                 </div>
               </div>
+              <Badge
+                variant={isEnabled ? "default" : "secondary"}
+                className={isEnabled ? "bg-green-100 text-green-800" : ""}
+              >
+                {isEnabled ? t("settings.active") : t("settings.inactive")}
+              </Badge>
             </div>
-          )}
-        </CardContent>
-      </Card>
 
-      {/* Device Preview Section */}
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("settings.widgetPreview")}</CardTitle>
-          <CardDescription>
-            {t("settings.widgetPreviewDescription")}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="text-center space-y-2">
-              <div className="w-16 h-16 bg-gray-100 rounded-lg mx-auto flex items-center justify-center">
-                <Monitor className="w-8 h-8 text-gray-600" />
-              </div>
-              <p className="text-sm font-medium text-gray-900">
-                {t("settings.desktop")}
-              </p>
-              <p className="text-xs text-gray-600">
-                {t("settings.bottomRightCorner")}
-              </p>
-            </div>
-            <div className="text-center space-y-2">
-              <div className="w-16 h-16 bg-gray-100 rounded-lg mx-auto flex items-center justify-center">
-                <Tablet className="w-8 h-8 text-gray-600" />
-              </div>
-              <p className="text-sm font-medium text-gray-900">
-                {t("settings.tablet")}
-              </p>
-              <p className="text-xs text-gray-600">
-                {t("settings.responsivePositioning")}
-              </p>
-            </div>
-            <div className="text-center space-y-2">
-              <div className="w-16 h-16 bg-gray-100 rounded-lg mx-auto flex items-center justify-center">
-                <Smartphone className="w-8 h-8 text-gray-600" />
-              </div>
-              <p className="text-sm font-medium text-gray-900">
-                {t("settings.mobile")}
-              </p>
-              <p className="text-xs text-gray-600">
-                {t("settings.fullScreenOverlay")}
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Delete Section */}
-      <Card className="border-red-200">
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2 text-red-700">
-            <Trash2 className="w-5 h-5" />
-            <span>{t("settings.deleteAssistant")}</span>
-          </CardTitle>
-          <CardDescription>
-            {t("settings.deleteAssistantDescription")}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {!showDeleteConfirm ? (
-            <Button
-              variant="destructive"
-              onClick={() => setShowDeleteConfirm(true)}
-            >
-              <Trash2 className="w-4 h-4 mr-2" />
-              {t("settings.yesDeleteIt")}
-            </Button>
-          ) : (
-            <div className="space-y-4">
-              <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+            {!isEnabled && (
+              <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                 <div className="flex items-start space-x-2">
-                  <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5" />
+                  <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
                   <div>
-                    <p className="text-sm font-medium text-red-800">
-                      {t("settings.thisActionCannotBeUndone")}
+                    <p className="text-sm font-medium text-yellow-800">
+                      {t("settings.assistantDisabled")}
                     </p>
-                    <p className="text-sm text-red-700">
-                      {t(
-                        "settings.allConversationsSettingsAndDataAssociatedWithThisAssistantWillBePermanentlyDeleted"
-                      )}
+                    <p className="text-sm text-yellow-700">
+                      {t("settings.assistantDisabledDescription")}
                     </p>
                   </div>
                 </div>
               </div>
-              <div className="flex space-x-2">
-                <Button
-                  variant="outline"
-                  onClick={() => setShowDeleteConfirm(false)}
-                >
-                  {t("common.cancel")}
-                </Button>
-                <Button variant="destructive" onClick={handleDeleteAssistant}>
-                  <Trash2 className="w-4 h-4 mr-2" />
-                  {t("common.confirm")}
-                </Button>
-              </div>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Delete Section */}
+        <Card className="border-red-200">
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2 text-red-700">
+              <Trash2 className="w-5 h-5" />
+              <span>{t("settings.deleteAssistant")}</span>
+            </CardTitle>
+            <CardDescription>
+              {t("settings.deleteAssistantDescription")}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button
+              variant="destructive"
+              onClick={() => setIsDeleteModalOpen(true)}
+            >
+              <Trash2 className="w-4 h-4 mr-2" />
+              {t("settings.yesDeleteIt")}
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => !isDeleting && setIsDeleteModalOpen(false)}
+        onConfirm={handleDeleteAssistant}
+        title={t("settings.deleteAssistant")}
+        description={t("settings.deleteAssistantDescription")}
+        itemName={currentAssistant?.name || ""}
+        isLoading={isDeleting}
+      />
     </div>
   );
 }
