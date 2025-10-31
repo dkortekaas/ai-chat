@@ -177,6 +177,23 @@ A modern, fully functional EmbedIQ platform built with Next.js 15, TypeScript, a
 - **Multi-language Support**: Works with Dutch and English content
 - **Scalable Architecture**: Handles thousands of documents efficiently
 
+### 🌍 Internationalization (i18n)
+
+- **Full Multi-language Support**: Complete interface translations for 5 languages
+  - **Dutch (nl)**: Default language with full translation coverage
+  - **English (en)**: Complete English translation
+  - **German (de)**: Full German interface translation
+  - **French (fr)**: Complete French translation
+  - **Spanish (es)**: Full Spanish interface translation
+- **next-intl Integration**: Powered by next-intl for seamless internationalization
+- **User Language Preference**: Users can select their preferred interface language
+- **Language Persistence**: Language preference saved and remembered
+- **Comprehensive Translations**: All UI elements, error messages, and notifications translated
+- **Locale-based Routing**: URL-based locale switching (e.g., `/nl/`, `/en/`, `/de/`)
+- **Translation Files**: Organized JSON files in `messages/` directory
+- **Language Selector**: Easy language switching in settings and header
+- **Complete Coverage**: 1250+ translated strings per language
+
 ## 🛠️ Technology Stack
 
 ### Frontend
@@ -188,6 +205,7 @@ A modern, fully functional EmbedIQ platform built with Next.js 15, TypeScript, a
 - **React Hook Form**: Form management
 - **Zod**: Schema validation
 - **TanStack Query**: Data fetching and caching
+- **next-intl**: Internationalization library for multi-language support
 
 ### Backend
 
@@ -253,7 +271,16 @@ ai-chat-platform/
 │   └── ui/                # UI components
 ├── contexts/              # React contexts
 ├── hooks/                 # Custom React hooks
+├── i18n/                  # Internationalization configuration
+│   ├── routing.ts        # Locale routing configuration
+│   └── request.ts        # Request configuration for i18n
 ├── lib/                   # Utility libraries
+├── messages/              # Translation files
+│   ├── nl.json           # Dutch translations
+│   ├── en.json           # English translations
+│   ├── de.json           # German translations
+│   ├── fr.json           # French translations
+│   └── es.json           # Spanish translations
 ├── prisma/                # Database schema and migrations
 │   ├── migrations/        # Database migrations
 │   └── seed.ts           # Database seeding
@@ -850,6 +877,16 @@ This project is licensed under the MIT License.
 
 ## 🆕 Recent Features
 
+### v2.3.0 - Internationalization (i18n)
+
+- ✅ **Full Multi-language Support**: Complete translations for 5 languages (Dutch, English, German, French, Spanish)
+- ✅ **next-intl Integration**: Seamless internationalization powered by next-intl
+- ✅ **User Language Preference**: Language selector in settings and header
+- ✅ **Comprehensive Translations**: 1250+ translated strings per language
+- ✅ **Locale-based Routing**: URL-based language switching
+- ✅ **Translation Files**: Organized JSON files for easy maintenance
+- ✅ **Complete Coverage**: All UI elements, error messages, and notifications translated
+
 ### v2.2.0 - Advanced Conversation Management
 
 - ✅ **Complete Session Tracking**: Full conversation sessions with all messages
@@ -897,6 +934,11 @@ This project is licensed under the MIT License.
 
 ### Latest Updates
 
+- **Internationalization (i18n)**: Full multi-language support with 5 languages (Dutch, English, German, French, Spanish)
+- **next-intl Integration**: Complete internationalization system with locale-based routing
+- **Language Preference**: User-selectable interface language with persistence
+- **Comprehensive Translations**: All UI elements, error messages, notifications, and form validations translated
+- **Translation Files**: Complete JSON translation files for nl, en, de, fr, and es
 - **Advanced Conversation Management**: Complete session tracking with individual message storage
 - **Session Analytics**: Duration, message count, token usage, and performance metrics per session
 - **Source Attribution**: Document sources linked to specific messages for better transparency
