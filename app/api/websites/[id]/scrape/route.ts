@@ -91,7 +91,7 @@ async function scrapeWebsiteInBackground(websiteId: string, url: string) {
       where: { websiteId },
     });
 
-    const scraper = new WebsiteScraper(10, 2); // Max 10 pages, depth 2
+    const scraper = new WebsiteScraper(50, 3); // Max 50 pages, depth 3
     const scrapedData = await scraper.scrapeWebsite(url);
 
     // Combine all content from all pages

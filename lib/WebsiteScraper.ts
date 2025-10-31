@@ -115,7 +115,7 @@ export class WebsiteScraper {
         });
 
         // Limit concurrent requests
-        const linksToScrape = sameDomainLinks.slice(0, 3); // Max 3 concurrent
+        const linksToScrape = sameDomainLinks.slice(0, 5); // Max 5 concurrent
         await Promise.allSettled(
           linksToScrape.map((link) => this.scrapePage(link, depth + 1, result))
         );
