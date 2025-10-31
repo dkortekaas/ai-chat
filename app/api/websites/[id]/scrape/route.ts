@@ -76,7 +76,19 @@ export async function POST(
 
 // Background scraping function
 async function scrapeWebsiteInBackground(websiteId: string, url: string) {
+  const startTime = Date.now();
+  let syncLog: { id: string } | null = null;
+
   try {
+    // Create sync log record
+    syncLog = await prisma.websiteSyncLog.create({
+      data: {
+        websiteId,
+        status: "RUNNING",
+        startedAt: new Date(),
+      },
+    });
+
     // Update status to SYNCING
     await prisma.website.update({
       where: { id: websiteId },
@@ -86,12 +98,20 @@ async function scrapeWebsiteInBackground(websiteId: string, url: string) {
       },
     });
 
+    // Get website to retrieve maxDepth and maxUrls
+    const websiteData = await prisma.website.findUnique({
+      where: { id: websiteId },
+      select: { maxDepth: true, maxUrls: true },
+    });
+
     // Clear existing pages
     await prisma.websitePage.deleteMany({
       where: { websiteId },
     });
 
-    const scraper = new WebsiteScraper(50, 3); // Max 50 pages, depth 3
+    const maxUrls = websiteData?.maxUrls || 50;
+    const maxDepth = websiteData?.maxDepth || 3;
+    const scraper = new WebsiteScraper(maxUrls, maxDepth);
     const scrapedData = await scraper.scrapeWebsite(url);
 
     // Combine all content from all pages
@@ -128,7 +148,11 @@ async function scrapeWebsiteInBackground(websiteId: string, url: string) {
       },
     });
 
-    // Save individual pages and create document chunks for RAG
+    // Save individual pages and create sync log entries
+    let successCount = 0;
+    let failedCount = 0;
+    let skippedCount = 0;
+
     for (const page of scrapedData.pages) {
       const websitePage = await prisma.websitePage.create({
         data: {
@@ -142,6 +166,36 @@ async function scrapeWebsiteInBackground(websiteId: string, url: string) {
           scrapedAt: new Date(),
         },
       });
+
+      // Create sync log entry for this page
+      if (syncLog) {
+        const entryStatus = page.error
+          ? "FAILED"
+          : page.content.trim().length > 0
+            ? "SUCCESS"
+            : "SKIPPED";
+
+        if (entryStatus === "SUCCESS") successCount++;
+        if (entryStatus === "FAILED") failedCount++;
+        if (entryStatus === "SKIPPED") skippedCount++;
+
+        await prisma.websiteSyncLogEntry.create({
+          data: {
+            syncLogId: syncLog.id,
+            url: page.url,
+            status: entryStatus as
+              | "SUCCESS"
+              | "FAILED"
+              | "SKIPPED"
+              | "ALREADY_VISITED",
+            errorMessage: page.error,
+            contentSize: page.content
+              ? Buffer.byteLength(page.content, "utf8")
+              : 0,
+            scrapedAt: new Date(),
+          },
+        });
+      }
 
       // Create document chunks for RAG if content exists and OpenAI is available
       if (
@@ -173,11 +227,51 @@ async function scrapeWebsiteInBackground(websiteId: string, url: string) {
       }
     }
 
+    // Update sync log with completion data
+    const endTime = Date.now();
+    const duration = Math.floor((endTime - startTime) / 1000);
+
+    if (syncLog) {
+      await prisma.websiteSyncLog.update({
+        where: { id: syncLog.id },
+        data: {
+          status: "COMPLETED",
+          completedAt: new Date(),
+          duration,
+          totalUrls: scrapedData.pages.length,
+          successCount,
+          failedCount,
+          skippedCount: scrapedData.pages.length - successCount - failedCount,
+          errorMessage:
+            scrapedData.errors.length > 0
+              ? scrapedData.errors.join("; ")
+              : null,
+        },
+      });
+    }
+
     console.log(
-      `Successfully scraped website ${url}: ${scrapedData.pages.length} pages`
+      `Successfully scraped website ${url}: ${scrapedData.pages.length} pages in ${duration}s`
     );
   } catch (error) {
     console.error(`Error scraping website ${url}:`, error);
+
+    // Update sync log if exists
+    const endTime = Date.now();
+    const duration = Math.floor((endTime - startTime) / 1000);
+
+    if (syncLog) {
+      await prisma.websiteSyncLog.update({
+        where: { id: syncLog.id },
+        data: {
+          status: "FAILED",
+          completedAt: new Date(),
+          duration,
+          errorMessage:
+            error instanceof Error ? error.message : "Unknown error occurred",
+        },
+      });
+    }
 
     // Update website status to ERROR
     await prisma.website.update({

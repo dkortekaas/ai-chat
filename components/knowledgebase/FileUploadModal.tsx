@@ -125,7 +125,6 @@ export function FileUploadModal({
       }
 
       toast({
-        title: t("success.fileUploaded"),
         description: t("success.fileUploadedSuccessfully"),
         variant: "success",
       });

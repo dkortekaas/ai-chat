@@ -16,6 +16,8 @@ export interface Website {
   pages: number;
   syncSpeed?: number;
   syncInterval: string;
+  maxDepth?: number;
+  maxUrls?: number;
   lastSync?: string;
   status: "PENDING" | "SYNCING" | "COMPLETED" | "ERROR";
   errorMessage?: string;

@@ -31,7 +31,17 @@ enum SetupStep {
   COMPLETE = 4,
 }
 
-export default function TwoFactorSetup() {
+interface TwoFactorSetupProps {
+  onComplete?: () => void;
+  onSkip?: () => void;
+  showSkipOption?: boolean;
+}
+
+export default function TwoFactorSetup({
+  onComplete,
+  onSkip,
+  showSkipOption = false,
+}: TwoFactorSetupProps) {
   const [step, setStep] = useState<SetupStep>(SetupStep.INITIAL);
   const [qrCode, setQrCode] = useState<string>("");
   const [secret, setSecret] = useState<string>("");
@@ -159,6 +169,12 @@ export default function TwoFactorSetup() {
       variant: "success",
       duration: 3000,
     });
+    // Call onComplete callback if provided
+    if (onComplete) {
+      setTimeout(() => {
+        onComplete();
+      }, 1500);
+    }
   };
 
   const renderStepContent = () => {
@@ -175,15 +191,27 @@ export default function TwoFactorSetup() {
             <p className="text-gray-600 mb-6">
               {t("settings.twoFactorSetupDescription")}
             </p>
-            <Button
-              onClick={startSetup}
-              disabled={isLoading}
-              className="bg-indigo-500 hover:bg-indigo-600"
-            >
-              {isLoading
-                ? t("common.statuses.loading")
-                : t("settings.enable2FA")}
-            </Button>
+            <div className="space-y-3">
+              <Button
+                onClick={startSetup}
+                disabled={isLoading}
+                className="w-full bg-indigo-500 hover:bg-indigo-600"
+              >
+                {isLoading
+                  ? t("common.statuses.loading")
+                  : t("settings.enable2FA")}
+              </Button>
+              {showSkipOption && onSkip && (
+                <Button
+                  onClick={onSkip}
+                  variant="outline"
+                  className="w-full"
+                  disabled={isLoading}
+                >
+                  {t("auth.registerForm.skip2FA")}
+                </Button>
+              )}
+            </div>
           </div>
         );
 
@@ -388,12 +416,21 @@ export default function TwoFactorSetup() {
             <p className="text-gray-600 mb-6">
               {t("success.twoFactorSetupSuccessDescription")}
             </p>
-            <Link
-              href="/settings"
-              className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-indigo-500 text-white hover:bg-indigo-500 h-10 px-4 py-2"
-            >
-              {t("settings.backToSettings")}
-            </Link>
+            {onComplete ? (
+              <Button
+                onClick={onComplete}
+                className="bg-indigo-500 hover:bg-indigo-600"
+              >
+                {t("common.continue")}
+              </Button>
+            ) : (
+              <Link
+                href="/settings"
+                className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-indigo-500 text-white hover:bg-indigo-500 h-10 px-4 py-2"
+              >
+                {t("settings.backToSettings")}
+              </Link>
+            )}
           </div>
         );
 

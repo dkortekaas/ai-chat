@@ -159,9 +159,7 @@ export default function TwoFactorVerification({
     } catch (error) {
       console.error("Email recovery error:", error);
       setError(
-        error instanceof Error
-          ? error.message
-          : "Failed to send recovery code"
+        error instanceof Error ? error.message : "Failed to send recovery code"
       );
     } finally {
       setIsLoading(false);
@@ -185,8 +183,7 @@ export default function TwoFactorVerification({
           {emailRecoverySent && (
             <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md p-3">
               <p className="text-sm text-blue-800 dark:text-blue-200">
-                ✉️ Een herstelcode is verstuurd naar je email. Controleer ook je spam folder.
-                De code is 15 minuten geldig.
+                {t("auth.twoFactorVerification.emailRecoverySent")}
               </p>
             </div>
           )}
@@ -246,7 +243,9 @@ export default function TwoFactorVerification({
               type="submit"
               disabled={
                 isLoading ||
-                (isUsingRecoveryCode || showEmailRecovery ? !code : code.length !== 6)
+                (isUsingRecoveryCode || showEmailRecovery
+                  ? !code
+                  : code.length !== 6)
               }
               className="w-full bg-indigo-500 hover:bg-indigo-600"
             >
@@ -269,7 +268,7 @@ export default function TwoFactorVerification({
               {!isUsingRecoveryCode && !showEmailRecovery && (
                 <div className="pt-2 border-t border-gray-200 dark:border-gray-700">
                   <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-                    Geen toegang tot authenticator EN backup codes?
+                    {t("auth.twoFactorVerification.noAccessTitle")}
                   </p>
                   <button
                     type="button"
@@ -277,7 +276,7 @@ export default function TwoFactorVerification({
                     disabled={isLoading || emailRecoverySent}
                     className="text-sm text-amber-600 hover:text-amber-700 dark:text-amber-400 dark:hover:text-amber-300 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    📧 Vraag een herstelcode per email aan
+                    {t("auth.twoFactorVerification.requestEmailRecovery")}
                   </button>
                 </div>
               )}
@@ -292,7 +291,7 @@ export default function TwoFactorVerification({
                   }}
                   className="block w-full text-sm text-indigo-400 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-200"
                 >
-                  Terug naar authenticator code
+                  {t("auth.twoFactorVerification.backToAuthenticator")}
                 </button>
               )}
             </div>

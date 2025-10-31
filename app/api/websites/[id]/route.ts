@@ -85,7 +85,7 @@ export async function PUT(
 
     const { id } = await params;
     const body = await request.json();
-    const { url, name, description, syncInterval } = body;
+    const { url, name, description, syncInterval, maxDepth, maxUrls } = body;
 
     if (!url) {
       return NextResponse.json({ error: "URL is required" }, { status: 400 });
@@ -169,6 +169,8 @@ export async function PUT(
         name: name || null,
         description: description || null,
         syncInterval: syncInterval || "never",
+        maxDepth: maxDepth !== undefined ? parseInt(maxDepth, 10) : undefined,
+        maxUrls: maxUrls !== undefined ? parseInt(maxUrls, 10) : undefined,
       },
     });
 

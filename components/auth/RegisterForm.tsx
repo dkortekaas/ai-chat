@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -28,6 +29,9 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import RequiredIndicator from "@/components/ui/RequiredIndicator";
+import TwoFactorSetup from "@/components/auth/TwoFactorSetup";
+
+type RegistrationStep = "form" | "2fa-setup";
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -38,6 +42,9 @@ export default function RegisterForm() {
   const [isLoading, setIsLoading] = useState(!!token);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [registrationStep, setRegistrationStep] = useState<RegistrationStep>("form");
+  const [registeredEmail, setRegisteredEmail] = useState<string>("");
+  const [registeredPassword, setRegisteredPassword] = useState<string>("");
   const t = useTranslations();
 
   const registerSchema = z
@@ -158,7 +165,49 @@ export default function RegisterForm() {
           throw new Error(responseData.message || errorMap.default);
         }
 
-        router.push("/login?registered=true");
+        // Store email and password for automatic login
+        setRegisteredEmail(data.email);
+        setRegisteredPassword(data.password);
+
+        // Automatically sign in the user after registration
+        const signInResponse = await signIn("credentials", {
+          email: data.email,
+          password: data.password,
+          redirect: false,
+        });
+
+        if (signInResponse?.error) {
+          // If auto-login fails, redirect to login page
+          router.push("/login?registered=true");
+          return;
+        }
+
+        // Wait a bit for the session to be established, then check
+        await new Promise((resolve) => setTimeout(resolve, 500));
+
+        // Check session to ensure user is logged in (with retry)
+        let sessionEstablished = false;
+        for (let i = 0; i < 3; i++) {
+          const sessionResponse = await fetch("/api/auth/session");
+          if (sessionResponse.ok) {
+            const session = await sessionResponse.json();
+            if (session?.user) {
+              sessionEstablished = true;
+              break;
+            }
+          }
+          if (i < 2) {
+            await new Promise((resolve) => setTimeout(resolve, 300));
+          }
+        }
+
+        if (sessionEstablished) {
+          // Move to 2FA setup step
+          setRegistrationStep("2fa-setup");
+        } else {
+          // If session check fails, redirect to login
+          router.push("/login?registered=true");
+        }
       } catch (error) {
         setError(error instanceof Error ? error.message : t("error.generic"));
       } finally {
@@ -186,6 +235,39 @@ export default function RegisterForm() {
         ? t("auth.passwordStrength.medium")
         : t("auth.passwordStrength.weak");
   };
+
+  // Handle skipping 2FA setup
+  const handleSkip2FA = () => {
+    router.push("/dashboard");
+    router.refresh();
+  };
+
+  // Handle completing 2FA setup
+  const handle2FASetupComplete = () => {
+    router.push("/dashboard");
+    router.refresh();
+  };
+
+  // Show 2FA setup step if in that phase
+  if (registrationStep === "2fa-setup") {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-gray-100 dark:bg-gray-900 px-4 sm:px-6">
+        <Card className="w-full max-w-2xl">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl sm:text-3xl font-bold text-indigo-400 dark:text-indigo-400">
+              {config.appTitle}
+            </CardTitle>
+            <CardDescription className="text-base sm:text-lg">
+              {t("auth.registerForm.twoFactorSetupTitle")}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <TwoFactorSetup onComplete={handle2FASetupComplete} onSkip={handleSkip2FA} showSkipOption={true} />
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 dark:bg-gray-900 px-4 sm:px-6">

@@ -253,12 +253,20 @@ async function scrapeWebsiteInBackground(websiteId: string, url: string) {
       },
     });
 
+    // Get website to retrieve maxDepth and maxUrls
+    const websiteData = await db.website.findUnique({
+      where: { id: websiteId },
+      select: { maxDepth: true, maxUrls: true },
+    });
+
     // Clear existing pages
     await db.websitePage.deleteMany({
       where: { websiteId },
     });
 
-    const scraper = new WebsiteScraper(50, 3); // Max 50 pages, depth 3
+    const maxUrls = websiteData?.maxUrls || 50;
+    const maxDepth = websiteData?.maxDepth || 3;
+    const scraper = new WebsiteScraper(maxUrls, maxDepth);
     const scrapedData = await scraper.scrapeWebsite(url);
 
     // Combine all content from all pages

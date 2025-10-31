@@ -253,6 +253,8 @@ model Website {
   pageCount      Int                @default(0)
   syncSpeed      Float?             @default(0)
   syncInterval   String             @default("never")
+  maxDepth       Int                @default(3)
+  maxUrls        Int                @default(50)
   lastSync       DateTime?
   status         WebsiteStatus      @default(PENDING)
   errorMessage   String?

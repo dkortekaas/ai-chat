@@ -113,7 +113,6 @@ export function WebsitesTab() {
 
       if (response.ok) {
         toast({
-          title: t("success.websiteDeleted"),
           description: t("success.websiteDeletedSuccessfully"),
           variant: "success",
         });
@@ -154,7 +153,6 @@ export function WebsitesTab() {
 
       if (response.ok) {
         toast({
-          title: t("success.scrapingStarted"),
           description: t("success.scrapingStartedSuccessfully"),
           variant: "success",
         });
@@ -259,12 +257,6 @@ export function WebsitesTab() {
           </p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" size="sm">
-            ↑ {t("common.noChanges")}
-          </Button>
-          <Button variant="outline" size="sm">
-            ► {t("common.test")}
-          </Button>
           <Button
             className="bg-indigo-500 hover:bg-indigo-600"
             onClick={handleAddWebsite}

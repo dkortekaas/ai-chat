@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { PersonalDetailsTab } from "@/components/account/PersonalDetailsTab";
 import { EmailSettingsTab } from "@/components/account/EmailSettingsTab";
 import { ChangePasswordTab } from "@/components/account/ChangePasswordTab";
+import { TwoFactorTab } from "@/components/account/TwoFactorTab";
 import { SubscriptionTab } from "@/components/account/SubscriptionTab";
 import { TeamTab } from "@/components/account/TeamTab";
 import { useTranslations } from "next-intl";
@@ -35,6 +36,11 @@ function AccountPageContent() {
         id: "change-password",
         name: t("account.tabs.changePassword"),
         component: ChangePasswordTab,
+      },
+      {
+        id: "two-factor",
+        name: t("account.tabs.twoFactor"),
+        component: TwoFactorTab,
       },
     ];
 
