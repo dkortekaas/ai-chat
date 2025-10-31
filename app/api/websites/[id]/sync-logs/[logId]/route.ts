@@ -11,7 +11,7 @@ import {
 // GET /api/websites/[id]/sync-logs/[logId] - Get a specific sync log with entries
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string; logId: string } }
+  { params }: { params: Promise<{ id: string; logId: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -19,7 +19,7 @@ export async function GET(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { id: websiteId, logId } = params;
+    const { id: websiteId, logId } = await params;
 
     // Load current user with company for scoping
     const currentUser = await db.user.findUnique({
@@ -31,18 +31,32 @@ export async function GET(
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    // Verify the website belongs to the user's company
-    const website = await db.website.findFirst({
-      where: {
-        id: websiteId,
-        users: {
-          companyId: currentUser.companyId,
-        },
-      },
+    // First find the website
+    const website = await db.website.findUnique({
+      where: { id: websiteId },
     });
 
     if (!website) {
       return NextResponse.json({ error: "Website not found" }, { status: 404 });
+    }
+
+    // Then verify the assistant belongs to the company
+    if (website.assistantId) {
+      const assistant = await db.chatbotSettings.findFirst({
+        where: {
+          id: website.assistantId,
+          users: {
+            companyId: currentUser.companyId,
+          },
+        },
+      });
+
+      if (!assistant) {
+        return NextResponse.json(
+          { error: "Website not found" },
+          { status: 404 }
+        );
+      }
     }
 
     // Get the sync log
