@@ -260,11 +260,20 @@ async function scrapeWebsiteInBackground(websiteId: string, url: string) {
       .flatMap((page) => page.links)
       .filter((link, index, array) => array.indexOf(link) === index); // Remove duplicates
 
+    // Count successfully scraped pages (pages with content and no error)
+    const successfulPages = scrapedData.pages.filter(
+      (page) => page.content.trim().length > 0 && !page.error
+    );
+
+    // Only mark as ERROR if NO pages were successfully scraped
+    // If at least some pages succeeded, mark as COMPLETED (partial success is still success)
+    const status = successfulPages.length > 0 ? "COMPLETED" : "ERROR";
+
     // Update website with scraped content
     await db.website.update({
       where: { id: websiteId },
       data: {
-        status: scrapedData.errors.length > 0 ? "ERROR" : "COMPLETED",
+        status: status,
         scrapedContent: combinedContent,
         scrapedLinks: allLinks,
         pageCount: scrapedData.pages.length,
