@@ -76,14 +76,14 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className='space-y-4'>
+    <div className="space-y-4">
       <DataTableToolbar
         table={table}
         searchPlaceholder={searchPlaceholder}
         searchColumn={searchColumn}
         onExport={onExport}
       />
-      <div className='rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800'>
+      <div className="rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -124,7 +124,7 @@ export function DataTable<TData, TValue>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className='h-24 text-center text-gray-500 dark:text-gray-400'
+                  className="h-24 text-center text-gray-500 dark:text-gray-400"
                 >
                   {t("common.noResults")}
                 </TableCell>

@@ -37,7 +37,7 @@ const timeRanges = [
 ];
 
 export default function ConversationChart() {
-  const [selectedPeriod, setSelectedPeriod] = useState(30);
+  const [selectedPeriod, setSelectedPeriod] = useState(1);
   const [data, setData] = useState<ConversationStats | null>(null);
   const [loading, setLoading] = useState(true);
   const t = useTranslations("dashboard");

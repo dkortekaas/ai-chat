@@ -37,7 +37,7 @@ const COLORS = {
 };
 
 export default function KnowledgeSourceChart() {
-  const [selectedPeriod, setSelectedPeriod] = useState(30);
+  const [selectedPeriod, setSelectedPeriod] = useState(1);
   const [data, setData] = useState<KnowledgeSourceStats | null>(null);
   const [loading, setLoading] = useState(true);
   const t = useTranslations("dashboard");

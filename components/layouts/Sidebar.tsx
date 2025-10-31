@@ -117,24 +117,6 @@ export default function Sidebar({
                 },
               ]
             : []),
-          ...(hasValidSubscription
-            ? [
-                {
-                  href: "/company/users",
-                  title: t("common.navigation.users"),
-                  icon: <Users className="w-6 h-6" />,
-                  activePath: "/company/users",
-                  sequence: 6,
-                },
-                {
-                  href: "/company/invitations",
-                  title: t("common.navigation.invitations"),
-                  icon: <Mail className="w-6 h-6" />,
-                  activePath: "/company/invitations",
-                  sequence: 7,
-                },
-              ]
-            : []),
         ]
       : []),
   ];

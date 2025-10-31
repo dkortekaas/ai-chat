@@ -208,11 +208,11 @@ export default function AssistantsPage() {
               </p>
               {isAdmin ? (
                 <Button
-                  className="bg-indigo-500 hover:bg-indigo-600"
+                  className="bg-indigo-500 hover:bg-indigo-600 w-3/12 mx-auto"
                   onClick={handleAddAssistant}
                 >
                   <Plus className="w-4 h-4 mr-2" />
-                  {t("assistant.createYourFirstAssistant")}
+                  {t("assistants.createYourFirstAssistant")}
                 </Button>
               ) : null}
             </Card>
