@@ -1170,5 +1170,16 @@
   },
   "widget": {
     "confirmReset": "Weet je zeker dat je het gesprek wilt resetten?"
+  },
+  "fileUpload": {
+    "cameraPermissionRequired": "Cameratoegang vereist",
+    "cameraPermissionRequiredDescription": "Sta cameratoegang toe in je browserinstellingen om foto's te maken.",
+    "removeFile": "Bestand verwijderen",
+    "chooseMethod": "Kies een methode om te uploaden",
+    "makePhoto": "Foto maken",
+    "gallery": "Galerij",
+    "supportedFormats": "Ondersteunde formaten: Afbeeldingen en PDF",
+    "dragAndDrop": "Sleep een bestand hierheen",
+    "browseFiles": "Bladeren"
   }
 }

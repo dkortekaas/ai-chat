@@ -1204,5 +1204,16 @@
   },
   "widget": {
     "confirmReset": "Are you sure you want to reset the conversation?"
+  },
+  "fileUpload": {
+    "cameraPermissionRequired": "Camera Permission Required",
+    "cameraPermissionRequiredDescription": "Please allow camera access in your browser settings to take photos.",
+    "removeFile": "Remove file",
+    "chooseMethod": "Choose a method to upload",
+    "makePhoto": "Take Photo",
+    "gallery": "Gallery",
+    "supportedFormats": "Supported formats: Images and PDF",
+    "dragAndDrop": "Drag and drop a file here",
+    "browseFiles": "Browse files"
   }
 }

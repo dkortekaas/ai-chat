@@ -1120,5 +1120,16 @@
   },
   "widget": {
     "confirmReset": "Sind Sie sicher, dass Sie die Unterhaltung zurücksetzen möchten?"
+  },
+  "fileUpload": {
+    "cameraPermissionRequired": "Kameraberechtigung erforderlich",
+    "cameraPermissionRequiredDescription": "Bitte erlauben Sie den Kamerazugriff in Ihren Browsereinstellungen, um Fotos aufzunehmen.",
+    "removeFile": "Datei entfernen",
+    "chooseMethod": "Wählen Sie eine Upload-Methode",
+    "makePhoto": "Foto aufnehmen",
+    "gallery": "Galerie",
+    "supportedFormats": "Unterstützte Formate: Bilder und PDF",
+    "dragAndDrop": "Ziehen Sie eine Datei hierher",
+    "browseFiles": "Dateien durchsuchen"
   }
 }
