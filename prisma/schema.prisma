@@ -245,22 +245,23 @@ model SystemLog {
 }
 
 model Website {
-  id             String        @id @default(cuid())
+  id             String             @id @default(cuid())
   assistantId    String?
   url            String
   name           String?
   description    String?
-  pageCount      Int           @default(0)
-  syncSpeed      Float?        @default(0)
-  syncInterval   String        @default("never")
+  pageCount      Int                @default(0)
+  syncSpeed      Float?             @default(0)
+  syncInterval   String             @default("never")
   lastSync       DateTime?
-  status         WebsiteStatus @default(PENDING)
+  status         WebsiteStatus      @default(PENDING)
   errorMessage   String?
   scrapedContent String?
   scrapedLinks   Json?
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
   pages          WebsitePage[]
+  syncLogs       WebsiteSyncLog[]
 
   @@unique([assistantId, url])
   @@index([status])
@@ -287,6 +288,60 @@ model WebsitePage {
   @@index([status])
   @@index([scrapedAt])
   @@map("website_pages")
+}
+
+model WebsiteSyncLog {
+  id           String                 @id @default(cuid())
+  websiteId    String
+  website      Website                @relation(fields: [websiteId], references: [id], onDelete: Cascade)
+  status       SyncLogStatus          @default(RUNNING)
+  startedAt    DateTime               @default(now())
+  completedAt  DateTime?
+  duration     Int?                   // Duration in seconds
+  totalUrls    Int                    @default(0)
+  successCount Int                    @default(0)
+  failedCount  Int                    @default(0)
+  skippedCount Int                    @default(0)
+  errorMessage String?
+  entries      WebsiteSyncLogEntry[]
+  createdAt    DateTime               @default(now())
+  updatedAt    DateTime               @updatedAt
+
+  @@index([websiteId])
+  @@index([status])
+  @@index([startedAt])
+  @@map("website_sync_logs")
+}
+
+model WebsiteSyncLogEntry {
+  id           String         @id @default(cuid())
+  syncLogId    String
+  syncLog      WebsiteSyncLog @relation(fields: [syncLogId], references: [id], onDelete: Cascade)
+  url          String
+  status       SyncEntryStatus
+  statusCode   Int?           // HTTP status code
+  errorMessage String?
+  contentSize  Int?           // Size in bytes
+  scrapedAt    DateTime       @default(now())
+  createdAt    DateTime       @default(now())
+
+  @@index([syncLogId])
+  @@index([status])
+  @@index([scrapedAt])
+  @@map("website_sync_log_entries")
+}
+
+enum SyncLogStatus {
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+enum SyncEntryStatus {
+  SUCCESS
+  FAILED
+  SKIPPED
+  ALREADY_VISITED
 }
 
 model FAQ {

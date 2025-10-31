@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Badge, Button, Card } from "@/components/ui";
 import { ArrowLeft, Settings, Play } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Website, Webpage, SyncLog } from "@/types/knowledgebase";
+import { Website, Webpage, SyncLog, WebsiteSyncLog } from "@/types/knowledgebase";
 import { useTranslations } from "next-intl";
 import { TrialGuard } from "@/components/guards/TrialGuard";
 
@@ -16,6 +16,7 @@ export default function WebsiteDetailPage() {
   const [website, setWebsite] = useState<Website | null>(null);
   const [webpages, setWebpages] = useState<Webpage[]>([]);
   const [syncLogs, setSyncLogs] = useState<SyncLog[]>([]);
+  const [websiteSyncLogs, setWebsiteSyncLogs] = useState<WebsiteSyncLog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const t = useTranslations();
 
@@ -39,11 +40,26 @@ export default function WebsiteDetailPage() {
     }
   }, [params.id]);
 
+  const fetchSyncLogs = useCallback(async () => {
+    try {
+      const response = await fetch(`/api/websites/${params.id}/sync-logs?limit=10`);
+      if (response.ok) {
+        const data = await response.json();
+        setWebsiteSyncLogs(data.data || []);
+      }
+    } catch (error) {
+      console.error("Error fetching sync logs:", error);
+    }
+  }, [params.id]);
+
   useEffect(() => {
     if (params.id) {
       fetchWebsiteDetails();
+      if (activeTab === "sync-logs") {
+        fetchSyncLogs();
+      }
     }
-  }, [params.id, fetchWebsiteDetails]);
+  }, [params.id, activeTab, fetchWebsiteDetails, fetchSyncLogs]);
 
   const getStatusBadge = (status: Website["status"]) => {
     switch (status) {
@@ -91,6 +107,42 @@ export default function WebsiteDetailPage() {
       default:
         return <Badge className="bg-gray-100 text-gray-800">{type}</Badge>;
     }
+  };
+
+  const getSyncLogStatusBadge = (status: WebsiteSyncLog["status"]) => {
+    switch (status) {
+      case "COMPLETED":
+        return (
+          <Badge className="bg-green-100 text-green-800">
+            ✓ Completed
+          </Badge>
+        );
+      case "RUNNING":
+        return (
+          <Badge className="bg-blue-100 text-blue-800">
+            Running...
+          </Badge>
+        );
+      case "FAILED":
+        return (
+          <Badge className="bg-red-100 text-red-800">
+            Failed
+          </Badge>
+        );
+    }
+  };
+
+  const formatDuration = (seconds?: number) => {
+    if (!seconds) return "-";
+    if (seconds < 60) return `${seconds}s`;
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}m ${remainingSeconds}s`;
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleString();
   };
 
   if (isLoading) {
@@ -343,37 +395,84 @@ export default function WebsiteDetailPage() {
         {activeTab === "sync-logs" && (
           <Card>
             <div className="p-6">
-              <div className="space-y-4">
-                {syncLogs.map((log) => (
-                  <div
-                    key={log.id}
-                    className="flex items-start gap-4 p-4 border border-gray-200 rounded-lg"
-                  >
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        {getLogTypeBadge(log.type)}
-                        <span className="text-sm text-gray-500">
-                          {log.timestamp}
-                        </span>
-                      </div>
-                      <div className="text-sm text-gray-900 mb-2">
-                        {log.message}
-                      </div>
-                      {log.url && (
-                        <div className="text-sm text-indigo-500 hover:text-blue-800">
-                          <a
-                            href={log.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {log.url}
-                          </a>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
+              {websiteSyncLogs.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  No sync logs yet. The first sync will create a log.
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Status
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Started At
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Duration
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Total URLs
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Success
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Failed
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Skipped
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {websiteSyncLogs.map((log) => (
+                        <tr
+                          key={log.id}
+                          className="hover:bg-gray-50 cursor-pointer"
+                          onClick={() => router.push(`/knowledgebase/websites/${params.id}/sync-logs/${log.id}`)}
+                        >
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {getSyncLogStatusBadge(log.status)}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {formatDate(log.startedAt)}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {formatDuration(log.duration)}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {log.totalUrls}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span className="text-sm text-green-600 font-medium">
+                              {log.successCount}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span className="text-sm text-red-600 font-medium">
+                              {log.failedCount}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span className="text-sm text-gray-600 font-medium">
+                              {log.skippedCount}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-indigo-600 hover:text-indigo-800">
+                            View Details →
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
           </Card>
         )}

@@ -40,3 +40,31 @@ export interface SyncLog {
   timestamp: string;
   url?: string;
 }
+
+export interface WebsiteSyncLog {
+  id: string;
+  websiteId: string;
+  status: "RUNNING" | "COMPLETED" | "FAILED";
+  startedAt: string;
+  completedAt?: string;
+  duration?: number;
+  totalUrls: number;
+  successCount: number;
+  failedCount: number;
+  skippedCount: number;
+  errorMessage?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface WebsiteSyncLogEntry {
+  id: string;
+  syncLogId: string;
+  url: string;
+  status: "SUCCESS" | "FAILED" | "SKIPPED" | "ALREADY_VISITED";
+  statusCode?: number;
+  errorMessage?: string;
+  contentSize?: number;
+  scrapedAt: string;
+  createdAt: string;
+}
