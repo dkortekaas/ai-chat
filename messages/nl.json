@@ -194,6 +194,8 @@
     "passwordsDoNotMatch": "Wachtwoorden komen niet overeen",
     "confirmPasswordRequired": "Bevestig wachtwoord is verplicht",
     "assistantNameRequired": "Assistentnaam is verplicht",
+    "assistantLimitReached": "Assistent limiet bereikt",
+    "assistantLimitReachedDescription": "U heeft het maximale aantal assistenten voor uw abonnement bereikt. Upgrade uw abonnement om meer assistenten aan te maken.",
     "passwordComplexity": "Wachtwoord moet minimaal één hoofdletter, één kleine letter en één cijfer bevatten",
     "knowledgebase": {
       "noAssistantSelected": "Geen assistent geselecteerd"

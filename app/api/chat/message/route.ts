@@ -11,6 +11,7 @@ import { randomBytes } from "crypto";
 import { getCorsHeaders, validateCorsOrigin } from "@/lib/cors";
 import { checkRateLimit, getRateLimitHeaders } from "@/lib/rate-limiter";
 import { checkGracePeriod } from "@/lib/subscription";
+import { getUsageLimit } from "@/lib/subscriptionPlans";
 
 const messageSchema = z.object({
   question: z.string().min(1).max(1000),
@@ -55,6 +56,7 @@ export async function POST(request: NextRequest) {
             select: {
               id: true,
               subscriptionStatus: true,
+              subscriptionPlan: true,
               trialEndDate: true,
               subscriptionEndDate: true,
               subscriptionCanceled: true,
@@ -129,6 +131,59 @@ export async function POST(request: NextRequest) {
       console.log(
         `⚠️ Widget used during grace period: ${user.id}, ${gracePeriodCheck.daysRemainingInGrace} days remaining`
       );
+    }
+
+    // Check conversation limits for subscription plan
+    const subscriptionPlan = user.subscriptionPlan;
+    const conversationLimit = getUsageLimit(
+      subscriptionPlan,
+      "conversationsPerMonth"
+    );
+
+    // Only check limits if not unlimited (-1)
+    if (conversationLimit !== -1) {
+      // Get start of current month
+      const now = new Date();
+      const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+      // Count conversations for this assistant this month
+      const monthlyConversations = await db.conversationSession.count({
+        where: {
+          assistantId: chatbotSettings.id,
+          startedAt: {
+            gte: startOfMonth,
+          },
+        },
+      });
+
+      console.log(
+        `📊 Monthly conversations: ${monthlyConversations}/${conversationLimit} for assistant ${chatbotSettings.id}`
+      );
+
+      // Check if limit reached
+      if (monthlyConversations >= conversationLimit) {
+        // Auto-disable the assistant
+        await db.chatbotSettings.update({
+          where: { id: chatbotSettings.id },
+          data: { isActive: false },
+        });
+
+        corsHeaders = getCorsHeaders(origin, chatbotSettings.allowedDomains);
+        return NextResponse.json(
+          {
+            success: false,
+            error: "Conversation limit reached",
+            message: `This assistant has reached its monthly conversation limit of ${conversationLimit}. The assistant has been automatically disabled. Please upgrade your subscription plan or wait until next month.`,
+            currentCount: monthlyConversations,
+            limit: conversationLimit,
+            plan: subscriptionPlan || "TRIAL",
+          },
+          {
+            status: 403,
+            headers: corsHeaders,
+          }
+        );
+      }
     }
 
     // Validate CORS origin against allowed domains

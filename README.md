@@ -26,7 +26,8 @@ A modern, fully functional EmbedIQ platform built with Next.js 15, TypeScript, a
 ### 🌐 Website Scraping & RAG Integration
 
 - **Intelligent Web Scraping**: Automatic content extraction from websites
-- **Multi-page Crawling**: Recursive scraping with configurable depth
+- **Multi-page Crawling**: Recursive scraping with configurable depth (up to 3 levels)
+- **Increased Limits**: Scrape up to 50 pages per website (5x concurrent requests)
 - **Content Processing**: Smart text extraction focusing on main content areas
 - **Link Discovery**: Automatic extraction and storage of all found links
 - **Vector Embeddings**: OpenAI embeddings for semantic search
@@ -35,6 +36,13 @@ A modern, fully functional EmbedIQ platform built with Next.js 15, TypeScript, a
 - **Real-time Processing**: Background scraping with status tracking
 - **Content View**: Dedicated page for viewing scraped content and links
 - **Manual Scraping**: On-demand re-scraping functionality
+- **Sync Logging**: Comprehensive logging of scraping sessions
+  - Session statistics (URLs, success/failed/skipped counts)
+  - Duration tracking for performance monitoring
+  - Per-URL status tracking with error messages
+  - Content size tracking
+  - Detailed sync log viewer with clickable URL entries
+- **Smart Status**: Only marks as ERROR if zero pages succeed (partial success = COMPLETED)
 
 ### 🤖 AI Assistant Management
 
@@ -152,7 +160,13 @@ A modern, fully functional EmbedIQ platform built with Next.js 15, TypeScript, a
 - **Subscription Management**: Users can manage their subscriptions via Stripe portal
 - **Trial Tracking**: Real-time trial status and days remaining
 - **Usage Limits**: Automatic enforcement of plan limits
+  - **Assistant Creation Limits**: Prevents creating more assistants than plan allows
+  - **Conversation Limits**: Tracks and enforces monthly conversation limits per assistant
+  - **Auto-Disable**: Assistants automatically disabled when conversation limit reached
+  - **Document Limits**: Per-assistant document upload limits
+  - **Website Limits**: Per-assistant website scraping limits
 - **Upgrade Prompts**: Seamless upgrade flow when limits are reached
+- **Detailed Error Messages**: Clear messaging with current usage and limit information
 
 ### ⚙️ Settings & Configuration
 
