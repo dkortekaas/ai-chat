@@ -48,15 +48,21 @@ export async function POST(req: NextRequest) {
   try {
     switch (event.type) {
       case "customer.subscription.created":
-        await handleSubscriptionCreated(event.data.object as Stripe.Subscription);
+        await handleSubscriptionCreated(
+          event.data.object as Stripe.Subscription
+        );
         break;
 
       case "customer.subscription.updated":
-        await handleSubscriptionUpdated(event.data.object as Stripe.Subscription);
+        await handleSubscriptionUpdated(
+          event.data.object as Stripe.Subscription
+        );
         break;
 
       case "customer.subscription.deleted":
-        await handleSubscriptionDeleted(event.data.object as Stripe.Subscription);
+        await handleSubscriptionDeleted(
+          event.data.object as Stripe.Subscription
+        );
         break;
 
       case "invoice.payment_succeeded":
@@ -68,7 +74,9 @@ export async function POST(req: NextRequest) {
         break;
 
       case "checkout.session.completed":
-        await handleCheckoutCompleted(event.data.object as Stripe.Checkout.Session);
+        await handleCheckoutCompleted(
+          event.data.object as Stripe.Checkout.Session
+        );
         break;
 
       default:
@@ -119,9 +127,14 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
     data: {
       stripeSubscriptionId: subscriptionId,
       subscriptionPlan: plan,
-      subscriptionStatus: subscription.status === "active" ? "ACTIVE" : "INCOMPLETE",
-      subscriptionStartDate: new Date(subscription.current_period_start * 1000),
-      subscriptionEndDate: new Date(subscription.current_period_end * 1000),
+      subscriptionStatus:
+        subscription.status === "active" ? "ACTIVE" : "INCOMPLETE",
+      subscriptionStartDate: new Date(
+        (subscription as any).current_period_start * 1000
+      ),
+      subscriptionEndDate: new Date(
+        (subscription as any).current_period_end * 1000
+      ),
       subscriptionCanceled: false,
       subscriptionCancelAt: null,
     },
@@ -187,11 +200,15 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
       stripeSubscriptionId: subscriptionId,
       ...(plan && { subscriptionPlan: plan }),
       subscriptionStatus: status,
-      subscriptionStartDate: new Date(subscription.current_period_start * 1000),
-      subscriptionEndDate: new Date(subscription.current_period_end * 1000),
-      subscriptionCanceled: subscription.cancel_at_period_end,
-      subscriptionCancelAt: subscription.cancel_at
-        ? new Date(subscription.cancel_at * 1000)
+      subscriptionStartDate: new Date(
+        (subscription as any).current_period_start * 1000
+      ),
+      subscriptionEndDate: new Date(
+        (subscription as any).current_period_end * 1000
+      ),
+      subscriptionCanceled: (subscription as any).cancel_at_period_end,
+      subscriptionCancelAt: (subscription as any).cancel_at
+        ? new Date((subscription as any).cancel_at * 1000)
         : null,
     },
   });
@@ -229,7 +246,7 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
 
 async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
   const customerId = invoice.customer as string;
-  const subscriptionId = invoice.subscription as string;
+  const subscriptionId = (invoice as any).subscription as string | null;
 
   if (!subscriptionId) {
     // Not a subscription payment, ignore
@@ -247,7 +264,10 @@ async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
   }
 
   // If subscription was past_due or unpaid, update to active
-  if (user.subscriptionStatus === "PAST_DUE" || user.subscriptionStatus === "UNPAID") {
+  if (
+    user.subscriptionStatus === "PAST_DUE" ||
+    user.subscriptionStatus === "UNPAID"
+  ) {
     await db.user.update({
       where: { id: user.id },
       data: {
@@ -262,7 +282,7 @@ async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
 
 async function handlePaymentFailed(invoice: Stripe.Invoice) {
   const customerId = invoice.customer as string;
-  const subscriptionId = invoice.subscription as string;
+  const subscriptionId = (invoice as any).subscription as string | null;
 
   if (!subscriptionId) {
     // Not a subscription payment, ignore
@@ -331,8 +351,12 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       stripeSubscriptionId: subscriptionId,
       subscriptionPlan: plan,
       subscriptionStatus: "ACTIVE",
-      subscriptionStartDate: new Date(subscription.current_period_start * 1000),
-      subscriptionEndDate: new Date(subscription.current_period_end * 1000),
+      subscriptionStartDate: new Date(
+        (subscription as any).current_period_start * 1000
+      ),
+      subscriptionEndDate: new Date(
+        (subscription as any).current_period_end * 1000
+      ),
       subscriptionCanceled: false,
       subscriptionCancelAt: null,
     },
