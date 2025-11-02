@@ -7,6 +7,7 @@ import {
   getPrismaOptions,
   createPaginatedResponse,
 } from "@/lib/pagination";
+import { getUsageLimit } from "@/lib/subscriptionPlans";
 
 export async function GET(request: NextRequest) {
   try {
@@ -70,7 +71,13 @@ export async function POST(request: NextRequest) {
     // Load current user and enforce ADMIN role and company membership for creation
     const currentUser = await db.user.findUnique({
       where: { id: session.user.id },
-      select: { id: true, role: true, companyId: true },
+      select: {
+        id: true,
+        role: true,
+        companyId: true,
+        subscriptionPlan: true,
+        subscriptionStatus: true
+      },
     });
 
     if (!currentUser) {
@@ -89,6 +96,36 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: "User not associated with a company" },
         { status: 400 }
+      );
+    }
+
+    // Check subscription limits
+    const subscriptionPlan = currentUser.subscriptionPlan;
+    const assistantLimit = getUsageLimit(subscriptionPlan, "assistants");
+
+    // Count existing assistants for this company
+    const existingAssistantsCount = await db.chatbotSettings.count({
+      where: {
+        users: {
+          companyId: currentUser.companyId,
+        },
+      },
+    });
+
+    // Check if limit would be exceeded (-1 means unlimited)
+    if (assistantLimit !== -1 && existingAssistantsCount >= assistantLimit) {
+      const planName = subscriptionPlan || "TRIAL";
+      return NextResponse.json(
+        {
+          error: "Assistant limit reached",
+          message: `Your ${planName} plan allows ${assistantLimit} assistant${
+            assistantLimit === 1 ? "" : "s"
+          }. You currently have ${existingAssistantsCount}. Please upgrade your plan to create more assistants.`,
+          currentCount: existingAssistantsCount,
+          limit: assistantLimit,
+          plan: planName,
+        },
+        { status: 403 }
       );
     }
 

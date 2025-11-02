@@ -191,6 +191,8 @@
     "passwordsDoNotMatch": "Passwords do not match",
     "confirmPasswordRequired": "Confirm password is required",
     "assistantNameRequired": "Assistant name is required",
+    "assistantLimitReached": "Assistant limit reached",
+    "assistantLimitReachedDescription": "You have reached the maximum number of assistants for your subscription. Please upgrade your plan to create more assistants.",
     "passwordComplexity": "Password must contain at least one uppercase letter, one lowercase letter, and one number",
     "knowledgebase": {
       "noAssistantSelected": "No assistant selected"

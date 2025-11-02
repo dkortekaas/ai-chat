@@ -157,7 +157,21 @@ export default function NewAssistantPage() {
         }),
       });
 
-      if (!response.ok) throw new Error("Failed to create assistant");
+      if (!response.ok) {
+        const errorData = await response.json();
+
+        // Check for subscription limit error
+        if (response.status === 403 && errorData.error === "Assistant limit reached") {
+          toast({
+            title: t("error.assistantLimitReached"),
+            description: errorData.message || t("error.assistantLimitReachedDescription"),
+            variant: "destructive",
+          });
+          return;
+        }
+
+        throw new Error("Failed to create assistant");
+      }
 
       const created = await response.json();
       toast({
@@ -166,12 +180,15 @@ export default function NewAssistantPage() {
         variant: "success",
       });
       router.push(`/assistants/${created.id}/edit`);
-    } catch {
-      toast({
-        title: t("common.error"),
-        description: t("error.failedToCreateAssistant"),
-        variant: "destructive",
-      });
+    } catch (error) {
+      // Only show generic error if it's not a subscription limit error
+      if (error instanceof Error && error.message !== "Failed to create assistant") {
+        toast({
+          title: t("common.error"),
+          description: t("error.failedToCreateAssistant"),
+          variant: "destructive",
+        });
+      }
     } finally {
       setIsSaving(false);
     }
