@@ -553,14 +553,19 @@ model Invitation {
 }
 
 model Company {
-  id          String       @id @default(cuid())
-  name        String
-  description String?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  invitations Invitation[]
-  projects    projects[]
-  users       User[]
+  id             String       @id @default(cuid())
+  name           String
+  description    String?
+  // Billing details
+  billingName    String?
+  billingEmail   String?
+  vatNumber      String?
+  billingAddress Json?        // { street, city, zip, state, country }
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  invitations    Invitation[]
+  projects       projects[]
+  users          User[]
 
   @@map("companies")
 }
