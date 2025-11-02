@@ -10,7 +10,6 @@ import { PersonalDetailsTab } from "@/components/account/PersonalDetailsTab";
 import { EmailSettingsTab } from "@/components/account/EmailSettingsTab";
 import { ChangePasswordTab } from "@/components/account/ChangePasswordTab";
 import { TwoFactorTab } from "@/components/account/TwoFactorTab";
-import { SubscriptionTab } from "@/components/account/SubscriptionTab";
 import { TeamTab } from "@/components/account/TeamTab";
 import { useTranslations } from "next-intl";
 
@@ -44,16 +43,11 @@ function AccountPageContent() {
       },
     ];
 
-    // Only show subscription and team tabs for Admin and Superuser
+    // Only show team tab for Admin and Superuser
     if (
       session?.user?.role === "ADMIN" ||
       session?.user?.role === "SUPERUSER"
     ) {
-      baseTabs.push({
-        id: "subscription",
-        name: t("account.tabs.subscription"),
-        component: SubscriptionTab,
-      });
       baseTabs.push({
         id: "team",
         name: t("account.tabs.team"),

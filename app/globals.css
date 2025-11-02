@@ -2,6 +2,20 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@theme {
+  --color-cerulean-50: oklch(0.966 0.017 247.99);
+  --color-cerulean-100: oklch(0.922 0.039 249.43);
+  --color-cerulean-200: oklch(0.843 0.082 244.51);
+  --color-cerulean-300: oklch(0.762 0.134 240.01);
+  --color-cerulean-400: oklch(0.685 0.148 237.31);
+  --color-cerulean-500: oklch(0.591 0.127 237.01);
+  --color-cerulean-600: oklch(0.504 0.109 237.7);
+  --color-cerulean-700: oklch(0.409 0.089 237.52);
+  --color-cerulean-800: oklch(0.316 0.069 237.35);
+  --color-cerulean-900: oklch(0.231 0.049 236.92);
+  --color-cerulean-950: oklch(0.176 0.038 235.69);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -72,7 +86,7 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+  --primary: var(--color-cerulean-500);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);

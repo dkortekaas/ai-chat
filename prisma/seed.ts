@@ -18,9 +18,9 @@ async function main() {
   console.log("🌱 Starting seed...");
 
   // Generate random passwords for security
-  const superuserPlainPassword = generateSecurePassword();
-  const userPlainPassword = generateSecurePassword();
-  const adminPlainPassword = generateSecurePassword();
+  const superuserPlainPassword = "superuser123"; //generateSecurePassword();
+  const userPlainPassword = "user123"; //generateSecurePassword();
+  const adminPlainPassword = "admin123"; //generateSecurePassword();
 
   // Create superuser
   const superuserPassword = await hash(superuserPlainPassword, 12);
@@ -194,7 +194,9 @@ async function main() {
   }
 
   console.log("✅ Seed completed successfully!");
-  console.log("\n⚠️  IMPORTANT: Save these credentials securely - they won't be shown again!");
+  console.log(
+    "\n⚠️  IMPORTANT: Save these credentials securely - they won't be shown again!"
+  );
   console.log("\n👤 Superuser:");
   console.log("   Email: superuser@example.com");
   console.log("   Password:", superuserPlainPassword);
@@ -205,7 +207,9 @@ async function main() {
   console.log("   Email: user@example.com");
   console.log("   Password:", userPlainPassword);
   console.log("\n📝 Created snippet categories and examples");
-  console.log("\n⚠️  SECURITY: Change these passwords immediately after first login!");
+  console.log(
+    "\n⚠️  SECURITY: Change these passwords immediately after first login!"
+  );
 }
 
 main()

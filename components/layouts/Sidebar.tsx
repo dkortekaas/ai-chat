@@ -15,6 +15,7 @@ import {
   Bot,
   Library,
   MessageCircle,
+  Wallet,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { signOut } from "next-auth/react";
@@ -106,6 +107,13 @@ export default function Sidebar({
     },
     ...(isAdmin
       ? [
+          {
+            href: "/billing",
+            title: t("common.navigation.billing"),
+            icon: <Wallet className="w-6 h-6" />,
+            activePath: "/billing",
+            sequence: 5,
+          },
           ...(hasValidSubscription === false
             ? [
                 {
@@ -113,7 +121,7 @@ export default function Sidebar({
                   title: t("common.navigation.subscription"),
                   icon: <CreditCard className="w-6 h-6" />,
                   activePath: "/subscription/upgrade",
-                  sequence: 5,
+                  sequence: 6,
                 },
               ]
             : []),
