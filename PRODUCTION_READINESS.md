@@ -1,4 +1,4 @@
-# 🚀 PRODUCTION READINESS ASSESSMENT - EmbedIQ Platform
+# 🚀 PRODUCTION READINESS ASSESSMENT - AI Flow Platform
 
 **Status**: **MODERATELY READY** (Score: 5.3/10)
 **Assessment Date**: November 2025
@@ -8,11 +8,12 @@
 
 ## 📊 EXECUTIVE SUMMARY
 
-Het EmbedIQ platform heeft sterke fundamenten met uitgebreide functionaliteit, maar heeft **kritieke infrastructuur gaps** die eerst moeten worden opgelost voordat productie deployment mogelijk is.
+Het AI Flow platform heeft sterke fundamenten met uitgebreide functionaliteit, maar heeft **kritieke infrastructuur gaps** die eerst moeten worden opgelost voordat productie deployment mogelijk is.
 
 ### Kritieke Bevindingen:
 
 ✅ **Sterke Punten:**
+
 - Comprehensive feature set (AI assistants, RAG, document processing)
 - Solid authentication & 2FA implementation
 - Good database design with proper indexes
@@ -20,6 +21,7 @@ Het EmbedIQ platform heeft sterke fundamenten met uitgebreide functionaliteit, m
 - Subscription plan system implemented
 
 ❌ **Kritieke Tekortkomingen:**
+
 - **GEEN Stripe webhook handler** (betalingen worden niet verwerkt!)
 - **GEEN CI/CD pipeline** (handmatige deployments, geen tests)
 - **GEEN error tracking** (Sentry/DataDog ontbreekt)
@@ -35,6 +37,7 @@ Het EmbedIQ platform heeft sterke fundamenten met uitgebreide functionaliteit, m
 **Waarom kritiek:** Klanten kunnen betalen maar subscriptions worden niet bijgewerkt in database!
 
 **Wat ontbreekt:**
+
 ```typescript
 // Moet aangemaakt: /app/api/stripe/webhook/route.ts
 Events die MOETEN worden afgehandeld:
@@ -46,6 +49,7 @@ Events die MOETEN worden afgehandeld:
 ```
 
 **Impact zonder fix:**
+
 - ✗ Betalingen komen binnen maar users blijven in TRIAL
 - ✗ Subscription upgrades werken niet
 - ✗ Cancellations worden niet verwerkt
@@ -61,6 +65,7 @@ Events die MOETEN worden afgehandeld:
 **Waarom kritiek:** Geen geautomatiseerde deployments = handmatige fouten + geen test verificatie
 
 **Wat ontbreekt:**
+
 ```yaml
 # .github/workflows/test.yml moet bevatten:
 - ESLint checks
@@ -77,6 +82,7 @@ Events die MOETEN worden afgehandeld:
 ```
 
 **Impact zonder fix:**
+
 - ✗ Code zonder tests gaat naar productie
 - ✗ Handmatige deployments = menselijke fouten
 - ✗ Geen rollback mogelijkheid
@@ -92,6 +98,7 @@ Events die MOETEN worden afgehandeld:
 **Waarom kritiek:** Zonder error tracking zie je productie problemen niet!
 
 **Wat ontbreekt:**
+
 ```typescript
 // Installatie:
 npm install @sentry/nextjs
@@ -103,6 +110,7 @@ npm install @sentry/nextjs
 ```
 
 **Impact zonder fix:**
+
 - ✗ Production errors blijven onopgemerkt
 - ✗ Geen stack traces voor debugging
 - ✗ Kan root causes niet tracken
@@ -118,6 +126,7 @@ npm install @sentry/nextjs
 **Waarom kritiek:** Load balancers/monitors moeten weten of app draait
 
 **Wat ontbreekt:**
+
 ```typescript
 // /app/api/health/route.ts moet checken:
 - Database connectivity (Prisma)
@@ -128,6 +137,7 @@ npm install @sentry/nextjs
 ```
 
 **Response format:**
+
 ```json
 {
   "status": "healthy",
@@ -152,6 +162,7 @@ npm install @sentry/nextjs
 **Waarom kritiek:** Missing API keys crashen app in productie
 
 **Wat ontbreekt:**
+
 ```typescript
 // /lib/startup-validation.ts
 Moet valideren bij opstarten:
@@ -177,17 +188,19 @@ Moet valideren bij opstarten:
 **Waarom kritiek:** Huidige CSP staat XSS attacks toe!
 
 **Probleem:**
+
 ```typescript
 // HUIDIGE CSP - ONVEILIG:
-"script-src 'self' 'unsafe-inline' 'unsafe-eval'"
-"style-src 'self' 'unsafe-inline'"
+"script-src 'self' 'unsafe-inline' 'unsafe-eval'";
+"style-src 'self' 'unsafe-inline'";
 ```
 
 **Fix:**
+
 ```typescript
 // VEILIGE CSP:
-"script-src 'self' 'nonce-{random}'"
-"style-src 'self'"
+"script-src 'self' 'nonce-{random}'";
+"style-src 'self'";
 // Move inline styles naar CSS files
 // Use nonces for dynamic scripts
 ```
@@ -202,6 +215,7 @@ Moet valideren bij opstarten:
 **Waarom kritiek:** Wettelijk verplicht in EU (GDPR Article 17)
 
 **Wat ontbreekt:**
+
 ```typescript
 // /app/api/users/[id]/delete-account/route.ts
 Moet cascading deletes doen van:
@@ -214,6 +228,7 @@ Moet cascading deletes doen van:
 ```
 
 **Moet ook:**
+
 - Data export endpoint (GDPR Article 20)
 - Privacy policy acceptance tracking
 - Cookie consent mechanism
@@ -228,12 +243,14 @@ Moet cascading deletes doen van:
 **Waarom kritiek:** In-memory rate limiting werkt niet bij horizontal scaling
 
 **Probleem:**
+
 ```typescript
 // Huidige implementatie: /lib/rate-limiter.ts
 const store = new Map(); // ❌ In-memory, verloren bij restart
 ```
 
 **Fix:**
+
 ```typescript
 // Gebruik Upstash Redis:
 npm install @upstash/redis @upstash/ratelimit
@@ -275,6 +292,7 @@ headers: {
 ### 2. reCAPTCHA op Auth Endpoints
 
 **Wat:** Voeg reCAPTCHA verificatie toe aan:
+
 - `/api/auth/register`
 - `/api/auth/login` (na 3 failures)
 - `/api/auth/forgot-password`
@@ -288,11 +306,13 @@ headers: {
 ### 3. Password Reset Token Expiration
 
 **Probleem:** Reset tokens vervallen nooit
+
 ```typescript
 // Huidige implementatie heeft geen expiry check
 ```
 
 **Fix:**
+
 ```typescript
 // Voeg toe aan User model:
 resetTokenExpiry: DateTime?
@@ -339,6 +359,7 @@ expect(true).toBe(true); // ❌ Placeholder
 ```
 
 **Moet testen:**
+
 - ✅ Subscription expiration blocking
 - ✅ Widget blocking after trial ends
 - ✅ Grace period enforcement
@@ -397,6 +418,7 @@ const session = await stripe.billingPortal.sessions.create({
 ### 8. Database Backup Strategy
 
 **Wat:** Documenteer en configureer:
+
 - Neon automatic backups (Point-in-Time Recovery)
 - Backup retention policy (30 days)
 - Restore procedures
@@ -652,24 +674,24 @@ Returns JSON with:
 
 ### High Risk (Must Address)
 
-| Risk | Impact | Probability | Mitigation |
-|------|--------|-------------|------------|
-| **Stripe webhooks missing** | 🔴 Critical | 100% | Implement webhook handler immediately |
-| **No error tracking** | 🔴 High | 90% | Add Sentry before launch |
-| **GDPR non-compliance** | 🔴 Critical | 80% | Implement data deletion |
-| **In-memory rate limiting** | 🟡 Medium | 70% | Migrate to Redis |
-| **No CI/CD** | 🔴 High | 100% | GitHub Actions setup |
+| Risk                        | Impact      | Probability | Mitigation                            |
+| --------------------------- | ----------- | ----------- | ------------------------------------- |
+| **Stripe webhooks missing** | 🔴 Critical | 100%        | Implement webhook handler immediately |
+| **No error tracking**       | 🔴 High     | 90%         | Add Sentry before launch              |
+| **GDPR non-compliance**     | 🔴 Critical | 80%         | Implement data deletion               |
+| **In-memory rate limiting** | 🟡 Medium   | 70%         | Migrate to Redis                      |
+| **No CI/CD**                | 🔴 High     | 100%        | GitHub Actions setup                  |
 
 ---
 
 ### Medium Risk (Monitor)
 
-| Risk | Impact | Probability | Mitigation |
-|------|--------|-------------|------------|
-| **No comprehensive tests** | 🟡 Medium | 80% | Write integration tests |
-| **CSP policy unsafe** | 🟡 Medium | 60% | Fix inline styles |
-| **No session revocation** | 🟡 Medium | 40% | Implement token blacklist |
-| **Database not optimized** | 🟡 Low | 50% | Add missing indexes |
+| Risk                       | Impact    | Probability | Mitigation                |
+| -------------------------- | --------- | ----------- | ------------------------- |
+| **No comprehensive tests** | 🟡 Medium | 80%         | Write integration tests   |
+| **CSP policy unsafe**      | 🟡 Medium | 60%         | Fix inline styles         |
+| **No session revocation**  | 🟡 Medium | 40%         | Implement token blacklist |
+| **Database not optimized** | 🟡 Low    | 50%         | Add missing indexes       |
 
 ---
 
@@ -677,13 +699,13 @@ Returns JSON with:
 
 ### One-Time Setup Costs
 
-| Item | Cost | Notes |
-|------|------|-------|
-| **Sentry** | €29/month | Team plan, 50k events |
-| **Upstash Redis** | €10/month | 10k requests/day |
-| **Security Audit** | €2,000-5,000 | External firm (optional but recommended) |
-| **Load Testing Tools** | Free | k6 open source |
-| **UptimeRobot** | Free | Basic monitoring |
+| Item                   | Cost         | Notes                                    |
+| ---------------------- | ------------ | ---------------------------------------- |
+| **Sentry**             | €29/month    | Team plan, 50k events                    |
+| **Upstash Redis**      | €10/month    | 10k requests/day                         |
+| **Security Audit**     | €2,000-5,000 | External firm (optional but recommended) |
+| **Load Testing Tools** | Free         | k6 open source                           |
+| **UptimeRobot**        | Free         | Basic monitoring                         |
 
 **Total Monthly:** €39/month
 **Total One-Time:** €2,000-5,000 (if security audit)
@@ -692,16 +714,16 @@ Returns JSON with:
 
 ### Ongoing Monthly Costs (Production)
 
-| Service | Estimated Cost | Notes |
-|---------|---------------|-------|
-| **Vercel Hosting** | €20-100/month | Depends on usage |
-| **Neon PostgreSQL** | €19-69/month | Scale plan |
-| **OpenAI API** | €50-500/month | Depends on embeddings usage |
-| **Stripe** | 1.4% + €0.25/transaction | Payment processing |
-| **Resend Email** | Free-€10/month | 3k emails free tier |
-| **Sentry** | €29/month | Error tracking |
-| **Upstash Redis** | €10/month | Rate limiting |
-| **Domain** | €12/year | .com domain |
+| Service             | Estimated Cost           | Notes                       |
+| ------------------- | ------------------------ | --------------------------- |
+| **Vercel Hosting**  | €20-100/month            | Depends on usage            |
+| **Neon PostgreSQL** | €19-69/month             | Scale plan                  |
+| **OpenAI API**      | €50-500/month            | Depends on embeddings usage |
+| **Stripe**          | 1.4% + €0.25/transaction | Payment processing          |
+| **Resend Email**    | Free-€10/month           | 3k emails free tier         |
+| **Sentry**          | €29/month                | Error tracking              |
+| **Upstash Redis**   | €10/month                | Rate limiting               |
+| **Domain**          | €12/year                 | .com domain                 |
 
 **Total:** €128-718/month (depending on scale)
 
@@ -800,6 +822,7 @@ Returns JSON with:
 **Budget:** €3,000-6,000 one-time + €130-720/month recurring
 
 **Team Required:**
+
 - 1 Senior Developer (full-time, 4 weeks)
 - 1 DevOps Engineer (part-time, 2 weeks)
 - 1 QA Tester (part-time, 1 week)

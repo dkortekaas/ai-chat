@@ -248,9 +248,9 @@ const Contact = () => {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "ContactPage",
-            name: "Contact - EmbedIQ",
+            name: "Contact - AI Flow",
             description:
-              "Neem contact op met EmbedIQ voor vragen over onze AI chat oplossing",
+              "Neem contact op met AI Flow voor vragen over onze AI chat oplossing",
           }),
         }}
       />

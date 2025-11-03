@@ -9162,7 +9162,7 @@ var __defProp = Object.defineProperty,
         e.showBranding &&
           q.jsxs("div", {
             className: "chatbot-branding",
-            children: ["Powered by ", q.jsx("strong", { children: "EmbedIQ" })],
+            children: ["Powered by ", q.jsx("strong", { children: "AI Flow" })],
           }),
       ],
     });

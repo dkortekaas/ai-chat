@@ -52,7 +52,7 @@ export default function Prices() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Product",
-            name: "EmbedIQ",
+            name: "AI Flow",
             offers: plans.map((plan) => ({
               "@type": "Offer",
               name: t(`plans.${plan}.name`),

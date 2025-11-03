@@ -845,7 +845,7 @@ export function ChatWindow({
       {/* Branding */}
       {config.showBranding && (
         <div className="chatbot-branding">
-          Powered by <strong>EmbedIQ</strong>
+          Powered by <strong>AI Flow</strong>
         </div>
       )}
     </div>

@@ -243,18 +243,18 @@
     "backToPortal": "Back to Portal"
   },
   "metadata": {
-    "title": "EmbedIQ",
-    "description": "EmbedIQ AI Chat Support",
-    "keywords": "EmbedIQ AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, EmbedIQ, EmbedIQ AI, EmbedIQ AI Chat, EmbedIQ AI Chat Support",
+    "title": "AI Flow",
+    "description": "AI Flow AI Chat Support",
+    "keywords": "AI Flow AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, AI Flow, AI Flow AI, AI Flow AI Chat, AI Flow AI Chat Support",
     "twitter": {
-      "title": "EmbedIQ AI Chat Support",
-      "description": "EmbedIQ AI Chat Support",
-      "keywords": "EmbedIQ AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, EmbedIQ, EmbedIQ AI, EmbedIQ AI Chat, EmbedIQ AI Chat Support"
+      "title": "AI Flow AI Chat Support",
+      "description": "AI Flow AI Chat Support",
+      "keywords": "AI Flow AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, AI Flow, AI Flow AI, AI Flow AI Chat, AI Flow AI Chat Support"
     },
     "og": {
-      "title": "EmbedIQ AI Chat Support",
-      "description": "EmbedIQ AI Chat Support",
-      "keywords": "EmbedIQ AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, EmbedIQ, EmbedIQ AI, EmbedIQ AI Chat, EmbedIQ AI Chat Support"
+      "title": "AI Flow AI Chat Support",
+      "description": "AI Flow AI Chat Support",
+      "keywords": "AI Flow AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, AI Flow, AI Flow AI, AI Flow AI Chat, AI Flow AI Chat Support"
     }
   },
   "auth": {
@@ -540,8 +540,8 @@
     }
   },
   "benefits": {
-    "title": "Benefits of using EmbedIQ",
-    "description": "Benefits of using EmbedIQ"
+    "title": "Benefits of using AI Flow",
+    "description": "Benefits of using AI Flow"
   },
   "faq": {
     "title": "Frequently Asked Questions",
