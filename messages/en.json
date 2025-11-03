@@ -1027,7 +1027,10 @@
     "syncSubscription": "Sync Subscription",
     "syncing": "Syncing...",
     "subscriptionSynced": "Subscription synced successfully",
-    "failedToSyncSubscription": "Failed to sync subscription"
+    "failedToSyncSubscription": "Failed to sync subscription",
+    "incompleteDetails": "Billing details incomplete",
+    "incompleteDetailsDescription": "Please complete your billing details for accurate invoicing",
+    "completeNow": "Complete now"
   },
   "subscription": {
     "title": "Subscription",

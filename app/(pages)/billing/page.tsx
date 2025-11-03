@@ -104,8 +104,8 @@ export default function BillingPage() {
         if (data.company) {
           const address = data.company.billingAddress || {};
           setBillingForm({
-            billingName: data.company.billingName || "",
-            billingEmail: data.company.billingEmail || "",
+            billingName: data.company.billingName || data.company.name || "",
+            billingEmail: data.company.billingEmail || data.user?.email || "",
             vatNumber: data.company.vatNumber || "",
             street: address.street || "",
             city: address.city || "",
@@ -672,6 +672,32 @@ export default function BillingPage() {
                 </Button>
               )}
             </div>
+
+            {/* Alert if billing details are incomplete */}
+            {!editingBilling &&
+             (!billingData.company?.billingName ||
+              !billingData.company?.billingEmail ||
+              !billingData.company?.billingAddress?.street) && (
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 flex items-start space-x-3">
+                <AlertCircle className="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" />
+                <div className="flex-1">
+                  <p className="text-sm text-amber-800 font-medium">
+                    {t("billing.incompleteDetails")}
+                  </p>
+                  <p className="text-xs text-amber-700 mt-1">
+                    {t("billing.incompleteDetailsDescription")}
+                  </p>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setEditingBilling(true)}
+                  className="text-amber-700 hover:text-amber-800 hover:bg-amber-100"
+                >
+                  {t("billing.completeNow")}
+                </Button>
+              </div>
+            )}
 
             {editingBilling ? (
               <div className="space-y-4">
