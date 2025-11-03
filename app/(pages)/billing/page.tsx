@@ -78,6 +78,7 @@ export default function BillingPage() {
   const [managing, setManaging] = useState(false);
   const [editingBilling, setEditingBilling] = useState(false);
   const [savingBilling, setSavingBilling] = useState(false);
+  const [syncing, setSyncing] = useState(false);
   const { toast } = useToast();
   const t = useTranslations();
 
@@ -269,6 +270,41 @@ export default function BillingPage() {
     }
   };
 
+  const handleSyncSubscription = async () => {
+    setSyncing(true);
+    try {
+      const response = await fetch("/api/billing/sync", {
+        method: "POST",
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        toast({
+          title: t("common.success"),
+          description: t("billing.subscriptionSynced"),
+        });
+        // Refresh billing data
+        await fetchBillingData();
+      } else {
+        const error = await response.json();
+        toast({
+          title: "Error",
+          description: error.error || t("billing.failedToSyncSubscription"),
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Error syncing subscription:", error);
+      toast({
+        title: "Error",
+        description: t("billing.failedToSyncSubscription"),
+        variant: "destructive",
+      });
+    } finally {
+      setSyncing(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center py-8">
@@ -296,10 +332,20 @@ export default function BillingPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center space-x-3">
+      <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold text-gray-900">
           {t("billing.title")}
         </h1>
+        <Button
+          onClick={handleSyncSubscription}
+          disabled={syncing}
+          variant="outline"
+          size="sm"
+          className="border-indigo-500 text-indigo-500 hover:bg-indigo-50"
+        >
+          <RefreshCw className={`w-4 h-4 mr-2 ${syncing ? "animate-spin" : ""}`} />
+          {syncing ? t("billing.syncing") : t("billing.syncSubscription")}
+        </Button>
       </div>
 
       {/* Trial Status Alert */}

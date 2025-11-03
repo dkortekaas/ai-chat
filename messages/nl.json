@@ -1023,7 +1023,11 @@
     "failedToCreateSubscription": "Fout bij aanmaken abonnement",
     "failedToOpenPortal": "Fout bij openen klantenportaal",
     "noSubscription": "Geen abonnement gevonden",
-    "noSubscriptionDescription": "U heeft nog geen actief abonnement. Kies een plan om te upgraden."
+    "noSubscriptionDescription": "U heeft nog geen actief abonnement. Kies een plan om te upgraden.",
+    "syncSubscription": "Abonnement synchroniseren",
+    "syncing": "Synchroniseren...",
+    "subscriptionSynced": "Abonnement succesvol gesynchroniseerd",
+    "failedToSyncSubscription": "Fout bij synchroniseren abonnement"
   },
   "subscription": {
     "title": "Abonnement",

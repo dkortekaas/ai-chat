@@ -1023,7 +1023,11 @@
     "failedToCreateSubscription": "Failed to create subscription",
     "failedToOpenPortal": "Failed to open customer portal",
     "noSubscription": "No subscription found",
-    "noSubscriptionDescription": "You don't have an active subscription yet. Please choose a plan to upgrade."
+    "noSubscriptionDescription": "You don't have an active subscription yet. Please choose a plan to upgrade.",
+    "syncSubscription": "Sync Subscription",
+    "syncing": "Syncing...",
+    "subscriptionSynced": "Subscription synced successfully",
+    "failedToSyncSubscription": "Failed to sync subscription"
   },
   "subscription": {
     "title": "Subscription",
