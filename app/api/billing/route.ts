@@ -47,12 +47,89 @@ export async function GET() {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
+    // Calculate trial status early (needed for early returns)
+    const now = new Date();
+    const isTrialActive =
+      user.subscriptionStatus === "TRIAL" &&
+      user.trialEndDate &&
+      user.trialEndDate > now;
+
+    const trialDaysRemaining = user.trialEndDate
+      ? Math.max(
+          0,
+          Math.ceil(
+            (user.trialEndDate.getTime() - now.getTime()) /
+              (1000 * 60 * 60 * 24)
+          )
+        )
+      : 0;
+
+    // Check grace period status
+    const gracePeriodCheck = checkGracePeriod(
+      user.subscriptionStatus,
+      user.trialEndDate,
+      user.subscriptionEndDate
+    );
+
     // Get invoices if customer exists
     let invoices: any[] = [];
     let paymentMethods: any[] = [];
 
     if (user.stripeCustomerId) {
       try {
+        // First verify the customer exists in Stripe
+        try {
+          await stripe.customers.retrieve(user.stripeCustomerId);
+        } catch (customerError: any) {
+          // If customer doesn't exist, clear the invalid ID from database
+          if (
+            customerError.type === "StripeInvalidRequestError" &&
+            customerError.code === "resource_missing"
+          ) {
+            console.warn(
+              `Stripe customer ${user.stripeCustomerId} not found, clearing from database`
+            );
+            await db.user.update({
+              where: { id: user.id },
+              data: { stripeCustomerId: null },
+            });
+            // Skip fetching invoices/payment methods since customer doesn't exist
+            return NextResponse.json({
+              user: {
+                id: user.id,
+                email: user.email,
+                name: user.name,
+                subscriptionStatus: user.subscriptionStatus,
+                subscriptionPlan: user.subscriptionPlan,
+                stripeCustomerId: null,
+                stripeSubscriptionId: user.stripeSubscriptionId,
+                trialStartDate: user.trialStartDate,
+                trialEndDate: user.trialEndDate,
+                subscriptionStartDate: user.subscriptionStartDate,
+                subscriptionEndDate: user.subscriptionEndDate,
+                subscriptionCancelAt: user.subscriptionCancelAt,
+                subscriptionCanceled: user.subscriptionCanceled,
+                isTrialActive,
+                trialDaysRemaining,
+                currentPlan: user.subscriptionPlan
+                  ? SUBSCRIPTION_PLANS_WITH_PRICES[user.subscriptionPlan]
+                  : null,
+                gracePeriod: {
+                  isInGracePeriod: gracePeriodCheck.isInGracePeriod,
+                  daysRemaining: gracePeriodCheck.daysRemainingInGrace,
+                  endsAt: gracePeriodCheck.gracePeriodEndsAt,
+                  message: gracePeriodCheck.message,
+                  urgency: gracePeriodCheck.urgency,
+                },
+              },
+              company: user.company,
+              invoices: [],
+              paymentMethods: [],
+            });
+          }
+          throw customerError;
+        }
+
         // Get invoices
         const stripeInvoices = await stripe.invoices.list({
           customer: user.stripeCustomerId,
@@ -97,30 +174,6 @@ export async function GET() {
         // Continue even if Stripe data fails
       }
     }
-
-    // Calculate trial status
-    const now = new Date();
-    const isTrialActive =
-      user.subscriptionStatus === "TRIAL" &&
-      user.trialEndDate &&
-      user.trialEndDate > now;
-
-    const trialDaysRemaining = user.trialEndDate
-      ? Math.max(
-          0,
-          Math.ceil(
-            (user.trialEndDate.getTime() - now.getTime()) /
-              (1000 * 60 * 60 * 24)
-          )
-        )
-      : 0;
-
-    // Check grace period status
-    const gracePeriodCheck = checkGracePeriod(
-      user.subscriptionStatus,
-      user.trialEndDate,
-      user.subscriptionEndDate
-    );
 
     return NextResponse.json({
       user: {

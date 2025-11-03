@@ -175,18 +175,38 @@ export default function BillingPage() {
     setManaging(true);
     try {
       const response = await fetch("/api/subscriptions/manage");
+
       if (response.ok) {
         const data = await response.json();
         if (data.url) {
           window.location.href = data.url;
+        } else {
+          toast({
+            title: "Error",
+            description: "No portal URL received",
+            variant: "destructive",
+          });
         }
       } else {
         const errorData = await response.json();
-        toast({
-          title: "Error",
-          description: errorData.error || t("billing.failedToOpenPortal"),
-          variant: "destructive",
+        console.error("Manage subscription error:", {
+          status: response.status,
+          error: errorData,
         });
+
+        if (response.status === 404 && errorData.error === "No subscription found") {
+          toast({
+            title: t("billing.noSubscription"),
+            description: t("billing.noSubscriptionDescription"),
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Error",
+            description: errorData.error || t("billing.failedToOpenPortal"),
+            variant: "destructive",
+          });
+        }
       }
     } catch (error) {
       console.error("Error managing subscription:", error);
