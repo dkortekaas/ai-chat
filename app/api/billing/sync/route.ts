@@ -32,28 +32,52 @@ export async function POST() {
       );
     }
 
-    // Fetch all subscriptions for this customer from Stripe
-    const subscriptions = await stripe.subscriptions.list({
-      customer: user.stripeCustomerId,
-      status: "all",
-      limit: 10,
-    });
+    let activeSubscription;
 
-    console.log(`Found ${subscriptions.data.length} subscriptions for customer ${user.stripeCustomerId}`);
+    // If we already have a subscription ID, fetch it directly
+    if (user.stripeSubscriptionId) {
+      try {
+        activeSubscription = await stripe.subscriptions.retrieve(
+          user.stripeSubscriptionId
+        );
+        console.log(`Retrieved subscription ${activeSubscription.id} directly`);
+      } catch (error) {
+        console.log(`Failed to retrieve subscription ${user.stripeSubscriptionId}, falling back to list`);
+        activeSubscription = null;
+      }
+    }
 
-    // Find the active or most recent subscription
-    const activeSubscription = subscriptions.data.find(
-      (sub) => sub.status === "active" || sub.status === "trialing"
-    ) || subscriptions.data[0];
-
+    // If we don't have a subscription yet, or retrieval failed, list all subscriptions
     if (!activeSubscription) {
-      return NextResponse.json(
-        { error: "No subscription found in Stripe" },
-        { status: 404 }
-      );
+      const subscriptions = await stripe.subscriptions.list({
+        customer: user.stripeCustomerId,
+        status: "all",
+        limit: 10,
+        expand: ['data.items.data.price'],
+      });
+
+      console.log(`Found ${subscriptions.data.length} subscriptions for customer ${user.stripeCustomerId}`);
+
+      // Find the active or most recent subscription
+      activeSubscription = subscriptions.data.find(
+        (sub) => sub.status === "active" || sub.status === "trialing"
+      ) || subscriptions.data[0];
+
+      if (!activeSubscription) {
+        return NextResponse.json(
+          { error: "No subscription found in Stripe" },
+          { status: 404 }
+        );
+      }
     }
 
     console.log(`Active subscription: ${activeSubscription.id}, status: ${activeSubscription.status}`);
+    console.log(`Subscription details:`, {
+      current_period_start: activeSubscription.current_period_start,
+      current_period_end: activeSubscription.current_period_end,
+      cancel_at_period_end: activeSubscription.cancel_at_period_end,
+      cancel_at: activeSubscription.cancel_at,
+    });
 
     // Get the price ID from the subscription
     const priceId = activeSubscription.items.data[0]?.price.id;
@@ -107,6 +131,42 @@ export async function POST() {
         break;
     }
 
+    // Validate and prepare dates
+    const startDate = activeSubscription.current_period_start
+      ? new Date(activeSubscription.current_period_start * 1000)
+      : new Date();
+
+    const endDate = activeSubscription.current_period_end
+      ? new Date(activeSubscription.current_period_end * 1000)
+      : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // Default to 30 days from now
+
+    const cancelAt = activeSubscription.cancel_at
+      ? new Date(activeSubscription.cancel_at * 1000)
+      : null;
+
+    // Validate dates
+    if (isNaN(startDate.getTime())) {
+      console.error("Invalid start date:", activeSubscription.current_period_start);
+      return NextResponse.json(
+        { error: "Invalid subscription start date" },
+        { status: 400 }
+      );
+    }
+
+    if (isNaN(endDate.getTime())) {
+      console.error("Invalid end date:", activeSubscription.current_period_end);
+      return NextResponse.json(
+        { error: "Invalid subscription end date" },
+        { status: 400 }
+      );
+    }
+
+    console.log(`Dates to save:`, {
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString(),
+      cancelAt: cancelAt?.toISOString(),
+    });
+
     // Update user in database
     const updatedUser = await db.user.update({
       where: { id: user.id },
@@ -114,12 +174,10 @@ export async function POST() {
         stripeSubscriptionId: activeSubscription.id,
         subscriptionPlan: plan,
         subscriptionStatus: status,
-        subscriptionStartDate: new Date(activeSubscription.current_period_start * 1000),
-        subscriptionEndDate: new Date(activeSubscription.current_period_end * 1000),
-        subscriptionCanceled: activeSubscription.cancel_at_period_end,
-        subscriptionCancelAt: activeSubscription.cancel_at
-          ? new Date(activeSubscription.cancel_at * 1000)
-          : null,
+        subscriptionStartDate: startDate,
+        subscriptionEndDate: endDate,
+        subscriptionCanceled: activeSubscription.cancel_at_period_end || false,
+        subscriptionCancelAt: cancelAt,
       },
     });
 
@@ -131,8 +189,8 @@ export async function POST() {
         id: activeSubscription.id,
         plan: plan,
         status: status,
-        currentPeriodStart: new Date(activeSubscription.current_period_start * 1000),
-        currentPeriodEnd: new Date(activeSubscription.current_period_end * 1000),
+        currentPeriodStart: startDate,
+        currentPeriodEnd: endDate,
       },
     });
   } catch (error: any) {
