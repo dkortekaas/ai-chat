@@ -106,9 +106,9 @@ const Index = () => {
       <main className="flex-1">
         {/* Hero Section */}
         <section className="py-20 md:py-32 bg-gradient-hero">
-          <div className="section-container">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto text-center animate-fade-in">
-              <h1 className="mb-6 gradient-text">
+              <h1 className="mb-6 bg-primary bg-clip-text text-transparent font-bold text-6xl leading-tight">
                 Van Document naar Chatbot in 5 Minuten
               </h1>
               <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto">
@@ -141,9 +141,9 @@ const Index = () => {
 
         {/* How It Works */}
         <section id="hoe-het-werkt" className="py-20 md:py-32">
-          <div className="section-container">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16 animate-fade-in">
-              <h2 className="mb-4">Hoe Het Werkt</h2>
+              <h2 className="mb-4 text-5xl font-bold">Hoe Het Werkt</h2>
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
                 In 4 eenvoudige stappen van documenten naar een werkende
                 AI-chatbot
@@ -158,7 +158,7 @@ const Index = () => {
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <CardContent className="pt-8 pb-6">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-primary mb-4">
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary mb-4">
                       <step.icon
                         className="w-8 h-8 text-primary-foreground"
                         aria-hidden="true"
@@ -178,9 +178,11 @@ const Index = () => {
 
         {/* Benefits */}
         <section id="features" className="py-20 md:py-32 bg-muted">
-          <div className="section-container">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16 animate-fade-in">
-              <h2 className="mb-4">Waarom Kiezen Voor Ons Platform?</h2>
+              <h2 className="mb-4 text-5xl font-bold">
+                Waarom Kiezen Voor Ons Platform?
+              </h2>
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
                 De krachtigste features voor de beste chatbot ervaring
               </p>
@@ -193,7 +195,7 @@ const Index = () => {
                   className="animate-fade-in-up hover:shadow-glow transition-shadow"
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
-                  <CardContent className="pt-6">
+                  <CardContent>
                     <benefit.icon
                       className="w-12 h-12 text-primary mb-4"
                       aria-hidden="true"
@@ -213,10 +215,10 @@ const Index = () => {
 
         {/* Use Cases */}
         <section className="py-20 md:py-32">
-          <div className="section-container">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-12 animate-fade-in">
-                <h2 className="mb-4">Perfect Voor</h2>
+                <h2 className="mb-4 text-5xl font-bold">Perfect Voor</h2>
                 <p className="text-xl text-muted-foreground">
                   Ideaal voor teams die efficiënter willen communiceren
                 </p>
@@ -243,11 +245,11 @@ const Index = () => {
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 md:py-32 bg-gradient-primary text-primary-foreground">
-          <div className="section-container">
+        <section className="py-20 md:py-32 bg-primary text-primary-foreground">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto text-center animate-fade-in">
               <Bot className="w-16 h-16 mx-auto mb-6" aria-hidden="true" />
-              <h2 className="mb-6 text-primary-foreground">
+              <h2 className="mb-6 text-primary-foreground text-5xl font-bold">
                 Klaar om te Beginnen?
               </h2>
               <p className="text-xl mb-8 text-primary-foreground/90">
@@ -261,7 +263,7 @@ const Index = () => {
                   className="text-lg px-8"
                   asChild
                 >
-                  <a href="#gratis-starten">Maak Gratis Account</a>
+                  <Link href={`/${locale}/register`}>Maak Gratis Account</Link>
                 </Button>
                 <Button
                   size="lg"

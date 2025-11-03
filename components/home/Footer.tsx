@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Bot, Mail, Phone } from "lucide-react";
 import { useParams } from "next/navigation";
@@ -9,12 +11,12 @@ const Footer = () => {
 
   return (
     <footer className="bg-muted border-t border-border">
-      <div className="section-container py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="space-y-4">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-primary">
+            <Link href={`/${locale}`} className="flex items-center space-x-2">
+              <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary">
                 <Bot
                   className="w-6 h-6 text-primary-foreground"
                   aria-hidden="true"
@@ -33,7 +35,7 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/#features"
+                  href={`/${locale}#features`}
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Features
@@ -41,19 +43,19 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/pricing"
+                  href={`/${locale}/pricing`}
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Prijzen
                 </Link>
               </li>
               <li>
-                <a
-                  href="#gratis-starten"
+                <Link
+                  href={`/${locale}/register`}
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Gratis Starten
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -71,20 +73,20 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <a
+                <Link
                   href={`/${locale}/privacy`}
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Privacy
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href={`/${locale}/voorwaarden`}
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Voorwaarden
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -95,21 +97,21 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <Mail className="w-4 h-4" aria-hidden="true" />
-                <a
-                  href="mailto:sales@aichatbot.nl"
+                <Link
+                  href="mailto:info@aiflow.app"
                   className="hover:text-primary transition-colors"
                 >
-                  sales@aichatbot.nl
-                </a>
+                  info@aiflow.app
+                </Link>
               </li>
               <li className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <Phone className="w-4 h-4" aria-hidden="true" />
-                <a
+                <Link
                   href="tel:+31201234567"
                   className="hover:text-primary transition-colors"
                 >
                   +31 20 123 4567
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

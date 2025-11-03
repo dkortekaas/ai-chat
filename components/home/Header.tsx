@@ -86,7 +86,7 @@ export default function Header() {
           <Link
             href="/"
             className="flex items-center gap-2 group"
-            aria-label="AI Flow Home"
+            aria-label="EmbedIQ Home"
           >
             <div className="w-10 h-10 bg-indigo-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
               <MessageSquare
@@ -94,7 +94,7 @@ export default function Header() {
                 aria-hidden="true"
               />
             </div>
-            <span className="text-xl font-bold text-foreground">AI Flow</span>
+            <span className="text-xl font-bold text-foreground">EmbedIQ</span>
           </Link>
 
           {/* Desktop Navigation */}

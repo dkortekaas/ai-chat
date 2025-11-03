@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Bot } from "lucide-react";
@@ -16,19 +18,31 @@ const Navigation = () => {
     { href: "/contact", label: "Contact" },
   ];
 
-  const isActive = (href: string) => pathname.startsWith(`/${locale}${href}`);
+  const getHref = (href: string) => {
+    if (href === "/") {
+      return `/${locale}`;
+    }
+    return `/${locale}${href}`;
+  };
+
+  const isActive = (href: string) => {
+    const hrefPath = href === "/" ? `/${locale}` : `/${locale}${href}`;
+    return (
+      pathname === hrefPath || (href !== "/" && pathname.startsWith(hrefPath))
+    );
+  };
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="section-container">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link
-            href="/"
+            href={`/${locale}`}
             className="flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg"
             aria-label="Ga naar homepage"
           >
-            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-primary">
+            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary">
               <Bot
                 className="w-6 h-6 text-primary-foreground"
                 aria-hidden="true"
@@ -42,7 +56,7 @@ const Navigation = () => {
             {navLinks.map((link) => (
               <Link
                 key={link.href}
-                href={link.href}
+                href={getHref(link.href)}
                 className={`text-sm font-medium transition-colors hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded px-2 py-1 ${
                   isActive(link.href) ? "text-primary" : "text-foreground/80"
                 }`}
@@ -55,10 +69,10 @@ const Navigation = () => {
           {/* Desktop Actions */}
           <div className="hidden md:flex md:items-center md:space-x-3">
             <Button size="sm" variant="ghost" asChild>
-              <a href="#login">Login</a>
+              <Link href={`/${locale}/login`}>Login</Link>
             </Button>
             <Button size="sm" asChild>
-              <a href="#gratis-starten">Gratis Starten</a>
+              <Link href={`/${locale}/register`}>Gratis Starten</Link>
             </Button>
           </div>
 
@@ -81,11 +95,11 @@ const Navigation = () => {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden border-t border-border bg-background">
-          <div className="section-container py-4 space-y-3">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 space-y-3">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
-                href={link.href}
+                href={getHref(link.href)}
                 onClick={() => setIsOpen(false)}
                 className={`block px-3 py-2 rounded-lg text-base font-medium transition-colors hover:bg-accent focus:outline-none focus:ring-2 focus:ring-primary ${
                   isActive(link.href)
@@ -98,14 +112,20 @@ const Navigation = () => {
             ))}
             <div className="space-y-2 pt-2 border-t border-border">
               <Button className="w-full" variant="ghost" asChild>
-                <a href="#login" onClick={() => setIsOpen(false)}>
+                <Link
+                  href={`/${locale}/login`}
+                  onClick={() => setIsOpen(false)}
+                >
                   Login
-                </a>
+                </Link>
               </Button>
               <Button className="w-full" asChild>
-                <a href="#gratis-starten" onClick={() => setIsOpen(false)}>
+                <Link
+                  href={`/${locale}/register`}
+                  onClick={() => setIsOpen(false)}
+                >
                   Gratis Starten
-                </a>
+                </Link>
               </Button>
             </div>
           </div>
