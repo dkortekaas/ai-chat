@@ -989,7 +989,9 @@
     "failedToFetchBillingData": "Failed to fetch billing data",
     "failedToLoadBillingData": "Unable to load billing data",
     "failedToCreateSubscription": "Failed to create subscription",
-    "failedToOpenPortal": "Failed to open customer portal"
+    "failedToOpenPortal": "Failed to open customer portal",
+    "noSubscription": "No subscription found",
+    "noSubscriptionDescription": "You don't have an active subscription yet. Please choose a plan to upgrade."
   },
   "subscription": {
     "title": "Subscription",

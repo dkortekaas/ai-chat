@@ -942,7 +942,9 @@
     "failedToFetchBillingData": "Fout bij ophalen facturatiegegevens",
     "failedToLoadBillingData": "Kan facturatiegegevens niet laden",
     "failedToCreateSubscription": "Fout bij aanmaken abonnement",
-    "failedToOpenPortal": "Fout bij openen klantenportaal"
+    "failedToOpenPortal": "Fout bij openen klantenportaal",
+    "noSubscription": "Geen abonnement gevonden",
+    "noSubscriptionDescription": "U heeft nog geen actief abonnement. Kies een plan om te upgraden."
   },
   "subscription": {
     "title": "Abonnement",
