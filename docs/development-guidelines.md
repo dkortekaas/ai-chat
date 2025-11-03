@@ -1,4 +1,4 @@
-# Development Guidelines voor EmbedIQ
+# Development Guidelines voor AI Flow
 
 ## Algemene Setup
 

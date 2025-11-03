@@ -24,7 +24,7 @@ export default function Footer() {
             <Link
               href="/"
               className="flex items-center gap-2 mb-4 group"
-              aria-label="EmbedIQ Home"
+              aria-label="AI Flow Home"
             >
               <div className="w-10 h-10 bg-indigo-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
                 <MessageSquare
@@ -32,7 +32,7 @@ export default function Footer() {
                   aria-hidden="true"
                 />
               </div>
-              <span className="text-xl font-bold text-foreground">EmbedIQ</span>
+              <span className="text-xl font-bold text-foreground">AI Flow</span>
             </Link>
             <p className="text-muted-foreground text-sm">
               Intelligente AI chat assistentie voor betere klantbeleving en meer
@@ -160,7 +160,7 @@ export default function Footer() {
 
         <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-muted-foreground text-sm">
-            © {new Date().getFullYear()} EmbedIQ. Alle rechten voorbehouden.
+            © {new Date().getFullYear()} AI Flow. Alle rechten voorbehouden.
           </p>
           <div className="flex gap-6">
             <Link

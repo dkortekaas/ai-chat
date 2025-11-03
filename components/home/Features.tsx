@@ -74,7 +74,7 @@ export default function Features() {
             id="features-heading"
             className="text-4xl sm:text-5xl font-bold text-foreground mb-4"
           >
-            Waarom kiezen voor <span className="text-indigo-500">EmbedIQ</span>?
+            Waarom kiezen voor <span className="text-indigo-500">AI Flow</span>?
           </h2>
           <p className="text-xl text-muted-foreground">
             Alles wat u nodig heeft voor uitmuntende klantenservice en meer

@@ -1,6 +1,6 @@
 // Application configuration
 const config = {
-  appTitle: "EmbedIQ",
+  appTitle: "AI Flow",
   email: "info@declair.app",
   itemsPerPage: 5,
 };

@@ -32,7 +32,7 @@ export default function ClientLayout() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
-            name: "EmbedIQ",
+            name: "AI Flow",
             applicationCategory: "BusinessApplication",
             offers: {
               "@type": "Offer",

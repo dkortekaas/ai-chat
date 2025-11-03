@@ -2,7 +2,7 @@
 
 ## Overzicht
 
-Deze guide beschrijft de complete deployment van het EmbedIQ naar productie met:
+Deze guide beschrijft de complete deployment van het AI Flow naar productie met:
 
 - **Hosting**: Vercel (Next.js applicatie)
 - **Database**: Neon PostgreSQL (Serverless)
