@@ -141,7 +141,7 @@ export default function NotificationSettings() {
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
-                      className="data-[state=checked]:bg-indigo-500 data-[state=checked]:border-indigo-400 [&>svg]:text-white"
+                      className="data-[state=checked]:bg-primary data-[state=checked]:border-primary [&>svg]:text-white"
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
@@ -165,7 +165,7 @@ export default function NotificationSettings() {
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
-                      className="data-[state=checked]:bg-indigo-500 data-[state=checked]:border-indigo-400 [&>svg]:text-white"
+                      className="data-[state=checked]:bg-primary data-[state=checked]:border-primary [&>svg]:text-white"
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
@@ -188,7 +188,7 @@ export default function NotificationSettings() {
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
-                      className="data-[state=checked]:bg-indigo-500 data-[state=checked]:border-indigo-400 [&>svg]:text-white"
+                      className="data-[state=checked]:bg-primary data-[state=checked]:border-primary [&>svg]:text-white"
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
@@ -205,7 +205,7 @@ export default function NotificationSettings() {
             <div className="flex justify-end">
               <Button
                 type="submit"
-                className="bg-indigo-500 hover:bg-indigo-600"
+                className="bg-primary hover:bg-indigo-600"
                 disabled={isNotificationSaving}
               >
                 {isNotificationSaving ? t("common.saving") : t("common.save")}

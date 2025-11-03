@@ -183,7 +183,7 @@ export default function TwoFactorSetup({
         return (
           <div className="text-center">
             <div className="mb-6 bg-blue-100 p-3 rounded-full inline-flex">
-              <Shield className="h-12 w-12 text-indigo-500" />
+              <Shield className="h-12 w-12 text-primary" />
             </div>
             <h2 className="text-2xl font-bold mb-4">
               {t("settings.secureAccount")}
@@ -195,7 +195,7 @@ export default function TwoFactorSetup({
               <Button
                 onClick={startSetup}
                 disabled={isLoading}
-                className="w-full bg-indigo-500 hover:bg-indigo-600"
+                className="w-full bg-primary hover:bg-indigo-600"
               >
                 {isLoading
                   ? t("common.statuses.loading")
@@ -286,7 +286,7 @@ export default function TwoFactorSetup({
             <div className="mt-8">
               <Button
                 onClick={() => setStep(SetupStep.VERIFY)}
-                className="bg-indigo-500 hover:bg-indigo-600"
+                className="bg-primary hover:bg-indigo-600"
               >
                 {t("common.next")}{" "}
                 <ArrowRight className="h-4 w-4 ml-1 inline" />
@@ -343,7 +343,7 @@ export default function TwoFactorSetup({
                 type="button"
                 onClick={verifyCode}
                 disabled={isLoading || verificationCode.length !== 6}
-                className="bg-indigo-500 hover:bg-indigo-600"
+                className="bg-primary hover:bg-indigo-600"
               >
                 {isLoading ? t("common.verifying") : t("common.verify")}
               </Button>
@@ -396,7 +396,7 @@ export default function TwoFactorSetup({
               <Button
                 type="button"
                 onClick={finishSetup}
-                className="bg-indigo-500 hover:bg-indigo-600"
+                className="bg-primary hover:bg-indigo-600"
               >
                 {t("common.complete")}
               </Button>
@@ -419,14 +419,14 @@ export default function TwoFactorSetup({
             {onComplete ? (
               <Button
                 onClick={onComplete}
-                className="bg-indigo-500 hover:bg-indigo-600"
+                className="bg-primary hover:bg-indigo-600"
               >
                 {t("common.continue")}
               </Button>
             ) : (
               <Link
                 href="/settings"
-                className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-indigo-500 text-white hover:bg-indigo-500 h-10 px-4 py-2"
+                className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-white hover:bg-primary h-10 px-4 py-2"
               >
                 {t("settings.backToSettings")}
               </Link>
@@ -455,9 +455,9 @@ export default function TwoFactorSetup({
                 key={s}
                 className={`w-8 h-8 rounded-full flex items-center justify-center ${
                   s === step
-                    ? "bg-indigo-500 text-white"
+                    ? "bg-primary text-white"
                     : s < step
-                      ? "bg-blue-100 text-indigo-500"
+                      ? "bg-blue-100 text-primary"
                       : "bg-gray-100 text-gray-400"
                 }`}
               >
@@ -471,13 +471,13 @@ export default function TwoFactorSetup({
           </div>
           <div className="flex mt-2">
             <div
-              className={`h-1 flex-1 ${step > SetupStep.INITIAL ? "bg-indigo-500" : "bg-gray-200"}`}
+              className={`h-1 flex-1 ${step > SetupStep.INITIAL ? "bg-primary" : "bg-gray-200"}`}
             ></div>
             <div
-              className={`h-1 flex-1 ${step > SetupStep.QR_CODE ? "bg-indigo-500" : "bg-gray-200"}`}
+              className={`h-1 flex-1 ${step > SetupStep.QR_CODE ? "bg-primary" : "bg-gray-200"}`}
             ></div>
             <div
-              className={`h-1 flex-1 ${step > SetupStep.VERIFY ? "bg-indigo-500" : "bg-gray-200"}`}
+              className={`h-1 flex-1 ${step > SetupStep.VERIFY ? "bg-primary" : "bg-gray-200"}`}
             ></div>
           </div>
         </div>

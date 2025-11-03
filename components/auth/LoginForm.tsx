@@ -244,7 +244,7 @@ export default function LoginForm() {
                         checked={field.value}
                         onCheckedChange={field.onChange}
                         disabled={isLoading}
-                        className="data-[state=checked]:bg-indigo-500 data-[state=checked]:text-white"
+                        className="data-[state=checked]:bg-primary data-[state=checked]:text-white"
                         aria-label={t("auth.rememberMe")}
                       />
                     </FormControl>
@@ -257,7 +257,7 @@ export default function LoginForm() {
 
               <Link
                 href="/forgot-password"
-                className="text-sm font-medium text-indigo-400 hover:text-indigo-500"
+                className="text-sm font-medium text-indigo-400 hover:text-primary"
                 aria-label={t("auth.forgotPassword")}
               >
                 {t("auth.forgotPassword")}
@@ -266,7 +266,7 @@ export default function LoginForm() {
 
             <Button
               type="submit"
-              className="w-full bg-indigo-500 hover:bg-indigo-600"
+              className="w-full bg-primary hover:bg-indigo-600"
               disabled={isLoading || !form.formState.isValid}
               aria-label={t("auth.loginForm.loginButton")}
             >

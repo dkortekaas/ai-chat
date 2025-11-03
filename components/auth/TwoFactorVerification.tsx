@@ -203,7 +203,7 @@ export default function TwoFactorVerification({
                     ? "Bijv: A1B2C3D4"
                     : t("auth.twoFactorVerification.recoveryPlaceholder")
                 }
-                className="w-full px-4 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-400 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white uppercase"
+                className="w-full px-4 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-400 focus:border-primary bg-white dark:bg-gray-700 text-gray-900 dark:text-white uppercase"
                 disabled={isLoading}
                 maxLength={showEmailRecovery ? 8 : undefined}
               />
@@ -220,7 +220,7 @@ export default function TwoFactorVerification({
                   inputMode="numeric"
                   pattern="[0-9]"
                   maxLength={1}
-                  className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold rounded-md border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold rounded-md border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-indigo-400 focus:border-primary bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   value={code[index] || ""}
                   onChange={(e) => handleInputChange(index, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(index, e)}
@@ -247,7 +247,7 @@ export default function TwoFactorVerification({
                   ? !code
                   : code.length !== 6)
               }
-              className="w-full bg-indigo-500 hover:bg-indigo-600"
+              className="w-full bg-primary hover:bg-indigo-600"
             >
               {isLoading ? t("actions.verifying") : t("actions.verify")}
             </Button>
@@ -257,7 +257,7 @@ export default function TwoFactorVerification({
                 <button
                   type="button"
                   onClick={toggleRecoveryMode}
-                  className="block w-full text-sm text-indigo-400 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-200"
+                  className="block w-full text-sm text-indigo-400 hover:text-primary dark:text-indigo-300 dark:hover:text-indigo-200"
                 >
                   {isUsingRecoveryCode
                     ? t("auth.twoFactorVerification.useAuthenticator")
@@ -289,7 +289,7 @@ export default function TwoFactorVerification({
                     setCode("");
                     setError("");
                   }}
-                  className="block w-full text-sm text-indigo-400 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-200"
+                  className="block w-full text-sm text-indigo-400 hover:text-primary dark:text-indigo-300 dark:hover:text-indigo-200"
                 >
                   {t("auth.twoFactorVerification.backToAuthenticator")}
                 </button>

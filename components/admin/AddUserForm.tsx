@@ -167,7 +167,7 @@ export function AddUserForm() {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="bg-indigo-500 hover:bg-indigo-600"
+            className="bg-primary hover:bg-indigo-600"
           >
             {isSubmitting
               ? t("common.statuses.processing")

@@ -152,7 +152,7 @@ export default function WebsiteContentPage() {
       case "PENDING":
         return <Clock className="w-4 h-4 text-yellow-600" />;
       case "SYNCING":
-        return <RefreshCw className="w-4 h-4 text-indigo-500 animate-spin" />;
+        return <RefreshCw className="w-4 h-4 text-primary animate-spin" />;
       case "ERROR":
         return <AlertCircle className="w-4 h-4 text-red-600" />;
     }
@@ -242,7 +242,7 @@ export default function WebsiteContentPage() {
                   href={website.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-indigo-600 hover:text-indigo-800"
+                  className="text-sm text-primary hover:text-indigo-800"
                 >
                   {website.url}
                 </a>
@@ -340,7 +340,7 @@ export default function WebsiteContentPage() {
                     href={link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-indigo-600 hover:text-indigo-800 truncate"
+                    className="text-sm text-primary hover:text-indigo-800 truncate"
                   >
                     {link}
                   </a>
@@ -396,7 +396,7 @@ export default function WebsiteContentPage() {
                             href={link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-xs text-indigo-600 hover:text-indigo-800 bg-indigo-50 px-2 py-1 rounded"
+                            className="text-xs text-primary hover:text-indigo-800 bg-indigo-50 px-2 py-1 rounded"
                           >
                             {new URL(link).hostname}
                           </a>

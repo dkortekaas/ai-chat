@@ -193,7 +193,7 @@ export function IntegrationsTab({ onChanges }: IntegrationsTabProps) {
                                 onCheckedChange={() =>
                                   handleToggleIntegration(integration.id)
                                 }
-                                className="data-[state=checked]:bg-indigo-500"
+                                className="data-[state=checked]:bg-primary"
                               />
                               <Button
                                 variant="outline"
@@ -211,7 +211,7 @@ export function IntegrationsTab({ onChanges }: IntegrationsTabProps) {
                               onClick={() =>
                                 handleConfigureIntegration(integration)
                               }
-                              className="bg-indigo-500 hover:bg-indigo-600"
+                              className="bg-primary hover:bg-indigo-600"
                             >
                               {t("settings.configure")}
                             </Button>
@@ -341,7 +341,7 @@ export function IntegrationsTab({ onChanges }: IntegrationsTabProps) {
               </Button>
               <Button
                 onClick={handleSaveConfiguration}
-                className="bg-indigo-500 hover:bg-indigo-600"
+                className="bg-primary hover:bg-indigo-600"
               >
                 {t("common.save")}
               </Button>

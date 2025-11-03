@@ -162,7 +162,7 @@ const Contact = () => {
 
                       <Button
                         type="submit"
-                        className="w-full bg-indigo-500 hover:bg-indigo-500-dark"
+                        className="w-full bg-primary hover:bg-primary-dark"
                       >
                         {t("send_message")}
                       </Button>
@@ -190,9 +190,9 @@ const Contact = () => {
                     <Card key={info.title}>
                       <CardContent className="pt-6">
                         <div className="flex items-start gap-4">
-                          <div className="w-12 h-12 rounded-lg bg-indigo-500/10 flex items-center justify-center flex-shrink-0">
+                          <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
                             <info.icon
-                              className="w-6 h-6 text-indigo-500"
+                              className="w-6 h-6 text-primary"
                               aria-hidden="true"
                             />
                           </div>
@@ -201,7 +201,7 @@ const Contact = () => {
                             {info.link ? (
                               <a
                                 href={info.link}
-                                className="text-muted-foreground hover:text-indigo-500 transition-colors"
+                                className="text-muted-foreground hover:text-primary transition-colors"
                               >
                                 {info.content}
                               </a>
@@ -217,7 +217,7 @@ const Contact = () => {
                   ))}
                 </div>
                 {/* 
-                <Card className="bg-indigo-500 text-indigo-500-foreground">
+                <Card className="bg-primary text-primary-foreground">
                   <CardContent className="pt-6">
                     <h3 className="text-xl font-bold mb-2">
                       {t("plan_demo_title")}
@@ -227,7 +227,7 @@ const Contact = () => {
                     </p>
                     <Button
                       variant="secondary"
-                      className="bg-white hover:bg-white/90 text-indigo-500"
+                      className="bg-white hover:bg-white/90 text-primary"
                     >
                       {t("plan_demo_button")}
                     </Button>

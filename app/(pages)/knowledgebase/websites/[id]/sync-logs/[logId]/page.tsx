@@ -46,9 +46,7 @@ export default function SyncLogDetailPage() {
           <Badge className="bg-green-100 text-green-800">✓ Completed</Badge>
         );
       case "RUNNING":
-        return (
-          <Badge className="bg-blue-100 text-blue-800">Running...</Badge>
-        );
+        return <Badge className="bg-blue-100 text-blue-800">Running...</Badge>;
       case "FAILED":
         return <Badge className="bg-red-100 text-red-800">Failed</Badge>;
     }
@@ -221,7 +219,7 @@ export default function SyncLogDetailPage() {
                             href={entry.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-sm text-indigo-600 hover:text-indigo-800 break-all"
+                            className="text-sm text-primary hover:text-indigo-800 break-all"
                           >
                             {entry.url}
                           </a>

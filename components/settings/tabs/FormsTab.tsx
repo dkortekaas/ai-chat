@@ -185,7 +185,7 @@ export function FormsTab({ onChanges }: FormsTabProps) {
         </div>
         <Button
           onClick={() => router.push("/settings/forms/new")}
-          className="bg-indigo-500 hover:bg-indigo-600"
+          className="bg-primary hover:bg-indigo-600"
         >
           <Plus className="w-4 h-4 mr-2" />
           {t("common.add")}
@@ -206,15 +206,15 @@ export function FormsTab({ onChanges }: FormsTabProps) {
                   <Switch
                     checked={form.enabled}
                     onCheckedChange={() => handleToggleForm(form.id)}
-                    className="data-[state=checked]:bg-indigo-500"
+                    className="data-[state=checked]:bg-primary"
                   />
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => handleViewSubmissions(form.id)}
                   >
-                  <FileText className="w-4 h-4 mr-2" />
-                  {t("settings.submissions")}
+                    <FileText className="w-4 h-4 mr-2" />
+                    {t("settings.submissions")}
                   </Button>
                   <Button
                     variant="outline"
@@ -271,16 +271,23 @@ export function FormsTab({ onChanges }: FormsTabProps) {
       />
 
       {/* Submissions Modal */}
-      <Dialog open={submissionsModalOpen} onOpenChange={setSubmissionsModalOpen}>
+      <Dialog
+        open={submissionsModalOpen}
+        onOpenChange={setSubmissionsModalOpen}
+      >
         <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{t("settings.formSubmissions")}</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             {loadingSubmissions ? (
-              <p className="text-center py-4 text-gray-500">{t("common.loading")}</p>
+              <p className="text-center py-4 text-gray-500">
+                {t("common.loading")}
+              </p>
             ) : submissions.length === 0 ? (
-              <p className="text-center py-4 text-gray-500">{t("settings.noSubmissionsFound")}</p>
+              <p className="text-center py-4 text-gray-500">
+                {t("settings.noSubmissionsFound")}
+              </p>
             ) : (
               <div className="space-y-4">
                 {submissions.map((submission) => (
@@ -292,14 +299,16 @@ export function FormsTab({ onChanges }: FormsTabProps) {
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-2">
-                        {Object.entries(submission.data as Record<string, string>).map(
-                          ([key, value]) => (
-                            <div key={key} className="flex gap-2">
-                              <span className="font-medium text-sm">{key}:</span>
-                              <span className="text-sm text-gray-700">{value}</span>
-                            </div>
-                          )
-                        )}
+                        {Object.entries(
+                          submission.data as Record<string, string>
+                        ).map(([key, value]) => (
+                          <div key={key} className="flex gap-2">
+                            <span className="font-medium text-sm">{key}:</span>
+                            <span className="text-sm text-gray-700">
+                              {value}
+                            </span>
+                          </div>
+                        ))}
                         {submission.ipAddress && (
                           <div className="text-xs text-gray-500 mt-2">
                             IP: {submission.ipAddress}

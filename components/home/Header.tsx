@@ -88,7 +88,7 @@ export default function Header() {
             className="flex items-center gap-2 group"
             aria-label="EmbedIQ Home"
           >
-            <div className="w-10 h-10 bg-indigo-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
               <MessageSquare
                 className="w-6 h-6 text-white"
                 aria-hidden="true"
@@ -128,7 +128,7 @@ export default function Header() {
             >
               <Link href="/login">{t("login")}</Link>
             </Button>
-            <Button className="bg-indigo-500 hover:bg-indigo-500-dark text-primary-foreground font-semibold">
+            <Button className="bg-primary hover:bg-primary-dark text-primary-foreground font-semibold">
               {t("tryFree")}
             </Button>
           </div>
@@ -179,7 +179,7 @@ export default function Header() {
                 >
                   <Link href="/login">{t("login")}</Link>
                 </Button>
-                <Button className="bg-indigo-500 hover:bg-indigo-500-dark text-primary-foreground font-semibold">
+                <Button className="bg-primary hover:bg-primary-dark text-primary-foreground font-semibold">
                   {t("tryFree")}
                 </Button>
               </div>

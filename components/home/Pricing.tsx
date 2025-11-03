@@ -31,12 +31,12 @@ export default function Pricing() {
               key={plan}
               className={`relative p-8 rounded-lg border ${
                 plan === "professional"
-                  ? "border-indigo-400 bg-indigo-50"
+                  ? "border-primary bg-indigo-50"
                   : "border-gray-200 bg-white"
               }`}
             >
               {plan === "professional" && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-indigo-500 text-white px-4 py-1 rounded-full text-sm font-medium">
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-primary text-white px-4 py-1 rounded-full text-sm font-medium">
                   {t("popular")}
                 </div>
               )}
@@ -80,7 +80,7 @@ export default function Pricing() {
                 href={`/${locale}${t(`plans.${plan}.href`)}`}
                 className={`w-full block text-center py-3 px-4 rounded-lg font-medium transition-colors ${
                   plan === "professional"
-                    ? "bg-indigo-500 hover:bg-indigo-600 text-white"
+                    ? "bg-primary hover:bg-indigo-600 text-white"
                     : "bg-gray-100 text-gray-900 hover:bg-gray-200"
                 }`}
               >

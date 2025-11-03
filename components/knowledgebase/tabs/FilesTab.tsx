@@ -286,7 +286,7 @@ export function BestandenTab() {
         </div>
         <div className="flex gap-2">
           <Button
-            className="bg-indigo-500 hover:bg-indigo-600"
+            className="bg-primary hover:bg-indigo-600"
             onClick={handleUploadFile}
           >
             <Upload className="w-4 h-4 mr-2" />
@@ -364,7 +364,7 @@ export function BestandenTab() {
                       <Switch
                         checked={file.enabled}
                         onCheckedChange={() => toggleEnabled(file)}
-                        className="data-[state=checked]:bg-indigo-500"
+                        className="data-[state=checked]:bg-primary"
                       />
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">

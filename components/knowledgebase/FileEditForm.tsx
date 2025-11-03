@@ -173,7 +173,7 @@ export function FileEditForm({
                 setFormData((prev) => ({ ...prev, enabled: checked }))
               }
               disabled={isLoading}
-              className="data-[state=checked]:bg-indigo-500"
+              className="data-[state=checked]:bg-primary"
             />
             <Label htmlFor="enabled">{t("knowledgebase.enabled")}</Label>
           </div>

@@ -284,7 +284,7 @@ export function UsersManagement({ users, isAdmin }: UsersManagementProps) {
         return (
           <div className="flex items-center">
             <div className="flex-shrink-0 h-10 w-10">
-              <div className="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-indigo-500 dark:text-blue-300 font-medium">
+              <div className="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-primary dark:text-blue-300 font-medium">
                 {user.name
                   ? user.name
                       .split(" ")
@@ -427,7 +427,7 @@ export function UsersManagement({ users, isAdmin }: UsersManagementProps) {
                         <Button
                           variant="ghost"
                           onClick={() => handleSaveRole(user.id)}
-                          className="flex-1 py-2 text-indigo-500 text-sm font-medium border-r border-gray-100 hover:bg-gray-50"
+                          className="flex-1 py-2 text-primary text-sm font-medium border-r border-gray-100 hover:bg-gray-50"
                         >
                           {t("actions.save")}
                         </Button>

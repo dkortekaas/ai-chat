@@ -115,7 +115,7 @@ export function AssistantSwitcher() {
               <span className="truncate">{assistant.name}</span>
             </div>
             {currentAssistant.id === assistant.id && (
-              <Check className="w-4 h-4 text-indigo-500" />
+              <Check className="w-4 h-4 text-primary" />
             )}
           </DropdownMenuItem>
         ))}

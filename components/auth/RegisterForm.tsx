@@ -42,7 +42,8 @@ export default function RegisterForm() {
   const [isLoading, setIsLoading] = useState(!!token);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [registrationStep, setRegistrationStep] = useState<RegistrationStep>("form");
+  const [registrationStep, setRegistrationStep] =
+    useState<RegistrationStep>("form");
   const [registeredEmail, setRegisteredEmail] = useState<string>("");
   const [registeredPassword, setRegisteredPassword] = useState<string>("");
   const t = useTranslations();
@@ -262,7 +263,11 @@ export default function RegisterForm() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <TwoFactorSetup onComplete={handle2FASetupComplete} onSkip={handleSkip2FA} showSkipOption={true} />
+            <TwoFactorSetup
+              onComplete={handle2FASetupComplete}
+              onSkip={handleSkip2FA}
+              showSkipOption={true}
+            />
           </CardContent>
         </Card>
       </div>
@@ -455,7 +460,7 @@ export default function RegisterForm() {
 
               <Button
                 type="submit"
-                className="w-full bg-indigo-500 hover:bg-indigo-600"
+                className="w-full bg-primary hover:bg-indigo-600"
                 disabled={isSubmitting || isLoading || !form.formState.isValid}
                 aria-label={t("auth.registerForm.registerButton")}
               >

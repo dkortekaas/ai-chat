@@ -213,7 +213,7 @@ export default function ProfileSettings() {
             <div className="flex justify-end">
               <Button
                 type="submit"
-                className="bg-indigo-500 hover:bg-indigo-600"
+                className="bg-primary hover:bg-indigo-600"
                 disabled={isProfileSaving}
               >
                 {isProfileSaving ? t("common.saving") : t("common.saveChanges")}

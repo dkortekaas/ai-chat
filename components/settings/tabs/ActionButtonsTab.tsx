@@ -283,7 +283,7 @@ export function ActionButtonsTab({ onChanges }: ActionButtonsTabProps) {
         </div>
         <Button
           onClick={handleAddButton}
-          className="bg-indigo-500 hover:bg-indigo-600"
+          className="bg-primary hover:bg-indigo-600"
         >
           <Plus className="w-4 h-4 mr-2" />
           {t("common.add")}
@@ -325,7 +325,7 @@ export function ActionButtonsTab({ onChanges }: ActionButtonsTabProps) {
                       <Switch
                         checked={button.enabled}
                         onCheckedChange={() => handleToggleEnabled(button.id)}
-                        className="data-[state=checked]:bg-indigo-500"
+                        className="data-[state=checked]:bg-primary"
                       />
                     </TableCell>
                     <TableCell>
@@ -417,7 +417,7 @@ export function ActionButtonsTab({ onChanges }: ActionButtonsTabProps) {
                 onCheckedChange={(checked) =>
                   setFormData({ ...formData, enabled: checked })
                 }
-                className="data-[state=checked]:bg-indigo-500"
+                className="data-[state=checked]:bg-primary"
                 disabled={isSaving}
               />
               <Label htmlFor="enabled">{t("common.enabled")}</Label>

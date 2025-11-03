@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
+import Stripe from "stripe";
+import { SubscriptionStatus } from "@prisma/client";
 import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { stripe, getPlanByPriceId } from "@/lib/stripe";
@@ -32,7 +34,7 @@ export async function POST() {
       );
     }
 
-    let activeSubscription;
+    let activeSubscription: Stripe.Subscription | null = null;
 
     // If we already have a subscription ID, fetch it directly
     if (user.stripeSubscriptionId) {
@@ -71,16 +73,19 @@ export async function POST() {
       }
     }
 
-    console.log(`Active subscription: ${activeSubscription.id}, status: ${activeSubscription.status}`);
+    // At this point, activeSubscription is guaranteed to be non-null
+    const subscription: Stripe.Subscription = activeSubscription;
+
+    console.log(`Active subscription: ${subscription.id}, status: ${subscription.status}`);
     console.log(`Subscription details:`, {
-      current_period_start: activeSubscription.current_period_start,
-      current_period_end: activeSubscription.current_period_end,
-      cancel_at_period_end: activeSubscription.cancel_at_period_end,
-      cancel_at: activeSubscription.cancel_at,
+      current_period_start: (subscription as any).current_period_start,
+      current_period_end: (subscription as any).current_period_end,
+      cancel_at_period_end: subscription.cancel_at_period_end,
+      cancel_at: (subscription as any).cancel_at,
     });
 
     // Get the price ID from the subscription
-    const priceId = activeSubscription.items.data[0]?.price.id;
+    const priceId = subscription.items.data[0]?.price.id;
     if (!priceId) {
       return NextResponse.json(
         { error: "No price ID found in subscription" },
@@ -103,8 +108,8 @@ export async function POST() {
     console.log(`Mapped to plan: ${plan}`);
 
     // Map Stripe subscription status to our status
-    let status = "ACTIVE";
-    switch (activeSubscription.status) {
+    let status: SubscriptionStatus = "ACTIVE";
+    switch (subscription.status) {
       case "active":
         status = "ACTIVE";
         break;
@@ -132,21 +137,21 @@ export async function POST() {
     }
 
     // Validate and prepare dates
-    const startDate = activeSubscription.current_period_start
-      ? new Date(activeSubscription.current_period_start * 1000)
+    const startDate = (subscription as any).current_period_start
+      ? new Date((subscription as any).current_period_start * 1000)
       : new Date();
 
-    const endDate = activeSubscription.current_period_end
-      ? new Date(activeSubscription.current_period_end * 1000)
+    const endDate = (subscription as any).current_period_end
+      ? new Date((subscription as any).current_period_end * 1000)
       : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // Default to 30 days from now
 
-    const cancelAt = activeSubscription.cancel_at
-      ? new Date(activeSubscription.cancel_at * 1000)
+    const cancelAt = (subscription as any).cancel_at
+      ? new Date((subscription as any).cancel_at * 1000)
       : null;
 
     // Validate dates
     if (isNaN(startDate.getTime())) {
-      console.error("Invalid start date:", activeSubscription.current_period_start);
+      console.error("Invalid start date:", (subscription as any).current_period_start);
       return NextResponse.json(
         { error: "Invalid subscription start date" },
         { status: 400 }
@@ -154,7 +159,7 @@ export async function POST() {
     }
 
     if (isNaN(endDate.getTime())) {
-      console.error("Invalid end date:", activeSubscription.current_period_end);
+      console.error("Invalid end date:", (subscription as any).current_period_end);
       return NextResponse.json(
         { error: "Invalid subscription end date" },
         { status: 400 }
@@ -171,12 +176,12 @@ export async function POST() {
     const updatedUser = await db.user.update({
       where: { id: user.id },
       data: {
-        stripeSubscriptionId: activeSubscription.id,
+        stripeSubscriptionId: subscription.id,
         subscriptionPlan: plan,
         subscriptionStatus: status,
         subscriptionStartDate: startDate,
         subscriptionEndDate: endDate,
-        subscriptionCanceled: activeSubscription.cancel_at_period_end || false,
+        subscriptionCanceled: subscription.cancel_at_period_end || false,
         subscriptionCancelAt: cancelAt,
       },
     });
@@ -186,7 +191,7 @@ export async function POST() {
     return NextResponse.json({
       success: true,
       subscription: {
-        id: activeSubscription.id,
+        id: subscription.id,
         plan: plan,
         status: status,
         currentPeriodStart: startDate,

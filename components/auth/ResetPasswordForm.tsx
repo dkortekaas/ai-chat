@@ -72,7 +72,7 @@ export function ResetPasswordForm({ token }: { token?: string }) {
           </Alert>
           <div className="mt-6 text-center">
             <Link href="/forgot-password">
-              <Button className="w-full bg-indigo-500 hover:bg-indigo-600">
+              <Button className="w-full bg-primary hover:bg-indigo-600">
                 {t("auth.resetpassword.forgotPassword")}
               </Button>
             </Link>
@@ -178,7 +178,7 @@ export function ResetPasswordForm({ token }: { token?: string }) {
 
             <Button
               type="submit"
-              className="w-full bg-indigo-500 hover:bg-indigo-600"
+              className="w-full bg-primary hover:bg-indigo-600"
               disabled={isLoading}
             >
               {isLoading

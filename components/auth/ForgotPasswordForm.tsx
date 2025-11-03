@@ -121,7 +121,7 @@ export default function ForgotPasswordForm() {
 
               <Button
                 type="submit"
-                className="w-full bg-indigo-500 hover:bg-indigo-600"
+                className="w-full bg-primary hover:bg-indigo-600"
                 disabled={isLoading || !form.formState.isValid}
               >
                 {isLoading ? (

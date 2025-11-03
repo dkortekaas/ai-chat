@@ -19,7 +19,7 @@ export function SaveButton({
 
   return (
     <Button
-      className={`bg-indigo-500 hover:bg-indigo-600 ${className || ""}`}
+      className={`bg-primary hover:bg-indigo-600 ${className || ""}`}
       disabled={isDisabled}
       {...props}
     >

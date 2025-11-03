@@ -155,8 +155,7 @@ export default function BillingPage() {
         const error = await response.json();
         toast({
           title: "Error",
-          description:
-            error.error || t("billing.failedToCreateSubscription"),
+          description: error.error || t("billing.failedToCreateSubscription"),
           variant: "destructive",
         });
       }
@@ -195,7 +194,10 @@ export default function BillingPage() {
           error: errorData,
         });
 
-        if (response.status === 404 && errorData.error === "No subscription found") {
+        if (
+          response.status === 404 &&
+          errorData.error === "No subscription found"
+        ) {
           toast({
             title: t("billing.noSubscription"),
             description: t("billing.noSubscriptionDescription"),
@@ -341,9 +343,11 @@ export default function BillingPage() {
           disabled={syncing}
           variant="outline"
           size="sm"
-          className="border-indigo-500 text-indigo-500 hover:bg-indigo-50"
+          className="border-primary text-primary hover:bg-indigo-50"
         >
-          <RefreshCw className={`w-4 h-4 mr-2 ${syncing ? "animate-spin" : ""}`} />
+          <RefreshCw
+            className={`w-4 h-4 mr-2 ${syncing ? "animate-spin" : ""}`}
+          />
           {syncing ? t("billing.syncing") : t("billing.syncSubscription")}
         </Button>
       </div>
@@ -357,7 +361,7 @@ export default function BillingPage() {
             {isExpired ? (
               <AlertCircle className="w-5 h-5 text-red-500" />
             ) : (
-              <CheckCircle className="w-5 h-5 text-indigo-500" />
+              <CheckCircle className="w-5 h-5 text-primary" />
             )}
             <div>
               <h3
@@ -459,7 +463,7 @@ export default function BillingPage() {
                   onClick={handleManageSubscription}
                   disabled={managing}
                   variant="outline"
-                  className="border-indigo-500 text-indigo-500 hover:bg-indigo-50"
+                  className="border-primary text-primary hover:bg-indigo-50"
                 >
                   {managing
                     ? t("common.statuses.loading")
@@ -484,7 +488,7 @@ export default function BillingPage() {
                 <div key={key} className="border rounded-lg p-4">
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="font-semibold text-gray-900">{plan.name}</h4>
-                    <span className="text-lg font-bold text-indigo-600">
+                    <span className="text-lg font-bold text-primary">
                       €{plan.price}/{t("common.month")}
                     </span>
                   </div>
@@ -502,7 +506,7 @@ export default function BillingPage() {
                       upgrading ||
                       (!isExpired && !isTrial && user.subscriptionPlan === key)
                     }
-                    className="w-full bg-indigo-500 hover:bg-indigo-600 text-white"
+                    className="w-full bg-primary hover:bg-indigo-600 text-white"
                     size="sm"
                   >
                     {upgrading
@@ -554,8 +558,8 @@ export default function BillingPage() {
                         </Badge>
                       </div>
                       <div className="text-xs text-gray-600 mt-1">
-                        {new Date(invoice.created).toLocaleDateString("nl-NL")} •{" "}
-                        €{(invoice.amount / 100).toFixed(2)}
+                        {new Date(invoice.created).toLocaleDateString("nl-NL")}{" "}
+                        • €{(invoice.amount / 100).toFixed(2)}
                       </div>
                     </div>
                     <div className="flex gap-2">
@@ -609,7 +613,7 @@ export default function BillingPage() {
                     onClick={handleManageSubscription}
                     disabled={managing}
                     variant="outline"
-                    className="border-indigo-500 text-indigo-500 hover:bg-indigo-50"
+                    className="border-primary text-primary hover:bg-indigo-50"
                   >
                     {managing
                       ? t("common.statuses.loading")
@@ -675,29 +679,29 @@ export default function BillingPage() {
 
             {/* Alert if billing details are incomplete */}
             {!editingBilling &&
-             (!billingData.company?.billingName ||
-              !billingData.company?.billingEmail ||
-              !billingData.company?.billingAddress?.street) && (
-              <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 flex items-start space-x-3">
-                <AlertCircle className="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" />
-                <div className="flex-1">
-                  <p className="text-sm text-amber-800 font-medium">
-                    {t("billing.incompleteDetails")}
-                  </p>
-                  <p className="text-xs text-amber-700 mt-1">
-                    {t("billing.incompleteDetailsDescription")}
-                  </p>
+              (!billingData.company?.billingName ||
+                !billingData.company?.billingEmail ||
+                !billingData.company?.billingAddress?.street) && (
+                <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 flex items-start space-x-3">
+                  <AlertCircle className="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" />
+                  <div className="flex-1">
+                    <p className="text-sm text-amber-800 font-medium">
+                      {t("billing.incompleteDetails")}
+                    </p>
+                    <p className="text-xs text-amber-700 mt-1">
+                      {t("billing.incompleteDetailsDescription")}
+                    </p>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setEditingBilling(true)}
+                    className="text-amber-700 hover:text-amber-800 hover:bg-amber-100"
+                  >
+                    {t("billing.completeNow")}
+                  </Button>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setEditingBilling(true)}
-                  className="text-amber-700 hover:text-amber-800 hover:bg-amber-100"
-                >
-                  {t("billing.completeNow")}
-                </Button>
-              </div>
-            )}
+              )}
 
             {editingBilling ? (
               <div className="space-y-4">

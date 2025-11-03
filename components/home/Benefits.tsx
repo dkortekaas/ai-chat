@@ -16,10 +16,7 @@ export default function Benefits() {
   ];
 
   return (
-    <section
-      className="py-24 bg-indigo-500/20"
-      aria-labelledby="benefits-heading"
-    >
+    <section className="py-24 bg-primary/20" aria-labelledby="benefits-heading">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left column - Benefits list */}
@@ -54,7 +51,7 @@ export default function Benefits() {
 
             <Button
               size="lg"
-              className="bg-indigo-500 hover:bg-indigo-500-dark text-primary-foreground font-semibold shadow-glow"
+              className="bg-primary hover:bg-primary-dark text-primary-foreground font-semibold shadow-glow"
             >
               Start Gratis Proefperiode
             </Button>

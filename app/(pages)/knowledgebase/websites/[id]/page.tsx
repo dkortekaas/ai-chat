@@ -251,7 +251,7 @@ export default function WebsiteDetailPage() {
                 className={cn(
                   "whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm",
                   activeTab === tab.id
-                    ? "border-indigo-400 text-indigo-500"
+                    ? "border-primary text-primary"
                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                 )}
               >
@@ -328,10 +328,7 @@ export default function WebsiteDetailPage() {
                   <h3 className="text-lg font-semibold">
                     {t("knowledgebase.syncStatus")}
                   </h3>
-                  <Button
-                    size="sm"
-                    className="bg-indigo-500 hover:bg-indigo-600"
-                  >
+                  <Button size="sm" className="bg-primary hover:bg-indigo-600">
                     <Play className="w-4 h-4 mr-2" />
                     {t("knowledgebase.runNow")}
                   </Button>
@@ -537,7 +534,7 @@ export default function WebsiteDetailPage() {
                                 {log.skippedCount}
                               </span>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-indigo-600 hover:text-indigo-800">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-primary hover:text-indigo-800">
                               View Details →
                             </td>
                           </tr>

@@ -114,7 +114,7 @@ export default function UserMenu() {
           variant="ghost"
           className="flex items-center gap-2 px-3 py-2 h-auto"
         >
-          <Avatar className="w-8 h-8 bg-indigo-500 text-white flex items-center justify-center text-sm font-medium">
+          <Avatar className="w-8 h-8 bg-primary text-white flex items-center justify-center text-sm font-medium">
             {session.user.image ? (
               <Image
                 src={session.user.image}

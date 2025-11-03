@@ -265,7 +265,7 @@ export function FaqsTab() {
         </div>
         <div className="flex gap-2">
           <Button
-            className="bg-indigo-500 hover:bg-indigo-600"
+            className="bg-primary hover:bg-indigo-600"
             onClick={handleAddFAQ}
           >
             <Plus className="w-4 h-4 mr-2" />
@@ -327,7 +327,7 @@ export function FaqsTab() {
                       <Switch
                         checked={faq.enabled}
                         onCheckedChange={() => toggleEnabled(faq)}
-                        className="data-[state=checked]:bg-indigo-500"
+                        className="data-[state=checked]:bg-primary"
                       />
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">

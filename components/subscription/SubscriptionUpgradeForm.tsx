@@ -108,7 +108,7 @@ export function SubscriptionUpgradeForm({
                   ))}
                 </ul>
                 <Button
-                  className="w-full bg-indigo-500 hover:bg-indigo-600 text-white"
+                  className="w-full bg-primary hover:bg-indigo-600 text-white"
                   variant={isCurrentPlan ? "secondary" : "default"}
                   disabled={isCurrentPlan || !!isLoading}
                   onClick={() => handleUpgrade(plan.id)}

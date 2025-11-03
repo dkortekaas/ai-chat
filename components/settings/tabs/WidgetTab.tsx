@@ -211,7 +211,7 @@ export function WidgetTab({ onChanges }: WidgetTabProps) {
           <div className="flex space-x-2">
             <Button
               onClick={handleCopyCode}
-              className="bg-indigo-500 hover:bg-indigo-600"
+              className="bg-primary hover:bg-indigo-600"
             >
               {copied ? (
                 <>
@@ -392,7 +392,7 @@ export function WidgetTab({ onChanges }: WidgetTabProps) {
                 <Switch
                   checked={isEnabled}
                   onCheckedChange={handleToggleEnabled}
-                  className="data-[state=checked]:bg-indigo-500"
+                  className="data-[state=checked]:bg-primary"
                 />
                 <div>
                   <p className="font-medium text-gray-900">

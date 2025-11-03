@@ -284,7 +284,7 @@ export const LookAndFeelTab = forwardRef<
                     }}
                     className={`w-12 h-12 rounded-lg border-2 flex items-center justify-center text-2xl transition-colors ${
                       selectedAvatar === avatar.id
-                        ? "border-indigo-500 bg-purple-50"
+                        ? "border-primary bg-purple-50"
                         : "border-gray-200 hover:border-gray-300"
                     }`}
                   >

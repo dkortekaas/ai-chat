@@ -67,7 +67,7 @@ export function TwoFactorTab() {
             setTwoFactorEnabled(sessionData.user.twoFactorEnabled);
           }
         }
-        
+
         // Also fetch from user profile API for accuracy
         const profileResponse = await fetch("/api/users/profile");
         if (profileResponse.ok) {
@@ -192,9 +192,7 @@ export function TwoFactorTab() {
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>
-                      {t("account.confirmDisable2FA")}
-                    </DialogTitle>
+                    <DialogTitle>{t("account.confirmDisable2FA")}</DialogTitle>
                     <DialogDescription>
                       {t("account.confirmDisable2FADescription")}
                     </DialogDescription>
@@ -274,7 +272,7 @@ export function TwoFactorTab() {
               {!showSetup ? (
                 <Button
                   onClick={() => setShowSetup(true)}
-                  className="bg-indigo-500 hover:bg-indigo-600"
+                  className="bg-primary hover:bg-indigo-600"
                 >
                   <Shield className="h-4 w-4 mr-2" />
                   {t("account.enable2FA")}

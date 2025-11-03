@@ -48,7 +48,7 @@ export function TeamTab() {
         </h2>
         <Button
           onClick={handleInvite}
-          className="bg-indigo-500 hover:bg-indigo-600 text-white"
+          className="bg-primary hover:bg-indigo-600 text-white"
         >
           <Plus className="w-4 h-4 mr-2" />
           {t("account.team.invite")}
@@ -63,7 +63,7 @@ export function TeamTab() {
             className={cn(
               "py-2 px-1 border-b-2 font-medium text-sm",
               activeTab === "members"
-                ? "border-indigo-500 text-indigo-600"
+                ? "border-primary text-primary"
                 : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             )}
           >
@@ -75,7 +75,7 @@ export function TeamTab() {
             className={cn(
               "py-2 px-1 border-b-2 font-medium text-sm",
               activeTab === "invitations"
-                ? "border-indigo-500 text-indigo-600"
+                ? "border-primary text-primary"
                 : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             )}
           >

@@ -258,7 +258,7 @@ export function WebsitesTab() {
         </div>
         <div className="flex gap-2">
           <Button
-            className="bg-indigo-500 hover:bg-indigo-600"
+            className="bg-primary hover:bg-indigo-600"
             onClick={handleAddWebsite}
           >
             <Plus className="w-4 h-4 mr-2" />
@@ -323,7 +323,7 @@ export function WebsitesTab() {
                         <div>
                           <button
                             onClick={() => handleEditWebsite(website)}
-                            className="text-indigo-500 hover:text-blue-800 font-medium text-left"
+                            className="text-primary hover:text-blue-800 font-medium text-left"
                           >
                             {website.url}
                           </button>

@@ -131,9 +131,9 @@ export default function TwoFactorVerify() {
         <div>
           <div className="mx-auto h-12 w-12 rounded-full bg-indigo-100 flex items-center justify-center">
             {isUsingRecoveryCode ? (
-              <Key className="h-6 w-6 text-indigo-600" />
+              <Key className="h-6 w-6 text-primary" />
             ) : (
-              <Smartphone className="h-6 w-6 text-indigo-600" />
+              <Smartphone className="h-6 w-6 text-primary" />
             )}
           </div>
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
@@ -196,7 +196,7 @@ export default function TwoFactorVerify() {
                 id="trust-device"
                 name="trust-device"
                 type="checkbox"
-                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-indigo-600"
                 checked={trustDevice}
                 onChange={(e) => setTrustDevice(e.target.checked)}
               />
@@ -213,7 +213,7 @@ export default function TwoFactorVerify() {
             <button
               type="button"
               onClick={toggleRecoveryMode}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
             >
               {isUsingRecoveryCode ? (
                 <>
@@ -243,7 +243,7 @@ export default function TwoFactorVerify() {
             <button
               type="submit"
               disabled={isLoading}
-              className="group relative flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50"
+              className="group relative flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50"
             >
               {isLoading
                 ? t("auth.twoFactor.verifying")
@@ -255,7 +255,7 @@ export default function TwoFactorVerify() {
         <div className="text-center mt-4">
           <Link
             href="/login"
-            className="font-medium text-indigo-600 hover:text-indigo-500 text-sm"
+            className="font-medium text-primary hover:text-primary text-sm"
           >
             {t("auth.twoFactor.loginWithAnotherAccount")}
           </Link>

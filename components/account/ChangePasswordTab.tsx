@@ -172,7 +172,7 @@ export function ChangePasswordTab() {
               <SaveButton
                 type="submit"
                 disabled={isSaving}
-                className="bg-indigo-500 border border-gray-300 text-white hover:bg-indigo-600"
+                className="bg-primary border border-gray-300 text-white hover:bg-indigo-600"
               >
                 {isSaving ? t("common.saving") : t("account.changePassword")}
               </SaveButton>

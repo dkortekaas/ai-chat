@@ -21,7 +21,7 @@ export default function Hero() {
 
   return (
     <section
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-indigo-500"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-primary"
       aria-labelledby="hero-heading"
     >
       {/* Animated background elements */}
@@ -29,7 +29,7 @@ export default function Hero() {
         className="absolute inset-0 overflow-hidden pointer-events-none"
         aria-hidden="true"
       >
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500-light/20 rounded-full blur-3xl animate-float" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-light/20 rounded-full blur-3xl animate-float" />
         <div
           className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-float"
           style={{ animationDelay: "1s" }}
@@ -116,7 +116,7 @@ export default function Hero() {
             <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-md mx-auto">
               {/* Chat header */}
               <div className="flex items-center gap-3 pb-4 border-b">
-                <div className="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
                   <MessageSquare
                     className="w-5 h-5 text-white"
                     aria-hidden="true"
@@ -144,7 +144,7 @@ export default function Hero() {
               >
                 <div className="flex gap-3">
                   <div
-                    className="w-8 h-8 rounded-full bg-indigo-500 flex-shrink-0"
+                    className="w-8 h-8 rounded-full bg-primary flex-shrink-0"
                     aria-hidden="true"
                   />
                   <div className="bg-muted rounded-2xl rounded-tl-none px-4 py-3 max-w-[80%]">
@@ -158,7 +158,7 @@ export default function Hero() {
                 </div>
 
                 <div className="flex gap-3 justify-end">
-                  <div className="bg-indigo-500 rounded-2xl rounded-tr-none px-4 py-3 max-w-[80%]">
+                  <div className="bg-primary rounded-2xl rounded-tr-none px-4 py-3 max-w-[80%]">
                     <p className="text-sm text-primary-foreground">
                       Wat zijn uw openingstijden?
                     </p>
@@ -170,7 +170,7 @@ export default function Hero() {
 
                 <div className="flex gap-3">
                   <div
-                    className="w-8 h-8 rounded-full bg-indigo-500 flex-shrink-0"
+                    className="w-8 h-8 rounded-full bg-primary flex-shrink-0"
                     aria-hidden="true"
                   />
                   <div className="bg-muted rounded-2xl rounded-tl-none px-4 py-3 max-w-[80%]">

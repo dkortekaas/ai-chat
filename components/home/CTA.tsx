@@ -9,7 +9,7 @@ export default function CTA() {
 
   return (
     <section
-      className="py-24 bg-indigo-500 relative overflow-hidden"
+      className="py-24 bg-primary relative overflow-hidden"
       aria-labelledby="cta-heading"
     >
       {/* Background decoration */}

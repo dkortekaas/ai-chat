@@ -179,7 +179,7 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
                 setFormData((prev) => ({ ...prev, enabled: checked }))
               }
               disabled={isLoading}
-              className="data-[state=checked]:bg-indigo-500"
+              className="data-[state=checked]:bg-primary"
             />
             <Label htmlFor="enabled">{t("knowledgebase.enabled")}</Label>
           </div>
@@ -196,7 +196,7 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
             <Button
               type="submit"
               disabled={isLoading}
-              className="bg-indigo-500 text-white hover:bg-indigo-600"
+              className="bg-primary text-white hover:bg-indigo-600"
             >
               {isLoading
                 ? t("common.saving")

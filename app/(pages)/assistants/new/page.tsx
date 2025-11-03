@@ -161,10 +161,14 @@ export default function NewAssistantPage() {
         const errorData = await response.json();
 
         // Check for subscription limit error
-        if (response.status === 403 && errorData.error === "Assistant limit reached") {
+        if (
+          response.status === 403 &&
+          errorData.error === "Assistant limit reached"
+        ) {
           toast({
             title: t("error.assistantLimitReached"),
-            description: errorData.message || t("error.assistantLimitReachedDescription"),
+            description:
+              errorData.message || t("error.assistantLimitReachedDescription"),
             variant: "destructive",
           });
           return;
@@ -182,7 +186,10 @@ export default function NewAssistantPage() {
       router.push(`/assistants/${created.id}/edit`);
     } catch (error) {
       // Only show generic error if it's not a subscription limit error
-      if (error instanceof Error && error.message !== "Failed to create assistant") {
+      if (
+        error instanceof Error &&
+        error.message !== "Failed to create assistant"
+      ) {
         toast({
           title: t("common.error"),
           description: t("error.failedToCreateAssistant"),
@@ -213,7 +220,7 @@ export default function NewAssistantPage() {
           <Button
             onClick={handleSave}
             disabled={isSaving}
-            className="bg-indigo-500 hover:bg-indigo-600"
+            className="bg-primary hover:bg-indigo-600"
           >
             <Save className="w-4 h-4 mr-2" />
             {isSaving ? t("common.saving") : t("assistants.createAssistant")}
@@ -419,7 +426,7 @@ export default function NewAssistantPage() {
                       }
                       className={`w-12 h-12 rounded-lg border-2 flex items-center justify-center text-2xl transition-colors ${
                         formData.selectedAvatar === avatar.id
-                          ? "border-indigo-500 bg-purple-50"
+                          ? "border-primary bg-purple-50"
                           : "border-gray-200 hover:border-gray-300"
                       }`}
                     >

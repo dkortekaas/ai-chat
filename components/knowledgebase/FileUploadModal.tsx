@@ -179,7 +179,7 @@ export function FileUploadModal({
             <div
               className={`relative border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
                 dragActive
-                  ? "border-indigo-400 bg-purple-50"
+                  ? "border-primary bg-purple-50"
                   : "border-gray-300 hover:border-gray-400"
               }`}
               onDragEnter={handleDrag}
@@ -198,7 +198,7 @@ export function FileUploadModal({
 
               {selectedFile ? (
                 <div className="flex items-center justify-center gap-3">
-                  <FileText className="w-8 h-8 text-indigo-500" />
+                  <FileText className="w-8 h-8 text-primary" />
                   <div className="text-left">
                     <p className="text-sm font-medium text-gray-900">
                       {selectedFile.name}
@@ -222,7 +222,7 @@ export function FileUploadModal({
                   <Upload className="w-8 h-8 text-gray-400" />
                   <div>
                     <p className="text-sm text-gray-600">
-                      <span className="font-medium text-indigo-500">
+                      <span className="font-medium text-primary">
                         {t("knowledgebase.clickToUpload")}
                       </span>{" "}
                       {t("knowledgebase.orDragAndDrop")}

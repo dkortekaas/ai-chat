@@ -74,7 +74,7 @@ export default function Features() {
             id="features-heading"
             className="text-4xl sm:text-5xl font-bold text-foreground mb-4"
           >
-            Waarom kiezen voor <span className="text-indigo-500">AI Flow</span>?
+            Waarom kiezen voor <span className="text-primary">AI Flow</span>?
           </h2>
           <p className="text-xl text-muted-foreground">
             Alles wat u nodig heeft voor uitmuntende klantenservice en meer
@@ -90,7 +90,7 @@ export default function Features() {
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <div
-                className="w-14 h-14 bg-indigo-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"
+                className="w-14 h-14 bg-primary rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"
                 aria-hidden="true"
               >
                 <feature.icon className="w-7 h-7 text-white" />

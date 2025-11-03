@@ -162,7 +162,8 @@ export function SubscriptionTab() {
   const isExpired = isTrial ? !user.isTrialActive : false;
 
   // Consider trial as active if not expired
-  const isEffectivelyActive = (isTrial && !isExpired) || (isActive && !isExpired);
+  const isEffectivelyActive =
+    (isTrial && !isExpired) || (isActive && !isExpired);
 
   return (
     <div className="space-y-6">
@@ -175,7 +176,7 @@ export function SubscriptionTab() {
             {isExpired ? (
               <AlertCircle className="w-5 h-5 text-red-500" />
             ) : (
-              <CheckCircle className="w-5 h-5 text-indigo-500" />
+              <CheckCircle className="w-5 h-5 text-primary" />
             )}
             <div>
               <h3
@@ -407,7 +408,7 @@ export function SubscriptionTab() {
                   onClick={handleManageSubscription}
                   disabled={managing}
                   variant="outline"
-                  className="border-indigo-500 text-indigo-500 hover:bg-indigo-50"
+                  className="border-primary text-primary hover:bg-indigo-50"
                 >
                   {managing
                     ? t("common.statuses.loading")
@@ -432,7 +433,7 @@ export function SubscriptionTab() {
                 <div key={key} className="border rounded-lg p-4">
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="font-semibold text-gray-900">{plan.name}</h4>
-                    <span className="text-lg font-bold text-indigo-600">
+                    <span className="text-lg font-bold text-primary">
                       €{plan.price}/{t("common.month")}
                     </span>
                   </div>
@@ -450,12 +451,12 @@ export function SubscriptionTab() {
                       upgrading ||
                       (!isExpired && !isTrial && user.subscriptionPlan === key)
                     }
-                    className="w-full bg-indigo-500 hover:bg-indigo-600 text-white"
+                    className="w-full bg-primary hover:bg-indigo-600 text-white"
                     size="sm"
                   >
                     {upgrading
                       ? t("common.statuses.loading")
-                      : (!isExpired && !isTrial && user.subscriptionPlan === key)
+                      : !isExpired && !isTrial && user.subscriptionPlan === key
                         ? t("account.subscriptions.currentPlan")
                         : isExpired
                           ? "Upgrade"
