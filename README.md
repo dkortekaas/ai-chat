@@ -156,8 +156,22 @@ A modern, fully functional EmbedIQ platform built with Next.js 15, TypeScript, a
   - **Business**: €149/month - 10 chatbots, 2000 conversations/month
   - **Enterprise**: €499/month - Unlimited chatbots and conversations
 - **Stripe Integration**: Secure payment processing and subscription management
+  - **Checkout Sessions**: Seamless upgrade flow with Stripe Checkout
+  - **Webhook Integration**: Automatic subscription status updates
+  - **Customer Portal**: Self-service billing management
+- **Dedicated Billing Page**: Complete billing management interface with 4 cards:
+  - **Current Plan Card**: Active subscription with plan details and status
+  - **Available Plans Card**: Upgrade options with feature comparison
+  - **Invoices Card**: View and download past invoices with status tracking
+  - **Payment Method Card**: Manage credit cards via Stripe Customer Portal
+  - **Billing Details Card**: Company information for accurate invoicing
+    - Company name and billing email
+    - VAT number for European businesses
+    - Full billing address (street, city, postal code, country)
+    - Auto-populate from company and user data
+    - Editable with save functionality
+- **Subscription Sync**: Manual sync button to refresh subscription status from Stripe
 - **Automatic Billing**: Recurring monthly payments
-- **Subscription Management**: Users can manage their subscriptions via Stripe portal
 - **Trial Tracking**: Real-time trial status and days remaining
 - **Usage Limits**: Automatic enforcement of plan limits
   - **Assistant Creation Limits**: Prevents creating more assistants than plan allows
@@ -167,6 +181,10 @@ A modern, fully functional EmbedIQ platform built with Next.js 15, TypeScript, a
   - **Website Limits**: Per-assistant website scraping limits
 - **Upgrade Prompts**: Seamless upgrade flow when limits are reached
 - **Detailed Error Messages**: Clear messaging with current usage and limit information
+- **Payment Status Tracking**:
+  - Real-time subscription status (ACTIVE, PAST_DUE, CANCELED, etc.)
+  - Grace period handling for failed payments
+  - Automatic reactivation after successful payment retry
 
 ### ⚙️ Settings & Configuration
 
@@ -177,7 +195,7 @@ A modern, fully functional EmbedIQ platform built with Next.js 15, TypeScript, a
 - **Widget Settings**: Embed code and widget customization
 - **User Account**: Profile management and password changes
 - **Team Management**: User roles and permissions
-- **Subscription Management**: Billing, plan upgrades, and usage tracking
+- **Billing (Dedicated Page)**: Complete billing management with invoices, payment methods, and billing details
 
 ### 🔍 RAG (Retrieval-Augmented Generation) System
 
@@ -591,13 +609,17 @@ After running the seed script, you can login with these test accounts:
 - `PUT /api/admin/users/[id]` - Update user (superusers only)
 - `DELETE /api/admin/users/[id]` - Delete user (superusers only)
 
-### Subscription Management
+### Subscription & Billing Management
 
 - `GET /api/subscriptions` - Get user subscription status
-- `POST /api/subscriptions` - Create new subscription
-- `GET /api/subscriptions/manage` - Open Stripe billing portal
+- `POST /api/subscriptions` - Create new subscription (Stripe Checkout)
+- `GET /api/subscriptions/manage` - Open Stripe Customer Portal
+- `DELETE /api/subscriptions/manage` - Cancel subscription at period end
+- `GET /api/billing` - Get complete billing data (subscription, invoices, payment methods, billing details)
+- `PUT /api/billing` - Update billing details (company info, VAT, address) - Admin only
+- `POST /api/billing/sync` - Manually sync subscription from Stripe
+- `POST /api/stripe/webhook` - Stripe webhook handler (subscription events)
 - `GET /api/admin/subscriptions` - Get all subscriptions (superusers only)
-- `POST /api/stripe/webhook` - Stripe webhook handler
 
 ### Knowledge Base
 
@@ -748,18 +770,42 @@ After running the seed script, you can login with these test accounts:
 
 ### 4. Webhook Configuratie
 
+**⚠️ Belangrijk**: Webhooks zijn vereist voor automatische subscription updates!
+
 1. **Ga naar Developers** → **Webhooks**
 2. **Klik op "Add endpoint"**
 3. **Endpoint URL**: `https://jouw-domein.com/api/stripe/webhook`
-4. **Events to send**:
-   - `customer.subscription.created`
-   - `customer.subscription.updated`
-   - `customer.subscription.deleted`
-   - `invoice.payment_succeeded`
-   - `invoice.payment_failed`
+   - Voor lokaal testen: gebruik Stripe CLI met `stripe listen --forward-to localhost:3000/api/stripe/webhook`
+4. **Events to send** (selecteer deze 6 events):
+   - `customer.subscription.created` - Nieuwe subscription aangemaakt
+   - `customer.subscription.updated` - Subscription gewijzigd (upgrade/downgrade)
+   - `customer.subscription.deleted` - Subscription geannuleerd
+   - `invoice.payment_succeeded` - Betaling geslaagd
+   - `invoice.payment_failed` - Betaling mislukt
+   - `checkout.session.completed` - Checkout voltooid
 5. **Kopieer de Webhook Secret** (begint met `whsec_`)
+6. **Test de webhook** via Stripe Dashboard → Webhooks → Send test webhook
 
-### 5. OpenAI API Key Configureren
+### 5. Customer Portal Configuratie
+
+**⚠️ Vereist**: Configureer dit voordat gebruikers hun betaalmethode kunnen wijzigen!
+
+1. **Ga naar Settings** → **Billing** → **Customer Portal**
+   - Test mode: https://dashboard.stripe.com/test/settings/billing/portal
+   - Live mode: https://dashboard.stripe.com/settings/billing/portal
+2. **Klik op "Activate test link"** of "Turn on"
+3. **Features**: Selecteer wat klanten kunnen doen:
+   - ☑ Update payment method (Vereist)
+   - ☑ View invoices (Aanbevolen)
+   - ☐ Cancel subscription (Optioneel - alleen als je zelf-service annulering wilt)
+   - ☐ Update subscription (Optioneel - voor plan changes door klant)
+4. **Business information**:
+   - Business name: [Je bedrijfsnaam]
+   - Support email: [Je support email]
+5. **Save configuration**
+6. **Herhaal voor Live mode** wanneer je naar productie gaat
+
+### 6. OpenAI API Key Configureren
 
 Voor de RAG functionaliteit en website scraping heb je een OpenAI API key nodig:
 
@@ -776,7 +822,7 @@ Voor de RAG functionaliteit en website scraping heb je een OpenAI API key nodig:
 - Zonder API key werkt website scraping wel, maar geen RAG functionaliteit
 - Kosten zijn ongeveer $0.02 per 1M tokens voor embeddings
 
-### 6. Environment Variables Instellen
+### 7. Environment Variables Instellen
 
 Update je `.env.local` bestand:
 
@@ -798,7 +844,7 @@ STRIPE_ENTERPRISE_PRICE_ID="price_1JKL012..."
 OPENAI_API_KEY="sk-..."
 ```
 
-### 7. Test Cards
+### 8. Test Cards
 
 Voor testing kun je deze Stripe test cards gebruiken:
 
@@ -814,10 +860,10 @@ Requires 3D Secure: 4000 0025 0000 3155
 - **CVC**: Elke 3-cijferige code (bijv. 123)
 - **ZIP**: Elke postcode (bijv. 12345)
 
-### 7. Database Migratie Uitvoeren
+### 9. Database Migratie Uitvoeren
 
 ```bash
-# Zorg dat je database up-to-date is
+# Zorg dat je database up-to-date is met billing details
 npx prisma migrate deploy
 npx prisma generate
 
@@ -825,15 +871,36 @@ npx prisma generate
 npm run db:seed
 ```
 
-### 8. Testen
+### 10. Testen van Billing Functionaliteit
 
 1. **Login** met `user@example.com` / `user123` (trial account)
-2. **Ga naar Account** → **Subscription tab**
-3. **Klik op "Upgrade"** bij een abonnement
-4. **Gebruik test card** `4242 4242 4242 4242`
-5. **Controleer** of de subscription wordt aangemaakt
+2. **Ga naar Billing** pagina (nieuw menu item in sidebar)
+3. **Test subscription upgrade**:
+   - Klik op "Upgrade" bij een plan (bijv. Starter)
+   - Gebruik test card `4242 4242 4242 4242`
+   - Vul billing details in
+   - Voltooi checkout
+4. **Test subscription sync**:
+   - Na upgrade, klik op "Abonnement synchroniseren" (rechts bovenaan)
+   - Controleer of je nieuwe plan correct wordt weergegeven
+5. **Test billing details**:
+   - Vul bedrijfsnaam, email, BTW nummer en adres in
+   - Klik op "Opslaan"
+   - Controleer of gegevens correct worden opgeslagen
+6. **Test Customer Portal**:
+   - Klik op "Abonnement beheren" of "Betaalmethode bijwerken"
+   - Controleer of Stripe Customer Portal opent
+   - Test betaalmethode wijzigen
+7. **Test webhooks** (lokaal):
+   ```bash
+   # In een aparte terminal
+   stripe listen --forward-to localhost:3000/api/stripe/webhook
 
-### 9. Production Setup
+   # Trigger een test event
+   stripe trigger customer.subscription.updated
+   ```
+
+### 11. Production Setup
 
 Voor productie:
 
