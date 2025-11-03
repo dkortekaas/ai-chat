@@ -5,6 +5,11 @@ const withNextIntl = createNextIntlPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Enable instrumentation for environment validation and monitoring
+  experimental: {
+    instrumentationHook: true,
+  },
+
   // Add any Next.js configuration options here
   webpack: (config) => {
     config.resolve.extensions = [
