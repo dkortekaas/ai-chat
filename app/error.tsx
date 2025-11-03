@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useToast } from "@/components/ui/use-toast";
+import * as Sentry from "@sentry/nextjs";
 
 export default function Error({
   error,
@@ -15,8 +16,20 @@ export default function Error({
   const t = useTranslations();
   const { toast } = useToast();
   useEffect(() => {
-    // Log de error naar een error reporting service
-    console.error(error);
+    // Log the error to Sentry
+    Sentry.captureException(error, {
+      tags: {
+        component: "error-boundary",
+      },
+      extra: {
+        digest: error.digest,
+      },
+    });
+
+    // Also log to console in development
+    if (process.env.NODE_ENV === "development") {
+      console.error(error);
+    }
   }, [error]);
 
   return (
