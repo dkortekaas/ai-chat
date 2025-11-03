@@ -1027,7 +1027,10 @@
     "syncSubscription": "Abonnement synchroniseren",
     "syncing": "Synchroniseren...",
     "subscriptionSynced": "Abonnement succesvol gesynchroniseerd",
-    "failedToSyncSubscription": "Fout bij synchroniseren abonnement"
+    "failedToSyncSubscription": "Fout bij synchroniseren abonnement",
+    "incompleteDetails": "Factuurgegevens incompleet",
+    "incompleteDetailsDescription": "Vul uw factuurgegevens aan voor correcte facturering",
+    "completeNow": "Nu aanvullen"
   },
   "subscription": {
     "title": "Abonnement",
