@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
 import * as Sentry from "@sentry/nextjs";
+import Stripe from "stripe";
 
 /**
  * GDPR Account Deletion Endpoint (Article 17 - Right to Erasure)
@@ -37,9 +38,10 @@ import * as Sentry from "@sentry/nextjs";
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const startTime = Date.now();
+  let userId: string | undefined;
 
   try {
     // Authentication check
@@ -51,7 +53,8 @@ export async function DELETE(
       );
     }
 
-    const userId = params.id;
+    const { id } = await params;
+    userId = id;
     const requestingUserId = session.user.id;
 
     // Authorization check
@@ -72,7 +75,8 @@ export async function DELETE(
       return NextResponse.json(
         {
           error: "Confirmation required",
-          message: 'Please confirm deletion by sending {"confirmation": "DELETE"}',
+          message:
+            'Please confirm deletion by sending {"confirmation": "DELETE"}',
         },
         { status: 400 }
       );
@@ -89,17 +93,16 @@ export async function DELETE(
     });
 
     if (!user) {
-      return NextResponse.json(
-        { error: "User not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     // Cancel Stripe subscription if exists
     let stripeMessage = "";
     if (user.stripeSubscriptionId) {
       try {
-        const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+        const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+          apiVersion: "2025-08-27.basil",
+        });
         await stripe.subscriptions.cancel(user.stripeSubscriptionId);
         stripeMessage = "Stripe subscription canceled. ";
       } catch (stripeError) {
@@ -191,8 +194,7 @@ export async function DELETE(
                 },
               },
             });
-          deletionSummary.conversationSources =
-            conversationSourcesResult.count;
+          deletionSummary.conversationSources = conversationSourcesResult.count;
 
           // Delete conversation messages
           const messagesResult = await tx.conversationMessage.deleteMany({
@@ -296,7 +298,7 @@ export async function DELETE(
         operation: "gdpr-deletion",
       },
       extra: {
-        userId: params.id,
+        userId,
       },
     });
 

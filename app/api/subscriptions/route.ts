@@ -69,9 +69,13 @@ export async function GET() {
         ...user,
         isTrialActive,
         trialDaysRemaining,
-        currentPlan: user.subscriptionPlan
-          ? SUBSCRIPTION_PLANS_WITH_PRICES[user.subscriptionPlan]
-          : null,
+        currentPlan:
+          user.subscriptionPlan &&
+          (user.subscriptionPlan in SUBSCRIPTION_PLANS_WITH_PRICES)
+            ? SUBSCRIPTION_PLANS_WITH_PRICES[
+                user.subscriptionPlan as keyof typeof SUBSCRIPTION_PLANS_WITH_PRICES
+              ]
+            : null,
         gracePeriod: {
           isInGracePeriod: gracePeriodCheck.isInGracePeriod,
           daysRemaining: gracePeriodCheck.daysRemainingInGrace,
@@ -100,10 +104,7 @@ export async function POST(req: NextRequest) {
 
     const { plan } = await req.json();
 
-    if (
-      !plan ||
-      !SUBSCRIPTION_PLANS_WITH_PRICES[plan as SubscriptionPlanType]
-    ) {
+    if (!plan || !(plan in SUBSCRIPTION_PLANS_WITH_PRICES)) {
       return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
     }
 
@@ -116,7 +117,9 @@ export async function POST(req: NextRequest) {
     }
 
     const selectedPlan =
-      SUBSCRIPTION_PLANS_WITH_PRICES[plan as SubscriptionPlanType];
+      SUBSCRIPTION_PLANS_WITH_PRICES[
+        plan as keyof typeof SUBSCRIPTION_PLANS_WITH_PRICES
+      ];
 
     if (!selectedPlan.priceId) {
       return NextResponse.json(

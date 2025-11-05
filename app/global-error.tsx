@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import * as Sentry from "@sentry/nextjs";
+import Link from "next/link";
 
 /**
  * Global error boundary that catches errors in the root layout
@@ -36,58 +37,75 @@ export default function GlobalError({
   return (
     <html>
       <body>
-        <div style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          minHeight: "100vh",
-          padding: "20px",
-          fontFamily: "system-ui, -apple-system, sans-serif",
-        }}>
-          <div style={{
-            maxWidth: "600px",
-            textAlign: "center",
-          }}>
-            <div style={{
-              fontSize: "64px",
-              marginBottom: "20px",
-            }}>⚠️</div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            minHeight: "100vh",
+            padding: "20px",
+            fontFamily: "system-ui, -apple-system, sans-serif",
+          }}
+        >
+          <div
+            style={{
+              maxWidth: "600px",
+              textAlign: "center",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "64px",
+                marginBottom: "20px",
+              }}
+            >
+              ⚠️
+            </div>
 
-            <h1 style={{
-              fontSize: "32px",
-              fontWeight: "bold",
-              marginBottom: "16px",
-              color: "#1f2937",
-            }}>
+            <h1
+              style={{
+                fontSize: "32px",
+                fontWeight: "bold",
+                marginBottom: "16px",
+                color: "#1f2937",
+              }}
+            >
               Something went wrong!
             </h1>
 
-            <p style={{
-              fontSize: "18px",
-              color: "#6b7280",
-              marginBottom: "32px",
-            }}>
-              We apologize for the inconvenience. Our team has been notified and is working on a fix.
+            <p
+              style={{
+                fontSize: "18px",
+                color: "#6b7280",
+                marginBottom: "32px",
+              }}
+            >
+              We apologize for the inconvenience. Our team has been notified and
+              is working on a fix.
             </p>
 
             {error.digest && (
-              <p style={{
-                fontSize: "14px",
-                color: "#9ca3af",
-                marginBottom: "32px",
-                fontFamily: "monospace",
-              }}>
+              <p
+                style={{
+                  fontSize: "14px",
+                  color: "#9ca3af",
+                  marginBottom: "32px",
+                  fontFamily: "monospace",
+                }}
+              >
                 Error ID: {error.digest}
               </p>
             )}
 
-            <div style={{
-              display: "flex",
-              gap: "16px",
-              justifyContent: "center",
-              flexWrap: "wrap",
-            }}>
+            <div
+              style={{
+                display: "flex",
+                gap: "16px",
+                justifyContent: "center",
+                flexWrap: "wrap",
+              }}
+            >
               <button
                 onClick={reset}
                 style={{
@@ -103,7 +121,7 @@ export default function GlobalError({
                 Try again
               </button>
 
-              <a
+              <Link
                 href="/"
                 style={{
                   padding: "12px 24px",
@@ -117,7 +135,7 @@ export default function GlobalError({
                 }}
               >
                 Go to homepage
-              </a>
+              </Link>
             </div>
           </div>
         </div>

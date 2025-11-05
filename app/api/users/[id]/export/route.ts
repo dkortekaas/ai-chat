@@ -26,9 +26,11 @@ import * as Sentry from "@sentry/nextjs";
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const startTime = Date.now();
+  let userId: string | undefined;
+  let requestingUserId: string | undefined;
 
   try {
     // Authentication check
@@ -39,9 +41,9 @@ export async function GET(
         { status: 401 }
       );
     }
-
-    const userId = params.id;
-    const requestingUserId = session.user.id;
+    const { id } = await params;
+    userId = id;
+    requestingUserId = session.user.id;
 
     // Authorization check: Users can only export their own data, unless they're admin
     if (userId !== requestingUserId && session.user.role !== "ADMIN") {
@@ -103,7 +105,7 @@ export async function GET(
 
         // Subscription notifications
         subscriptionNotifications: {
-          orderBy: { createdAt: "desc" },
+          orderBy: { sentAt: "desc" },
         },
 
         // Company
@@ -232,15 +234,12 @@ export async function GET(
         id: assistant.id,
         name: assistant.name,
         description: assistant.description,
-        systemPrompt: assistant.systemPrompt,
-        model: assistant.model,
+        mainPrompt: assistant.mainPrompt,
         temperature: assistant.temperature,
-        maxTokens: assistant.maxTokens,
         welcomeMessage: assistant.welcomeMessage,
-        placeholder: assistant.placeholder,
+        placeholderText: assistant.placeholderText,
         primaryColor: assistant.primaryColor,
         position: assistant.position,
-        features: assistant.features,
         createdAt: assistant.createdAt,
         updatedAt: assistant.updatedAt,
         actionButtons: assistant.actionButtons,
@@ -289,7 +288,6 @@ export async function GET(
         priority: notif.priority,
         isRead: notif.isRead,
         createdAt: notif.createdAt,
-        readAt: notif.readAt,
       })),
 
       // Invitations
@@ -361,7 +359,7 @@ export async function GET(
         endpoint: "/api/users/[id]/export",
       },
       extra: {
-        userId: params.id,
+        userId,
       },
     });
 
