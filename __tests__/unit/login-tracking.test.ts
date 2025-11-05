@@ -2,10 +2,10 @@
  * Unit Tests for Login Attempt Tracking
  */
 
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
+import { describe, it, expect, beforeEach, jest } from "@jest/globals";
 
 // Mock the database and Sentry
-jest.mock('@/lib/db', () => ({
+jest.mock("@/lib/db", () => ({
   db: {
     user: {
       updateMany: jest.fn(),
@@ -13,7 +13,7 @@ jest.mock('@/lib/db', () => ({
   },
 }));
 
-jest.mock('@sentry/nextjs', () => ({
+jest.mock("@sentry/nextjs", () => ({
   captureMessage: jest.fn(),
 }));
 
@@ -24,25 +24,27 @@ import {
   requiresRecaptcha,
   getFailedLoginCount,
   shouldLockAccount,
-} from '@/lib/login-tracking';
+  __resetLoginTrackingForTests,
+} from "@/lib/login-tracking";
 
-describe('Login Attempt Tracking', () => {
+describe("Login Attempt Tracking", () => {
   beforeEach(() => {
     // Reset all failed login attempts before each test
     jest.clearAllMocks();
+    __resetLoginTrackingForTests();
   });
 
-  describe('recordFailedLogin()', () => {
-    it('should track first failed login attempt', async () => {
-      const email = 'test@example.com';
+  describe("recordFailedLogin()", () => {
+    it("should track first failed login attempt", async () => {
+      const email = "test@example.com";
       await recordFailedLogin(email);
 
       const count = getFailedLoginCount(email);
       expect(count).toBe(1);
     });
 
-    it('should increment failed login count', async () => {
-      const email = 'test@example.com';
+    it("should increment failed login count", async () => {
+      const email = "test@example.com";
 
       await recordFailedLogin(email);
       await recordFailedLogin(email);
@@ -52,26 +54,26 @@ describe('Login Attempt Tracking', () => {
       expect(count).toBe(3);
     });
 
-    it('should handle case-insensitive emails', async () => {
-      await recordFailedLogin('TEST@EXAMPLE.COM');
-      await recordFailedLogin('test@example.com');
+    it("should handle case-insensitive emails", async () => {
+      await recordFailedLogin("TEST@EXAMPLE.COM");
+      await recordFailedLogin("test@example.com");
 
-      const count = getFailedLoginCount('Test@Example.Com');
+      const count = getFailedLoginCount("Test@Example.Com");
       expect(count).toBe(2);
     });
 
-    it('should track different emails separately', async () => {
-      await recordFailedLogin('user1@example.com');
-      await recordFailedLogin('user2@example.com');
+    it("should track different emails separately", async () => {
+      await recordFailedLogin("user1@example.com");
+      await recordFailedLogin("user2@example.com");
 
-      expect(getFailedLoginCount('user1@example.com')).toBe(1);
-      expect(getFailedLoginCount('user2@example.com')).toBe(1);
+      expect(getFailedLoginCount("user1@example.com")).toBe(1);
+      expect(getFailedLoginCount("user2@example.com")).toBe(1);
     });
   });
 
-  describe('requiresRecaptcha()', () => {
-    it('should not require reCAPTCHA for 0-2 failures', async () => {
-      const email = 'test@example.com';
+  describe("requiresRecaptcha()", () => {
+    it("should not require reCAPTCHA for 0-2 failures", async () => {
+      const email = "test@example.com";
 
       expect(requiresRecaptcha(email)).toBe(false);
 
@@ -82,8 +84,8 @@ describe('Login Attempt Tracking', () => {
       expect(requiresRecaptcha(email)).toBe(false);
     });
 
-    it('should require reCAPTCHA after 3 failures', async () => {
-      const email = 'test@example.com';
+    it("should require reCAPTCHA after 3 failures", async () => {
+      const email = "test@example.com";
 
       await recordFailedLogin(email);
       await recordFailedLogin(email);
@@ -92,8 +94,8 @@ describe('Login Attempt Tracking', () => {
       expect(requiresRecaptcha(email)).toBe(true);
     });
 
-    it('should support custom threshold', async () => {
-      const email = 'test@example.com';
+    it("should support custom threshold", async () => {
+      const email = "test@example.com";
 
       await recordFailedLogin(email);
       await recordFailedLogin(email);
@@ -103,9 +105,9 @@ describe('Login Attempt Tracking', () => {
     });
   });
 
-  describe('shouldLockAccount()', () => {
-    it('should not lock account for < 10 failures', async () => {
-      const email = 'test@example.com';
+  describe("shouldLockAccount()", () => {
+    it("should not lock account for < 10 failures", async () => {
+      const email = "test@example.com";
 
       for (let i = 0; i < 9; i++) {
         await recordFailedLogin(email);
@@ -114,8 +116,8 @@ describe('Login Attempt Tracking', () => {
       expect(shouldLockAccount(email)).toBe(false);
     });
 
-    it('should lock account after 10 failures', async () => {
-      const email = 'test@example.com';
+    it("should lock account after 10 failures", async () => {
+      const email = "test@example.com";
 
       for (let i = 0; i < 10; i++) {
         await recordFailedLogin(email);
@@ -125,9 +127,9 @@ describe('Login Attempt Tracking', () => {
     });
   });
 
-  describe('resetFailedLogins()', () => {
-    it('should reset failed login counter', async () => {
-      const email = 'test@example.com';
+  describe("resetFailedLogins()", () => {
+    it("should reset failed login counter", async () => {
+      const email = "test@example.com";
 
       await recordFailedLogin(email);
       await recordFailedLogin(email);
@@ -141,20 +143,20 @@ describe('Login Attempt Tracking', () => {
       expect(requiresRecaptcha(email)).toBe(false);
     });
 
-    it('should handle resetting non-existent email', () => {
+    it("should handle resetting non-existent email", () => {
       expect(() => {
-        resetFailedLogins('nonexistent@example.com');
+        resetFailedLogins("nonexistent@example.com");
       }).not.toThrow();
     });
   });
 
-  describe('getFailedLoginCount()', () => {
-    it('should return 0 for email with no failures', () => {
-      expect(getFailedLoginCount('new@example.com')).toBe(0);
+  describe("getFailedLoginCount()", () => {
+    it("should return 0 for email with no failures", () => {
+      expect(getFailedLoginCount("new@example.com")).toBe(0);
     });
 
-    it('should return correct count', async () => {
-      const email = 'test@example.com';
+    it("should return correct count", async () => {
+      const email = "test@example.com";
 
       await recordFailedLogin(email);
       expect(getFailedLoginCount(email)).toBe(1);
@@ -167,9 +169,9 @@ describe('Login Attempt Tracking', () => {
     });
   });
 
-  describe('Integration - Full Flow', () => {
-    it('should handle complete brute force attack scenario', async () => {
-      const email = 'victim@example.com';
+  describe("Integration - Full Flow", () => {
+    it("should handle complete brute force attack scenario", async () => {
+      const email = "victim@example.com";
 
       // Attacker tries to brute force
       for (let i = 1; i <= 2; i++) {

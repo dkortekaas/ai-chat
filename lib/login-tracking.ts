@@ -7,8 +7,8 @@
  * Uses in-memory storage with automatic cleanup.
  */
 
-import { db } from './db';
-import * as Sentry from '@sentry/nextjs';
+import { db } from "./db";
+import * as Sentry from "@sentry/nextjs";
 
 interface LoginAttempt {
   count: number;
@@ -26,10 +26,13 @@ const LOCKOUT_THRESHOLD = 10; // Lock account after 10 failures
 const LOCKOUT_DURATION = 30 * 60 * 1000; // 30 minutes
 
 // Clean up old entries every 5 minutes
-if (typeof setInterval !== 'undefined') {
-  setInterval(() => {
-    cleanupOldAttempts();
-  }, 5 * 60 * 1000);
+if (typeof setInterval !== "undefined") {
+  setInterval(
+    () => {
+      cleanupOldAttempts();
+    },
+    5 * 60 * 1000
+  );
 }
 
 /**
@@ -64,15 +67,15 @@ export async function recordFailedLogin(email: string): Promise<void> {
 
   // Lock account if threshold reached
   if (newCount >= LOCKOUT_THRESHOLD) {
-    await lockAccount(email, 'Too many failed login attempts');
+    await lockAccount(email, "Too many failed login attempts");
   }
 
   // Alert via Sentry if approaching lockout
   if (newCount >= LOCKOUT_THRESHOLD - 2) {
-    Sentry.captureMessage('Multiple failed login attempts detected', {
-      level: 'warning',
+    Sentry.captureMessage("Multiple failed login attempts detected", {
+      level: "warning",
       extra: {
-        email: email.substring(0, 3) + '***',
+        email: email.substring(0, 3) + "***",
         attempts: newCount,
         threshold: LOCKOUT_THRESHOLD,
       },
@@ -98,16 +101,21 @@ async function lockAccount(email: string, reason: string): Promise<void> {
       },
     });
 
-    console.log(`🔒 Account locked for ${email} until ${lockUntil.toISOString()}`);
+    console.log(
+      `🔒 Account locked for ${email} until ${lockUntil.toISOString()}`
+    );
 
-    Sentry.captureMessage('Account automatically locked due to failed login attempts', {
-      level: 'warning',
-      extra: {
-        email: email.substring(0, 3) + '***',
-        reason,
-        lockUntil: lockUntil.toISOString(),
-      },
-    });
+    Sentry.captureMessage(
+      "Account automatically locked due to failed login attempts",
+      {
+        level: "warning",
+        extra: {
+          email: email.substring(0, 3) + "***",
+          reason,
+          lockUntil: lockUntil.toISOString(),
+        },
+      }
+    );
   } catch (error) {
     console.error(`Failed to lock account ${email}:`, error);
   }
@@ -207,9 +215,16 @@ export function getLoginTrackingStats() {
   return {
     totalTracked: failedAttempts.size,
     entries: Array.from(failedAttempts.entries()).map(([email, attempt]) => ({
-      email: email.substring(0, 3) + '***', // Partially hidden for privacy
+      email: email.substring(0, 3) + "***", // Partially hidden for privacy
       count: attempt.count,
       ageMinutes: Math.floor((Date.now() - attempt.firstAttempt) / 60000),
     })),
   };
+}
+
+/**
+ * Test-only utility to reset in-memory tracking between tests
+ */
+export function __resetLoginTrackingForTests(): void {
+  failedAttempts.clear();
 }
