@@ -762,6 +762,7 @@ enum SubscriptionStatus {
 }
 
 enum SubscriptionPlan {
+  TRIAL
   STARTER
   PROFESSIONAL
   BUSINESS

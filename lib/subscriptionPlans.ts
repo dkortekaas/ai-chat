@@ -1,5 +1,21 @@
 // Subscription plans configuration
 export const SUBSCRIPTION_PLANS = {
+  TRIAL: {
+    name: 'Trial',
+    price: 0,
+    features: [
+      '1 chatbot (gratis)',
+      '10 gesprekken per maand',
+      'Basis functionaliteit',
+      '7 dagen trial periode'
+    ],
+    limits: {
+      assistants: 1,
+      conversationsPerMonth: 10,
+      documentsPerAssistant: 3,
+      websitesPerAssistant: 1
+    }
+  },
   STARTER: {
     name: 'Starter',
     price: 19,
@@ -91,10 +107,13 @@ export function hasAccessToFeature(
 // Helper function to get usage limit
 export function getUsageLimit(
   userPlan: SubscriptionPlanType | null,
-  feature: keyof typeof SUBSCRIPTION_PLANS.STARTER.limits
+  feature: keyof typeof SUBSCRIPTION_PLANS.TRIAL.limits
 ): number {
-  if (!userPlan) return 0;
-  
+  // Default to TRIAL if no plan specified (for new users)
+  if (!userPlan) {
+    return SUBSCRIPTION_PLANS.TRIAL.limits[feature];
+  }
+
   const plan = SUBSCRIPTION_PLANS[userPlan];
   return plan.limits[feature];
 }
