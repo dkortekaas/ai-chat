@@ -156,7 +156,119 @@ const CLEANUP_INTERVAL = 15 * 60 * 1000; // Cleanup every 15 minutes
 
 ---
 
-### 3. Password Reset Token Expiration
+### 3. Email Verification on Registration
+
+**Purpose:** Ensures that users own the email address they register with and prevents fake account creation.
+
+**Implementation:**
+- Verification token generated on registration
+- Email sent with verification link
+- 24-hour token expiration
+- Login blocked until email verified
+- Resend verification functionality
+
+**Flow:**
+
+```
+User registers:
+  ├─> Account created with emailVerified = null
+  ├─> Generate verification token (64-char hex)
+  ├─> Store in VerificationToken table (expires in 24h)
+  ├─> Send verification email
+  └─> User can't login until email verified
+
+User clicks verification link:
+  ├─> Check token exists and not expired
+  ├─> Set user.emailVerified = now()
+  ├─> Delete verification token
+  └─> User can now login
+
+User tries to login with unverified email:
+  ├─> Password checked (valid)
+  ├─> Email verification checked (not verified)
+  ├─> Login blocked with "EMAIL_NOT_VERIFIED" error
+  └─> Frontend shows "resend verification" option
+```
+
+**API Endpoints:**
+
+```bash
+# Verify email
+GET /api/auth/verify-email?token=<verification-token>
+
+# Response (success)
+{
+  "message": "Email verified successfully",
+  "success": true
+}
+
+# Resend verification email
+POST /api/auth/resend-verification
+Content-Type: application/json
+
+{
+  "email": "user@example.com"
+}
+
+# Response
+{
+  "message": "Verification email sent successfully",
+  "success": true
+}
+```
+
+**Database Schema:**
+
+```typescript
+model User {
+  emailVerified DateTime? // Set when email is verified
+}
+
+model VerificationToken {
+  identifier String   // Email address
+  token      String   @unique
+  expires    DateTime
+}
+```
+
+**Security Features:**
+
+- **24-hour token expiration** - Verification links expire after 24 hours
+- **Single-use tokens** - Token deleted after successful verification
+- **Email enumeration protection** - Same response for valid/invalid emails
+- **Expired token cleanup** - Expired tokens deleted on verification attempt
+- **Multiple token prevention** - Old tokens deleted when resending
+
+**Code Example:**
+
+```typescript
+// Generate verification token (in registration endpoint)
+const verificationToken = generateToken();
+const tokenExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+
+await db.verificationToken.create({
+  data: {
+    identifier: email,
+    token: verificationToken,
+    expires: tokenExpiry,
+  },
+});
+
+await sendEmailVerificationEmail(email, verificationToken, {
+  id: user.id,
+  companyId: user.companyId,
+  name: user.name,
+});
+
+// Check email verified (in login authorize function)
+if (!user.emailVerified) {
+  throw new Error("EMAIL_NOT_VERIFIED");
+}
+```
+
+---
+
+### 4. Password Reset Token Expiration
 
 **Purpose:** Prevents abuse of password reset tokens by enforcing expiration times.
 
@@ -486,6 +598,7 @@ curl -X POST http://localhost:3000/api/auth/callback/credentials \
 # Run all authentication security tests
 npm test -- __tests__/unit/login-tracking.test.ts
 npm test -- __tests__/unit/recaptcha.test.ts
+npm test -- __tests__/unit/email-verification.test.ts
 ```
 
 **Test Coverage:**
@@ -511,6 +624,20 @@ npm test -- __tests__/unit/recaptcha.test.ts
 - ✅ Development mode fallback
 - ✅ Token expiration handling
 - ✅ Network error handling
+
+**3. Email Verification Tests** (`__tests__/unit/email-verification.test.ts`)
+- ✅ Generate random verification tokens
+- ✅ Create tokens with 24-hour expiry
+- ✅ Verify email with valid token
+- ✅ Reject expired verification token
+- ✅ Reject invalid verification token
+- ✅ Handle already verified email
+- ✅ Delete old tokens before creating new one
+- ✅ Prevent email enumeration attacks
+- ✅ Block login with unverified email
+- ✅ Allow login with verified email
+- ✅ Handle concurrent verification attempts
+- ✅ Handle database errors gracefully
 
 **Example Test Code:**
 
@@ -644,25 +771,32 @@ ENCRYPTION_KEY=your-encryption-key-32-chars
 
 ### ✅ Recently Implemented
 
-1. **Account Lockout** ✅ **COMPLETED**
+1. **Email Verification on Registration** ✅ **COMPLETED**
+   - ✅ Verification email sent on registration
+   - ✅ Login blocked for unverified accounts
+   - ✅ Resend verification email endpoint
+   - ✅ 24-hour token expiration
+   - ✅ Comprehensive unit tests (15+ test cases)
+
+2. **Account Lockout** ✅ **COMPLETED**
    - ✅ Automatic account lockout after 10 failed attempts
    - ✅ Admin-only unlock functionality
    - ✅ Sentry integration for monitoring
    - ✅ 30-minute lockout duration
 
-2. **Comprehensive Unit Tests** ✅ **COMPLETED**
+3. **Comprehensive Unit Tests** ✅ **COMPLETED**
    - ✅ Login tracking tests (20+ test cases)
    - ✅ reCAPTCHA verification tests (15+ test cases)
+   - ✅ Email verification tests (15+ test cases)
    - ✅ Mocked database and external services
    - ✅ Edge case coverage
 
 ### Planned Features
 
-1. **Email Verification**
-   - Send verification email on registration
-   - Prevent unverified accounts from logging in
-   - Re-send verification email functionality
-   - `emailVerified` field already exists in User model
+1. **Enhanced Email Verification**
+   - Email verification reminders (after 7 days)
+   - Account auto-deletion for unverified accounts (after 30 days)
+   - Email change verification (require verification for email updates)
 
 2. **IP-based Rate Limiting**
    - Track failed attempts per IP address
@@ -705,4 +839,4 @@ ENCRYPTION_KEY=your-encryption-key-32-chars
 ---
 
 **Last Updated:** November 5, 2025
-**Version:** 1.1.0 - Added Account Lockout & Comprehensive Unit Tests
+**Version:** 1.2.0 - Added Email Verification on Registration

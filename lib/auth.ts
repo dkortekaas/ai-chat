@@ -55,6 +55,7 @@ export const authOptions: NextAuthOptions = {
             twoFactorVerified: true,
             companyId: true,
             isActive: true,
+            emailVerified: true,
           },
         });
 
@@ -123,6 +124,25 @@ export const authOptions: NextAuthOptions = {
 
         // Password is valid - reset failed login counter
         resetFailedLogins(credentials.email);
+
+        // Check if email is verified
+        if (!user.emailVerified) {
+          // Log failed login attempt due to unverified email
+          const ipAddress = sanitizeIp(
+            (req?.headers?.["x-forwarded-for"] as string) || null
+          );
+          await logSecurityEvent(
+            user.id,
+            user.companyId || undefined,
+            "login_failed",
+            ipAddress,
+            req?.headers?.["user-agent"] || "",
+            t("error.emailNotVerified") || "Email not verified"
+          );
+
+          // Return null with a custom error that the frontend can detect
+          throw new Error("EMAIL_NOT_VERIFIED");
+        }
 
         // If 2FA is enabled, don't fully authorize yet
         if (user.twoFactorEnabled) {

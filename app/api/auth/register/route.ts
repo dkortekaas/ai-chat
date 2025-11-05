@@ -5,8 +5,9 @@ import { db } from "@/lib/db";
 import { z } from "zod";
 import { getTranslations } from "next-intl/server";
 import { logger } from "@/lib/logger";
-import { sendWelcomeEmail } from "@/lib/email";
+import { sendWelcomeEmail, sendEmailVerificationEmail } from "@/lib/email";
 import { verifyRecaptchaToken } from "@/lib/recaptcha";
+import { generateToken } from "@/lib/token";
 
 const registerSchema = z.object({
   name: z.string().min(1),
@@ -84,7 +85,7 @@ export async function POST(req: NextRequest) {
     });
     const companyId = company.id;
 
-    // Create new user with trial period
+    // Create new user with trial period (email NOT verified yet)
     const user = await db.user.create({
       data: {
         name,
@@ -97,6 +98,7 @@ export async function POST(req: NextRequest) {
         trialEndDate: trialEndDate,
         isActive: true,
         companyId: companyId,
+        emailVerified: null, // Will be set when user verifies email
       },
       select: {
         id: true,
@@ -112,10 +114,37 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    // Generate email verification token
+    const verificationToken = generateToken();
+    const tokenExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+
+    // Store verification token in database
+    await db.verificationToken.create({
+      data: {
+        identifier: email,
+        token: verificationToken,
+        expires: tokenExpiry,
+      },
+    });
+
+    // Send email verification email (don't fail registration if email fails)
+    try {
+      await sendEmailVerificationEmail(email, verificationToken, {
+        id: user.id,
+        companyId: user.companyId,
+        name: user.name,
+      });
+      logger.info(`[REGISTER_POST] Verification email sent to ${email.substring(0, 3)}***`);
+    } catch (emailError) {
+      // Log error but don't fail the registration
+      logger.error(`[REGISTER_POST] Failed to send verification email: ${emailError}`);
+    }
+
     return NextResponse.json(
       {
         message: t("success.accountCreated"),
         user,
+        emailVerificationSent: true,
       },
       { status: 201 }
     );
