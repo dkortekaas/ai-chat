@@ -6,11 +6,13 @@ import { z } from "zod";
 import { getTranslations } from "next-intl/server";
 import { logger } from "@/lib/logger";
 import { sendWelcomeEmail } from "@/lib/email";
+import { verifyRecaptchaToken } from "@/lib/recaptcha";
 
 const registerSchema = z.object({
   name: z.string().min(1),
   email: z.string().email(),
   password: z.string().min(6),
+  recaptchaToken: z.string().optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -31,7 +33,25 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { name, email, password } = validationResult.data;
+    const { name, email, password, recaptchaToken } = validationResult.data;
+
+    // Verify reCAPTCHA token (bot protection)
+    const recaptchaResult = await verifyRecaptchaToken(
+      recaptchaToken,
+      'register',
+      0.5 // Minimum score for registration
+    );
+
+    if (!recaptchaResult.success) {
+      logger.warn(`[REGISTER_POST] reCAPTCHA failed for ${email}: ${recaptchaResult.error}`);
+      return NextResponse.json(
+        {
+          message: t("error.botDetected"),
+          error: recaptchaResult.error,
+        },
+        { status: 403 }
+      );
+    }
 
     // Check if user already exists in the same company
     const existingUser = await db.user.findFirst({
