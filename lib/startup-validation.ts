@@ -83,13 +83,15 @@ const envSchema = z.object({
       "RESEND_API_KEY must start with 're_'"
     ),
 
+  // RESEND_FROM_EMAIL is optional - falls back to config.email if not set
   RESEND_FROM_EMAIL: z
     .string()
     .email("RESEND_FROM_EMAIL must be a valid email address")
     .refine(
       (email) => email !== "noreply@yourdomain.com",
       "RESEND_FROM_EMAIL cannot be the default value"
-    ),
+    )
+    .optional(),
 
   // Stripe (conditional - required in production)
   STRIPE_SECRET_KEY: z
