@@ -142,16 +142,22 @@ function addSecurityHeaders(response: NextResponse): void {
 
   // Content-Security-Policy (CSP)
   // Prevents XSS attacks by controlling which resources can be loaded
+  // Note: 'unsafe-inline' is needed for Next.js inline styles and scripts
+  // Consider implementing nonce-based CSP for production for stronger security
   const cspDirectives = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://unpkg.com",
+    // Removed 'unsafe-eval' for better security - Next.js doesn't require it
+    "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://*.sentry.io",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' https://fonts.gstatic.com data:",
     "img-src 'self' data: https: blob:",
-    "connect-src 'self' https://api.openai.com",
+    // Added Sentry, Stripe, Upstash, and OpenAI to connect-src
+    "connect-src 'self' https://api.openai.com https://*.sentry.io https://*.stripe.com https://*.upstash.io wss://*.upstash.io",
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self'",
+    "object-src 'none'",
+    "upgrade-insecure-requests",
   ].join("; ");
   headers.set("Content-Security-Policy", cspDirectives);
 
