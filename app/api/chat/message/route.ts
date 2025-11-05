@@ -9,7 +9,7 @@ import { searchRelevantContext, unifiedSearch } from "@/lib/search";
 import { z } from "zod";
 import { randomBytes } from "crypto";
 import { getCorsHeaders, validateCorsOrigin } from "@/lib/cors";
-import { checkRateLimit, getRateLimitHeaders } from "@/lib/rate-limiter";
+import { checkRateLimit, getRateLimitHeaders } from "@/lib/redis-rate-limiter";
 import { checkGracePeriod } from "@/lib/subscription";
 import { getUsageLimit } from "@/lib/subscriptionPlans";
 
@@ -203,10 +203,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check rate limiting
+    // Check rate limiting (Redis-based for horizontal scaling)
     // Use API key as the rate limit key, with limit from chatbot settings
     const rateLimit = chatbotSettings.rateLimit || 10; // requests per minute
-    const rateLimitResult = checkRateLimit(apiKey, rateLimit, 60000);
+    const rateLimitResult = await checkRateLimit(apiKey, rateLimit, 60000);
 
     if (!rateLimitResult.allowed) {
       return NextResponse.json(

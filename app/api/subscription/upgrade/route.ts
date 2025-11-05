@@ -26,8 +26,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate that the planId is a valid subscription plan
-    if (!SUBSCRIPTION_PLANS_WITH_PRICES[planId as SubscriptionPlanType]) {
+    // Validate that the planId is a valid paid subscription plan (TRIAL has no price)
+    if (
+      !planId ||
+      !(planId in SUBSCRIPTION_PLANS_WITH_PRICES)
+    ) {
       return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
     }
 
@@ -54,7 +57,9 @@ export async function POST(request: NextRequest) {
 
     // Get the plan details
     const selectedPlan =
-      SUBSCRIPTION_PLANS_WITH_PRICES[planId as SubscriptionPlanType];
+      SUBSCRIPTION_PLANS_WITH_PRICES[
+        planId as keyof typeof SUBSCRIPTION_PLANS_WITH_PRICES
+      ];
 
     if (!selectedPlan.priceId) {
       return NextResponse.json(

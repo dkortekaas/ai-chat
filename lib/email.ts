@@ -180,6 +180,70 @@ export async function sendPasswordResetEmail(
   }
 }
 
+export async function sendEmailVerificationEmail(
+  email: string,
+  verificationToken: string,
+  user: { id: string; companyId?: string | null | undefined; name?: string | null }
+) {
+  const t = await getTranslations();
+  const verificationLink = `${process.env.NEXT_PUBLIC_APP_URL}/verify-email?token=${verificationToken}`;
+
+  try {
+    await resend.emails.send({
+      from: `${config.appTitle} <${config.email}>`,
+      to: email,
+      subject: t("mail.verifyEmail.title") || "Verify your email address",
+      html: await createEmailTemplate(`
+        <h1 style="color: #333; margin-bottom: 20px;">${t("mail.verifyEmail.title") || "Verify Your Email Address"}</h1>
+        <p style="color: #666; line-height: 1.6;">
+          ${t("mail.verifyEmail.greeting") || "Hi"} ${user.name || "there"},
+        </p>
+        <p style="color: #666; line-height: 1.6;">
+          ${t("mail.verifyEmail.description") || "Thank you for signing up! Please verify your email address by clicking the button below:"}
+        </p>
+        <div style="text-align: center; margin: 30px 0;">
+          <a href="${verificationLink}" style="background-color: #10B981; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block; font-weight: bold;">
+            ${t("mail.verifyEmail.button") || "Verify Email Address"}
+          </a>
+        </div>
+        <p style="color: #666; line-height: 1.6; font-size: 14px;">
+          ${t("mail.verifyEmail.alternative") || "Or copy and paste this link into your browser:"}
+        </p>
+        <p style="color: #589bff; line-height: 1.6; font-size: 14px; word-break: break-all;">
+          ${verificationLink}
+        </p>
+        <div style="background-color: #FEF3C7; border-left: 4px solid #F59E0B; padding: 15px; margin: 30px 0;">
+          <p style="color: #92400E; margin: 0; line-height: 1.6;">
+            <strong>${t("mail.verifyEmail.important") || "Important:"}</strong><br/>
+            ${t("mail.verifyEmail.expiration") || "This verification link will expire in 24 hours. If you didn't create an account, please ignore this email."}
+          </p>
+        </div>
+        <p style="color: #666; line-height: 1.6;">
+          ${t("mail.verifyEmail.support") || "If you have any questions, please contact our support team."}
+        </p>
+      `),
+    });
+
+    logger.info("Email verification email sent", {
+      context: {
+        userId: user.id,
+        email: email.substring(0, 3) + '***',
+      },
+      userId: user.id,
+      companyId: user.companyId,
+    });
+  } catch (error) {
+    logger.error("Failed to send email verification email", {
+      context: {
+        error: error instanceof Error ? error.message : String(error),
+      },
+      userId: user.id,
+      companyId: user.companyId,
+    });
+    throw error;
+  }
+}
+
 export async function sendInvitationEmail(
   email: string,
   token: string,

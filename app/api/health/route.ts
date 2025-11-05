@@ -215,7 +215,8 @@ async function checkDatabase(): Promise<ServiceCheck> {
   } catch (error) {
     return {
       status: "error",
-      message: error instanceof Error ? error.message : "Database connection failed",
+      message:
+        error instanceof Error ? error.message : "Database connection failed",
       responseTime: Date.now() - startTime,
     };
   }
@@ -235,9 +236,8 @@ async function checkStripe(): Promise<ServiceCheck> {
   }
 
   try {
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
       apiVersion: "2025-08-27.basil",
-      typescript: true,
     });
 
     // Lightweight API call to check connectivity
@@ -251,7 +251,8 @@ async function checkStripe(): Promise<ServiceCheck> {
   } catch (error) {
     return {
       status: "error",
-      message: error instanceof Error ? error.message : "Stripe API connection failed",
+      message:
+        error instanceof Error ? error.message : "Stripe API connection failed",
       responseTime: Date.now() - startTime,
     };
   }
@@ -286,7 +287,8 @@ async function checkOpenAI(): Promise<ServiceCheck> {
   } catch (error) {
     return {
       status: "error",
-      message: error instanceof Error ? error.message : "OpenAI API connection failed",
+      message:
+        error instanceof Error ? error.message : "OpenAI API connection failed",
       responseTime: Date.now() - startTime,
     };
   }
@@ -298,7 +300,10 @@ async function checkOpenAI(): Promise<ServiceCheck> {
 async function checkRedis(): Promise<ServiceCheck> {
   const startTime = Date.now();
 
-  if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
+  if (
+    !process.env.UPSTASH_REDIS_REST_URL ||
+    !process.env.UPSTASH_REDIS_REST_TOKEN
+  ) {
     return {
       status: "warning",
       message: "Redis credentials not configured",
@@ -329,7 +334,8 @@ async function checkRedis(): Promise<ServiceCheck> {
   } catch (error) {
     return {
       status: "error",
-      message: error instanceof Error ? error.message : "Redis connection failed",
+      message:
+        error instanceof Error ? error.message : "Redis connection failed",
       responseTime: Date.now() - startTime,
     };
   }
@@ -373,7 +379,8 @@ async function checkFilesystem(): Promise<ServiceCheck> {
   } catch (error) {
     return {
       status: "error",
-      message: error instanceof Error ? error.message : "Filesystem check failed",
+      message:
+        error instanceof Error ? error.message : "Filesystem check failed",
       responseTime: Date.now() - startTime,
     };
   }

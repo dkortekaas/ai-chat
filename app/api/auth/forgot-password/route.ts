@@ -2,13 +2,29 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { sendPasswordResetEmail } from "@/lib/email";
 import { generateToken } from "@/lib/token";
+import { verifyRecaptchaToken } from "@/lib/recaptcha";
 
 export async function POST(req: Request) {
   try {
-    const { email } = await req.json();
+    const { email, recaptchaToken } = await req.json();
 
     if (!email) {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
+    }
+
+    // Verify reCAPTCHA token (prevent password reset spam)
+    const recaptchaResult = await verifyRecaptchaToken(
+      recaptchaToken,
+      'forgot_password',
+      0.5 // Minimum score
+    );
+
+    if (!recaptchaResult.success) {
+      console.warn(`[FORGOT_PASSWORD] reCAPTCHA failed for ${email}: ${recaptchaResult.error}`);
+      return NextResponse.json(
+        { error: "Bot detected. Please try again." },
+        { status: 403 }
+      );
     }
 
     // Find user by email

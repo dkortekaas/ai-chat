@@ -111,9 +111,13 @@ export async function GET() {
                 subscriptionCanceled: user.subscriptionCanceled,
                 isTrialActive,
                 trialDaysRemaining,
-                currentPlan: user.subscriptionPlan
-                  ? SUBSCRIPTION_PLANS_WITH_PRICES[user.subscriptionPlan]
-                  : null,
+                currentPlan:
+                  user.subscriptionPlan &&
+                  (user.subscriptionPlan in SUBSCRIPTION_PLANS_WITH_PRICES)
+                    ? SUBSCRIPTION_PLANS_WITH_PRICES[
+                        user.subscriptionPlan as keyof typeof SUBSCRIPTION_PLANS_WITH_PRICES
+                      ]
+                    : null,
                 gracePeriod: {
                   isInGracePeriod: gracePeriodCheck.isInGracePeriod,
                   daysRemaining: gracePeriodCheck.daysRemainingInGrace,
@@ -192,9 +196,13 @@ export async function GET() {
         subscriptionCanceled: user.subscriptionCanceled,
         isTrialActive,
         trialDaysRemaining,
-        currentPlan: user.subscriptionPlan
-          ? SUBSCRIPTION_PLANS_WITH_PRICES[user.subscriptionPlan]
-          : null,
+        currentPlan:
+          user.subscriptionPlan &&
+          (user.subscriptionPlan in SUBSCRIPTION_PLANS_WITH_PRICES)
+            ? SUBSCRIPTION_PLANS_WITH_PRICES[
+                user.subscriptionPlan as keyof typeof SUBSCRIPTION_PLANS_WITH_PRICES
+              ]
+            : null,
         gracePeriod: {
           isInGracePeriod: gracePeriodCheck.isInGracePeriod,
           daysRemaining: gracePeriodCheck.daysRemainingInGrace,

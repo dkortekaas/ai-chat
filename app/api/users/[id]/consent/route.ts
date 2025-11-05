@@ -23,34 +23,36 @@ import { db } from "@/lib/db";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     if (!session?.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const userId = params.id;
+    const userId = id;
 
     // Authorization: Users can only view their own consent
     if (userId !== session.user.id && session.user.role !== "ADMIN") {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const user = await db.user.findUnique({
-      where: { id: userId },
-      select: {
-        privacyPolicyAccepted: true,
-        privacyPolicyAcceptedAt: true,
-        privacyPolicyVersion: true,
-        termsAccepted: true,
-        termsAcceptedAt: true,
-        termsVersion: true,
-        marketingEmailsConsent: true,
-        marketingEmailsConsentAt: true,
-      },
-    });
+    const rows = await db.$queryRawUnsafe<any[]>(
+      `SELECT 
+         "privacyPolicyAccepted",
+         "privacyPolicyAcceptedAt",
+         "privacyPolicyVersion",
+         "termsAccepted",
+         "termsAcceptedAt",
+         "termsVersion",
+         "marketingEmailsConsent",
+         "marketingEmailsConsentAt"
+       FROM users WHERE id = $1`,
+      userId
+    );
+    const user = rows[0];
 
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
@@ -85,15 +87,16 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     if (!session?.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const userId = params.id;
+    const userId = id;
 
     // Authorization: Users can only update their own consent
     if (userId !== session.user.id) {
@@ -134,20 +137,41 @@ export async function POST(
       }
     }
 
-    const user = await db.user.update({
-      where: { id: userId },
-      data: updateData,
-      select: {
-        privacyPolicyAccepted: true,
-        privacyPolicyAcceptedAt: true,
-        privacyPolicyVersion: true,
-        termsAccepted: true,
-        termsAcceptedAt: true,
-        termsVersion: true,
-        marketingEmailsConsent: true,
-        marketingEmailsConsentAt: true,
-      },
-    });
+    await db.$executeRawUnsafe(
+      `UPDATE users SET 
+         "privacyPolicyAccepted" = COALESCE($2, "privacyPolicyAccepted"),
+         "privacyPolicyAcceptedAt" = COALESCE($3, "privacyPolicyAcceptedAt"),
+         "privacyPolicyVersion" = COALESCE($4, "privacyPolicyVersion"),
+         "termsAccepted" = COALESCE($5, "termsAccepted"),
+         "termsAcceptedAt" = COALESCE($6, "termsAcceptedAt"),
+         "termsVersion" = COALESCE($7, "termsVersion"),
+         "marketingEmailsConsent" = COALESCE($8, "marketingEmailsConsent"),
+         "marketingEmailsConsentAt" = COALESCE($9, "marketingEmailsConsentAt")
+       WHERE id = $1`,
+      userId,
+      updateData.privacyPolicyAccepted ?? null,
+      updateData.privacyPolicyAcceptedAt ?? null,
+      updateData.privacyPolicyVersion ?? null,
+      updateData.termsAccepted ?? null,
+      updateData.termsAcceptedAt ?? null,
+      updateData.termsVersion ?? null,
+      updateData.marketingEmailsConsent ?? null,
+      updateData.marketingEmailsConsentAt ?? null
+    );
+
+    const [user] = await db.$queryRawUnsafe<any[]>(
+      `SELECT 
+         "privacyPolicyAccepted",
+         "privacyPolicyAcceptedAt",
+         "privacyPolicyVersion",
+         "termsAccepted",
+         "termsAcceptedAt",
+         "termsVersion",
+         "marketingEmailsConsent",
+         "marketingEmailsConsentAt"
+       FROM users WHERE id = $1`,
+      userId
+    );
 
     // Log consent update
     await db.systemLog.create({

@@ -1,150 +1,108 @@
-// This file configures the initialization of Sentry on the server and edge.
-// The config you add here will be used whenever the server handles a request or edge features are loaded.
-// https://docs.sentry.io/platforms/javascript/guides/nextjs/
+/**
+ * Instrumentation file for Next.js
+ *
+ * This file runs once when the Next.js server starts up.
+ * It's the perfect place to:
+ * - Validate environment variables
+ * - Initialize monitoring tools
+ * - Set up global error handlers
+ * - Connect to databases or external services
+ *
+ * Learn more: https://nextjs.org/docs/app/building-your-application/optimizing/instrumentation
+ */
 
 import * as Sentry from "@sentry/nextjs";
 
+let sentryInitialized = false;
+
 export async function register() {
+  // Only run on server-side
   if (process.env.NEXT_RUNTIME === "nodejs") {
-    // Server-side Sentry initialization
-    Sentry.init({
-      dsn: process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN,
+    // Initialize Sentry
+    if (!sentryInitialized) {
+      const dsn = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN;
 
-      // Adjust this value in production, or use tracesSampler for greater control
-      tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 1.0,
+      const options: any = {
+        dsn,
+        environment: process.env.NODE_ENV,
+        release: process.env.VERCEL_GIT_COMMIT_SHA,
+        tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 1.0,
+        debug: false,
+        // Only add Prisma integration on node runtime
+        integrations: [
+          ...(typeof process !== "undefined" && (process as any).versions?.node
+            ? [Sentry.prismaIntegration()]
+            : []),
+        ],
+        beforeSend(event: any) {
+          // Don't send events if no DSN is configured
+          if (!dsn) return null;
 
-      // Setting this option to true will print useful information to the console while you're setting up Sentry.
-      debug: false,
-
-      // Environment
-      environment: process.env.NODE_ENV,
-
-      // Release tracking
-      release: process.env.VERCEL_GIT_COMMIT_SHA,
-
-      // Integrations
-      integrations: [
-        Sentry.prismaIntegration(),
-      ],
-
-      // Ignore certain errors
-      ignoreErrors: [
-        // Database connection errors that are handled
-        "P1001", // Can't reach database server
-        "P1002", // Database server timeout
-        // Stripe webhook signature errors (handled separately)
-        "StripeSignatureVerificationError",
-        // Rate limiting errors (expected behavior)
-        "RATE_LIMIT_EXCEEDED",
-      ],
-
-      beforeSend(event, hint) {
-        // Filter sensitive data
-        if (event.request) {
-          // Remove sensitive headers
-          if (event.request.headers) {
-            delete event.request.headers['authorization'];
-            delete event.request.headers['cookie'];
-            delete event.request.headers['x-api-key'];
+          // Filter sensitive request data
+          if (event.request?.headers) {
+            delete (event.request.headers as any)["authorization"];
+            delete (event.request.headers as any)["cookie"];
+            delete (event.request.headers as any)["x-api-key"];
           }
 
-          // Remove sensitive query params
-          if (event.request.query_string) {
-            const sensitiveParams = ['token', 'apiKey', 'password', 'secret'];
-            // Convert query_string to string if it's an array
-            let queryString: string;
-            if (Array.isArray(event.request.query_string)) {
-              // If it's an array of [key, value] tuples, convert to string
-              queryString = event.request.query_string
-                .map(([key, value]) => `${key}=${value}`)
-                .join('&');
-            } else {
-              queryString = event.request.query_string as string;
+          // Redact sensitive query params if present
+          if (event.request?.query_string) {
+            const sensitiveParams = ["token", "apiKey", "password", "secret"];
+            let query = event.request.query_string as string;
+            for (const p of sensitiveParams) {
+              const regex = new RegExp(`${p}=[^&]*`, "gi");
+              query = query.replace(regex, `${p}=[REDACTED]`);
             }
-
-            sensitiveParams.forEach(param => {
-              const regex = new RegExp(`${param}=[^&]*`, 'gi');
-              queryString = queryString.replace(regex, `${param}=[REDACTED]`);
-            });
-
-            event.request.query_string = queryString;
+            (event.request as any).query_string = query;
           }
-        }
 
-        // Don't send events if no DSN is configured
-        if (!process.env.SENTRY_DSN && !process.env.NEXT_PUBLIC_SENTRY_DSN) {
-          return null;
-        }
-
-        return event;
-      },
-
-      // Custom tags for better filtering
-      initialScope: {
-        tags: {
-          runtime: "server",
+          return event;
         },
-      },
-    });
+      };
+      Sentry.init(options as any);
+      sentryInitialized = true;
+    }
+
+    // Validate environment variables at startup
+    // This will throw an error and prevent server start if validation fails
+    await import("./lib/startup-validation");
+
+    console.log("✅ Server instrumentation completed successfully");
   }
 
+  // Edge runtime instrumentation (if needed)
   if (process.env.NEXT_RUNTIME === "edge") {
-    // Edge-side Sentry initialization
-    Sentry.init({
-      dsn: process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN,
-
-      // Adjust this value in production, or use tracesSampler for greater control
-      tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 1.0,
-
-      // Setting this option to true will print useful information to the console while you're setting up Sentry.
-      debug: false,
-
-      // Environment
-      environment: process.env.NODE_ENV,
-
-      // Release tracking
-      release: process.env.VERCEL_GIT_COMMIT_SHA,
-
-      beforeSend(event, hint) {
-        // Don't send events if no DSN is configured
-        if (!process.env.SENTRY_DSN && !process.env.NEXT_PUBLIC_SENTRY_DSN) {
-          return null;
-        }
-
-        // Filter sensitive data from edge runtime
-        if (event.request?.headers) {
-          delete event.request.headers['authorization'];
-          delete event.request.headers['cookie'];
-          delete event.request.headers['x-api-key'];
-        }
-
-        return event;
-      },
-
-      // Custom tags for better filtering
-      initialScope: {
-        tags: {
-          runtime: "edge",
-        },
-      },
-    });
+    // Edge runtime has limited environment - no file system, etc.
+    console.log("✅ Edge runtime instrumentation completed");
   }
 }
 
-// This hook is called when an error occurs in a React Server Component
-export async function onRequestError(err: Error, request: { path: string; headers: Headers }) {
-  // Use Sentry to capture the error
-  Sentry.captureException(err, {
-    tags: {
-      component: "React Server Component",
-      path: request.path,
-    },
-    contexts: {
-      request: {
-        path: request.path,
-        headers: Object.fromEntries(request.headers.entries()),
-      },
-    },
-  });
-}
+export async function onRequestError(
+  err: Error,
+  request: {
+    path: string;
+    headers: Record<string, string | null>;
+    method?: string;
+  }
+) {
+  // Ensure Sentry is initialized before capturing
+  if (!sentryInitialized) {
+    await register();
+  }
 
+  // Prepare request info matching Sentry's RequestInfo type
+  const requestInfo = {
+    path: request.path,
+    method: request.method || "GET",
+    headers: request.headers as Record<string, string | string[] | undefined>,
+  };
+
+  // Prepare error context
+  const errorContext = {
+    routerKind: "App Router",
+    routePath: request.path,
+    routeType: "route",
+  };
+
+  Sentry.captureRequestError(err, requestInfo, errorContext);
+}
