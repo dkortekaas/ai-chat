@@ -49,16 +49,26 @@ if (!result.success) {
 
 ---
 
-### 2. Failed Login Tracking
+### 2. Failed Login Tracking & Account Lockout
 
-**Purpose:** Tracks failed login attempts to detect brute force attacks and trigger additional security measures.
+**Purpose:** Tracks failed login attempts to detect brute force attacks and trigger escalating security measures including automatic account lockout.
 
 **Features:**
 - In-memory tracking of failed login attempts per email
 - Automatic cleanup of old entries (>1 hour)
-- Configurable threshold (default: 3 attempts)
-- Time window tracking (default: 15 minutes)
+- Escalating security thresholds
+- Automatic account lockout after 10 failures
+- Sentry integration for monitoring
+- Admin unlock functionality
 - Automatic reset on successful login
+
+**Security Thresholds:**
+
+```typescript
+3 attempts  → Require reCAPTCHA on next login
+8 attempts  → Sentry warning alert sent
+10 attempts → Automatic account lockout (30 minutes)
+```
 
 **How It Works:**
 
@@ -66,14 +76,18 @@ if (!result.success) {
 User attempts login with wrong password:
   ├─> recordFailedLogin(email)
   ├─> Increment counter for this email
-  └─> Check if threshold reached (3 attempts)
+  ├─> Check thresholds:
+  │   ├─> 3 attempts: Flag for reCAPTCHA requirement
+  │   ├─> 8 attempts: Send Sentry warning
+  │   └─> 10 attempts: Lock account (isActive = false)
+  └─> Log security event
 
 User successfully logs in:
   └─> resetFailedLogins(email)
       └─> Clear counter for this email
 
-After 15 minutes:
-  └─> Counter automatically resets
+After 30 minutes of lockout:
+  └─> Admin can unlock account via API
 ```
 
 **API Functions:**
@@ -83,15 +97,21 @@ import {
   recordFailedLogin,
   resetFailedLogins,
   requiresRecaptcha,
-  getFailedLoginCount
+  getFailedLoginCount,
+  shouldLockAccount
 } from '@/lib/login-tracking';
 
-// Record a failed login
-recordFailedLogin('user@example.com');
+// Record a failed login (async - handles lockout)
+await recordFailedLogin('user@example.com');
 
 // Check if reCAPTCHA should be required
 if (requiresRecaptcha('user@example.com')) {
   // Require reCAPTCHA for next login attempt
+}
+
+// Check if account should be locked
+if (shouldLockAccount('user@example.com')) {
+  // Account has reached lockout threshold
 }
 
 // Reset on successful login
@@ -101,17 +121,37 @@ resetFailedLogins('user@example.com');
 const count = getFailedLoginCount('user@example.com');
 ```
 
+**Admin Unlock:**
+
+```bash
+# Unlock a locked account (admin only)
+POST /api/admin/unlock-account
+Content-Type: application/json
+
+{
+  "email": "user@example.com"
+}
+
+# Response
+{
+  "success": true,
+  "message": "Account unlocked successfully",
+  "user": {
+    "id": "...",
+    "email": "user@example.com",
+    "isActive": true
+  }
+}
+```
+
 **Configuration:**
 
 ```typescript
-// Default values
-const threshold = 3;  // Require reCAPTCHA after 3 failures
-const timeWindow = 15 * 60 * 1000; // 15 minutes
-
-// Custom configuration
-if (requiresRecaptcha(email, 5, 30 * 60 * 1000)) {
-  // Require reCAPTCHA after 5 failures in 30 minutes
-}
+// Default thresholds (in lib/login-tracking.ts)
+const RECAPTCHA_THRESHOLD = 3;
+const LOCKOUT_THRESHOLD = 10;
+const LOCKOUT_DURATION = 30 * 60 * 1000; // 30 minutes
+const CLEANUP_INTERVAL = 15 * 60 * 1000; // Cleanup every 15 minutes
 ```
 
 ---
@@ -309,11 +349,26 @@ const registerSchema = z.object({
 ### Brute Force Attacks
 
 **Prevention Layers:**
-1. Failed login tracking (3 attempts → tracking)
-2. reCAPTCHA after threshold reached
-3. Account lockout (optional, via isActive flag)
-4. Rate limiting per IP address
-5. Security audit logging
+1. **Failed login tracking** - In-memory tracking starts on first failure
+2. **reCAPTCHA requirement** - Triggered after 3 failed attempts
+3. **Sentry alerting** - Warning sent to monitoring system at 8 attempts
+4. **Automatic account lockout** - Account locked for 30 minutes after 10 attempts
+5. **Admin unlock capability** - Dedicated endpoint for account recovery
+6. **Rate limiting per IP** - Redis-based distributed rate limiting
+7. **Security audit logging** - All events logged with IP and user agent
+
+**Attack Flow Example:**
+
+```
+Attempt 1-2:  Normal login flow, failures logged
+Attempt 3:    reCAPTCHA now required for login
+Attempt 4-7:  reCAPTCHA verification required
+Attempt 8:    ⚠️ Sentry warning triggered
+Attempt 9:    Final warning
+Attempt 10:   🔒 Account automatically locked (isActive = false)
+Attempt 11+:  Login blocked, "Account locked" message shown
+              Admin must unlock via /api/admin/unlock-account
+```
 
 ### Bot Registration
 
@@ -364,19 +419,38 @@ console.log(stats);
 
 ### Sentry Integration
 
-Failed authentication attempts above threshold are automatically reported to Sentry:
+Failed authentication attempts above threshold are automatically reported to Sentry for security monitoring:
 
 ```typescript
-if (failedCount >= 5) {
-  Sentry.captureMessage('Multiple failed login attempts', {
+// Warning alert at 8 attempts
+if (newCount >= LOCKOUT_THRESHOLD - 2) {
+  Sentry.captureMessage('Multiple failed login attempts detected', {
     level: 'warning',
     extra: {
       email: email.substring(0, 3) + '***',
-      attempts: failedCount,
+      attempts: newCount,
+      threshold: LOCKOUT_THRESHOLD,
+    },
+  });
+}
+
+// Account lockout event
+if (newCount >= LOCKOUT_THRESHOLD) {
+  Sentry.captureMessage('Account automatically locked', {
+    level: 'warning',
+    extra: {
+      email: email.substring(0, 3) + '***',
+      reason: 'Too many failed login attempts',
+      lockUntil: lockUntil,
     },
   });
 }
 ```
+
+**Alert Thresholds:**
+- **8 failed attempts**: Warning alert sent to Sentry
+- **10 failed attempts**: Account lockout alert sent to Sentry
+- **Admin unlock**: Security event logged to Sentry
 
 ---
 
@@ -406,16 +480,61 @@ curl -X POST http://localhost:3000/api/auth/callback/credentials \
 
 ### Automated Testing
 
+**Comprehensive Unit Tests Available:**
+
+```bash
+# Run all authentication security tests
+npm test -- __tests__/unit/login-tracking.test.ts
+npm test -- __tests__/unit/recaptcha.test.ts
+```
+
+**Test Coverage:**
+
+**1. Login Tracking Tests** (`__tests__/unit/login-tracking.test.ts`)
+- ✅ Track first failed login attempt
+- ✅ Increment counter on multiple failures
+- ✅ Require reCAPTCHA after 3 failures
+- ✅ Lock account after 10 failures
+- ✅ Reset counter on successful login
+- ✅ Automatic cleanup of old entries
+- ✅ Sentry integration at 8 attempts
+- ✅ Admin unlock functionality
+- ✅ Multiple users tracked independently
+- ✅ Edge cases and race conditions
+
+**2. reCAPTCHA Tests** (`__tests__/unit/recaptcha.test.ts`)
+- ✅ Verify valid reCAPTCHA token
+- ✅ Reject invalid tokens
+- ✅ Reject low scores (< minimum)
+- ✅ Verify action matching
+- ✅ Handle Google API failures
+- ✅ Development mode fallback
+- ✅ Token expiration handling
+- ✅ Network error handling
+
+**Example Test Code:**
+
 ```typescript
-// Jest test example
 describe('Failed Login Tracking', () => {
-  it('should track failed login attempts', () => {
-    recordFailedLogin('test@example.com');
-    recordFailedLogin('test@example.com');
-    recordFailedLogin('test@example.com');
+  it('should track failed login attempts', async () => {
+    await recordFailedLogin('test@example.com');
+    await recordFailedLogin('test@example.com');
+    await recordFailedLogin('test@example.com');
 
     expect(requiresRecaptcha('test@example.com')).toBe(true);
     expect(getFailedLoginCount('test@example.com')).toBe(3);
+  });
+
+  it('should lock account after 10 failures', async () => {
+    const email = 'test@example.com';
+
+    // Simulate 10 failed login attempts
+    for (let i = 0; i < 10; i++) {
+      await recordFailedLogin(email);
+    }
+
+    expect(shouldLockAccount(email)).toBe(true);
+    expect(getFailedLoginCount(email)).toBe(10);
   });
 
   it('should reset on successful login', () => {
@@ -426,6 +545,58 @@ describe('Failed Login Tracking', () => {
     expect(getFailedLoginCount('test@example.com')).toBe(0);
   });
 });
+
+describe('reCAPTCHA Verification', () => {
+  it('should verify valid token', async () => {
+    const mockResponse = {
+      success: true,
+      score: 0.9,
+      action: 'register',
+    };
+
+    global.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockResponse,
+    });
+
+    const result = await verifyRecaptchaToken('token', 'register', 0.5);
+    expect(result.success).toBe(true);
+    expect(result.score).toBe(0.9);
+  });
+
+  it('should reject token with low score', async () => {
+    const mockResponse = {
+      success: true,
+      score: 0.3,
+      action: 'register',
+    };
+
+    global.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockResponse,
+    });
+
+    const result = await verifyRecaptchaToken('token', 'register', 0.5);
+    expect(result.success).toBe(false);
+    expect(result.error).toContain('score too low');
+  });
+});
+```
+
+**Running Tests:**
+
+```bash
+# Run all tests
+npm test
+
+# Run with coverage
+npm test -- --coverage
+
+# Run specific test file
+npm test -- login-tracking.test.ts
+
+# Watch mode for development
+npm test -- --watch
 ```
 
 ---
@@ -456,16 +627,34 @@ ENCRYPTION_KEY=your-encryption-key-32-chars
 - [ ] Generate strong `NEXTAUTH_SECRET` (min 32 chars)
 - [ ] Generate strong `ENCRYPTION_KEY` (32 chars for AES-256)
 - [ ] Enable HTTPS (secure cookies)
-- [ ] Configure Sentry for security alerts
+- [ ] Configure Sentry for security alerts (including account lockout alerts)
 - [ ] Set up monitoring for failed login attempts
+- [ ] Configure Upstash Redis for distributed rate limiting
 - [ ] Review security audit logs regularly
 - [ ] Test password reset flow end-to-end
 - [ ] Verify reCAPTCHA on all auth endpoints
+- [ ] Test account lockout after 10 failed attempts
+- [ ] Verify admin unlock functionality works
 - [ ] Enable 2FA for admin accounts
+- [ ] Run comprehensive unit tests (`npm test`)
 
 ---
 
 ## Future Enhancements
+
+### ✅ Recently Implemented
+
+1. **Account Lockout** ✅ **COMPLETED**
+   - ✅ Automatic account lockout after 10 failed attempts
+   - ✅ Admin-only unlock functionality
+   - ✅ Sentry integration for monitoring
+   - ✅ 30-minute lockout duration
+
+2. **Comprehensive Unit Tests** ✅ **COMPLETED**
+   - ✅ Login tracking tests (20+ test cases)
+   - ✅ reCAPTCHA verification tests (15+ test cases)
+   - ✅ Mocked database and external services
+   - ✅ Edge case coverage
 
 ### Planned Features
 
@@ -473,31 +662,36 @@ ENCRYPTION_KEY=your-encryption-key-32-chars
    - Send verification email on registration
    - Prevent unverified accounts from logging in
    - Re-send verification email functionality
+   - `emailVerified` field already exists in User model
 
-2. **Account Lockout**
-   - Automatic account lockout after 10 failed attempts
-   - Admin-only unlock functionality
-   - Time-based automatic unlock (24 hours)
-
-3. **IP-based Rate Limiting**
+2. **IP-based Rate Limiting**
    - Track failed attempts per IP address
    - Temporary IP bans after threshold
    - Whitelist for trusted IPs
 
-4. **Password Strength Requirements**
-   - Minimum complexity requirements
-   - Password history (prevent reuse)
+3. **Password Strength Requirements**
+   - Minimum complexity requirements (uppercase, lowercase, numbers, symbols)
+   - Password history (prevent reuse of last 5 passwords)
    - Compromised password detection (HaveIBeenPwned API)
+   - Real-time password strength meter on frontend
 
-5. **Login Notifications**
+4. **Login Notifications**
    - Email notification on successful login from new device
    - Email notification on password change
    - Email notification on 2FA changes
+   - Suspicious login detection and alerts
 
-6. **Session Management**
-   - View active sessions
+5. **Session Management**
+   - View active sessions per user
    - Revoke specific sessions
    - "Log out all devices" functionality
+   - Track device fingerprints
+
+6. **Advanced Monitoring**
+   - Real-time dashboard for security events
+   - Automated threat detection
+   - Geographic anomaly detection
+   - Impossible travel detection
 
 ---
 
@@ -511,4 +705,4 @@ ENCRYPTION_KEY=your-encryption-key-32-chars
 ---
 
 **Last Updated:** November 5, 2025
-**Version:** 1.0.0
+**Version:** 1.1.0 - Added Account Lockout & Comprehensive Unit Tests
