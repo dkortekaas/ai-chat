@@ -37,6 +37,7 @@ export async function GET(request: NextRequest) {
         secondaryColor: true,
         avatar: true,
         selectedAvatar: true,
+        selectedAssistantIcon: true,
         fontFamily: true,
         position: true,
         showBranding: true,
@@ -77,7 +78,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Check if user's subscription is active
-    const user = chatbotSettings.users;
+    const user = (chatbotSettings as any).users;
     if (!user || !user.isActive) {
       return NextResponse.json(
         { success: false, error: "User account is inactive" },
@@ -100,7 +101,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          error: "Subscription expired. Please renew your subscription to continue using the chatbot.",
+          error:
+            "Subscription expired. Please renew your subscription to continue using the chatbot.",
         },
         {
           status: 403,
@@ -126,10 +128,12 @@ export async function GET(request: NextRequest) {
           primaryColor: chatbotSettings.primaryColor,
           secondaryColor: chatbotSettings.secondaryColor,
           avatar: chatbotSettings.selectedAvatar || chatbotSettings.avatar,
+          assistantIcon:
+            (chatbotSettings as any).selectedAssistantIcon || "robot",
           fontFamily: chatbotSettings.fontFamily,
           position: chatbotSettings.position,
           showBranding: chatbotSettings.showBranding,
-          actionButtons: chatbotSettings.actionButtons || [],
+          actionButtons: (chatbotSettings as any).actionButtons || [],
         },
       },
       {

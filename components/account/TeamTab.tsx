@@ -48,7 +48,7 @@ export function TeamTab() {
         </h2>
         <Button
           onClick={handleInvite}
-          className="bg-primary hover:bg-indigo-600 text-white"
+          className="bg-primary hover:bg-primary/80 text-white"
         >
           <Plus className="w-4 h-4 mr-2" />
           {t("account.team.invite")}

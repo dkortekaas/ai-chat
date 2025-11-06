@@ -37,7 +37,7 @@ export const StatCard = async ({
               "p-2 rounded",
               isPositive
                 ? "bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-400"
-                : "bg-blue-100 text-indigo-400 dark:bg-blue-900 dark:text-blue-400"
+                : "bg-blue-100 text-primary dark:bg-blue-900 dark:text-blue-400"
             )}
           >
             {icon}

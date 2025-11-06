@@ -283,7 +283,7 @@ export function ActionButtonsTab({ onChanges }: ActionButtonsTabProps) {
         </div>
         <Button
           onClick={handleAddButton}
-          className="bg-primary hover:bg-indigo-600"
+          className="bg-primary hover:bg-primary/80"
         >
           <Plus className="w-4 h-4 mr-2" />
           {t("common.add")}

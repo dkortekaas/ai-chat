@@ -56,7 +56,7 @@ export default function Hero() {
             </h1>
 
             <p className="text-xl text-white/90 max-w-xl leading-relaxed">
-              AI Flow assisteert direct uw klanten en medewerkers met
+              Clevva assisteert direct uw klanten en medewerkers met
               betekenisvolle interacties die vertrouwen en merkloyaliteit
               opbouwen.
             </p>
@@ -124,7 +124,7 @@ export default function Hero() {
                 </div>
                 <div>
                   <div className="font-semibold text-foreground">
-                    AI Flow Assistant
+                    Clevva Assistant
                   </div>
                   <div className="text-sm text-muted-foreground flex items-center gap-1">
                     <span

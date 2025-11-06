@@ -195,7 +195,7 @@ export default function TwoFactorSetup({
               <Button
                 onClick={startSetup}
                 disabled={isLoading}
-                className="w-full bg-primary hover:bg-indigo-600"
+                className="w-full bg-primary hover:bg-primary/80"
               >
                 {isLoading
                   ? t("common.statuses.loading")
@@ -286,7 +286,7 @@ export default function TwoFactorSetup({
             <div className="mt-8">
               <Button
                 onClick={() => setStep(SetupStep.VERIFY)}
-                className="bg-primary hover:bg-indigo-600"
+                className="bg-primary hover:bg-primary/80"
               >
                 {t("common.next")}{" "}
                 <ArrowRight className="h-4 w-4 ml-1 inline" />
@@ -343,7 +343,7 @@ export default function TwoFactorSetup({
                 type="button"
                 onClick={verifyCode}
                 disabled={isLoading || verificationCode.length !== 6}
-                className="bg-primary hover:bg-indigo-600"
+                className="bg-primary hover:bg-primary/80"
               >
                 {isLoading ? t("common.verifying") : t("common.verify")}
               </Button>
@@ -396,7 +396,7 @@ export default function TwoFactorSetup({
               <Button
                 type="button"
                 onClick={finishSetup}
-                className="bg-primary hover:bg-indigo-600"
+                className="bg-primary hover:bg-primary/80"
               >
                 {t("common.complete")}
               </Button>
@@ -419,7 +419,7 @@ export default function TwoFactorSetup({
             {onComplete ? (
               <Button
                 onClick={onComplete}
-                className="bg-primary hover:bg-indigo-600"
+                className="bg-primary hover:bg-primary/80"
               >
                 {t("common.continue")}
               </Button>

@@ -1,6 +1,6 @@
 // Application configuration
 const config = {
-  appTitle: "AI Flow",
+  appTitle: "Clevva",
   email: "info@declair.app",
   itemsPerPage: 5,
 };

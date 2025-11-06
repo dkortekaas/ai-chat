@@ -62,6 +62,7 @@ export function ChatWindow({
           messages={messages}
           isLoading={isLoading}
           primaryColor={config.primaryColor}
+          avatar={config.avatar}
           onSubmitForm={onSubmitForm}
         />
       )}
@@ -77,7 +78,7 @@ export function ChatWindow({
       {/* Branding */}
       {config.showBranding && (
         <div className="chatbot-branding">
-          Powered by <strong>AI Flow</strong>
+          Powered by <strong>Clevva</strong>
         </div>
       )}
     </div>

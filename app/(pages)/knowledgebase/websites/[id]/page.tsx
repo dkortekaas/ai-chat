@@ -328,7 +328,7 @@ export default function WebsiteDetailPage() {
                   <h3 className="text-lg font-semibold">
                     {t("knowledgebase.syncStatus")}
                   </h3>
-                  <Button size="sm" className="bg-primary hover:bg-indigo-600">
+                  <Button size="sm" className="bg-primary hover:bg-primary/80">
                     <Play className="w-4 h-4 mr-2" />
                     {t("knowledgebase.runNow")}
                   </Button>

@@ -418,6 +418,7 @@ model ChatbotSettings {
   assistantName     String?        @default("AI Assistent")
   assistantSubtitle String?        @default("We helpen je graag verder!")
   selectedAvatar    String?        @default("chat-bubble")
+  selectedAssistantIcon String?    @default("robot")
   avatar            String         @default("chat-bubble")
   tone              String         @default("professional")
   language          String         @default("nl")

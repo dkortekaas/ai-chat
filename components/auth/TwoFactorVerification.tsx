@@ -170,7 +170,7 @@ export default function TwoFactorVerification({
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4 sm:px-6">
       <div className="max-w-md w-full space-y-6 sm:space-y-8 p-6 sm:p-8 bg-white dark:bg-gray-800 rounded-lg shadow-md mx-auto">
         <div className="text-center mb-6 sm:mb-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-indigo-400 dark:text-indigo-400 mb-2">
+          <h2 className="text-2xl sm:text-3xl font-bold text-primary dark:text-primary mb-2">
             {config.appTitle}
           </h2>
           <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300">
@@ -247,7 +247,7 @@ export default function TwoFactorVerification({
                   ? !code
                   : code.length !== 6)
               }
-              className="w-full bg-primary hover:bg-indigo-600"
+              className="w-full bg-primary hover:bg-primary/80"
             >
               {isLoading ? t("actions.verifying") : t("actions.verify")}
             </Button>
@@ -257,7 +257,7 @@ export default function TwoFactorVerification({
                 <button
                   type="button"
                   onClick={toggleRecoveryMode}
-                  className="block w-full text-sm text-indigo-400 hover:text-primary dark:text-indigo-300 dark:hover:text-indigo-200"
+                  className="block w-full text-sm text-primary hover:text-primary dark:text-indigo-300 dark:hover:text-indigo-200"
                 >
                   {isUsingRecoveryCode
                     ? t("auth.twoFactorVerification.useAuthenticator")
@@ -289,7 +289,7 @@ export default function TwoFactorVerification({
                     setCode("");
                     setError("");
                   }}
-                  className="block w-full text-sm text-indigo-400 hover:text-primary dark:text-indigo-300 dark:hover:text-indigo-200"
+                  className="block w-full text-sm text-primary hover:text-primary dark:text-indigo-300 dark:hover:text-indigo-200"
                 >
                   {t("auth.twoFactorVerification.backToAuthenticator")}
                 </button>

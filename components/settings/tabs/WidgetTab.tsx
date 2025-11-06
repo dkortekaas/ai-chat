@@ -211,7 +211,7 @@ export function WidgetTab({ onChanges }: WidgetTabProps) {
           <div className="flex space-x-2">
             <Button
               onClick={handleCopyCode}
-              className="bg-primary hover:bg-indigo-600"
+              className="bg-primary hover:bg-primary/80"
             >
               {copied ? (
                 <>

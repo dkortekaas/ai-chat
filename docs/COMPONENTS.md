@@ -180,7 +180,7 @@ export function Sidebar() {
       {/* Logo */}
       <div className="h-16 flex items-center px-6 border-b border-gray-200">
         <h1 className="text-xl font-bold text-gray-900">
-          AI Flow
+          Clevva
         </h1>
       </div>
 
@@ -316,7 +316,7 @@ export function DocumentUpload() {
     <div
       className={cn(
         'border-2 border-dashed rounded-lg p-12 text-center transition-colors',
-        isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300',
+        isDragging ? 'border-primary bg-blue-50' : 'border-gray-300',
         uploading && 'opacity-50 pointer-events-none'
       )}
       onDragOver={(e) => {

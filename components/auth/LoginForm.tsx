@@ -79,6 +79,17 @@ export default function LoginForm() {
     if (searchParams.get("registered") === "true") {
       setSuccess(t("auth.registrationSuccess"));
     }
+    // Check for error in URL (from NextAuth redirect)
+    const errorParam = searchParams.get("error");
+    if (
+      errorParam === "CredentialsSignin" ||
+      errorParam === "EMAIL_NOT_VERIFIED"
+    ) {
+      // Check if it's specifically an email not verified error
+      // NextAuth doesn't pass the message, so we check the error type
+      // For now, we'll show a generic error, but the backend should log the specific reason
+      setError(t("error.invalidCredentials"));
+    }
   }, [searchParams, t]);
 
   // Debounced submit handler
@@ -102,12 +113,22 @@ export default function LoginForm() {
 
         if (response?.error) {
           // Enhanced error handling
-          const errorMap: Record<string, string> = {
-            CredentialsSignin: t("error.invalidCredentials"),
-            RateLimit: t("error.rateLimit"),
-            default: t("error.generic"),
-          };
-          setError(errorMap[response.error] || errorMap.default);
+          // Check if error message contains EMAIL_NOT_VERIFIED
+          const errorMessage = response.error;
+          let errorText = t("error.invalidCredentials");
+
+          if (errorMessage.includes("EMAIL_NOT_VERIFIED")) {
+            errorText = t("error.emailNotVerified");
+          } else {
+            const errorMap: Record<string, string> = {
+              CredentialsSignin: t("error.invalidCredentials"),
+              RateLimit: t("error.rateLimit"),
+              default: t("error.generic"),
+            };
+            errorText = errorMap[errorMessage] || errorMap.default;
+          }
+
+          setError(errorText);
           setIsLoading(false);
           return;
         }
@@ -140,7 +161,7 @@ export default function LoginForm() {
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 px-4 sm:px-6">
       <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-md w-full max-w-md mx-auto">
         <div className="text-center mb-6 sm:mb-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-indigo-400 dark:text-indigo-400 mb-2">
+          <h2 className="text-2xl sm:text-3xl font-bold text-primary dark:text-primary mb-2">
             {config.appTitle}
           </h2>
           <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300">
@@ -257,7 +278,7 @@ export default function LoginForm() {
 
               <Link
                 href="/forgot-password"
-                className="text-sm font-medium text-indigo-400 hover:text-primary"
+                className="text-sm font-medium text-primary hover:text-primary"
                 aria-label={t("auth.forgotPassword")}
               >
                 {t("auth.forgotPassword")}
@@ -266,7 +287,7 @@ export default function LoginForm() {
 
             <Button
               type="submit"
-              className="w-full bg-primary hover:bg-indigo-600"
+              className="w-full bg-primary hover:bg-primary/80"
               disabled={isLoading || !form.formState.isValid}
               aria-label={t("auth.loginForm.loginButton")}
             >

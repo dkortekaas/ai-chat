@@ -198,7 +198,9 @@
     "passwordComplexity": "Le mot de passe doit contenir au moins une majuscule, une minuscule et un chiffre",
     "knowledgebase": {
       "noAssistantSelected": "Aucun assistant sélectionné"
-    }
+    },
+    "emailNotVerified": "E-mail non vérifié",
+    "emailNotVerifiedDescription": "Votre adresse e-mail n'est pas vérifiée. Veuillez vérifier votre e-mail pour vérifier votre compte."
   },
   "success": {
     "actionButton": "Bouton d'action ajouté avec succès",
@@ -233,7 +235,8 @@
     "createUserSuccess": "Utilisateur créé avec succès",
     "assistantUpdatedSuccessfully": "Assistant mis à jour avec succès",
     "assistantDuplicatedDescription": "Assistant dupliqué avec succès",
-    "assistantDeletedDescription": "Assistant supprimé avec succès"
+    "assistantDeletedDescription": "Assistant supprimé avec succès",
+    "assistantCreatedSuccessfully": "Assistant créé avec succès"
   },
   "notFound": {
     "title": "Page non trouvée",
@@ -241,18 +244,18 @@
     "backToPortal": "Retour au portail"
   },
   "metadata": {
-    "title": "AI Flow",
-    "description": "AI Flow AI Chat Support",
-    "keywords": "AI Flow AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, AI Flow, AI Flow AI, AI Flow AI Chat, AI Flow AI Chat Support",
+    "title": "Clevva",
+    "description": "Clevva AI Chat Support",
+    "keywords": "Clevva AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Clevva, Clevva AI, Clevva AI Chat, Clevva AI Chat Support",
     "twitter": {
-      "title": "AI Flow AI Chat Support",
-      "description": "AI Flow AI Chat Support",
-      "keywords": "AI Flow AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, AI Flow, AI Flow AI, AI Flow AI Chat, AI Flow AI Chat Support"
+      "title": "Clevva AI Chat Support",
+      "description": "Clevva AI Chat Support",
+      "keywords": "Clevva AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Clevva, Clevva AI, Clevva AI Chat, Clevva AI Chat Support"
     },
     "og": {
-      "title": "AI Flow AI Chat Support",
-      "description": "AI Flow AI Chat Support",
-      "keywords": "AI Flow AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, AI Flow, AI Flow AI, AI Flow AI Chat, AI Flow AI Chat Support"
+      "title": "Clevva AI Chat Support",
+      "description": "Clevva AI Chat Support",
+      "keywords": "Clevva AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Clevva, Clevva AI, Clevva AI Chat, Clevva AI Chat Support"
     }
   },
   "auth": {
@@ -478,7 +481,10 @@
     "emailCannotBeChanged": "L'e-mail ne peut pas être modifié",
     "department": "Département",
     "profileUpdatedDescription": "Votre profil a été mis à jour avec succès",
-    "noChanges": "Aucun changement"
+    "noChanges": "Aucun changement",
+    "avatarDescription": "Choisissez l'avatar pour votre assistant",
+    "assistantIcon": "Icone de l'assistant",
+    "assistantIconDescription": "Choisissez l'icône pour votre assistant"
   },
   "languageSelector": {
     "dutch": "Néerlandais",
@@ -538,8 +544,8 @@
     }
   },
   "benefits": {
-    "title": "Avantages de l'utilisation d'AI Flow",
-    "description": "Avantages de l'utilisation d'AI Flow"
+    "title": "Avantages de l'utilisation d'Clevva",
+    "description": "Avantages de l'utilisation d'Clevva"
   },
   "faq": {
     "title": "Questions fréquemment posées",

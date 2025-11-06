@@ -255,7 +255,7 @@ export default function RegisterForm() {
       <div className="flex min-h-screen items-center justify-center bg-gray-100 dark:bg-gray-900 px-4 sm:px-6">
         <Card className="w-full max-w-2xl">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl sm:text-3xl font-bold text-indigo-400 dark:text-indigo-400">
+            <CardTitle className="text-2xl sm:text-3xl font-bold text-primary dark:text-primary">
               {config.appTitle}
             </CardTitle>
             <CardDescription className="text-base sm:text-lg">
@@ -278,7 +278,7 @@ export default function RegisterForm() {
     <div className="flex min-h-screen items-center justify-center bg-gray-100 dark:bg-gray-900 px-4 sm:px-6">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl sm:text-3xl font-bold text-indigo-400 dark:text-indigo-400">
+          <CardTitle className="text-2xl sm:text-3xl font-bold text-primary dark:text-primary">
             {config.appTitle}
           </CardTitle>
           <CardDescription className="text-base sm:text-lg">
@@ -460,7 +460,7 @@ export default function RegisterForm() {
 
               <Button
                 type="submit"
-                className="w-full bg-primary hover:bg-indigo-600"
+                className="w-full bg-primary hover:bg-primary/80"
                 disabled={isSubmitting || isLoading || !form.formState.isValid}
                 aria-label={t("auth.registerForm.registerButton")}
               >

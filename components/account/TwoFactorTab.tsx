@@ -272,7 +272,7 @@ export function TwoFactorTab() {
               {!showSetup ? (
                 <Button
                   onClick={() => setShowSetup(true)}
-                  className="bg-primary hover:bg-indigo-600"
+                  className="bg-primary hover:bg-primary/80"
                 >
                   <Shield className="h-4 w-4 mr-2" />
                   {t("account.enable2FA")}

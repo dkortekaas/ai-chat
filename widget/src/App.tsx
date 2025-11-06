@@ -37,7 +37,11 @@ export function App({ config }: AppProps) {
     <div className="chatbot-widget-container">
       {/* Toggle Button */}
       {!isOpen && (
-        <ToggleButton onClick={toggle} primaryColor={config.primaryColor} />
+        <ToggleButton
+          onClick={toggle}
+          primaryColor={config.primaryColor}
+          assistantIcon={config.assistantIcon}
+        />
       )}
 
       {/* Chat Window */}

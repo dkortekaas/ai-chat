@@ -27,6 +27,12 @@ import { useAssistant } from "@/contexts/assistant-context";
 import { useToast } from "@/components/ui/use-toast";
 import { ChatbotPreview } from "@/components/assistant/ChatbotPreview";
 import { useTranslations } from "next-intl";
+import {
+  avatarOptions,
+  assistantIconOptions,
+  getAvatarIcon,
+  getAssistantIcon,
+} from "@/lib/avatar-icons";
 
 interface LookAndFeelTabProps {
   onChanges: (hasChanges: boolean) => void;
@@ -71,15 +77,8 @@ export const LookAndFeelTab = forwardRef<
     t("settings.assistantSubtitle")
   );
   const [selectedAvatar, setSelectedAvatar] = useState("chat-bubble");
+  const [selectedAssistantIcon, setSelectedAssistantIcon] = useState("robot");
   const [isLoading, setIsLoading] = useState(false);
-
-  const avatarOptions = [
-    { id: "chat-bubble", icon: "💬", name: t("settings.chatBubble") },
-    { id: "robot", icon: "🤖", name: t("settings.robot") },
-    { id: "assistant", icon: "👤", name: t("settings.assistant") },
-    { id: "support", icon: "🎧", name: t("settings.support") },
-    { id: "help", icon: "❓", name: t("settings.help") },
-  ];
 
   // Load data from current assistant only on initial load
   const [hasLoaded, setHasLoaded] = useState(false);
@@ -97,6 +96,9 @@ export const LookAndFeelTab = forwardRef<
         currentAssistant.assistantSubtitle || t("settings.assistantSubtitle")
       );
       setSelectedAvatar(currentAssistant.selectedAvatar || "chat-bubble");
+      setSelectedAssistantIcon(
+        currentAssistant.selectedAssistantIcon || "robot"
+      );
       setHasLoaded(true);
     }
   }, [currentAssistant, t, hasLoaded]);
@@ -137,6 +139,7 @@ export const LookAndFeelTab = forwardRef<
         assistantName,
         assistantSubtitle,
         selectedAvatar,
+        selectedAssistantIcon,
       };
 
       console.log("Sending update data:", updateData);
@@ -180,6 +183,7 @@ export const LookAndFeelTab = forwardRef<
     assistantName,
     assistantSubtitle,
     selectedAvatar,
+    selectedAssistantIcon,
     setCurrentAssistant,
     refreshAssistants,
     onChanges,
@@ -272,25 +276,75 @@ export const LookAndFeelTab = forwardRef<
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label>{t("settings.avatar")}</Label>
-              <div className="flex space-x-3">
-                {avatarOptions.map((avatar) => (
-                  <button
-                    key={avatar.id}
-                    onClick={() => {
-                      setSelectedAvatar(avatar.id);
-                      onChanges(true);
-                    }}
-                    className={`w-12 h-12 rounded-lg border-2 flex items-center justify-center text-2xl transition-colors ${
-                      selectedAvatar === avatar.id
-                        ? "border-primary bg-purple-50"
-                        : "border-gray-200 hover:border-gray-300"
-                    }`}
-                  >
-                    {avatar.icon}
-                  </button>
-                ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <Label>{t("settings.avatar")}</Label>
+                <p className="text-sm text-gray-500 mb-3">
+                  {t("settings.avatarDescription")}
+                </p>
+                <div className="grid grid-cols-5 gap-3">
+                  {avatarOptions.map((avatar) => {
+                    const IconComponent = avatar.icon;
+                    return (
+                      <button
+                        key={avatar.id}
+                        onClick={() => {
+                          setSelectedAvatar(avatar.id);
+                          onChanges(true);
+                        }}
+                        className={`w-12 h-12 rounded-lg border-2 flex items-center justify-center transition-all ${
+                          selectedAvatar === avatar.id
+                            ? "border-primary bg-purple-50 scale-105"
+                            : "border-gray-200 hover:border-gray-300 hover:scale-105"
+                        }`}
+                        title={avatar.name}
+                      >
+                        <IconComponent
+                          className={`w-5 h-5 ${
+                            selectedAvatar === avatar.id
+                              ? "text-primary"
+                              : "text-gray-600"
+                          }`}
+                        />
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label>{t("settings.assistantIcon")}</Label>
+                <p className="text-sm text-gray-500 mb-3">
+                  {t("settings.assistantIconDescription")}
+                </p>
+                <div className="grid grid-cols-5 gap-3">
+                  {assistantIconOptions.map((icon) => {
+                    const IconComponent = icon.icon;
+                    return (
+                      <button
+                        key={icon.id}
+                        onClick={() => {
+                          setSelectedAssistantIcon(icon.id);
+                          onChanges(true);
+                        }}
+                        className={`w-12 h-12 rounded-lg border-2 flex items-center justify-center transition-all ${
+                          selectedAssistantIcon === icon.id
+                            ? "border-primary bg-purple-50 scale-105"
+                            : "border-gray-200 hover:border-gray-300 hover:scale-105"
+                        }`}
+                        title={icon.name}
+                      >
+                        <IconComponent
+                          className={`w-5 h-5 ${
+                            selectedAssistantIcon === icon.id
+                              ? "text-primary"
+                              : "text-gray-600"
+                          }`}
+                        />
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </CardContent>
@@ -304,6 +358,7 @@ export const LookAndFeelTab = forwardRef<
           assistantName={assistantName}
           assistantSubtitle={assistantSubtitle}
           selectedAvatar={selectedAvatar}
+          selectedAssistantIcon={selectedAssistantIcon}
           primaryColor={currentAssistant?.primaryColor || "#3B82F6"}
           secondaryColor={currentAssistant?.secondaryColor || "#1E40AF"}
           welcomeMessage={

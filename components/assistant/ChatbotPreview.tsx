@@ -6,12 +6,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Bot, Send, X, Minimize2 } from "lucide-react";
+import {
+  getAvatarIcon,
+  getDefaultAvatar,
+  getAssistantIcon,
+  getDefaultAssistantIcon,
+} from "@/lib/avatar-icons";
 
 interface ChatbotPreviewProps {
   fontFamily: string;
   assistantName: string;
   assistantSubtitle: string;
   selectedAvatar: string;
+  selectedAssistantIcon?: string;
   primaryColor: string;
   secondaryColor: string;
   welcomeMessage: string;
@@ -23,12 +30,20 @@ export function ChatbotPreview({
   assistantName,
   assistantSubtitle,
   selectedAvatar,
+  selectedAssistantIcon,
   primaryColor,
   secondaryColor,
   welcomeMessage,
   placeholderText,
 }: ChatbotPreviewProps) {
   const t = useTranslations();
+  const avatarOption = getAvatarIcon(selectedAvatar) || getDefaultAvatar();
+  const AvatarIcon = avatarOption.icon;
+  const assistantIconOption =
+    getAssistantIcon(selectedAssistantIcon || "robot") ||
+    getDefaultAssistantIcon();
+  const AssistantIcon = assistantIconOption.icon;
+  
   return (
     <Card>
       <CardHeader>
@@ -47,11 +62,11 @@ export function ChatbotPreview({
               <div className="flex items-center space-x-2">
                 <Avatar className="h-6 w-6">
                   <AvatarFallback className="bg-primary text-white text-xs">
-                    <Bot className="h-3 w-3" />
+                    <AvatarIcon className="h-3 w-3" />
                   </AvatarFallback>
                 </Avatar>
                 <span className="font-medium text-sm">
-                  {t("assistants.aiAssistant")}
+                  {assistantName || t("assistants.aiAssistant")}
                 </span>
               </div>
               <div className="flex items-center space-x-1">
@@ -77,12 +92,12 @@ export function ChatbotPreview({
               <div className="flex items-start space-x-2">
                 <Avatar className="h-6 w-6">
                   <AvatarFallback className="bg-gray-200 text-xs">
-                    <Bot className="h-3 w-3" />
+                    <AvatarIcon className="h-3 w-3 text-gray-600" />
                   </AvatarFallback>
                 </Avatar>
                 <div className="bg-gray-100 rounded-lg px-3 py-2 max-w-xs">
                   <p className="text-xs">
-                    {t("assistants.helloHowCanIHelpYouToday")}
+                    {welcomeMessage || t("assistants.helloHowCanIHelpYouToday")}
                   </p>
                 </div>
               </div>
@@ -98,7 +113,7 @@ export function ChatbotPreview({
               <div className="flex items-start space-x-2">
                 <Avatar className="h-6 w-6">
                   <AvatarFallback className="bg-gray-200 text-xs">
-                    <Bot className="h-3 w-3" />
+                    <AvatarIcon className="h-3 w-3 text-gray-600" />
                   </AvatarFallback>
                 </Avatar>
                 <div className="bg-gray-100 rounded-lg px-3 py-2 max-w-xs">
@@ -113,7 +128,7 @@ export function ChatbotPreview({
             <div className="p-3 border-t">
               <div className="flex items-center space-x-2">
                 <Input
-                  placeholder={t("assistants.typeYourQuestionHere")}
+                  placeholder={placeholderText || t("assistants.typeYourQuestionHere")}
                   className="text-xs h-8"
                   disabled
                 />
@@ -133,7 +148,7 @@ export function ChatbotPreview({
               size="icon"
               className="h-12 w-12 rounded-full bg-primary hover:bg-blue-700 shadow-lg"
             >
-              <Bot className="h-6 w-6" />
+              <AssistantIcon className="h-6 w-6" />
             </Button>
           </div>
         </div>

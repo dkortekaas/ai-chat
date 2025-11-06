@@ -22,6 +22,7 @@ interface Assistant {
   assistantName?: string;
   assistantSubtitle?: string;
   selectedAvatar?: string;
+  selectedAssistantIcon?: string;
   tone: string;
   language: string;
   maxResponseLength: number;

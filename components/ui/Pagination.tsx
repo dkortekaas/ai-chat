@@ -78,7 +78,7 @@ export function Pagination({
                 onClick={() => onPageChange(page)}
                 className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
                   currentPage === page
-                    ? "z-10 bg-indigo-50 dark:bg-indigo-900/50 border-primary dark:border-primary text-primary dark:text-indigo-400"
+                    ? "z-10 bg-indigo-50 dark:bg-indigo-900/50 border-primary dark:border-primary text-primary dark:text-primary"
                     : "border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700"
                 }`}
               >

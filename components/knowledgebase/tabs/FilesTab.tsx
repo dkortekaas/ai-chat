@@ -286,7 +286,7 @@ export function BestandenTab() {
         </div>
         <div className="flex gap-2">
           <Button
-            className="bg-primary hover:bg-indigo-600"
+            className="bg-primary hover:bg-primary/80"
             onClick={handleUploadFile}
           >
             <Upload className="w-4 h-4 mr-2" />

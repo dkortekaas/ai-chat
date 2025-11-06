@@ -211,7 +211,7 @@ export function IntegrationsTab({ onChanges }: IntegrationsTabProps) {
                               onClick={() =>
                                 handleConfigureIntegration(integration)
                               }
-                              className="bg-primary hover:bg-indigo-600"
+                              className="bg-primary hover:bg-primary/80"
                             >
                               {t("settings.configure")}
                             </Button>
@@ -341,7 +341,7 @@ export function IntegrationsTab({ onChanges }: IntegrationsTabProps) {
               </Button>
               <Button
                 onClick={handleSaveConfiguration}
-                className="bg-primary hover:bg-indigo-600"
+                className="bg-primary hover:bg-primary/80"
               >
                 {t("common.save")}
               </Button>

@@ -31,6 +31,7 @@ import SaveButton from "@/components/ui/save-button";
 import { useTranslations } from "next-intl";
 import { PageHeader } from "@/components/layouts";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { avatarOptions } from "@/lib/avatar-icons";
 import {
   LookAndFeelTab,
   LookAndFeelTabRef,
@@ -55,6 +56,7 @@ interface Assistant {
   assistantName?: string;
   assistantSubtitle?: string;
   selectedAvatar?: string;
+  selectedAssistantIcon?: string;
   tone: string;
   language: string;
   maxResponseLength: number;
@@ -100,14 +102,6 @@ const fontOptions = [
   "Poppins",
   "Source Sans Pro",
   "Nunito",
-];
-
-const avatarOptions = [
-  { id: "chat-bubble", icon: "💬", name: "Chat Bubble" },
-  { id: "robot", icon: "🤖", name: "Robot" },
-  { id: "assistant", icon: "👤", name: "Assistant" },
-  { id: "support", icon: "🎧", name: "Support" },
-  { id: "help", icon: "❓", name: "Help" },
 ];
 
 export default function EditAssistantPage() {
@@ -158,6 +152,7 @@ export default function EditAssistantPage() {
     assistantName: "PS in foodservice",
     assistantSubtitle: "We helpen je graag verder!",
     selectedAvatar: "chat-bubble",
+    selectedAssistantIcon: "robot",
     tone: "professional",
     language: "nl",
     maxResponseLength: 500,
@@ -195,6 +190,7 @@ export default function EditAssistantPage() {
             assistantSubtitle:
               data.assistantSubtitle || "We helpen je graag verder!",
             selectedAvatar: data.selectedAvatar || "chat-bubble",
+            selectedAssistantIcon: data.selectedAssistantIcon || "robot",
             tone: data.tone,
             language: data.language,
             maxResponseLength: data.maxResponseLength,
@@ -729,6 +725,7 @@ export default function EditAssistantPage() {
                     assistantName={formData.assistantName}
                     assistantSubtitle={formData.assistantSubtitle}
                     selectedAvatar={formData.selectedAvatar}
+                    selectedAssistantIcon={formData.selectedAssistantIcon}
                     primaryColor={formData.primaryColor}
                     secondaryColor={formData.secondaryColor}
                     welcomeMessage={formData.welcomeMessage}

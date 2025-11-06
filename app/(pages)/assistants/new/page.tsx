@@ -27,6 +27,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { ArrowLeft, Save, X, Plus, Info } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { PageHeader } from "@/components/layouts";
+import { avatarOptions, assistantIconOptions } from "@/lib/avatar-icons";
 
 const fontOptions = [
   "Inter",
@@ -78,6 +79,7 @@ export default function NewAssistantPage() {
     assistantName: "PS in foodservice",
     assistantSubtitle: "We helpen je graag verder!",
     selectedAvatar: "chat-bubble",
+    selectedAssistantIcon: "robot",
     tone: "professional",
     language: "nl",
     maxResponseLength: 500,
@@ -144,6 +146,8 @@ export default function NewAssistantPage() {
           placeholderText: formData.placeholderText,
           primaryColor: formData.primaryColor,
           secondaryColor: formData.secondaryColor,
+          selectedAvatar: formData.selectedAvatar,
+          selectedAssistantIcon: formData.selectedAssistantIcon,
           tone: formData.tone,
           language: formData.language,
           maxResponseLength: formData.maxResponseLength,
@@ -220,7 +224,7 @@ export default function NewAssistantPage() {
           <Button
             onClick={handleSave}
             disabled={isSaving}
-            className="bg-primary hover:bg-indigo-600"
+            className="bg-primary hover:bg-primary/80"
           >
             <Save className="w-4 h-4 mr-2" />
             {isSaving ? t("common.saving") : t("assistants.createAssistant")}
@@ -397,42 +401,78 @@ export default function NewAssistantPage() {
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <Label>{t("assistants.avatar")}</Label>
-                <div className="flex space-x-3">
-                  {[
-                    {
-                      id: "chat-bubble",
-                      icon: "💬",
-                      name: t("assistants.chatBubble"),
-                    },
-                    { id: "robot", icon: "🤖", name: t("assistants.robot") },
-                    {
-                      id: "assistant",
-                      icon: "👤",
-                      name: t("assistants.assistant"),
-                    },
-                    {
-                      id: "support",
-                      icon: "🎧",
-                      name: t("assistants.support"),
-                    },
-                    { id: "help", icon: "❓", name: t("assistants.help") },
-                  ].map((avatar) => (
-                    <button
-                      key={avatar.id}
-                      onClick={() =>
-                        handleInputChange("selectedAvatar", avatar.id)
-                      }
-                      className={`w-12 h-12 rounded-lg border-2 flex items-center justify-center text-2xl transition-colors ${
-                        formData.selectedAvatar === avatar.id
-                          ? "border-primary bg-purple-50"
-                          : "border-gray-200 hover:border-gray-300"
-                      }`}
-                    >
-                      {avatar.icon}
-                    </button>
-                  ))}
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label>{t("assistants.avatar")}</Label>
+                    <p className="text-sm text-gray-500 mb-3">
+                      {t("assistants.avatarDescription")}
+                    </p>
+                    <div className="grid grid-cols-5 gap-3">
+                      {avatarOptions.map((avatar) => {
+                        const IconComponent = avatar.icon;
+                        return (
+                          <button
+                            key={avatar.id}
+                            onClick={() =>
+                              handleInputChange("selectedAvatar", avatar.id)
+                            }
+                            className={`w-12 h-12 rounded-lg border-2 flex items-center justify-center transition-all ${
+                              formData.selectedAvatar === avatar.id
+                                ? "border-primary bg-purple-50 scale-105"
+                                : "border-gray-200 hover:border-gray-300 hover:scale-105"
+                            }`}
+                            title={avatar.name}
+                          >
+                            <IconComponent
+                              className={`w-5 h-5 ${
+                                formData.selectedAvatar === avatar.id
+                                  ? "text-primary"
+                                  : "text-gray-600"
+                              }`}
+                            />
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>{t("assistants.assistantIcon")}</Label>
+                    <p className="text-sm text-gray-500 mb-3">
+                      {t("assistants.assistantIconDescription")}
+                    </p>
+                    <div className="grid grid-cols-5 gap-3">
+                      {assistantIconOptions.map((icon) => {
+                        const IconComponent = icon.icon;
+                        return (
+                          <button
+                            key={icon.id}
+                            onClick={() =>
+                              handleInputChange(
+                                "selectedAssistantIcon",
+                                icon.id
+                              )
+                            }
+                            className={`w-12 h-12 rounded-lg border-2 flex items-center justify-center transition-all ${
+                              formData.selectedAssistantIcon === icon.id
+                                ? "border-primary bg-purple-50 scale-105"
+                                : "border-gray-200 hover:border-gray-300 hover:scale-105"
+                            }`}
+                            title={icon.name}
+                          >
+                            <IconComponent
+                              className={`w-5 h-5 ${
+                                formData.selectedAssistantIcon === icon.id
+                                  ? "text-primary"
+                                  : "text-gray-600"
+                              }`}
+                            />
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -635,6 +675,7 @@ export default function NewAssistantPage() {
             assistantName={formData.assistantName}
             assistantSubtitle={formData.assistantSubtitle}
             selectedAvatar={formData.selectedAvatar}
+            selectedAssistantIcon={formData.selectedAssistantIcon}
             primaryColor={formData.primaryColor}
             secondaryColor={formData.secondaryColor}
             welcomeMessage={formData.welcomeMessage}

@@ -1,18 +1,28 @@
 import type { Message } from "../types";
 import { formatTime } from "../utils/helpers";
+import { getAvatarIconComponent } from "../utils/avatarIcons";
 
 interface MessageBubbleProps {
   message: Message;
   primaryColor: string;
+  avatar?: string;
 }
 
-export function MessageBubble({ message, primaryColor }: MessageBubbleProps) {
+export function MessageBubble({ message, primaryColor, avatar }: MessageBubbleProps) {
   const isUser = message.role === "user";
 
   return (
     <div
       className={`chatbot-message ${isUser ? "chatbot-message-user" : "chatbot-message-assistant"}`}
     >
+      {!isUser && avatar && (
+        <div className="chatbot-message-avatar">
+          {(() => {
+            const AvatarIcon = getAvatarIconComponent(avatar);
+            return <AvatarIcon className="w-4 h-4" />;
+          })()}
+        </div>
+      )}
       <div
         className="chatbot-message-bubble"
         style={isUser ? { backgroundColor: primaryColor } : {}}

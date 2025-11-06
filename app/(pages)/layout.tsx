@@ -170,7 +170,7 @@ function AppLayoutContent({
                   (window.location.pathname === "/dashboard" ||
                     (session?.user?.role === "SUPERUSER" &&
                       window.location.pathname === "/admindashboard"))
-                    ? "text-indigo-400"
+                    ? "text-primary"
                     : "text-gray-500"
                 }`}
               >
@@ -203,7 +203,7 @@ function AppLayoutContent({
                     className={`flex flex-col items-center justify-center text-xs ${
                       typeof window !== "undefined" &&
                       window.location.pathname === "/declarations/new"
-                        ? "text-indigo-400"
+                        ? "text-primary"
                         : "text-gray-500"
                     }`}
                   >
@@ -219,7 +219,7 @@ function AppLayoutContent({
                   className={`flex flex-col items-center justify-center text-xs ${
                     typeof window !== "undefined" &&
                     window.location.pathname === "/admin"
-                      ? "text-indigo-400"
+                      ? "text-primary"
                       : "text-gray-500"
                   }`}
                 >
@@ -233,7 +233,7 @@ function AppLayoutContent({
                 className={`flex flex-col items-center justify-center text-xs ${
                   typeof window !== "undefined" &&
                   window.location.pathname === "/notifications"
-                    ? "text-indigo-400"
+                    ? "text-primary"
                     : "text-gray-500"
                 }`}
               >
@@ -246,7 +246,7 @@ function AppLayoutContent({
                 className={`flex flex-col items-center justify-center text-xs ${
                   typeof window !== "undefined" &&
                   window.location.pathname === "/settings"
-                    ? "text-indigo-400"
+                    ? "text-primary"
                     : "text-gray-500"
                 }`}
               >

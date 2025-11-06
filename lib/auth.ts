@@ -10,6 +10,11 @@ import { User, UserRole } from "@prisma/client";
 import { getTranslations } from "next-intl/server";
 import { recordFailedLogin, resetFailedLogins } from "./login-tracking";
 
+// Import CredentialsSignin error for proper error handling
+class CredentialsSignin extends Error {
+  type = "CredentialsSignin" as const;
+}
+
 interface ExtendedUser extends User {
   role: UserRole;
   requires2FA: boolean;
@@ -39,7 +44,7 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        const t = await getTranslations("auth");
+        const t = await getTranslations();
 
         const user = await db.user.findFirst({
           where: {
@@ -141,7 +146,8 @@ export const authOptions: NextAuthOptions = {
           );
 
           // Return null with a custom error that the frontend can detect
-          throw new Error("EMAIL_NOT_VERIFIED");
+          // Use CredentialsSignin to properly pass error to frontend
+          throw new CredentialsSignin("EMAIL_NOT_VERIFIED");
         }
 
         // If 2FA is enabled, don't fully authorize yet

@@ -501,7 +501,7 @@ export function UsersManagement({ users, isAdmin }: UsersManagementProps) {
                   ) : (
                     <span className="text-gray-400 dark:text-gray-500">
                       <svg
-                        className="animate-spin -ml-1 mr-3 h-5 w-5 text-indigo-400 dark:text-blue-400 inline"
+                        className="animate-spin -ml-1 mr-3 h-5 w-5 text-primary dark:text-blue-400 inline"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"

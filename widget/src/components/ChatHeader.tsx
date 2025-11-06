@@ -1,20 +1,11 @@
+import { getAvatarIconComponent } from "../utils/avatarIcons";
+
 interface ChatHeaderProps {
   name: string;
   primaryColor: string;
   avatar?: string;
   onClose: () => void;
   onClear: () => void;
-}
-
-function getAvatarIcon(avatar: string): string {
-  const avatarMap: { [key: string]: string } = {
-    "chat-bubble": "💬",
-    robot: "🤖",
-    assistant: "👤",
-    support: "🎧",
-    help: "❓",
-  };
-  return avatarMap[avatar] || "💬";
 }
 
 export function ChatHeader({
@@ -29,7 +20,12 @@ export function ChatHeader({
       <div className="chatbot-header-content">
         <div className="chatbot-header-info">
           {avatar && (
-            <div className="chatbot-header-avatar">{getAvatarIcon(avatar)}</div>
+            <div className="chatbot-header-avatar">
+              {(() => {
+                const AvatarIcon = getAvatarIconComponent(avatar);
+                return <AvatarIcon className="w-5 h-5" />;
+              })()}
+            </div>
           )}
           <h3 className="chatbot-header-title">{name}</h3>
         </div>

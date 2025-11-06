@@ -12,7 +12,7 @@ export function EmbedCodeDisplay() {
   const [copied, setCopied] = useState(false);
 
   // Mock embed code - replace with actual generated code
-  const embedCode = `<!-- AI Flow Widget -->
+  const embedCode = `<!-- Clevva Widget -->
 <script>
   (function() {
     var script = document.createElement('script');
@@ -23,7 +23,7 @@ export function EmbedCodeDisplay() {
     document.head.appendChild(script);
   })();
 </script>
-<!-- End AI Flow Widget -->`;
+<!-- End Clevva Widget -->`;
 
   const handleCopy = async () => {
     try {

@@ -57,7 +57,7 @@ export function ResetPasswordForm({ token }: { token?: string }) {
       <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 px-4 sm:px-6">
         <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-md w-full max-w-md mx-auto">
           <div className="text-center mb-6 sm:mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-indigo-400 dark:text-indigo-400 mb-2">
+            <h2 className="text-2xl sm:text-3xl font-bold text-primary dark:text-primary mb-2">
               {config.appTitle}
             </h2>
             <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300">
@@ -72,7 +72,7 @@ export function ResetPasswordForm({ token }: { token?: string }) {
           </Alert>
           <div className="mt-6 text-center">
             <Link href="/forgot-password">
-              <Button className="w-full bg-primary hover:bg-indigo-600">
+              <Button className="w-full bg-primary hover:bg-primary/80">
                 {t("auth.resetpassword.forgotPassword")}
               </Button>
             </Link>
@@ -129,7 +129,7 @@ export function ResetPasswordForm({ token }: { token?: string }) {
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 px-4 sm:px-6">
       <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-md w-full max-w-md mx-auto">
         <div className="text-center mb-6 sm:mb-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-indigo-400 dark:text-indigo-400 mb-2">
+          <h2 className="text-2xl sm:text-3xl font-bold text-primary dark:text-primary mb-2">
             {config.appTitle}
           </h2>
           <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300">
@@ -178,7 +178,7 @@ export function ResetPasswordForm({ token }: { token?: string }) {
 
             <Button
               type="submit"
-              className="w-full bg-primary hover:bg-indigo-600"
+              className="w-full bg-primary hover:bg-primary/80"
               disabled={isLoading}
             >
               {isLoading

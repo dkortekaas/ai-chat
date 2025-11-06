@@ -196,7 +196,7 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
             <Button
               type="submit"
               disabled={isLoading}
-              className="bg-primary text-white hover:bg-indigo-600"
+              className="bg-primary text-white hover:bg-primary/80"
             >
               {isLoading
                 ? t("common.saving")

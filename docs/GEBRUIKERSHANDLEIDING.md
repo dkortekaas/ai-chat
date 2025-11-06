@@ -1,9 +1,9 @@
-# AI Flow - Gebruikershandleiding
+# Clevva - Gebruikershandleiding
 
 ## 📖 Inhoudsopgave
 
 1. [Introductie](#introductie)
-2. [Wat is AI Flow?](#wat-is-AI Flow)
+2. [Wat is Clevva?](#wat-is-Clevva)
 3. [Voor wie is dit platform?](#voor-wie-is-dit-platform)
 4. [Aan de slag](#aan-de-slag)
 5. [Gebruikersrollen](#gebruikersrollen)
@@ -23,11 +23,11 @@
 
 ## Introductie
 
-Welkom bij de AI Flow gebruikershandleiding! Deze handleiding helpt je om het maximale uit het platform te halen, of je nu een eindgebruiker, beheerder of developer bent.
+Welkom bij de Clevva gebruikershandleiding! Deze handleiding helpt je om het maximale uit het platform te halen, of je nu een eindgebruiker, beheerder of developer bent.
 
-## Wat is AI Flow?
+## Wat is Clevva?
 
-AI Flow is een modern, self-hosted chatbot platform waarmee organisaties een AI-gestuurde chatbot kunnen creëren die vragen beantwoordt op basis van hun eigen documenten en kennisbank. Het platform maakt gebruik van geavanceerde AI-technologie (OpenAI GPT-4) en RAG (Retrieval-Augmented Generation) om nauwkeurige en contextbewuste antwoorden te geven.
+Clevva is een modern, self-hosted chatbot platform waarmee organisaties een AI-gestuurde chatbot kunnen creëren die vragen beantwoordt op basis van hun eigen documenten en kennisbank. Het platform maakt gebruik van geavanceerde AI-technologie (OpenAI GPT-4) en RAG (Retrieval-Augmented Generation) om nauwkeurige en contextbewuste antwoorden te geven.
 
 ### Kernfunctionaliteiten
 
@@ -62,7 +62,7 @@ Volledige toegang inclusief gebruikersbeheer, abonnementenbeheer en systeemnotif
 
 ### Eerste keer inloggen
 
-1. **Navigeer naar het platform**: Open je browser en ga naar de URL van je AI Flow installatie
+1. **Navigeer naar het platform**: Open je browser en ga naar de URL van je Clevva installatie
 2. **Log in**: Gebruik je toegewezen inloggegevens
 3. **Verken het dashboard**: Je wordt begroet met een overzichtelijk dashboard
 
@@ -82,7 +82,7 @@ Voor ontwikkeling zijn er drie test accounts beschikbaar:
 
 ## Gebruikersrollen
 
-AI Flow heeft drie gebruikersrollen met verschillende toegangsniveaus:
+Clevva heeft drie gebruikersrollen met verschillende toegangsniveaus:
 
 ### 👤 USER (Gebruiker)
 
@@ -132,7 +132,7 @@ AI Flow heeft drie gebruikersrollen met verschillende toegangsniveaus:
 
 ## Dashboard
 
-Het dashboard is je centrale werkplek in AI Flow. Hier vind je:
+Het dashboard is je centrale werkplek in Clevva. Hier vind je:
 
 ### Overzicht
 
@@ -529,7 +529,7 @@ De instellingen zijn opgedeeld in meerdere secties:
 
 ## Abonnementen
 
-AI Flow werkt met een flexibel abonnementssysteem via Stripe.
+Clevva werkt met een flexibel abonnementssysteem via Stripe.
 
 ### Abonnementsplannen
 
@@ -892,7 +892,7 @@ Het admin dashboard geeft je complete controle over het platform.
 
 ## Widget integratie
 
-Integreer je AI Flow chatbot op elke website.
+Integreer je Clevva chatbot op elke website.
 
 ### Embed code verkrijgen
 
@@ -1036,7 +1036,7 @@ A: Afhankelijk van je abonnement:
 **Q: Wat gebeurt er als ik mijn limiet bereik?**
 A: Je krijgt een melding en wordt gevraagd te upgraden. Trial users kunnen blijven gebruiken, betaalde accounts worden geblokkeerd tot upgrade.
 
-**Q: Ondersteunt AI Flow meerdere talen?**
+**Q: Ondersteunt Clevva meerdere talen?**
 A: Ja! Het platform heeft interface ondersteuning voor Nederlands, Engels, Duits, Spaans en Frans. De chatbot kan in elke taal antwoorden waarin je content is.
 
 **Q: Hoe veilig is mijn data?**
@@ -1313,7 +1313,7 @@ A: OpenAI GPT-4o-mini voor cost-effectiviteit. GPT-4o beschikbaar als optie.
 
 ## Conclusie
 
-AI Flow is een krachtig platform voor het creëren van intelligente, document-gestuurde chatbots. Met deze handleiding heb je alle tools en kennis om:
+Clevva is een krachtig platform voor het creëren van intelligente, document-gestuurde chatbots. Met deze handleiding heb je alle tools en kennis om:
 
 ✅ Effectieve AI-assistenten te maken
 ✅ Je kennisbank optimaal te beheren
@@ -1334,11 +1334,11 @@ AI Flow is een krachtig platform voor het creëren van intelligente, document-ge
 - 📖 **Documentatie**: Bekijk de docs/ folder
 - 🐛 **Issues**: Meld bugs op GitHub
 - 💬 **Support**: Contact het development team
-- 📧 **Email**: support@AI Flow.com (indien geconfigureerd)
+- 📧 **Email**: support@Clevva.com (indien geconfigureerd)
 
 ---
 
-**Veel succes met AI Flow! 🚀**
+**Veel succes met Clevva! 🚀**
 
 _Laatste update: Oktober 2025_
 _Versie: 2.2.0_

@@ -343,7 +343,7 @@ export const PersonalityTab = forwardRef<
                 <Button
                   onClick={handleSave}
                   disabled={!hasChanges || isSaving || !mainPrompt}
-                  className="bg-purple-600 hover:bg-purple-700"
+                  className="bg-primary hover:bg-primary/80"
                 >
                   {isSaving ? t("common.saving") : t("common.save")}
                 </Button>
@@ -376,7 +376,7 @@ export const PersonalityTab = forwardRef<
                       }
                       className={`cursor-pointer ${
                         selectedCategory === category.id
-                          ? "bg-purple-600 hover:bg-purple-700"
+                          ? "bg-primary hover:bg-primary/80"
                           : "hover:bg-gray-200"
                       }`}
                       onClick={() => {

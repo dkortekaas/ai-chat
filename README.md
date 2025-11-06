@@ -1,6 +1,6 @@
-# AI Flow
+# Clevva
 
-A modern, fully functional AI Flow platform built with Next.js 15, TypeScript, and Prisma. This platform enables users to create AI Flowbots, upload and process documents, manage knowledge bases, and view comprehensive analytics with a complete notification system.
+A modern, fully functional Clevva platform built with Next.js 15, TypeScript, and Prisma. This platform enables users to create Clevvabots, upload and process documents, manage knowledge bases, and view comprehensive analytics with a complete notification system.
 
 ## 🚀 Features
 
@@ -940,6 +940,7 @@ npm run db:seed
    - Controleer of Stripe Customer Portal opent
    - Test betaalmethode wijzigen
 7. **Test webhooks** (lokaal):
+
    ```bash
    # In een aparte terminal
    stripe listen --forward-to localhost:3000/api/stripe/webhook
@@ -1106,4 +1107,4 @@ This project is licensed under the MIT License.
 
 ---
 
-**Made with ❤️ for modern AI Flow solutions**
+**Made with ❤️ for modern Clevva solutions**

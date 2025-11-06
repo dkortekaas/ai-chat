@@ -222,7 +222,7 @@ export default function NotificationDropdown() {
             {notifications.length > 0 && (
               <button
                 onClick={handleMarkAllAsRead}
-                className="text-sm text-primary dark:text-indigo-400"
+                className="text-sm text-primary dark:text-primary"
               >
                 {t("notifications.markAllAsRead")}
               </button>
@@ -299,7 +299,7 @@ export default function NotificationDropdown() {
             {notifications.length > 0 && (
               <button
                 onClick={handleMarkAllAsRead}
-                className="text-xs text-primary dark:text-indigo-400 hover:text-primary dark:hover:text-indigo-300"
+                className="text-xs text-primary dark:text-primary hover:text-primary dark:hover:text-indigo-300"
               >
                 {t("notifications.markAllAsRead")}
               </button>

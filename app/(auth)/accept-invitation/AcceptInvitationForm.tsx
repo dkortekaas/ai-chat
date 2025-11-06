@@ -244,7 +244,7 @@ export function AcceptInvitationForm() {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-primary hover:bg-indigo-600"
+              className="w-full bg-primary hover:bg-primary/80"
             >
               {isSubmitting ? "Account aanmaken..." : "Account aanmaken"}
             </Button>

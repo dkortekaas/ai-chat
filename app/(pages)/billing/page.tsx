@@ -506,7 +506,7 @@ export default function BillingPage() {
                       upgrading ||
                       (!isExpired && !isTrial && user.subscriptionPlan === key)
                     }
-                    className="w-full bg-primary hover:bg-indigo-600 text-white"
+                    className="w-full bg-primary hover:bg-primary/80 text-white"
                     size="sm"
                   >
                     {upgrading

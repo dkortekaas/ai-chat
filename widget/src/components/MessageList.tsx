@@ -8,6 +8,7 @@ interface MessageListProps {
   messages: Message[];
   isLoading: boolean;
   primaryColor: string;
+  avatar?: string;
   onSubmitForm: (formId: string, data: Record<string, string>) => Promise<void>;
 }
 
@@ -15,6 +16,7 @@ export function MessageList({
   messages,
   isLoading,
   primaryColor,
+  avatar,
   onSubmitForm,
 }: MessageListProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -42,11 +44,12 @@ export function MessageList({
             key={message.id}
             message={message}
             primaryColor={primaryColor}
+            avatar={avatar}
           />
         );
       })}
 
-      {isLoading && <TypingIndicator primaryColor={primaryColor} />}
+      {isLoading && <TypingIndicator primaryColor={primaryColor} avatar={avatar} />}
 
       <div ref={messagesEndRef} />
     </div>

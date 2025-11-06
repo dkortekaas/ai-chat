@@ -1,4 +1,4 @@
-# Development Guidelines voor AI Flow
+# Development Guidelines voor Clevva
 
 ## Algemene Setup
 

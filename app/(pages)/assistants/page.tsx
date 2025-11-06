@@ -172,7 +172,7 @@ export default function AssistantsPage() {
         {isAdmin && (
           <div className="flex gap-2">
             <Button
-              className="bg-primary hover:bg-indigo-600"
+              className="bg-primary hover:bg-primary/80"
               onClick={handleAddAssistant}
             >
               <Plus className="w-4 h-4 mr-2" />
@@ -208,7 +208,7 @@ export default function AssistantsPage() {
               </p>
               {isAdmin ? (
                 <Button
-                  className="bg-primary hover:bg-indigo-600 w-3/12 mx-auto"
+                  className="bg-primary hover:bg-primary/80 w-3/12 mx-auto"
                   onClick={handleAddAssistant}
                 >
                   <Plus className="w-4 h-4 mr-2" />

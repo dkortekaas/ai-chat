@@ -67,7 +67,7 @@ export default function Pricing() {
                         size={16}
                         className={`mr-3 ${
                           plan === "professional"
-                            ? "text-indigo-400"
+                            ? "text-primary"
                             : "text-green-600"
                         }`}
                       />
@@ -80,7 +80,7 @@ export default function Pricing() {
                 href={`/${locale}${t(`plans.${plan}.href`)}`}
                 className={`w-full block text-center py-3 px-4 rounded-lg font-medium transition-colors ${
                   plan === "professional"
-                    ? "bg-primary hover:bg-indigo-600 text-white"
+                    ? "bg-primary hover:bg-primary/80 text-white"
                     : "bg-gray-100 text-gray-900 hover:bg-gray-200"
                 }`}
               >

@@ -121,7 +121,7 @@ export default function ProfileSettings() {
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <div className="rounded-full bg-indigo-50 dark:bg-indigo-900 p-3 mr-4">
-              <User className="h-6 w-6 text-indigo-400 dark:text-indigo-400" />
+              <User className="h-6 w-6 text-primary dark:text-primary" />
             </div>
             <div>
               <CardTitle>{t("settings.profileSettings")}</CardTitle>
@@ -213,7 +213,7 @@ export default function ProfileSettings() {
             <div className="flex justify-end">
               <Button
                 type="submit"
-                className="bg-primary hover:bg-indigo-600"
+                className="bg-primary hover:bg-primary/80"
                 disabled={isProfileSaving}
               >
                 {isProfileSaving ? t("common.saving") : t("common.saveChanges")}
