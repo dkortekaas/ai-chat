@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import "@/app/globals.css";
 import type { Viewport } from "next";
+import Header from "@/components/site/Header";
+import Footer from "@/components/site/Footer";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -54,7 +56,11 @@ export default async function RootLayout({
       locale={locale}
       timeZone="Europe/Amsterdam"
     >
-      {children}
+      <div className="min-h-screen">
+        <Header />
+        <main className="flex-1">{children}</main>
+        <Footer />
+      </div>
     </NextIntlClientProvider>
   );
 }

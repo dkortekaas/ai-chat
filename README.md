@@ -1,6 +1,6 @@
-# Clevva
+# Ainexo
 
-A modern, fully functional Clevva platform built with Next.js 15, TypeScript, and Prisma. This platform enables users to create Clevvabots, upload and process documents, manage knowledge bases, and view comprehensive analytics with a complete notification system.
+A modern, fully functional Ainexo platform built with Next.js 15, TypeScript, and Prisma. This platform enables users to create Ainexobots, upload and process documents, manage knowledge bases, and view comprehensive analytics with a complete notification system.
 
 ## 🚀 Features
 
@@ -1107,4 +1107,4 @@ This project is licensed under the MIT License.
 
 ---
 
-**Made with ❤️ for modern Clevva solutions**
+**Made with ❤️ for modern Ainexo solutions**

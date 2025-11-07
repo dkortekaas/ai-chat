@@ -1,4 +1,4 @@
-# Development Guidelines voor Clevva
+# Development Guidelines voor Ainexo
 
 ## Algemene Setup
 

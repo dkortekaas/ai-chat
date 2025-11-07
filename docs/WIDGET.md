@@ -845,7 +845,7 @@ export function ChatWindow({
       {/* Branding */}
       {config.showBranding && (
         <div className="chatbot-branding">
-          Powered by <strong>Clevva</strong>
+          Powered by <strong>Ainexo</strong>
         </div>
       )}
     </div>

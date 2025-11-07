@@ -8,6 +8,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { Toaster } from "@/components/ui/toaster";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import InactivityTimer from "@/components/auth/InactivityTimer";
+import config from "@/config";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,6 +28,11 @@ export async function generateMetadata(): Promise<Metadata> {
       apple: [
         { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
       ],
+    },
+    appleWebApp: {
+      capable: true,
+      statusBarStyle: "default",
+      title: config.appTitle,
     },
   };
 }

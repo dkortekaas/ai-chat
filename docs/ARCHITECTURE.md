@@ -2,7 +2,7 @@
 
 ## Overzicht
 
-Het Clevva bestaat uit drie hoofdcomponenten:
+Het Ainexo bestaat uit drie hoofdcomponenten:
 
 1. **Admin Portal** - Next.js applicatie voor beheer
 2. **Backend API** - Next.js API routes

@@ -20,7 +20,7 @@ export async function generateMetadata({
     openGraph: {
       title: t("og.title"),
       description: t("og.description"),
-      url: `https://www.declair.app/${locale}`,
+      url: `https://ainexo.app/${locale}`,
       siteName: config.appTitle,
       images: [
         {

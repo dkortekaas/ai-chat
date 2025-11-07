@@ -1,4 +1,163 @@
 {
+  "header": {
+    "features": "Functies",
+    "pricing": "Prijzen",
+    "contact": "Contact",
+    "login": "Inloggen",
+    "tryFree": "Gratis proberen",
+    "language": "Taal"
+  },
+  "hero": {
+    "title": "Ontdek Ainexo – Je vriendelijke",
+    "aiAssistant": "AI-Assistent",
+    "description": "Van chat naar e-mail naar telefoon, Ainexo helpt je bedrijf sneller en slimmer reageren.",
+    "getStartedForFree": "Start gratis!",
+    "watchDemo": "Demo bekijken",
+    "noCreditCardRequired": "Geen creditcard vereist. Je AI-assistent is binnen enkele minuten live."
+  },
+  "howItWorks": {
+    "howAinexoWorks": "Hoe Ainexo werkt",
+    "step1Title": "Upload je content",
+    "step1Description": "Sleep PDF's, Word-documenten of voeg URLs toe. Ondersteunt handleidingen, FAQ's en meer.",
+    "step2Title": "AI leert van je content",
+    "step2Description": "Geavanceerde GPT-4 technologie verwerkt je documenten en leert alle belangrijke informatie.",
+    "step3Title": "Integreer in 1 minuut",
+    "step3Description": "Kopieer één regel code en plak in je website. De chatbot is direct live.",
+    "step4Title": "Verbeter continu",
+    "step4Description": "Bekijk gesprekken, beoordeel antwoorden en verfijn voor steeds betere resultaten."
+  },
+  "cta": {
+    "title": "Klaar om je bedrijf",
+    "subtitle": "slimmer te maken?",
+    "description": "Je AI-assistent slaapt nooit (maar het heeft ook geen koffie nodig)",
+    "cta": "Start gratis",
+    "noCreditCardRequired": "Geen creditcard vereist. Je AI-assistent is binnen enkele minuten live."
+  },
+  "footer": {
+    "description": "Je vriendelijke AI chat support assistent",
+    "product": "Producten",
+    "features": "Functies",
+    "pricing": "Prijzen",
+    "api": "API",
+    "integrations": "Integraties",
+    "company": "Bedrijf",
+    "aboutUs": "Over ons",
+    "blog": "Blog",
+    "contact": "Contact",
+    "legal": "Juridisch",
+    "privacyPolicy": "Privacybeleid",
+    "termsOfService": "Servicevoorwaarden",
+    "documentation": "Documentatie",
+    "allRightsReserved": "Alle rechten voorbehouden."
+  },
+  "pricing": {
+    "title": "Eenvoudige, transparante prijzen",
+    "subtitle": "Kies het plan dat bij jouw bedrijfsbehoeften past",
+    "popular": "Meest populair",
+    "allPlansIncludeFreeUpdatesAndNoHiddenFees": "Alle plannen bevatten gratis updates en geen verborgen kosten",
+    "needSomethingCustom": "Heb je iets speciaals nodig?",
+    "contactUs": "Neem contact op met ons",
+    "comparePlans": "Vergelijk onze plannen en vind de jouwe",
+    "freeTrial": "Gratis proefperiode",
+    "noCreditCardRequired": "Geen creditcard vereist",
+    "flexiblePlans": "Flexibele plannen",
+    "straightforwardAndTransparent": "Eenvoudig en transparant",
+    "easyToUse": "Gebruiksvriendelijk",
+    "fasterInstallation": "Snellere installatie, vriendelijke interface",
+    "personalizeToYourAudience": "Personaliseer voor jouw publiek",
+    "safeAndSecure": "Veilig en betrouwbaar",
+    "categories": {
+      "usageBillingPayment": "Gebruik, Facturering & Betaling",
+      "serviceSupport": "Service & Ondersteuning",
+      "insightImprovement": "Inzicht & Verbetering",
+      "applicationDataSecurity": "Applicatie & Gegevensbeveiliging",
+      "assistantsAddons": "Assistent Add-ons (roadmap)"
+    },
+    "features": {
+      "interactionsIncluded": "Interacties inbegrepen per maand",
+      "interactionsIncludedDesc": "Een interactie is een chat die wordt beantwoord door je AI-assistent. Onbeantwoorde chats of spam worden niet meegeteld.",
+      "additionalInteractions": "Extra interacties",
+      "additionalInteractionsDesc": "Elke extra interactie boven je planlimiet wordt in rekening gebracht.",
+      "creditCardPayment": "Creditcard betaling",
+      "activeAIAssistants": "Actieve AI-assistenten",
+      "activeAIAssistantsDesc": "Een actieve AI-assistent is degene die is ingebed in je website",
+      "platformIntegrations": "Platform integraties",
+      "platformIntegrationsDesc": "Je geselecteerde bedrijfs tools kunnen worden geïntegreerd met je AI-assistent",
+      "functionIntegrations": "Functie integraties",
+      "functionIntegrationsDesc": "Acties die programmeerbaar zijn en worden uitgevoerd op basis van de geselecteerde intentie van een klant",
+      "gettingStarted": "Aan de slag",
+      "selfService": "Zelfservice",
+      "personalisedOnboarding": "Gepersonaliseerde onboarding",
+      "aivantiAssistant": "24/7 Aivanti Assistent",
+      "aivantiAssistantDesc": "Krijg ondersteuning van een AI-assistent binnen je Aivanti account interface",
+      "supportChannels": "Ondersteuningskanalen",
+      "responseTime": "Reactietijd",
+      "roadmapFeatureUpvote": "Roadmap functie stemmen",
+      "roadmapFeatureUpvoteDesc": "Stem om je favoriete functies op de lijst van onze ontwikkelingen te krijgen",
+      "reporting": "Rapportage",
+      "reportingFeatures": "Kennisinzichten, Conversatie rapporten, Gegenereerde resultaten, Gebruikerssentiment",
+      "analytics": "Analytics",
+      "analyticsFeatures": "Gebroken links op website, Dubbele kennis, Integratie gebruik, QR-code effectiviteit, UX - Groet gebruik, UX - Snelle knop gebruik",
+      "caseAnalysis": "Casusanalyse",
+      "caseAnalysisFeatures": "Onbeantwoorde vraag, Afkeur indicator, Negatief sentiment, Persoonlijke informatie, Productinfo download, Prijsinformatie",
+      "questionUnanswered": "Onbeantwoorde vraag",
+      "knowledgeSourceSynch": "Kennisbron synchronisatie",
+      "knowledgeSourceSynchDesc": "Je AI-assistent up-to-date houden en trainen met de nieuwste kennis",
+      "manual": "Handmatig",
+      "automationPossible": "Automatisering mogelijk",
+      "sso": "SSO (Google, Microsoft, Apple)",
+      "latestEnterpriseLLM": "Nieuwste Enterprise LLM",
+      "latestEnterpriseLLMDesc": "Je AI-assistent wordt aangedreven door de nieuwste enterprise Large Language Model technologie",
+      "applicationDataHosting": "Applicatie & Gegevenshosting",
+      "applicationDataHostingDesc": "Alle gegevens worden standaard gehost bij AWS in Frankfurt, Duitsland. Neem contact met ons op als je wilt dat je gegevens worden gehost in de VS of APAC.",
+      "awsEurope": "AWS / Europa",
+      "encryptionDataAtRest": "Versleuteling van data in rust",
+      "thirdPartyIntegrationSecurity": "Beveiliging van derde partij integraties",
+      "privacyPolicyDataProtection": "Privacybeleid / Gegevensbescherming",
+      "personalInformationDetection": "Persoonlijke informatie detectie",
+      "conversationTranscriptRetention": "Bewaring van conversatietranscripten",
+      "analyticsDataRetention": "Bewaring van analytische gegevens",
+      "analysisDataRetention": "Bewaring van analysegegevens",
+      "websiteSemanticSearch": "Website semantische zoekfunctie",
+      "websiteComplianceAccessibility": "Website naleving & toegankelijkheid",
+      "liveChatWithAgents": "Live chat met agenten"
+    },
+    "values": {
+      "unlimited": "Onbeperkt",
+      "included": "Inbegrepen",
+      "notIncluded": "-",
+      "bestEffort": "beste inspanning",
+      "oneBusinessDay": "1 werkdag",
+      "oneMonth": "1 Maand",
+      "oneYear": "1 Jaar",
+      "twoYears": "2 Jaar"
+    }
+  },
+  "contact": {
+    "title": "Contact opnemen",
+    "description": "Neem contact op met ons voor vragen of opmerkingen.",
+    "name": "Naam",
+    "email": "Email",
+    "phone": "Telefoon",
+    "message": "Bericht",
+    "company": "Bedrijf",
+    "send": "Verzenden",
+    "sendEmail": "Verzend ons een email",
+    "sendPhone": "Bel ons",
+    "callUs": "Bel ons",
+    "callUsDescription": "Bel ons op +31 20 123 4567",
+    "phoneDescription": "Bel ons op +31 20 123 4567",
+    "sendMessage": "Verzend ons een bericht",
+    "sendMessageDescription": "Vul het formulier hieronder in en we zullen zo snel mogelijk terugkomen.",
+    "namePlaceholder": "Je naam",
+    "emailPlaceholder": "Je email",
+    "companyPlaceholder": "Je bedrijfsnaam",
+    "messagePlaceholder": "Vertel ons hoe we je kunnen helpen...",
+    "missingFields": "Ontbrekende velden",
+    "missingFieldsDescription": "Vul alle verplichte velden in.",
+    "messageSent": "Bericht verzonden!",
+    "messageSentDescription": "We zullen zo snel mogelijk terugkomen."
+  },
   "common": {
     "success": "Succes",
     "deleting": "Verwijderen...",
@@ -246,18 +405,18 @@
     "backToPortal": "Terug naar portal"
   },
   "metadata": {
-    "title": "Clevva",
-    "description": "Clevva AI Chat Support",
-    "keywords": "Clevva AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Clevva, Clevva AI, Clevva AI Chat, Clevva AI Chat Support",
+    "title": "Ainexo",
+    "description": "Ainexo AI Chat Support",
+    "keywords": "Ainexo AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Ainexo, Ainexo AI, Ainexo AI Chat, Ainexo AI Chat Support",
     "twitter": {
-      "title": "Clevva AI Chat Support",
-      "description": "Clevva AI Chat Support",
-      "keywords": "Clevva AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Clevva, Clevva AI, Clevva AI Chat, Clevva AI Chat Support"
+      "title": "Ainexo AI Chat Support",
+      "description": "Ainexo AI Chat Support",
+      "keywords": "Ainexo AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Ainexo, Ainexo AI, Ainexo AI Chat, Ainexo AI Chat Support"
     },
     "og": {
-      "title": "Clevva AI Chat Support",
-      "description": "Clevva AI Chat Support",
-      "keywords": "Clevva AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Clevva, Clevva AI, Clevva AI Chat, Clevva AI Chat Support"
+      "title": "Ainexo AI Chat Support",
+      "description": "Ainexo AI Chat Support",
+      "keywords": "Ainexo AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Ainexo, Ainexo AI, Ainexo AI Chat, Ainexo AI Chat Support"
     }
   },
   "auth": {
@@ -497,24 +656,6 @@
     "languageChanged": "Taal gewijzigd",
     "languageChangedDescription": "Interface taal gewijzigd naar {language}"
   },
-  "hero": {
-    "title": "AI-aangedreven klantenservice",
-    "subtitle": "Makkelijk gemaakt",
-    "description": "Transformeer uw klantenservice met intelligente chatbots die uw bedrijf begrijpen en 24/7 directe, nauwkeurige antwoorden geven.",
-    "free_trial": "Start vandaag uw gratis proefperiode - geen creditcard vereist",
-    "tryFree": "Gratis proberen",
-    "watchDemo": "Demo bekijken"
-  },
-  "cta": {
-    "title": "Klaar om uw klantenservice te transformeren?",
-    "description": "Sluit u aan bij duizenden bedrijven die al gebruik maken van onze AI-aangedreven oplossingen om betere klantervaringen te bieden.",
-    "free_trial": "Start vandaag uw gratis proefperiode",
-    "cta": "Aan de slag",
-    "contact": "Neem contact op met verkoop",
-    "secure": "Veilig en betrouwbaar",
-    "gdpr_compliant": "AVG-compatibel",
-    "no_credit_card": "Geen creditcard vereist"
-  },
   "features": {
     "title": "Alles wat u nodig heeft voor moderne klantenservice",
     "subtitle": "Krachtige functies ontworpen om u te helpen uitzonderlijke klantenservice te bieden",
@@ -546,8 +687,8 @@
     }
   },
   "benefits": {
-    "title": "Voordelen van het gebruik van Clevva",
-    "description": "Voordelen van het gebruik van Clevva"
+    "title": "Voordelen van het gebruik van Ainexo",
+    "description": "Voordelen van het gebruik van Ainexo"
   },
   "faq": {
     "title": "Veelgestelde vragen",
@@ -1221,88 +1362,6 @@
     "team": "Team",
     "changePassword": "Wachtwoord wijzigen",
     "logout": "Uitloggen"
-  },
-  "header": {
-    "features": "Functies",
-    "pricing": "Prijzen",
-    "contact": "Contact",
-    "login": "Inloggen",
-    "tryFree": "Gratis proberen",
-    "language": "Taal"
-  },
-  "footer": {
-    "description": "Transformeer uw klantenservice met AI-aangedreven chatbots die uw bedrijf begrijpen en 24/7 directe, nauwkeurige antwoorden geven.",
-    "product": "Product",
-    "features": "Functies",
-    "pricing": "Prijzen",
-    "api": "API",
-    "integrations": "Integraties",
-    "company": "Bedrijf",
-    "register": "Registreren",
-    "careers": "Carrières",
-    "press": "Pers",
-    "contact": "Contact",
-    "email": "info@declair.app",
-    "address": "Amsterdam, Nederland",
-    "rights": "Alle rechten voorbehouden.",
-    "privacy": "Privacybeleid",
-    "terms": "Servicevoorwaarden"
-  },
-  "pricing": {
-    "title": "Eenvoudige, transparante prijzen",
-    "subtitle": "Kies het plan dat bij uw bedrijfsbehoeften past",
-    "popular": "Meest populair",
-    "plans": {
-      "starter": {
-        "name": "Starter",
-        "description": "Perfect voor kleine bedrijven die beginnen",
-        "price": "€29",
-        "period": "/maand",
-        "features": [
-          "Tot 1.000 gesprekken per maand",
-          "Basis AI-assistent",
-          "E-mailondersteuning",
-          "Standaard kennisbank",
-          "Basis analyses"
-        ],
-        "cta": "Aan de slag",
-        "href": "/register"
-      },
-      "professional": {
-        "name": "Professional",
-        "description": "Ideaal voor groeiende bedrijven",
-        "price": "€79",
-        "period": "/maand",
-        "features": [
-          "Tot 10.000 gesprekken per maand",
-          "Geavanceerde AI-assistent",
-          "Prioriteit ondersteuning",
-          "Geavanceerde kennisbank",
-          "Gedetailleerde analyses",
-          "Aangepaste branding",
-          "API-toegang"
-        ],
-        "cta": "Start gratis proefperiode",
-        "href": "/register"
-      },
-      "enterprise": {
-        "name": "Enterprise",
-        "description": "Voor grote organisaties met complexe behoeften",
-        "price": "Op maat",
-        "period": "",
-        "features": [
-          "Onbeperkte gesprekken",
-          "Aangepaste AI-training",
-          "Toegewijde ondersteuning",
-          "Geavanceerde integraties",
-          "Aangepaste analyses",
-          "White-label oplossing",
-          "SLA-garantie"
-        ],
-        "cta": "Neem contact op met verkoop",
-        "href": "/contact"
-      }
-    }
   },
   "roles": {
     "user": "Gebruiker",

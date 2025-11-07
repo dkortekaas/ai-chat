@@ -1,6 +1,6 @@
 "use client";
 
-import Header from "@/components/home/Header";
+import Header from "@/components/site/Header";
 import {
   Card,
   CardHeader,
@@ -12,13 +12,14 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Mail, Phone, MapPin, Clock } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, MessageCircle } from "lucide-react";
 import React, { useState } from "react";
-import Footer from "@/components/home/Footer";
-import { toast } from "@/components/ui/use-toast";
+import Footer from "@/components/site/Footer";
+import { useToast } from "@/components/ui/use-toast";
 import { useTranslations } from "next-intl";
+import config from "@/config";
 
-const Contact = () => {
+const ContactPage = () => {
   const t = useTranslations("contact");
   const [formData, setFormData] = useState<{
     name: string;
@@ -32,230 +33,175 @@ const Contact = () => {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast({
-      title: t("message_sent_title"),
-      description: t("message_sent_description"),
-      variant: "success",
-    });
-    setFormData({ name: "", email: "", company: "", message: "" });
-  };
-
-  const contactInfo = [
+  const contactMethods = [
     {
       icon: Mail,
       title: t("email"),
-      content: t("email_content"),
-      link: `mailto:${t("email_content")}`,
+      description: config.email,
+      action: t("sendEmail"),
     },
-    {
-      icon: Phone,
-      title: t("phone"),
-      content: t("phone_content"),
-      link: `tel:${t("phone_content")}`,
-    },
-    {
-      icon: MapPin,
-      title: t("address"),
-      content: t("address_content"),
-      link: null,
-    },
-    {
-      icon: Clock,
-      title: t("hours"),
-      content: t("hours_content"),
-      link: null,
-    },
+    // {
+    //   icon: Phone,
+    //   title: t("phone"),
+    //   description: t("phoneDescription"),
+    //   action: t("callUs"),
+    //   disabled: true,
+    // },
   ];
 
-  return (
-    <div className="min-h-screen">
-      <Header />
+  const Contact = () => {
+    const { toast } = useToast();
+    const [formData, setFormData] = useState({
+      name: "",
+      email: "",
+      company: "",
+      message: "",
+    });
 
-      <main className="pt-24">
-        {/* Hero Section */}
-        <section className="py-20 bg-muted/30">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-3xl mx-auto text-center animate-fade-in-up">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-                {t("contact_title")}
-              </h1>
-              <p className="text-xl text-muted-foreground">
-                {t("contact_description")}
-              </p>
-            </div>
+    const handleSubmit = (e: React.FormEvent) => {
+      e.preventDefault();
+
+      // Simple validation
+      if (!formData.name || !formData.email || !formData.message) {
+        toast({
+          title: t("missingFields"),
+          description: t("missingFieldsDescription"),
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // In a real app, this would send to a backend
+      toast({
+        title: t("messageSent"),
+        description: t("messageSentDescription"),
+      });
+
+      // Reset form
+      setFormData({ name: "", email: "", company: "", message: "" });
+    };
+
+    const handleChange = (
+      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    return (
+      <section className="py-20 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16 animate-fade-in">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-primary bg-clip-text text-transparent">
+              {t("title")}
+            </h1>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              {t("description")}
+            </p>
           </div>
-        </section>
-
-        {/* Contact Section */}
-        <section className="py-20">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
-              {/* Contact Form */}
-              <div className="animate-fade-in-up">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-2xl">
-                      {t("contact_form_title")}
-                    </CardTitle>
-                    <CardDescription>
-                      {t("contact_form_description")}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                      <div className="space-y-2">
-                        <Label htmlFor="name">{t("name")} *</Label>
-                        <Input
-                          id="name"
-                          value={formData.name}
-                          onChange={(e) =>
-                            setFormData({ ...formData, name: e.target.value })
-                          }
-                          required
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="email">{t("email")} *</Label>
-                        <Input
-                          id="email"
-                          type="email"
-                          value={formData.email}
-                          onChange={(e) =>
-                            setFormData({ ...formData, email: e.target.value })
-                          }
-                          required
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="company">{t("company")}</Label>
-                        <Input
-                          id="company"
-                          value={formData.company}
-                          onChange={(e) =>
-                            setFormData({
-                              ...formData,
-                              company: e.target.value,
-                            })
-                          }
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="message">{t("message")} *</Label>
-                        <Textarea
-                          id="message"
-                          value={formData.message}
-                          onChange={(e) =>
-                            setFormData({
-                              ...formData,
-                              message: e.target.value,
-                            })
-                          }
-                          required
-                          rows={5}
-                        />
-                      </div>
-
-                      <Button
-                        type="submit"
-                        className="w-full bg-primary hover:bg-primary-dark"
-                      >
-                        {t("send_message")}
-                      </Button>
-                    </form>
-                  </CardContent>
-                </Card>
-              </div>
-
-              {/* Contact Info */}
-              <div
-                className="space-y-6 animate-fade-in-up"
-                style={{ animationDelay: "0.1s" }}
+          {/* 
+          <div className="grid md:grid-cols-3 gap-6 mb-16">
+            {contactMethods.map((method, index) => (
+              <Card
+                key={method.title}
+                className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10"
+                style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div>
-                  <h2 className="text-2xl font-bold mb-6">
-                    {t("contact_info_title")}
-                  </h2>
-                  <p className="text-muted-foreground mb-8">
-                    {t("contact_info_description")}
-                  </p>
+                <CardHeader className="text-center">
+                  <div className="w-16 h-16 rounded-full bg-gradient-primary flex items-center justify-center text-primary-foreground shadow-lg shadow-primary/30 mx-auto mb-4">
+                    <method.icon className="w-8 h-8" />
+                  </div>
+                  <CardTitle className="text-xl">{method.title}</CardTitle>
+                  <CardDescription>{method.description}</CardDescription>
+                </CardHeader>
+                <CardContent className="text-center">
+                  <Button
+                    variant={method.disabled ? "outline" : "gradient"}
+                    size="sm"
+                    disabled={method.disabled}
+                    className="w-full"
+                  >
+                    {method.action}
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div> */}
+
+          <Card className="max-w-3xl mx-auto border-2 shadow-xl">
+            <CardHeader>
+              <CardTitle className="text-2xl">{t("sendMessage")}</CardTitle>
+              <CardDescription>{t("sendMessageDescription")}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">
+                      {t("name")} <span className="text-destructive">*</span>
+                    </Label>
+                    <Input
+                      id="name"
+                      name="name"
+                      placeholder={t("namePlaceholder")}
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">
+                      {t("email")} <span className="text-destructive">*</span>
+                    </Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      placeholder={t("emailPlaceholder")}
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
                 </div>
 
-                <div className="grid sm:grid-cols-2 gap-6">
-                  {contactInfo.map((info) => (
-                    <Card key={info.title}>
-                      <CardContent className="pt-6">
-                        <div className="flex items-start gap-4">
-                          <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                            <info.icon
-                              className="w-6 h-6 text-primary"
-                              aria-hidden="true"
-                            />
-                          </div>
-                          <div>
-                            <h3 className="font-semibold mb-1">{info.title}</h3>
-                            {info.link ? (
-                              <a
-                                href={info.link}
-                                className="text-muted-foreground hover:text-primary transition-colors"
-                              >
-                                {info.content}
-                              </a>
-                            ) : (
-                              <p className="text-muted-foreground">
-                                {info.content}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+                <div className="space-y-2">
+                  <Label htmlFor="company">
+                    {t("company")} <span className="text-destructive">*</span>
+                  </Label>
+                  <Input
+                    id="company"
+                    name="company"
+                    placeholder={t("companyPlaceholder")}
+                    value={formData.company}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
-                {/* 
-                <Card className="bg-primary text-primary-foreground">
-                  <CardContent className="pt-6">
-                    <h3 className="text-xl font-bold mb-2">
-                      {t("plan_demo_title")}
-                    </h3>
-                    <p className="mb-4 opacity-90">
-                      {t("plan_demo_description")}
-                    </p>
-                    <Button
-                      variant="secondary"
-                      className="bg-white hover:bg-white/90 text-primary"
-                    >
-                      {t("plan_demo_button")}
-                    </Button>
-                  </CardContent>
-                </Card> */}
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
+                <Textarea
+                  id="message"
+                  name="message"
+                  placeholder={t("messagePlaceholder")}
+                  rows={10}
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                />
+                <Button
+                  type="submit"
+                  variant="gradient"
+                  size="lg"
+                  className="w-full"
+                >
+                  {t("send")}
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+    );
+  };
 
-      <Footer />
-
-      {/* Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "ContactPage",
-            name: "Contact - Clevva",
-            description:
-              "Neem contact op met Clevva voor vragen over onze AI chat oplossing",
-          }),
-        }}
-      />
-    </div>
-  );
+  return <Contact />;
 };
-
-export default Contact;
+export default ContactPage;

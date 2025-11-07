@@ -132,7 +132,7 @@ export function WidgetTab({ onChanges }: WidgetTabProps) {
 
   const widgetCode = `<!-- Chatbot Widget -->
 <script
-  src="https://your-app.vercel.app/widget/loader.js"
+  src="${process.env.NEXT_PUBLIC_APP_URL}/widget/loader.js"
   data-chatbot-id="${apiKey || "YOUR_API_KEY_HERE"}"
 ></script>`;
 

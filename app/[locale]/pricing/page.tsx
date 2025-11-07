@@ -1,4 +1,6 @@
-import { Check, X } from "lucide-react";
+"use client";
+
+import { Check, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,266 +10,714 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Navigation from "@/components/home/Navigation";
-import Footer from "@/components/home/Footer";
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Tooltip } from "@/components/ui/tooltip";
+import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
+import Link from "next/link";
+
+const pricingTiers = [
+  {
+    name: "Starter",
+    price: "€25",
+    period: "/month",
+    description: "Perfect for small businesses starting with AI",
+    features: [
+      "Chat Assistant on 1 website",
+      "Up to 50 conversations/month",
+      "Email support",
+      "Basic analytics",
+    ],
+    cta: "Start Free Trial",
+    variant: "outline" as const,
+  },
+  {
+    name: "Professional",
+    price: "€50",
+    period: "/month",
+    description: "For growing businesses that need more",
+    features: [
+      "Chat Assistant on unlimited websites",
+      "Up to 400 conversations/month",
+      "Email Assistant included",
+      "Priority support",
+      "Advanced analytics",
+      "Custom branding",
+    ],
+    cta: "Get Started",
+    variant: "gradient" as const,
+    popular: true,
+  },
+  {
+    name: "Enterprise",
+    price: "€125",
+    period: "/month",
+    description: "For large organizations with complex needs",
+    features: [
+      "Chat Assistant on unlimited websites",
+      "Up to 3,000 conversations/month",
+      "Email Assistant included",
+      "Priority support",
+      "Advanced analytics",
+      "Custom branding",
+    ],
+    cta: "Get Started",
+    variant: "outline" as const,
+  },
+];
 
 const Pricing = () => {
-  const plans = [
-    {
-      name: "Starter",
-      price: "Gratis",
-      description: "Voor kleine websites en testen",
-      features: [
-        { text: "50 gesprekken per maand", included: true },
-        { text: "5 documenten (max 5MB)", included: true },
-        { text: "1 website", included: true },
-        { text: "Basis aanpassingen", included: true },
-        { text: "Email support (48u)", included: true },
-        { text: "Verwijder branding", included: false },
-        { text: "API toegang", included: false },
-        { text: "Data export", included: false },
-      ],
-      cta: "Gratis Starten",
-      popular: false,
-    },
-    {
-      name: "Professional",
-      price: "€49",
-      period: "/maand",
-      description: "Voor groeiende bedrijven",
-      yearlyPrice: "€470/jaar - bespaar €118",
-      features: [
-        { text: "1.000 gesprekken per maand", included: true },
-        { text: "50 documenten (max 10MB)", included: true },
-        { text: "3 websites", included: true },
-        { text: "Volledige UI aanpassingen", included: true },
-        { text: "Verwijder branding", included: true },
-        { text: "Prioriteit support (24u)", included: true },
-        { text: "Conversatie export (CSV)", included: true },
-        { text: "URL scraping (10 URLs)", included: true },
-      ],
-      cta: "Start Professional",
-      popular: true,
-    },
-    {
-      name: "Business",
-      price: "€149",
-      period: "/maand",
-      description: "Voor professionele organisaties",
-      yearlyPrice: "€1.430/jaar - bespaar €358",
-      features: [
-        { text: "5.000 gesprekken per maand", included: true },
-        { text: "Onbeperkt documenten", included: true },
-        { text: "10 websites", included: true },
-        { text: "API toegang", included: true },
-        { text: "Advanced analytics", included: true },
-        { text: "Custom domein", included: true },
-        { text: "Chat support (4u)", included: true },
-        { text: "Team accounts (5 users)", included: true },
-      ],
-      cta: "Start Business",
-      popular: false,
-    },
-    {
-      name: "Enterprise",
-      price: "Custom",
-      description: "Voor grote organisaties",
-      features: [
-        { text: "Onbeperkt gesprekken", included: true },
-        { text: "Onbeperkt documenten", included: true },
-        { text: "Self-hosted optie", included: true },
-        { text: "99.9% SLA garantie", included: true },
-        { text: "24/7 support", included: true },
-        { text: "Dedicated account manager", included: true },
-        { text: "SSO/SAML authenticatie", included: true },
-        { text: "Custom integraties", included: true },
-      ],
-      cta: "Neem Contact Op",
-      popular: false,
-    },
-  ];
-
-  const faqs = [
-    {
-      question: "Kan ik van plan wisselen?",
-      answer:
-        "Ja, u kunt op elk moment upgraden naar een hoger plan. Bij een downgrade blijft uw huidige plan actief tot het einde van de facturatieperiode.",
-    },
-    {
-      question: "Wat gebeurt er als ik mijn limiet overschrijd?",
-      answer:
-        "U ontvangt een melding wanneer u 80% van uw limiet bereikt. U kunt dan upgraden of extra gesprekken bijkopen. De chatbot blijft beschikbaar.",
-    },
-    {
-      question: "Is er een money-back garantie?",
-      answer:
-        "Ja, voor Professional en Business plannen bieden we 30 dagen geld-terug-garantie zonder vragen.",
-    },
-    {
-      question: "Welke betaalmethoden accepteren jullie?",
-      answer:
-        "We accepteren creditcard (Visa, Mastercard, Amex), iDEAL, SEPA Incasso en facturen (vanaf Business plan).",
-    },
-    {
-      question: "Zijn er setup kosten?",
-      answer:
-        "Nee, er zijn geen setup kosten. U betaalt alleen het maandelijkse abonnement.",
-    },
-  ];
+  const params = useParams();
+  const locale = params?.locale as string;
+  const t = useTranslations("pricing");
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navigation />
+    <section className="py-20 px-4">
+      <div className="container mx-auto max-w-6xl">
+        <div className="text-center mb-16 animate-fade-in">
+          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4 bg-gradient-primary bg-clip-text text-transparent">
+            {t("title")}
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            {t("subtitle")}
+          </p>
+        </div>
 
-      <main className="flex-1">
-        {/* Header */}
-        <section className="py-20 bg-gradient-hero">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-3xl mx-auto animate-fade-in">
-              <h1 className="mb-6">Transparante Prijzen voor Elk Bedrijf</h1>
-              <p className="text-xl text-muted-foreground">
-                Begin gratis en upgrade wanneer u groeit. Geen verborgen kosten,
-                opzeggen wanneer u wilt.
-              </p>
-            </div>
-          </div>
-        </section>
+        <div className="grid md:grid-cols-3 gap-8 mb-12">
+          {pricingTiers.map((tier, index) => (
+            <Card
+              key={tier.name}
+              className={`relative flex flex-col ${
+                tier.popular
+                  ? "border-2 border-primary shadow-xl shadow-primary/20 scale-105"
+                  : "border-2 hover:border-primary/50"
+              } transition-all duration-300 hover:shadow-xl hover:shadow-primary/10`}
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
+              {tier.popular && (
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-semibold shadow-lg">
+                  {t("popular")}
+                </div>
+              )}
 
-        {/* Pricing Cards */}
-        <section className="py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {plans.map((plan, index) => (
-                <Card
-                  key={plan.name}
-                  className={`relative flex flex-col animate-fade-in-up ${
-                    plan.popular ? "border-primary shadow-glow" : ""
-                  }`}
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  {plan.popular && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                      <span className="bg-gradient-primary text-primary-foreground text-sm font-semibold px-4 py-1 rounded-full">
-                        Populair
-                      </span>
-                    </div>
-                  )}
+              <CardHeader className="text-center pb-8 pt-8">
+                <CardTitle className="text-2xl mb-2">{tier.name}</CardTitle>
+                <CardDescription className="text-base">
+                  {tier.description}
+                </CardDescription>
+                <div className="mt-4">
+                  <span className="text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+                    {tier.price}
+                  </span>
+                  <span className="text-muted-foreground ml-1">
+                    {tier.period}
+                  </span>
+                </div>
+              </CardHeader>
 
-                  <CardHeader>
-                    <CardTitle className="text-2xl">{plan.name}</CardTitle>
-                    <CardDescription>{plan.description}</CardDescription>
-                    <div className="mt-4">
-                      <div className="flex items-baseline">
-                        <span className="text-4xl font-bold">{plan.price}</span>
-                        {plan.period && (
-                          <span className="text-muted-foreground ml-1">
-                            {plan.period}
-                          </span>
-                        )}
+              <CardContent className="flex-1">
+                <ul className="space-y-3">
+                  {tier.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-3">
+                      <div className="w-5 h-5 rounded-full bg-gradient-primary flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Check className="w-3 h-3 text-primary-foreground" />
                       </div>
-                      {plan.yearlyPrice && (
-                        <p className="text-sm text-muted-foreground mt-1">
-                          {plan.yearlyPrice}
-                        </p>
-                      )}
+                      <span className="text-sm">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+
+              <CardFooter className="pt-6">
+                <Button
+                  variant={tier.variant}
+                  size="lg"
+                  className="w-full"
+                  asChild
+                >
+                  <Link href={`/register`}>{tier.cta}</Link>
+                </Button>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+
+        <div className="text-center mb-20">
+          <p className="text-muted-foreground mb-4">
+            {t("allPlansIncludeFreeUpdatesAndNoHiddenFees")}
+          </p>
+          <p className="text-sm text-muted-foreground">
+            {t("needSomethingCustom")}{" "}
+            <Link
+              href={`/${locale}/contact`}
+              className="text-primary hover:underline font-medium"
+            >
+              {t("contactUs")}
+            </Link>
+          </p>
+        </div>
+
+        {/* Comparison Table Section */}
+        <div className="mb-20">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              {t("comparePlans")}
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-sm">
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-primary" />
+                <span>{t("freeTrial")}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-primary" />
+                <span>{t("flexiblePlans")}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-primary" />
+                <span>{t("easyToUse")}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-primary" />
+                <span>{t("safeAndSecure")}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="overflow-x-auto">
+            <Table className="min-w-full" style={{ tableLayout: "fixed" }}>
+              <colgroup>
+                <col style={{ width: "300px" }} />
+                <col style={{ width: "calc((100% - 300px) / 3)" }} />
+                <col style={{ width: "calc((100% - 300px) / 3)" }} />
+                <col style={{ width: "calc((100% - 300px) / 3)" }} />
+              </colgroup>
+              <TableHeader>
+                <TableRow className="border-b-2">
+                  <TableHead className="font-semibold text-base">
+                    Feature
+                  </TableHead>
+                  <TableHead className="text-center font-semibold">
+                    Starter
+                  </TableHead>
+                  <TableHead className="text-center font-semibold bg-primary/5">
+                    Professional
+                  </TableHead>
+                  <TableHead className="text-center font-semibold">
+                    Enterprise
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {/* Usage, Billing & Payment */}
+                <TableRow className="bg-muted/30">
+                  <TableCell colSpan={4} className="font-semibold py-3">
+                    {t("categories.usageBillingPayment")}
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      {t("features.interactionsIncluded")}
+                      <Tooltip
+                        content={
+                          <p className="max-w-xs">
+                            {t("features.interactionsIncludedDesc")}
+                          </p>
+                        }
+                      >
+                        <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+                      </Tooltip>
                     </div>
-                  </CardHeader>
+                  </TableCell>
+                  <TableCell className="text-center">500</TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    2,000
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {t("values.unlimited")}
+                  </TableCell>
+                </TableRow>
 
-                  <CardContent className="flex-1">
-                    <ul className="space-y-3">
-                      {plan.features.map((feature, i) => (
-                        <li key={i} className="flex items-start space-x-3">
-                          {feature.included ? (
-                            <Check
-                              className="w-5 h-5 text-primary flex-shrink-0 mt-0.5"
-                              aria-hidden="true"
-                            />
-                          ) : (
-                            <X
-                              className="w-5 h-5 text-muted-foreground flex-shrink-0 mt-0.5"
-                              aria-hidden="true"
-                            />
-                          )}
-                          <span
-                            className={
-                              feature.included
-                                ? "text-foreground"
-                                : "text-muted-foreground"
-                            }
-                          >
-                            {feature.text}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
+                <TableRow>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      {t("features.additionalInteractions")}
+                      <Tooltip
+                        content={
+                          <p className="max-w-xs">
+                            {t("features.additionalInteractionsDesc")}
+                          </p>
+                        }
+                      >
+                        <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+                      </Tooltip>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-center">€1.00</TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    €0.05
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {t("values.included")}
+                  </TableCell>
+                </TableRow>
 
-                  <CardFooter>
-                    <Button
-                      className="w-full"
-                      variant={plan.popular ? "default" : "outline"}
-                      asChild
-                    >
-                      <a href="#gratis-starten">{plan.cta}</a>
-                    </Button>
-                  </CardFooter>
-                </Card>
-              ))}
-            </div>
+                <TableRow>
+                  <TableCell>{t("features.creditCardPayment")}</TableCell>
+                  <TableCell className="text-center">
+                    <Check className="w-5 h-5 text-primary mx-auto" />
+                  </TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    <Check className="w-5 h-5 text-primary mx-auto" />
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <Check className="w-5 h-5 text-primary mx-auto" />
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      {t("features.activeAIAssistants")}
+                      <Tooltip
+                        content={
+                          <p className="max-w-xs">
+                            {t("features.activeAIAssistantsDesc")}
+                          </p>
+                        }
+                      >
+                        <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+                      </Tooltip>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-center">1</TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    {t("values.unlimited")}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {t("values.unlimited")}
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      {t("features.platformIntegrations")}
+                      <Tooltip
+                        content={
+                          <p className="max-w-xs">
+                            {t("features.platformIntegrationsDesc")}
+                          </p>
+                        }
+                      >
+                        <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+                      </Tooltip>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {t("values.unlimited")}
+                  </TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    {t("values.unlimited")}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {t("values.unlimited")}
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      {t("features.functionIntegrations")}
+                      <Tooltip
+                        content={
+                          <p className="max-w-xs">
+                            {t("features.functionIntegrationsDesc")}
+                          </p>
+                        }
+                      >
+                        <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+                      </Tooltip>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {t("values.unlimited")}
+                  </TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    {t("values.unlimited")}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {t("values.unlimited")}
+                  </TableCell>
+                </TableRow>
+
+                {/* Service & Support */}
+                <TableRow className="bg-muted/30">
+                  <TableCell colSpan={4} className="font-semibold py-3">
+                    {t("categories.serviceSupport")}
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>{t("features.gettingStarted")}</TableCell>
+                  <TableCell className="text-center">
+                    {t("features.selfService")}
+                  </TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    {t("features.selfService")}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {t("features.personalisedOnboarding")}
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      {t("features.aivantiAssistant")}
+                      <Tooltip
+                        content={
+                          <p className="max-w-xs">
+                            {t("features.aivantiAssistantDesc")}
+                          </p>
+                        }
+                      >
+                        <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+                      </Tooltip>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <Check className="w-5 h-5 text-primary mx-auto" />
+                  </TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    <Check className="w-5 h-5 text-primary mx-auto" />
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <Check className="w-5 h-5 text-primary mx-auto" />
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>{t("features.supportChannels")}</TableCell>
+                  <TableCell className="text-center">
+                    {t("values.notIncluded")}
+                  </TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    Email
+                  </TableCell>
+                  <TableCell className="text-center">Email, Slack</TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>{t("features.responseTime")}</TableCell>
+                  <TableCell className="text-center">
+                    {t("values.notIncluded")}
+                  </TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    {t("values.bestEffort")}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {t("values.oneBusinessDay")}
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      {t("features.roadmapFeatureUpvote")}
+                      <Tooltip
+                        content={
+                          <p className="max-w-xs">
+                            {t("features.roadmapFeatureUpvoteDesc")}
+                          </p>
+                        }
+                      >
+                        <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+                      </Tooltip>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {t("values.notIncluded")}
+                  </TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    <Check className="w-5 h-5 text-primary mx-auto" />
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <Check className="w-5 h-5 text-primary mx-auto" />
+                  </TableCell>
+                </TableRow>
+
+                {/* Insight & Improvement */}
+                <TableRow className="bg-muted/30">
+                  <TableCell colSpan={4} className="font-semibold py-3">
+                    {t("categories.insightImprovement")}
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>{t("features.reporting")}</TableCell>
+                  <TableCell className="text-center">
+                    {t("values.notIncluded")}
+                  </TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    {t("features.reportingFeatures")}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {t("features.reportingFeatures")}
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>{t("features.analytics")}</TableCell>
+                  <TableCell className="text-center">
+                    {t("values.notIncluded")}
+                  </TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    {t("features.analyticsFeatures")}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {t("features.analyticsFeatures")}
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>{t("features.caseAnalysis")}</TableCell>
+                  <TableCell className="text-center">
+                    {t("values.notIncluded")}
+                  </TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    {t("features.caseAnalysisFeatures")}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {t("features.caseAnalysisFeatures")}
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      {t("features.knowledgeSourceSynch")}
+                      <Tooltip
+                        content={
+                          <p className="max-w-xs">
+                            {t("features.knowledgeSourceSynchDesc")}
+                          </p>
+                        }
+                      >
+                        <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+                      </Tooltip>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {t("features.manual")}
+                  </TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    {t("features.manual")}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {t("features.automationPossible")}
+                  </TableCell>
+                </TableRow>
+
+                {/* Application & Data Security */}
+                <TableRow className="bg-muted/30">
+                  <TableCell colSpan={4} className="font-semibold py-3">
+                    {t("categories.applicationDataSecurity")}
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>{t("features.sso")}</TableCell>
+                  <TableCell className="text-center">
+                    {t("values.notIncluded")}
+                  </TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    {t("values.notIncluded")}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <Check className="w-5 h-5 text-primary mx-auto" />
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      {t("features.latestEnterpriseLLM")}
+                      <Tooltip
+                        content={
+                          <p className="max-w-xs">
+                            {t("features.latestEnterpriseLLMDesc")}
+                          </p>
+                        }
+                      >
+                        <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+                      </Tooltip>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <Check className="w-5 h-5 text-primary mx-auto" />
+                  </TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    <Check className="w-5 h-5 text-primary mx-auto" />
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <Check className="w-5 h-5 text-primary mx-auto" />
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      {t("features.applicationDataHosting")}
+                      <Tooltip
+                        content={
+                          <p className="max-w-xs">
+                            {t("features.applicationDataHostingDesc")}
+                          </p>
+                        }
+                      >
+                        <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+                      </Tooltip>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {t("features.awsEurope")}
+                  </TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    {t("features.awsEurope")}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {t("features.awsEurope")}
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>{t("features.encryptionDataAtRest")}</TableCell>
+                  <TableCell className="text-center">
+                    <Check className="w-5 h-5 text-primary mx-auto" />
+                  </TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    <Check className="w-5 h-5 text-primary mx-auto" />
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <Check className="w-5 h-5 text-primary mx-auto" />
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>
+                    {t("features.thirdPartyIntegrationSecurity")}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <Check className="w-5 h-5 text-primary mx-auto" />
+                  </TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    <Check className="w-5 h-5 text-primary mx-auto" />
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <Check className="w-5 h-5 text-primary mx-auto" />
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>
+                    {t("features.privacyPolicyDataProtection")}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <Check className="w-5 h-5 text-primary mx-auto" />
+                  </TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    <Check className="w-5 h-5 text-primary mx-auto" />
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <Check className="w-5 h-5 text-primary mx-auto" />
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>
+                    {t("features.personalInformationDetection")}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {t("values.notIncluded")}
+                  </TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    {t("values.notIncluded")}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <Check className="w-5 h-5 text-primary mx-auto" />
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>
+                    {t("features.conversationTranscriptRetention")}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {t("values.oneMonth")}
+                  </TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    {t("values.oneYear")}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {t("values.twoYears")}
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>{t("features.analyticsDataRetention")}</TableCell>
+                  <TableCell className="text-center">
+                    {t("values.unlimited")}
+                  </TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    {t("values.unlimited")}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {t("values.unlimited")}
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>{t("features.analysisDataRetention")}</TableCell>
+                  <TableCell className="text-center">
+                    {t("values.unlimited")}
+                  </TableCell>
+                  <TableCell className="text-center bg-primary/5">
+                    {t("values.unlimited")}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {t("values.unlimited")}
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
           </div>
-        </section>
+        </div>
 
-        {/* FAQ */}
-        <section className="py-20 bg-muted">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-3xl mx-auto">
-              <h2 className="text-center mb-12">Veelgestelde Vragen</h2>
-              <Accordion type="single" collapsible className="space-y-4">
-                {faqs.map((faq, index) => (
-                  <AccordionItem
-                    key={index}
-                    value={`item-${index}`}
-                    className="bg-background border border-border rounded-lg px-6"
-                  >
-                    <AccordionTrigger className="text-left hover:no-underline">
-                      <span className="font-semibold">{faq.question}</span>
-                    </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground">
-                      {faq.answer}
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA */}
-        <section className="py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-3xl mx-auto text-center">
-              <h2 className="mb-6">Klaar om te Beginnen?</h2>
-              <p className="text-xl text-muted-foreground mb-8">
-                Start gratis en upgrade wanneer u overtuigd bent. Geen
-                creditcard vereist.
-              </p>
-              <Button size="lg" asChild>
-                <a href="#gratis-starten">Gratis Account Aanmaken</a>
-              </Button>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <Footer />
-    </div>
+        <div className="text-center">
+          <p className="text-muted-foreground mb-4">
+            {t("allPlansIncludeFreeUpdatesAndNoHiddenFees")}
+          </p>
+          <p className="text-sm text-muted-foreground">
+            {t("needSomethingCustom")}{" "}
+            <Link
+              href={`/${locale}/contact`}
+              className="text-primary hover:underline font-medium"
+            >
+              {t("contactUs")}
+            </Link>
+          </p>
+        </div>
+      </div>
+    </section>
   );
 };
-
 export default Pricing;

@@ -29,7 +29,7 @@ export default function Benefits() {
               <span className="text-primary">klantbeleving</span>
             </h2>
             <p className="text-xl text-muted-foreground mb-8">
-              Clevva helpt bedrijven zoals het uwe om sneller te groeien en
+              Ainexo helpt bedrijven zoals het uwe om sneller te groeien en
               klanten beter te bedienen.
             </p>
 
@@ -111,7 +111,7 @@ export default function Benefits() {
 
               <div className="mt-8 pt-8 border-t border-border">
                 <p className="text-sm text-muted-foreground italic">
-                  &quot;Clevva heeft onze klantenservice volledig&quot;
+                  &quot;Ainexo heeft onze klantenservice volledig&quot;
                   getransformeerd. We bereiken nu meer klanten met minder
                   personeel.&quot;
                 </p>

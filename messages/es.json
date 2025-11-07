@@ -196,6 +196,8 @@
     "confirmPasswordRequired": "La confirmación de contraseña es obligatoria",
     "assistantNameRequired": "El nombre del asistente es obligatorio",
     "passwordComplexity": "La contraseña debe contener al menos una letra mayúscula, una minúscula y un número",
+    "assistantLimitReached": "Límite de asistentes alcanzado",
+    "assistantLimitReachedDescription": "Has alcanzado el número máximo de asistentes para tu suscripción. Por favor actualiza tu plan para crear más asistentes.",
     "knowledgebase": {
       "noAssistantSelected": "No se ha seleccionado ningún asistente"
     },
@@ -244,18 +246,18 @@
     "backToPortal": "Volver al portal"
   },
   "metadata": {
-    "title": "Clevva",
-    "description": "Clevva AI Chat Support",
-    "keywords": "Clevva AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Clevva, Clevva AI, Clevva AI Chat, Clevva AI Chat Support",
+    "title": "Ainexo",
+    "description": "Ainexo AI Chat Support",
+    "keywords": "Ainexo AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Ainexo, Ainexo AI, Ainexo AI Chat, Ainexo AI Chat Support",
     "twitter": {
-      "title": "Clevva AI Chat Support",
-      "description": "Clevva AI Chat Support",
-      "keywords": "Clevva AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Clevva, Clevva AI, Clevva AI Chat, Clevva AI Chat Support"
+      "title": "Ainexo AI Chat Support",
+      "description": "Ainexo AI Chat Support",
+      "keywords": "Ainexo AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Ainexo, Ainexo AI, Ainexo AI Chat, Ainexo AI Chat Support"
     },
     "og": {
-      "title": "Clevva AI Chat Support",
-      "description": "Clevva AI Chat Support",
-      "keywords": "Clevva AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Clevva, Clevva AI, Clevva AI Chat, Clevva AI Chat Support"
+      "title": "Ainexo AI Chat Support",
+      "description": "Ainexo AI Chat Support",
+      "keywords": "Ainexo AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Ainexo, Ainexo AI, Ainexo AI Chat, Ainexo AI Chat Support"
     }
   },
   "auth": {
@@ -496,22 +498,30 @@
     "languageChangedDescription": "Idioma de la interfaz cambiado a {language}"
   },
   "hero": {
-    "title": "Soporte al cliente impulsado por IA",
-    "subtitle": "Simplificado",
-    "description": "Transforme su servicio al cliente con chatbots inteligentes que entienden su negocio y proporcionan respuestas instantáneas y precisas 24/7.",
-    "free_trial": "Comience su prueba gratuita hoy - no se requiere tarjeta de crédito",
-    "tryFree": "Probar gratis",
-    "watchDemo": "Ver demostración"
+    "title": "Conoce Ainexo – Tu",
+    "aiAssistant": "Asistente IA",
+    "description": "Desde chat hasta correo electrónico y llamadas, Ainexo ayuda a tu negocio a responder más rápido e inteligentemente.",
+    "getStartedForFree": "¡Comienza gratis!",
+    "watchDemo": "Ver demostración",
+    "noCreditCardRequired": "No se requiere tarjeta de crédito. Tu asistente IA estará en vivo en minutos."
+  },
+  "howItWorks": {
+    "howAinexoWorks": "Cómo funciona Ainexo",
+    "step1Title": "Sube tu contenido",
+    "step1Description": "Sube PDFs, documentos Word o agrega URLs. Soporta manuales, FAQ y más.",
+    "step2Title": "La IA aprende de tu contenido",
+    "step2Description": "La tecnología avanzada GPT-4 procesa tus documentos y aprende toda la información importante.",
+    "step3Title": "Integra en 1 minuto",
+    "step3Description": "Copia una línea de código y pégala en tu sitio web. El chatbot está en vivo instantáneamente.",
+    "step4Title": "Mejora continuamente",
+    "step4Description": "Visualiza conversaciones, evalúa respuestas y refina para obtener mejores resultados."
   },
   "cta": {
-    "title": "¿Listo para transformar su soporte al cliente?",
-    "description": "Únase a miles de empresas que ya están usando nuestras soluciones impulsadas por IA para ofrecer mejores experiencias a los clientes.",
-    "free_trial": "Comience su prueba gratuita hoy",
-    "cta": "Comenzar",
-    "contact": "Contactar ventas",
-    "secure": "Seguro y confiable",
-    "gdpr_compliant": "Cumple con GDPR",
-    "no_credit_card": "No se requiere tarjeta de crédito"
+    "title": "¿Listo para hacer tu negocio",
+    "subtitle": "más inteligente?",
+    "description": "Tu asistente IA nunca duerme (pero tampoco necesita café)",
+    "cta": "Comienza gratis",
+    "noCreditCardRequired": "No se requiere tarjeta de crédito. Tu asistente IA estará en vivo en minutos."
   },
   "features": {
     "title": "Todo lo que necesita para un soporte al cliente moderno",
@@ -544,8 +554,8 @@
     }
   },
   "benefits": {
-    "title": "Beneficios de usar Clevva",
-    "description": "Beneficios de usar Clevva"
+    "title": "Beneficios de usar Ainexo",
+    "description": "Beneficios de usar Ainexo"
   },
   "faq": {
     "title": "Preguntas frecuentes",
@@ -1025,7 +1035,16 @@
     "failedToFetchBillingData": "Error al obtener datos de facturación",
     "failedToLoadBillingData": "No se pueden cargar los datos de facturación",
     "failedToCreateSubscription": "Error al crear la suscripción",
-    "failedToOpenPortal": "Error al abrir el portal del cliente"
+    "failedToOpenPortal": "Error al abrir el portal del cliente",
+    "noSubscription": "No se encontró suscripción",
+    "noSubscriptionDescription": "Aún no tienes una suscripción activa. Por favor elige un plan para actualizar.",
+    "syncSubscription": "Sincronizar suscripción",
+    "syncing": "Sincronizando...",
+    "subscriptionSynced": "Suscripción sincronizada con éxito",
+    "failedToSyncSubscription": "Error al sincronizar la suscripción",
+    "incompleteDetails": "Detalles de facturación incompletos",
+    "incompleteDetailsDescription": "Por favor completa tus detalles de facturación para una facturación precisa",
+    "completeNow": "Completar ahora"
   },
   "subscription": {
     "title": "Suscripción",
@@ -1057,7 +1076,7 @@
     "tabs": {
       "websites": "Sitios web",
       "faqs": "Preguntas frecuentes",
-      "archivos": "Archivos"
+      "bestanden": "Archivos"
     },
     "websites": "Sitios web",
     "faqs": "Preguntas frecuentes",
@@ -1220,27 +1239,129 @@
     "language": "Idioma"
   },
   "footer": {
-    "description": "Transforme su servicio al cliente con chatbots impulsados por IA que entienden su negocio y proporcionan respuestas instantáneas y precisas 24/7.",
+    "description": "Tu asistente de soporte de chat IA amigable",
     "product": "Producto",
     "features": "Funciones",
     "pricing": "Precios",
     "api": "API",
     "integrations": "Integraciones",
     "company": "Empresa",
-    "register": "Registrarse",
-    "careers": "Carreras",
-    "press": "Prensa",
+    "aboutUs": "Acerca de nosotros",
+    "blog": "Blog",
     "contact": "Contacto",
-    "email": "info@declair.app",
-    "address": "Ámsterdam, Países Bajos",
-    "rights": "Todos los derechos reservados.",
-    "privacy": "Política de privacidad",
-    "terms": "Términos de servicio"
+    "legal": "Legal",
+    "privacyPolicy": "Política de privacidad",
+    "termsOfService": "Términos de servicio",
+    "documentation": "Documentación",
+    "allRightsReserved": "Todos los derechos reservados."
+  },
+  "contact": {
+    "title": "Ponerse en contacto",
+    "description": "¿Tienes una pregunta? Nos encantaría saber de ti. Envíanos un mensaje y te responderemos lo antes posible.",
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "phone": "Teléfono",
+    "message": "Mensaje",
+    "company": "Empresa",
+    "send": "Enviar",
+    "sendEmail": "Envíanos un correo electrónico",
+    "sendPhone": "Llámanos",
+    "callUs": "Llámanos",
+    "callUsDescription": "Llámanos al +31 20 123 4567",
+    "phoneDescription": "Llámanos al +31 20 123 4567",
+    "sendMessage": "Envíanos un mensaje",
+    "sendMessageDescription": "Completa el formulario a continuación y te responderemos en 24 horas.",
+    "namePlaceholder": "Tu nombre",
+    "emailPlaceholder": "Tu correo electrónico",
+    "companyPlaceholder": "El nombre de tu empresa",
+    "messagePlaceholder": "Cuéntanos cómo podemos ayudarte...",
+    "missingFields": "Campos faltantes",
+    "missingFieldsDescription": "Por favor completa todos los campos obligatorios.",
+    "messageSent": "¡Mensaje enviado!",
+    "messageSentDescription": "Te responderemos lo antes posible."
   },
   "pricing": {
     "title": "Precios simples y transparentes",
     "subtitle": "Elija el plan que se adapte a las necesidades de su negocio",
     "popular": "Más popular",
+    "allPlansIncludeFreeUpdatesAndNoHiddenFees": "Todos los planes incluyen actualizaciones gratuitas y sin tarifas ocultas",
+    "needSomethingCustom": "¿Necesitas algo personalizado?",
+    "contactUs": "Contáctanos",
+    "comparePlans": "Compara nuestros planes y encuentra el tuyo",
+    "freeTrial": "Prueba gratuita",
+    "noCreditCardRequired": "No se requiere tarjeta de crédito",
+    "flexiblePlans": "Planes flexibles",
+    "straightforwardAndTransparent": "Directo y transparente",
+    "easyToUse": "Fácil de usar",
+    "fasterInstallation": "Instalación más rápida, interfaz amigable",
+    "personalizeToYourAudience": "Personaliza para tu audiencia",
+    "safeAndSecure": "Seguro y protegido",
+    "categories": {
+      "usageBillingPayment": "Uso, Facturación y Pago",
+      "serviceSupport": "Servicio y Soporte",
+      "insightImprovement": "Información y Mejora",
+      "applicationDataSecurity": "Aplicación y Seguridad de Datos",
+      "assistantsAddons": "Complementos de Asistentes (hoja de ruta)"
+    },
+    "features": {
+      "interactionsIncluded": "Interacciones incluidas por mes",
+      "interactionsIncludedDesc": "Una interacción es un chat que es respondido por tu Asistente IA. Los chats sin respuesta o spam no se cuentan.",
+      "additionalInteractions": "Interacciones adicionales",
+      "additionalInteractionsDesc": "Cada interacción adicional más allá del límite de tu plan será cobrada.",
+      "creditCardPayment": "Pago con tarjeta de crédito",
+      "activeAIAssistants": "Asistentes IA activos",
+      "activeAIAssistantsDesc": "Un Asistente IA activo es el que está incrustado en tu sitio web",
+      "platformIntegrations": "Integraciones de plataforma",
+      "platformIntegrationsDesc": "Tus herramientas de negocio seleccionadas pueden integrarse con tu asistente IA",
+      "functionIntegrations": "Integraciones de funciones",
+      "functionIntegrationsDesc": "Acciones que son programables y se ejecutan según la intención seleccionada de un cliente",
+      "gettingStarted": "Primeros pasos",
+      "selfService": "Autoservicio",
+      "personalisedOnboarding": "Incorporación personalizada",
+      "aivantiAssistant": "Asistente Aivanti 24/7",
+      "aivantiAssistantDesc": "Obtén soporte de un asistente IA dentro de tu interfaz de cuenta Aivanti",
+      "supportChannels": "Canales de soporte",
+      "responseTime": "Tiempo de respuesta",
+      "roadmapFeatureUpvote": "Votar por funciones de la hoja de ruta",
+      "roadmapFeatureUpvoteDesc": "Vota para poner tus funciones favoritas en la lista de nuestros desarrollos",
+      "reporting": "Informes",
+      "reportingFeatures": "Información de conocimientos, Informes de conversación, Resultados generados, Sentimiento del usuario",
+      "analytics": "Análisis",
+      "analyticsFeatures": "Enlaces rotos en el sitio web, Conocimiento duplicado, Uso de integraciones, Efectividad del código QR, UX - Uso de saludos, UX - Uso del botón rápido",
+      "caseAnalysis": "Análisis de casos",
+      "caseAnalysisFeatures": "Pregunta sin respuesta, Indicador de desagrado, Sentimiento negativo, Información personal, Descarga de información del producto, Consulta de precios",
+      "questionUnanswered": "Pregunta sin respuesta",
+      "knowledgeSourceSynch": "Sincronización de fuentes de conocimiento",
+      "knowledgeSourceSynchDesc": "Mantener tu Asistente IA actualizado y entrenado con el conocimiento más reciente",
+      "manual": "Manual",
+      "automationPossible": "Automatización posible",
+      "sso": "SSO (Google, Microsoft, Apple)",
+      "latestEnterpriseLLM": "Último LLM Enterprise",
+      "latestEnterpriseLLMDesc": "Tu Asistente IA está impulsado por la última tecnología de modelo de lenguaje Large Language Model Enterprise",
+      "applicationDataHosting": "Alojamiento de aplicación y datos",
+      "applicationDataHostingDesc": "Todos los datos están alojados por defecto en AWS en Frankfurt, Alemania. Contáctanos si buscas que tus datos estén alojados en EE. UU. o APAC.",
+      "awsEurope": "AWS / Europa",
+      "encryptionDataAtRest": "Cifrado de datos en reposo",
+      "thirdPartyIntegrationSecurity": "Seguridad de integraciones de terceros",
+      "privacyPolicyDataProtection": "Política de privacidad / Protección de datos",
+      "personalInformationDetection": "Detección de información personal",
+      "conversationTranscriptRetention": "Retención de transcripciones de conversación",
+      "analyticsDataRetention": "Retención de datos de análisis",
+      "analysisDataRetention": "Retención de datos de análisis",
+      "websiteSemanticSearch": "Búsqueda semántica del sitio web",
+      "websiteComplianceAccessibility": "Cumplimiento y accesibilidad del sitio web",
+      "liveChatWithAgents": "Chat en vivo con agentes"
+    },
+    "values": {
+      "unlimited": "Ilimitado",
+      "included": "Incluido",
+      "notIncluded": "-",
+      "bestEffort": "mejor esfuerzo",
+      "oneBusinessDay": "1 día laborable",
+      "oneMonth": "1 Mes",
+      "oneYear": "1 Año",
+      "twoYears": "2 Años"
+    },
     "plans": {
       "starter": {
         "name": "Starter",

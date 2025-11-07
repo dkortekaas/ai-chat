@@ -1,4 +1,163 @@
 {
+  "header": {
+    "features": "Features",
+    "pricing": "Pricing",
+    "contact": "Contact",
+    "login": "Login",
+    "tryFree": "Try Free",
+    "language": "Language"
+  },
+  "hero": {
+    "title": "Meet Ainexo – Your Friendly",
+    "aiAssistant": "AI Assistant",
+    "description": "From chat to email to calls, Ainexo helps your business respond faster and smarter.",
+    "getStartedForFree": "Start for Free!",
+    "watchDemo": "Watch Demo",
+    "noCreditCardRequired": "No credit card required. Get your AI assistant live in minutes."
+  },
+  "howItWorks": {
+    "howAinexoWorks": "How Ainexo works",
+    "step1Title": "Upload your content",
+    "step1Description": "Upload PDF's, Word documents or add URLs. Supports manuals, FAQs and more.",
+    "step2Title": "AI learns from your content",
+    "step2Description": "Advanced GPT-4 technology processes your documents and learns all the important information.",
+    "step3Title": "Integrate in 1 minute",
+    "step3Description": "Copy one line of code and paste it into your website. The chatbot is live instantly.",
+    "step4Title": "Improve continuously",
+    "step4Description": "View conversations, evaluate answers and refine for better results."
+  },
+  "cta": {
+    "title": "Ready to make your business",
+    "subtitle": "smarter?",
+    "description": "Your AI assistant never sleeps (but it also never needs coffee)",
+    "cta": "Start for Free",
+    "noCreditCardRequired": "No credit card required. Get your AI assistant live in minutes."
+  },
+  "pricing": {
+    "title": "Simple, transparent pricing",
+    "subtitle": "Choose the plan that fits your business needs",
+    "popular": "Most popular",
+    "allPlansIncludeFreeUpdatesAndNoHiddenFees": "All plans include free updates and no hidden fees",
+    "needSomethingCustom": "Need something custom?",
+    "contactUs": "Contact us",
+    "comparePlans": "Compare our plans and find yours",
+    "freeTrial": "Free Trial",
+    "noCreditCardRequired": "No credit card required",
+    "flexiblePlans": "Flexible Plans",
+    "straightforwardAndTransparent": "Straightforward and transparent",
+    "easyToUse": "Easy to Use",
+    "fasterInstallation": "Faster installation, Friendly UI",
+    "personalizeToYourAudience": "Personalize to your audience",
+    "safeAndSecure": "Safe and secure",
+    "categories": {
+      "usageBillingPayment": "Usage, Billing & Payment",
+      "serviceSupport": "Service & Support",
+      "insightImprovement": "Insight & Improvement",
+      "applicationDataSecurity": "Application & Data Security",
+      "assistantsAddons": "Assistants Add-ons (roadmap)"
+    },
+    "features": {
+      "interactionsIncluded": "Interactions included per month",
+      "interactionsIncludedDesc": "An interaction is a chat that is answered by your AI Assistant. Unanswered chats or spam are not counted.",
+      "additionalInteractions": "Additional Interactions",
+      "additionalInteractionsDesc": "Each additional interaction beyond your plan's limit will be charged.",
+      "creditCardPayment": "Credit Card Payment",
+      "activeAIAssistants": "Active AI Assistants",
+      "activeAIAssistantsDesc": "An Active AI Assistant is the one that is embedded to your website",
+      "platformIntegrations": "Platform Integrations",
+      "platformIntegrationsDesc": "Your selected business tools can be integrated with your AI assistant",
+      "functionIntegrations": "Function Integrations",
+      "functionIntegrationsDesc": "Actions that are programmable and taken on the selected intent of a customer",
+      "gettingStarted": "Getting Started",
+      "selfService": "Self Service",
+      "personalisedOnboarding": "Personalised onboarding",
+      "aivantiAssistant": "24/7 Aivanti Assistant",
+      "aivantiAssistantDesc": "Get supported by an AI assistant within your Aivanti account interface",
+      "supportChannels": "Support Channels",
+      "responseTime": "Response Time",
+      "roadmapFeatureUpvote": "Roadmap Feature Upvote",
+      "roadmapFeatureUpvoteDesc": "Vote to get your favorite features on the list of our developments",
+      "reporting": "Reporting",
+      "reportingFeatures": "Knowledge Insights, Conversational Reports, Outcomes Generated, User Sentiment",
+      "analytics": "Analytics",
+      "analyticsFeatures": "Broken Links on website, Duplicate Knowledge, Integration Usage, QR code effectiveness, UX - Greetings use, UX - Quick Button use",
+      "caseAnalysis": "Case Analysis",
+      "caseAnalysisFeatures": "Question Unanswered, Dislike Indicator, Negative Sentiment, Personal Information, Product Info Download, Price Inquiry",
+      "questionUnanswered": "Question Unanswered",
+      "knowledgeSourceSynch": "Knowledge Source Synch",
+      "knowledgeSourceSynchDesc": "Keeping your AI Assistant up to date and trained with the latest knowledge",
+      "manual": "Manual",
+      "automationPossible": "Automation Possible",
+      "sso": "SSO (Google, Microsoft, Apple)",
+      "latestEnterpriseLLM": "Latest Enterprise LLM",
+      "latestEnterpriseLLMDesc": "Your AI Assistant is powered with the latest enterprise Large Language Model technology",
+      "applicationDataHosting": "Application & Data Hosting",
+      "applicationDataHostingDesc": "All data are by default hosted at AWS in Frankfurt, Germany. Contact us if you are looking for your data to be hosted in US or APAC.",
+      "awsEurope": "AWS / Europe",
+      "encryptionDataAtRest": "Encryption of data at rest",
+      "thirdPartyIntegrationSecurity": "3rd party integration security",
+      "privacyPolicyDataProtection": "Privacy Policy / Data Protection",
+      "personalInformationDetection": "Personal Information Detection",
+      "conversationTranscriptRetention": "Conversation Transcript Retention",
+      "analyticsDataRetention": "Analytics Data Retention",
+      "analysisDataRetention": "Analysis Data Retention",
+      "websiteSemanticSearch": "Website Semantic Search",
+      "websiteComplianceAccessibility": "Website Compliance & Accessibility",
+      "liveChatWithAgents": "Live Chat with Agents"
+    },
+    "values": {
+      "unlimited": "Unlimited",
+      "included": "Included",
+      "notIncluded": "-",
+      "bestEffort": "best-effort",
+      "oneBusinessDay": "1 business day",
+      "oneMonth": "1 Month",
+      "oneYear": "1 Year",
+      "twoYears": "2 Years"
+    }
+  },
+  "footer": {
+    "description": "Your friendly AI chat support assistant",
+    "product": "Product",
+    "features": "Features",
+    "pricing": "Pricing",
+    "api": "API",
+    "integrations": "Integrations",
+    "company": "Company",
+    "aboutUs": "About Us",
+    "blog": "Blog",
+    "contact": "Contact",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "documentation": "Documentation",
+    "allRightsReserved": "All rights reserved."
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "description": "Have a question? We'd love to hear from you. Send us a message and we'll respond as soon as possible.",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "message": "Message",
+    "company": "Company",
+    "send": "Send",
+    "sendEmail": "Send us an email",
+    "sendPhone": "Call us",
+    "callUs": "Call us",
+    "callUsDescription": "Call us at +31 20 123 4567",
+    "phoneDescription": "Call us at +31 20 123 4567",
+    "sendMessage": "Send us a message",
+    "sendMessageDescription": "Fill out the form below and we'll get back to you within 24 hours.",
+    "namePlaceholder": "Your name",
+    "emailPlaceholder": "Your email",
+    "companyPlaceholder": "Your company name",
+    "messagePlaceholder": "Tell us how we can help...",
+    "missingFields": "Missing fields",
+    "missingFieldsDescription": "Please fill in all required fields.",
+    "messageSent": "Message sent!",
+    "messageSentDescription": "We'll get back to you as soon as possible."
+  },
   "common": {
     "success": "Success",
     "deleting": "Deleting...",
@@ -246,18 +405,18 @@
     "backToPortal": "Back to Portal"
   },
   "metadata": {
-    "title": "Clevva",
-    "description": "Clevva AI Chat Support",
-    "keywords": "Clevva AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Clevva, Clevva AI, Clevva AI Chat, Clevva AI Chat Support",
+    "title": "Ainexo",
+    "description": "Ainexo AI Chat Support",
+    "keywords": "Ainexo AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Ainexo, Ainexo AI, Ainexo AI Chat, Ainexo AI Chat Support",
     "twitter": {
-      "title": "Clevva AI Chat Support",
-      "description": "Clevva AI Chat Support",
-      "keywords": "Clevva AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Clevva, Clevva AI, Clevva AI Chat, Clevva AI Chat Support"
+      "title": "Ainexo AI Chat Support",
+      "description": "Ainexo AI Chat Support",
+      "keywords": "Ainexo AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Ainexo, Ainexo AI, Ainexo AI Chat, Ainexo AI Chat Support"
     },
     "og": {
-      "title": "Clevva AI Chat Support",
-      "description": "Clevva AI Chat Support",
-      "keywords": "Clevva AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Clevva, Clevva AI, Clevva AI Chat, Clevva AI Chat Support"
+      "title": "Ainexo AI Chat Support",
+      "description": "Ainexo AI Chat Support",
+      "keywords": "Ainexo AI Chat Support, AI Chat Support, Chat Support, AI Chat, Chat, AI, Ainexo, Ainexo AI, Ainexo AI Chat, Ainexo AI Chat Support"
     }
   },
   "auth": {
@@ -497,24 +656,6 @@
     "languageChanged": "Language changed",
     "languageChangedDescription": "Interface language changed to {language}"
   },
-  "hero": {
-    "title": "AI-Powered Customer Support",
-    "subtitle": "Made Simple",
-    "description": "Transform your customer service with intelligent chatbots that understand your business and provide instant, accurate responses 24/7.",
-    "free_trial": "Start your free trial today - no credit card required",
-    "tryFree": "Try Free",
-    "watchDemo": "Watch Demo"
-  },
-  "cta": {
-    "title": "Ready to Transform Your Customer Support?",
-    "description": "Join thousands of businesses already using our AI-powered solutions to provide better customer experiences.",
-    "free_trial": "Start your free trial today",
-    "cta": "Get Started",
-    "contact": "Contact Sales",
-    "secure": "Secure & Reliable",
-    "gdpr_compliant": "GDPR Compliant",
-    "no_credit_card": "No Credit Card Required"
-  },
   "features": {
     "title": "Everything You Need for Modern Customer Support",
     "subtitle": "Powerful features designed to help you provide exceptional customer service",
@@ -546,8 +687,8 @@
     }
   },
   "benefits": {
-    "title": "Benefits of using Clevva",
-    "description": "Benefits of using Clevva"
+    "title": "Benefits of using Ainexo",
+    "description": "Benefits of using Ainexo"
   },
   "faq": {
     "title": "Frequently Asked Questions",
@@ -1221,88 +1362,6 @@
     "team": "Team",
     "changePassword": "Change Password",
     "logout": "Logout"
-  },
-  "header": {
-    "features": "Features",
-    "pricing": "Pricing",
-    "contact": "Contact",
-    "login": "Login",
-    "tryFree": "Try Free",
-    "language": "Language"
-  },
-  "footer": {
-    "description": "Transform your customer service with AI-powered chatbots that understand your business and provide instant, accurate responses 24/7.",
-    "product": "Product",
-    "features": "Features",
-    "pricing": "Pricing",
-    "api": "API",
-    "integrations": "Integrations",
-    "company": "Company",
-    "register": "Register",
-    "careers": "Careers",
-    "press": "Press",
-    "contact": "Contact",
-    "email": "info@declair.app",
-    "address": "Amsterdam, Netherlands",
-    "rights": "All rights reserved.",
-    "privacy": "Privacy Policy",
-    "terms": "Terms of Service"
-  },
-  "pricing": {
-    "title": "Simple, Transparent Pricing",
-    "subtitle": "Choose the plan that fits your business needs",
-    "popular": "Most Popular",
-    "plans": {
-      "starter": {
-        "name": "Starter",
-        "description": "Perfect for small businesses getting started",
-        "price": "€29",
-        "period": "/month",
-        "features": [
-          "Up to 1,000 conversations per month",
-          "Basic AI assistant",
-          "Email support",
-          "Standard knowledge base",
-          "Basic analytics"
-        ],
-        "cta": "Get Started",
-        "href": "/register"
-      },
-      "professional": {
-        "name": "Professional",
-        "description": "Ideal for growing businesses",
-        "price": "€79",
-        "period": "/month",
-        "features": [
-          "Up to 10,000 conversations per month",
-          "Advanced AI assistant",
-          "Priority support",
-          "Advanced knowledge base",
-          "Detailed analytics",
-          "Custom branding",
-          "API access"
-        ],
-        "cta": "Start Free Trial",
-        "href": "/register"
-      },
-      "enterprise": {
-        "name": "Enterprise",
-        "description": "For large organizations with complex needs",
-        "price": "Custom",
-        "period": "",
-        "features": [
-          "Unlimited conversations",
-          "Custom AI training",
-          "Dedicated support",
-          "Advanced integrations",
-          "Custom analytics",
-          "White-label solution",
-          "SLA guarantee"
-        ],
-        "cta": "Contact Sales",
-        "href": "/contact"
-      }
-    }
   },
   "roles": {
     "user": "User",

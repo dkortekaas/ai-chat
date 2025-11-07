@@ -1,7 +1,9 @@
 // Application configuration
 const config = {
-  appTitle: "Clevva",
-  email: "info@declair.app",
+  appTitle: "Ainexo",
+  appLogo: "/ainexo-logo.png",
+  appIcon: "/favicon.png",
+  email: "info@ainexo.app",
   itemsPerPage: 5,
 };
 
