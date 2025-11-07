@@ -26,6 +26,7 @@ import { Info } from "lucide-react";
 import { useAssistant } from "@/contexts/assistant-context";
 import { useToast } from "@/components/ui/use-toast";
 import { ChatbotPreview } from "@/components/assistant/ChatbotPreview";
+import { ColorPicker } from "@/components/assistant/ColorPicker";
 import { useTranslations } from "next-intl";
 import {
   avatarOptions,
@@ -78,6 +79,8 @@ export const LookAndFeelTab = forwardRef<
   );
   const [selectedAvatar, setSelectedAvatar] = useState("chat-bubble");
   const [selectedAssistantIcon, setSelectedAssistantIcon] = useState("robot");
+  const [primaryColor, setPrimaryColor] = useState("#3B82F6");
+  const [secondaryColor, setSecondaryColor] = useState("#1E40AF");
   const [isLoading, setIsLoading] = useState(false);
 
   // Load data from current assistant only on initial load
@@ -99,6 +102,8 @@ export const LookAndFeelTab = forwardRef<
       setSelectedAssistantIcon(
         currentAssistant.selectedAssistantIcon || "robot"
       );
+      setPrimaryColor(currentAssistant.primaryColor || "#3B82F6");
+      setSecondaryColor(currentAssistant.secondaryColor || "#1E40AF");
       setHasLoaded(true);
     }
   }, [currentAssistant, t, hasLoaded]);
@@ -140,6 +145,8 @@ export const LookAndFeelTab = forwardRef<
         assistantSubtitle,
         selectedAvatar,
         selectedAssistantIcon,
+        primaryColor,
+        secondaryColor,
       };
 
       console.log("Sending update data:", updateData);
@@ -184,6 +191,8 @@ export const LookAndFeelTab = forwardRef<
     assistantSubtitle,
     selectedAvatar,
     selectedAssistantIcon,
+    primaryColor,
+    secondaryColor,
     setCurrentAssistant,
     refreshAssistants,
     onChanges,
@@ -259,6 +268,91 @@ export const LookAndFeelTab = forwardRef<
                 <p className="text-xs text-gray-600">
                   {t("settings.fontPreviewDescription", { fontFamily })}
                 </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Assistant Name & Subtitle Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <span>
+                {t("assistants.assistantName")} &{" "}
+                {t("assistants.assistantSubtitle")}
+              </span>
+              <Info className="w-4 h-4 text-gray-400" />
+            </CardTitle>
+            <CardDescription>
+              {t("assistants.customizeTheAppearanceOfYourAssistant")}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="assistantName">
+                  {t("assistants.assistantName")}
+                </Label>
+                <Input
+                  id="assistantName"
+                  value={assistantName}
+                  onChange={(e) => {
+                    setAssistantName(e.target.value);
+                    onChanges(true);
+                  }}
+                  placeholder={t("assistants.enterAssistantName")}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="assistantSubtitle">
+                  {t("assistants.assistantSubtitle")}
+                </Label>
+                <Input
+                  id="assistantSubtitle"
+                  value={assistantSubtitle}
+                  onChange={(e) => {
+                    setAssistantSubtitle(e.target.value);
+                    onChanges(true);
+                  }}
+                  placeholder={t("assistants.enterAssistantSubtitle")}
+                />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Colors Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <span>{t("assistants.colors")}</span>
+              <Info className="w-4 h-4 text-gray-400" />
+            </CardTitle>
+            <CardDescription>
+              {t("assistants.customizeTheAppearanceOfYourAssistant")}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>{t("assistants.primaryColor")}</Label>
+                <ColorPicker
+                  color={primaryColor}
+                  onChange={(color) => {
+                    setPrimaryColor(color);
+                    onChanges(true);
+                  }}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>{t("assistants.secondaryColor")}</Label>
+                <ColorPicker
+                  color={secondaryColor}
+                  onChange={(color) => {
+                    setSecondaryColor(color);
+                    onChanges(true);
+                  }}
+                />
               </div>
             </div>
           </CardContent>
@@ -359,8 +453,8 @@ export const LookAndFeelTab = forwardRef<
           assistantSubtitle={assistantSubtitle}
           selectedAvatar={selectedAvatar}
           selectedAssistantIcon={selectedAssistantIcon}
-          primaryColor={currentAssistant?.primaryColor || "#3B82F6"}
-          secondaryColor={currentAssistant?.secondaryColor || "#1E40AF"}
+          primaryColor={primaryColor}
+          secondaryColor={secondaryColor}
           welcomeMessage={
             currentAssistant?.welcomeMessage || t("settings.welcomeMessage")
           }

@@ -43,59 +43,29 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    // Get all KnowledgeFiles for user's assistants to create a lookup
-    const userKnowledgeFiles = await db.knowledgeFile.findMany({
+    // OPTIMIZATION: Limit conversation sessions to prevent memory exhaustion
+    // In production environments with millions of conversations, this prevents
+    // fetching the entire database. Consider using date-based archiving for older data.
+    const MAX_SESSIONS = 10000;
+
+    // Get all conversation sessions in the date range filtered by user's assistants
+    const conversationSessions = await db.conversationSession.findMany({
       where: {
         assistantId: {
           in: assistantIds,
         },
-      },
-      select: {
-        id: true,
-      },
-    });
-
-    const userFileIds = new Set(userKnowledgeFiles.map((file) => file.id));
-
-    // OPTIMIZATION: Limit conversations to prevent memory exhaustion
-    // In production environments with millions of conversations, this prevents
-    // fetching the entire database. Consider using date-based archiving for older data.
-    const MAX_CONVERSATIONS = 10000;
-
-    // Get all conversations in the date range (with limit)
-    const conversations = await db.conversation.findMany({
-      where: {
-        createdAt: {
+        startedAt: {
           gte: startDate,
           lte: endDate,
         },
       },
-      include: {
-        sources: {
-          include: {
-            document: {
-              select: {
-                id: true,
-                metadata: true,
-              },
-            },
-          },
-        },
-      },
       orderBy: {
-        createdAt: "asc",
+        startedAt: "asc",
       },
-      take: MAX_CONVERSATIONS,
+      take: MAX_SESSIONS,
     });
 
-    // Filter conversations to only include those from user's knowledge files
-    const finalConversations = conversations.filter((conv) => {
-      return conv.sources.some((source) => {
-        const metadata = source.document.metadata as any;
-        const fileId = metadata?.fileId;
-        return fileId && userFileIds.has(fileId);
-      });
-    });
+    const finalConversations = conversationSessions;
 
     // Group conversations by date
     const dailyCounts: { [key: string]: number } = {};
@@ -110,9 +80,9 @@ export async function GET(request: NextRequest) {
       dailyCounts[dateKey] = 0;
     }
 
-    // Count conversations per day
-    finalConversations.forEach((conv) => {
-      const dateKey = conv.createdAt.toISOString().split("T")[0];
+    // Count conversation sessions per day
+    finalConversations.forEach((session) => {
+      const dateKey = session.startedAt.toISOString().split("T")[0];
       if (dailyCounts[dateKey] !== undefined) {
         dailyCounts[dateKey]++;
       }
@@ -129,35 +99,18 @@ export async function GET(request: NextRequest) {
     const previousPeriodStart = new Date(startDate);
     previousPeriodStart.setDate(previousPeriodStart.getDate() - days);
 
-    // Get previous period conversations with same filtering
-    const previousConversationsData = await db.conversation.findMany({
+    // Get previous period conversation sessions with same filtering
+    const previousConversations = await db.conversationSession.count({
       where: {
-        createdAt: {
+        assistantId: {
+          in: assistantIds,
+        },
+        startedAt: {
           gte: previousPeriodStart,
           lt: startDate,
         },
       },
-      include: {
-        sources: {
-          include: {
-            document: {
-              select: {
-                metadata: true,
-              },
-            },
-          },
-        },
-      },
     });
-
-    // Filter previous conversations the same way
-    const previousConversations = previousConversationsData.filter((conv) => {
-      return conv.sources.some((source) => {
-        const metadata = source.document.metadata as any;
-        const fileId = metadata?.fileId;
-        return fileId && userFileIds.has(fileId);
-      });
-    }).length;
 
     const trend =
       previousConversations > 0
