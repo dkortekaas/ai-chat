@@ -1,6 +1,7 @@
 "use client";
 
 import { Check, Info } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -19,6 +20,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tooltip } from "@/components/ui/tooltip";
+import { Switch } from "@/components/ui/switch";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import Link from "next/link";
@@ -26,8 +28,9 @@ import Link from "next/link";
 const pricingTiers = [
   {
     name: "Starter",
-    price: "€25",
-    period: "/month",
+    monthlyPrice: "€25",
+    yearlyMonthPrice: "€17,50",
+    yearlyPrice: "€300",
     description: "Perfect for small businesses starting with AI",
     features: [
       "Chat Assistant on 1 website",
@@ -40,8 +43,9 @@ const pricingTiers = [
   },
   {
     name: "Professional",
-    price: "€50",
-    period: "/month",
+    monthlyPrice: "€50",
+    yearlyMonthPrice: "€40",
+    yearlyPrice: "€480",
     description: "For growing businesses that need more",
     features: [
       "Chat Assistant on unlimited websites",
@@ -57,8 +61,9 @@ const pricingTiers = [
   },
   {
     name: "Enterprise",
-    price: "€125",
-    period: "/month",
+    monthlyPrice: "€125",
+    yearlyMonthPrice: "€125",
+    yearlyPrice: "€1500",
     description: "For large organizations with complex needs",
     features: [
       "Chat Assistant on unlimited websites",
@@ -77,6 +82,7 @@ const Pricing = () => {
   const params = useParams();
   const locale = params?.locale as string;
   const t = useTranslations("pricing");
+  const [isYearly, setIsYearly] = useState(false);
 
   return (
     <section className="py-20 px-4">
@@ -88,6 +94,25 @@ const Pricing = () => {
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             {t("subtitle")}
           </p>
+        </div>
+
+        {/* Billing Period Toggle */}
+        <div className="flex items-center justify-center gap-4 mb-12">
+          <span
+            className={`text-sm font-medium ${!isYearly ? "text-foreground" : "text-muted-foreground"}`}
+          >
+            Maandelijks
+          </span>
+          <Switch
+            checked={isYearly}
+            onCheckedChange={setIsYearly}
+            className="data-[state=checked]:bg-primary"
+          />
+          <span
+            className={`text-sm font-medium ${isYearly ? "text-foreground" : "text-muted-foreground"}`}
+          >
+            Jaarlijks
+          </span>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 mb-12">
@@ -113,12 +138,19 @@ const Pricing = () => {
                   {tier.description}
                 </CardDescription>
                 <div className="mt-4">
-                  <span className="text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                    {tier.price}
-                  </span>
-                  <span className="text-muted-foreground ml-1">
-                    {tier.period}
-                  </span>
+                  <div>
+                    <span className="text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+                      {isYearly ? tier.yearlyMonthPrice : tier.monthlyPrice}
+                    </span>
+                    <span className="text-muted-foreground ml-1">/maand</span>
+                  </div>
+                  {isYearly && (
+                    <div className="mt-2">
+                      <span className="text-lg text-muted-foreground">
+                        {tier.yearlyPrice}/jaar
+                      </span>
+                    </div>
+                  )}
                 </div>
               </CardHeader>
 
