@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
@@ -74,6 +75,12 @@ export default async function RootLayout({
                 GA_MEASUREMENT_ID={
                   process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || ""
                 }
+              />
+              {/* Chatbot Widget */}
+              <Script
+                src="https://ai-chat-pi-blond.vercel.app/widget/loader.js"
+                data-chatbot-id="220c14b0-888e-42d5-8072-44b84f68688d"
+                strategy="afterInteractive"
               />
             </AuthProvider>
           </NextIntlClientProvider>

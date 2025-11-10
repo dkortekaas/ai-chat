@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { sendPasswordResetEmail } from "@/lib/email";
 import { generateToken } from "@/lib/token";
 import { verifyRecaptchaToken } from "@/lib/recaptcha";
+import { PrismaClientInitializationError } from "@prisma/client/runtime/library";
 
 export async function POST(req: Request) {
   try {
@@ -15,12 +16,14 @@ export async function POST(req: Request) {
     // Verify reCAPTCHA token (prevent password reset spam)
     const recaptchaResult = await verifyRecaptchaToken(
       recaptchaToken,
-      'forgot_password',
+      "forgot_password",
       0.5 // Minimum score
     );
 
     if (!recaptchaResult.success) {
-      console.warn(`[FORGOT_PASSWORD] reCAPTCHA failed for ${email}: ${recaptchaResult.error}`);
+      console.warn(
+        `[FORGOT_PASSWORD] reCAPTCHA failed for ${email}: ${recaptchaResult.error}`
+      );
       return NextResponse.json(
         { error: "Bot detected. Please try again." },
         { status: 403 }
@@ -60,10 +63,29 @@ export async function POST(req: Request) {
     });
 
     // Send reset email
-    await sendPasswordResetEmail(email, resetToken, {
-      id: user.id,
-      companyId: user.companyId,
-    });
+    try {
+      await sendPasswordResetEmail(email, resetToken, {
+        id: user.id,
+        companyId: user.companyId,
+      });
+      console.log(
+        `[FORGOT_PASSWORD] Password reset email sent successfully to ${email}`
+      );
+    } catch (emailError) {
+      console.error(
+        `[FORGOT_PASSWORD] Failed to send password reset email to ${email}:`,
+        emailError
+      );
+      // Log the full error details
+      if (emailError instanceof Error) {
+        console.error(`[FORGOT_PASSWORD] Error details:`, {
+          message: emailError.message,
+          stack: emailError.stack,
+        });
+      }
+      // Still return success to prevent email enumeration, but log the error
+      // The user won't receive the email, but we don't reveal this to prevent attacks
+    }
 
     return NextResponse.json(
       {
@@ -74,8 +96,45 @@ export async function POST(req: Request) {
     );
   } catch (error) {
     console.error("Error in forgot password:", error);
+
+    // Check if it's a database connection error
+    if (error instanceof PrismaClientInitializationError) {
+      console.error(
+        "[FORGOT_PASSWORD] Database connection error:",
+        error.message
+      );
+      return NextResponse.json(
+        {
+          error:
+            "Database connection failed. Please try again later or contact support if the problem persists.",
+        },
+        { status: 503 }
+      );
+    }
+
+    // Check if error message contains database connection keywords
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    if (
+      errorMessage.includes("Can't reach database server") ||
+      errorMessage.includes("P1001") ||
+      errorMessage.includes("connection") ||
+      errorMessage.includes("ECONNREFUSED")
+    ) {
+      console.error(
+        "[FORGOT_PASSWORD] Database connection issue:",
+        errorMessage
+      );
+      return NextResponse.json(
+        {
+          error:
+            "Database connection failed. Please try again later or contact support if the problem persists.",
+        },
+        { status: 503 }
+      );
+    }
+
     return NextResponse.json(
-      { error: "Something went wrong" },
+      { error: "Something went wrong. Please try again later." },
       { status: 500 }
     );
   }

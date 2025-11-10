@@ -151,6 +151,7 @@
     "invalidCredentials": "Correo electrónico o contraseña inválidos",
     "rateLimit": "Demasiados intentos de inicio de sesión. Por favor, inténtelo más tarde.",
     "generic": "Ha ocurrido un error. Por favor, inténtelo de nuevo.",
+    "botDetected": "Bot detectado. Por favor, inténtelo de nuevo.",
     "invalidLink": "Enlace de restablecimiento inválido o caducado",
     "twoFactorSetupError": "Error al configurar la autenticación de dos factores",
     "verificationFailed": "Error en la verificación",
@@ -708,6 +709,7 @@
     "top-left": "Arriba a la izquierda",
     "fontFamily": "Familia de fuentes",
     "avatar": "Avatar",
+    "avatarDescription": "Elija el avatar para su asistente",
     "assistantNameRequired": "El nombre del asistente es obligatorio",
     "assistantCreatedSuccessfully": "Asistente creado con éxito",
     "failedToCreateAssistant": "Error al crear el asistente",
@@ -1432,5 +1434,15 @@
     "supportedFormats": "Formatos soportados: Imágenes y PDF",
     "dragAndDrop": "Arrastre y suelte un archivo aquí",
     "browseFiles": "Examinar archivos"
+  },
+  "mail": {
+    "rights": "Todos los derechos reservados",
+    "resetPassword": {
+      "title": "Restablecer su contraseña",
+      "description": "Ha solicitado restablecer su contraseña. Haga clic en el botón a continuación para establecer una nueva contraseña:",
+      "link": "Restablecer contraseña",
+      "ignore": "Si no realizó esta solicitud, puede ignorar este mensaje. Su contraseña permanecerá sin cambios.",
+      "expiration": "Este enlace es válido por 1 hora."
+    }
   }
 }

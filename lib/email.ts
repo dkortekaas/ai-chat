@@ -154,7 +154,11 @@ export async function sendPasswordResetEmail(
   const resetLink = `${process.env.NEXT_PUBLIC_APP_URL}/reset-password?token=${resetToken}`;
 
   try {
-    await resend.emails.send({
+    console.log(`[EMAIL] Attempting to send password reset email to ${email}`);
+    console.log(`[EMAIL] From: ${config.appTitle} <${config.email}>`);
+    console.log(`[EMAIL] Reset link: ${resetLink}`);
+
+    const result = await resend.emails.send({
       from: `${config.appTitle} <${config.email}>`,
       to: email,
       subject: t("mail.resetPassword.title"),
@@ -168,10 +172,22 @@ export async function sendPasswordResetEmail(
         <p style="color: #666; line-height: 1.6;">${t("mail.resetPassword.expiration")}</p>
       `),
     });
+
+    console.log(
+      `[EMAIL] Password reset email sent successfully. Result:`,
+      result
+    );
   } catch (error) {
+    console.error(`[EMAIL] Failed to send password reset email:`, error);
+    if (error instanceof Error) {
+      console.error(`[EMAIL] Error message:`, error.message);
+      console.error(`[EMAIL] Error stack:`, error.stack);
+    }
     logger.error("Failed to send password reset email", {
       context: {
         error: error instanceof Error ? error.message : String(error),
+        email,
+        resetLink,
       },
       userId: user.id,
       companyId: user.companyId,
@@ -183,7 +199,11 @@ export async function sendPasswordResetEmail(
 export async function sendEmailVerificationEmail(
   email: string,
   verificationToken: string,
-  user: { id: string; companyId?: string | null | undefined; name?: string | null }
+  user: {
+    id: string;
+    companyId?: string | null | undefined;
+    name?: string | null;
+  }
 ) {
   const t = await getTranslations();
   const verificationLink = `${process.env.NEXT_PUBLIC_APP_URL}/verify-email?token=${verificationToken}`;
@@ -227,7 +247,7 @@ export async function sendEmailVerificationEmail(
     logger.info("Email verification email sent", {
       context: {
         userId: user.id,
-        email: email.substring(0, 3) + '***',
+        email: email.substring(0, 3) + "***",
       },
       userId: user.id,
       companyId: user.companyId,

@@ -151,6 +151,7 @@
     "invalidCredentials": "Ungültige E-Mail oder Passwort",
     "rateLimit": "Zu viele Anmeldeversuche. Bitte versuchen Sie es später erneut.",
     "generic": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
+    "botDetected": "Bot erkannt. Bitte versuchen Sie es erneut.",
     "invalidLink": "Ungültiger oder abgelaufener Reset-Link",
     "twoFactorSetupError": "Zwei-Faktor-Authentifizierung konnte nicht eingerichtet werden",
     "verificationFailed": "Verifizierung fehlgeschlagen",
@@ -708,6 +709,7 @@
     "top-left": "Oben links",
     "fontFamily": "Schriftart",
     "avatar": "Avatar",
+    "avatarDescription": "Wählen Sie das Avatar für Ihren Assistenten",
     "assistantNameRequired": "Assistentenname ist erforderlich",
     "assistantCreatedSuccessfully": "Assistent erfolgreich erstellt",
     "failedToCreateAssistant": "Assistent konnte nicht erstellt werden",
@@ -1432,5 +1434,15 @@
     "supportedFormats": "Unterstützte Formate: Bilder und PDF",
     "dragAndDrop": "Datei hierher ziehen",
     "browseFiles": "Dateien durchsuchen"
+  },
+  "mail": {
+    "rights": "Alle Rechte vorbehalten",
+    "resetPassword": {
+      "title": "Passwort zurücksetzen",
+      "description": "Sie haben angefordert, Ihr Passwort zurückzusetzen. Klicken Sie auf die Schaltfläche unten, um ein neues Passwort festzulegen:",
+      "link": "Passwort zurücksetzen",
+      "ignore": "Wenn Sie diese Anfrage nicht gestellt haben, können Sie diese Nachricht ignorieren. Ihr Passwort bleibt unverändert.",
+      "expiration": "Dieser Link ist 1 Stunde gültig."
+    }
   }
 }

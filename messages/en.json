@@ -310,6 +310,7 @@
     "invalidCredentials": "Invalid email or password",
     "rateLimit": "Too many login attempts. Please try again later.",
     "generic": "An error occurred. Please try again.",
+    "botDetected": "Bot detected. Please try again.",
     "invalidLink": "Invalid or expired reset link",
     "twoFactorSetupError": "Failed to setup two-factor authentication",
     "verificationFailed": "Verification failed",
@@ -841,6 +842,7 @@
     "top-left": "Top Left",
     "fontFamily": "Font Family",
     "avatar": "Avatar",
+    "avatarDescription": "Choose the avatar for your assistant",
     "assistantNameRequired": "Assistant name is required",
     "assistantCreatedSuccessfully": "Assistant created successfully",
     "failedToCreateAssistant": "Failed to create assistant",
@@ -1381,5 +1383,15 @@
     "supportedFormats": "Supported formats: Images and PDF",
     "dragAndDrop": "Drag and drop a file here",
     "browseFiles": "Browse files"
+  },
+  "mail": {
+    "rights": "All rights reserved",
+    "resetPassword": {
+      "title": "Reset Your Password",
+      "description": "You have requested to reset your password. Click the button below to set a new password:",
+      "link": "Reset Password",
+      "ignore": "If you did not make this request, you can ignore this message. Your password will remain unchanged.",
+      "expiration": "This link is valid for 1 hour."
+    }
   }
 }

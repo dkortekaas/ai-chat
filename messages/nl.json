@@ -310,6 +310,7 @@
     "invalidCredentials": "Ongeldig e-mailadres of wachtwoord",
     "rateLimit": "Te veel inlogpogingen. Probeer het later opnieuw.",
     "generic": "Er is een fout opgetreden. Probeer het opnieuw.",
+    "botDetected": "Bot gedetecteerd. Probeer het opnieuw.",
     "invalidLink": "Ongeldige of verlopen resetlink",
     "twoFactorSetupError": "Twee-factor authenticatie instellen is mislukt",
     "verificationFailed": "Verificatie mislukt",
@@ -841,6 +842,7 @@
     "top-left": "Linksboven",
     "fontFamily": "Lettertype",
     "avatar": "Avatar",
+    "avatarDescription": "Kies het avatar voor uw assistent",
     "assistantNameRequired": "Assistentnaam is verplicht",
     "assistantCreatedSuccessfully": "Assistent succesvol aangemaakt",
     "failedToCreateAssistant": "Assistent aanmaken is mislukt",
@@ -1381,5 +1383,15 @@
     "supportedFormats": "Ondersteunde formaten: Afbeeldingen en PDF",
     "dragAndDrop": "Sleep een bestand hierheen",
     "browseFiles": "Blader door bestanden"
+  },
+  "mail": {
+    "rights": "Alle rechten voorbehouden",
+    "resetPassword": {
+      "title": "Wachtwoord opnieuw instellen",
+      "description": "Je hebt een verzoek gedaan om je wachtwoord opnieuw in te stellen. Klik op de knop hieronder om een nieuw wachtwoord in te stellen:",
+      "link": "Wachtwoord opnieuw instellen",
+      "ignore": "Als je dit verzoek niet hebt gedaan, kun je dit bericht negeren. Je wachtwoord blijft ongewijzigd.",
+      "expiration": "Deze link is 1 uur geldig."
+    }
   }
 }

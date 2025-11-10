@@ -151,6 +151,7 @@
     "invalidCredentials": "E-mail ou mot de passe invalide",
     "rateLimit": "Trop de tentatives de connexion. Veuillez réessayer plus tard.",
     "generic": "Une erreur s'est produite. Veuillez réessayer.",
+    "botDetected": "Bot détecté. Veuillez réessayer.",
     "invalidLink": "Lien de réinitialisation invalide ou expiré",
     "twoFactorSetupError": "Échec de la configuration de l'authentification à deux facteurs",
     "verificationFailed": "Vérification échouée",
@@ -708,6 +709,7 @@
     "top-left": "En haut à gauche",
     "fontFamily": "Famille de polices",
     "avatar": "Avatar",
+    "avatarDescription": "Choisissez l'avatar pour votre assistant",
     "assistantNameRequired": "Le nom de l'assistant est requis",
     "assistantCreatedSuccessfully": "Assistant créé avec succès",
     "failedToCreateAssistant": "Échec de la création de l'assistant",
@@ -1432,5 +1434,15 @@
     "supportedFormats": "Formats pris en charge : Images et PDF",
     "dragAndDrop": "Glisser-déposer un fichier ici",
     "browseFiles": "Parcourir les fichiers"
+  },
+  "mail": {
+    "rights": "Tous droits réservés",
+    "resetPassword": {
+      "title": "Réinitialiser votre mot de passe",
+      "description": "Vous avez demandé à réinitialiser votre mot de passe. Cliquez sur le bouton ci-dessous pour définir un nouveau mot de passe :",
+      "link": "Réinitialiser le mot de passe",
+      "ignore": "Si vous n'avez pas fait cette demande, vous pouvez ignorer ce message. Votre mot de passe restera inchangé.",
+      "expiration": "Ce lien est valable pendant 1 heure."
+    }
   }
 }

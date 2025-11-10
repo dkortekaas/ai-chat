@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/form";
 import RequiredIndicator from "@/components/ui/RequiredIndicator";
 import { Loader2 } from "lucide-react";
+import { useRecaptcha } from "@/lib/hooks/useRecaptcha";
 
 export default function ForgotPasswordForm() {
   const router = useRouter();
@@ -36,6 +37,10 @@ export default function ForgotPasswordForm() {
   const [success, setSuccess] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const t = useTranslations();
+  
+  // Initialize reCAPTCHA
+  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+  const { executeRecaptcha } = useRecaptcha(recaptchaSiteKey);
 
   const forgotPasswordSchema = z.object({
     email: z.string().email({ message: t("error.emailInvalid") }),
@@ -56,20 +61,46 @@ export default function ForgotPasswordForm() {
     setSuccess(null);
 
     try {
+      // Execute reCAPTCHA
+      let recaptchaToken: string | null = null;
+      try {
+        recaptchaToken = await executeRecaptcha("forgot_password");
+      } catch (recaptchaError) {
+        console.error("reCAPTCHA error:", recaptchaError);
+        // If reCAPTCHA is configured but fails, show error
+        // If not configured, backend will handle it gracefully
+        if (recaptchaSiteKey) {
+          setError("reCAPTCHA verification failed. Please try again.");
+          setIsLoading(false);
+          return;
+        }
+        // If no site key, continue without token (backend allows in development)
+      }
+
       const response = await fetch("/api/auth/forgot-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          recaptchaToken,
+        }),
       });
 
+      const responseData = await response.json();
+
       if (!response.ok) {
-        throw new Error(t("error.generic"));
+        // Use the error message from the API if available, otherwise use generic error
+        const errorMessage = responseData.error || t("error.generic");
+        setError(errorMessage);
+        return;
       }
 
-      setSuccess(t("success.forgotPassword"));
+      setSuccess(responseData.message || t("success.forgotPassword"));
     } catch (error) {
+      // Network errors or JSON parsing errors
+      console.error("Error in forgot password form:", error);
       setError(t("error.generic"));
     } finally {
       setIsLoading(false);
