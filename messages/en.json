@@ -398,7 +398,8 @@
     "assistantUpdatedSuccessfully": "Assistant updated successfully",
     "assistantDuplicatedDescription": "Assistant duplicated successfully",
     "assistantDeletedDescription": "Assistant deleted successfully",
-    "assistantCreatedSuccessfully": "Assistant created successfully"
+    "assistantCreatedSuccessfully": "Assistant created successfully",
+    "accountCreated": "Account created successfully"
   },
   "notFound": {
     "title": "Page Not Found",
@@ -654,6 +655,7 @@
     "german": "Deutsch",
     "french": "Français",
     "spanish": "Español",
+    "selectLanguage": "Select language",
     "languageChanged": "Language changed",
     "languageChangedDescription": "Interface language changed to {language}"
   },
@@ -843,6 +845,8 @@
     "fontFamily": "Font Family",
     "avatar": "Avatar",
     "avatarDescription": "Choose the avatar for your assistant",
+    "assistantIcon": "Assistant icon",
+    "assistantIconDescription": "Choose the icon for your assistant",
     "assistantNameRequired": "Assistant name is required",
     "assistantCreatedSuccessfully": "Assistant created successfully",
     "failedToCreateAssistant": "Failed to create assistant",
@@ -1205,6 +1209,8 @@
     "syncing": "Syncing...",
     "subscriptionSynced": "Subscription synced successfully",
     "failedToSyncSubscription": "Failed to sync subscription",
+    "active": "Active",
+    "syncOnlyForPaidPlans": "Sync is only available for paid subscriptions",
     "incompleteDetails": "Billing details incomplete",
     "incompleteDetailsDescription": "Please complete your billing details for accurate invoicing",
     "completeNow": "Complete now"
@@ -1420,6 +1426,16 @@
       "link": "Reset Password",
       "ignore": "If you did not make this request, you can ignore this message. Your password will remain unchanged.",
       "expiration": "This link is valid for 1 hour."
+    },
+    "verifyEmail": {
+      "title": "Verify Your Email Address",
+      "greeting": "Hi",
+      "description": "Thank you for signing up! Please verify your email address by clicking the button below:",
+      "button": "Verify Email Address",
+      "alternative": "Or copy and paste this link into your browser:",
+      "important": "Important:",
+      "expiration": "This verification link will expire in 24 hours. If you didn't create an account, please ignore this email.",
+      "support": "If you have any questions, please contact our support team."
     }
   }
 }

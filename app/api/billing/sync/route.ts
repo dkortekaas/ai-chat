@@ -28,6 +28,19 @@ export async function POST() {
     }
 
     if (!user.stripeCustomerId) {
+      // Check if user is in trial - sync is only for paid subscriptions
+      const userWithStatus = await db.user.findUnique({
+        where: { id: user.id },
+        select: { subscriptionStatus: true },
+      });
+      
+      if (userWithStatus?.subscriptionStatus === "TRIAL") {
+        return NextResponse.json(
+          { error: "Sync is only available for paid subscriptions. Trial users don't have a Stripe customer yet." },
+          { status: 400 }
+        );
+      }
+      
       return NextResponse.json(
         { error: "No Stripe customer found" },
         { status: 404 }

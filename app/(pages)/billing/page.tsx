@@ -289,9 +289,15 @@ export default function BillingPage() {
         await fetchBillingData();
       } else {
         const error = await response.json();
+        // Show a more user-friendly message for trial users
+        const errorMessage =
+          error.error?.includes("Trial users") ||
+          error.error?.includes("paid subscriptions")
+            ? t("billing.syncOnlyForPaidPlans")
+            : error.error || t("billing.failedToSyncSubscription");
         toast({
           title: "Error",
-          description: error.error || t("billing.failedToSyncSubscription"),
+          description: errorMessage,
           variant: "destructive",
         });
       }
@@ -338,18 +344,20 @@ export default function BillingPage() {
         <h1 className="text-2xl font-semibold text-gray-900">
           {t("billing.title")}
         </h1>
-        <Button
-          onClick={handleSyncSubscription}
-          disabled={syncing}
-          variant="outline"
-          size="sm"
-          className="border-primary text-primary hover:bg-indigo-50"
-        >
-          <RefreshCw
-            className={`w-4 h-4 mr-2 ${syncing ? "animate-spin" : ""}`}
-          />
-          {syncing ? t("billing.syncing") : t("billing.syncSubscription")}
-        </Button>
+        {!(isTrial && !user.stripeCustomerId) && (
+          <Button
+            onClick={handleSyncSubscription}
+            disabled={syncing}
+            variant="outline"
+            size="sm"
+            className="border-primary text-primary hover:bg-indigo-50"
+          >
+            <RefreshCw
+              className={`w-4 h-4 mr-2 ${syncing ? "animate-spin" : ""}`}
+            />
+            {syncing ? t("billing.syncing") : t("billing.syncSubscription")}
+          </Button>
+        )}
       </div>
 
       {/* Trial Status Alert */}
@@ -504,7 +512,10 @@ export default function BillingPage() {
                     onClick={() => handleUpgrade(key)}
                     disabled={
                       upgrading ||
-                      (!isExpired && !isTrial && user.subscriptionPlan === key)
+                      (!isExpired &&
+                        !isTrial &&
+                        user.subscriptionPlan === key) ||
+                      (!isExpired && isTrial && key === "TRIAL")
                     }
                     className="w-full bg-primary hover:bg-primary/80 text-white"
                     size="sm"
@@ -513,7 +524,9 @@ export default function BillingPage() {
                       ? t("common.statuses.loading")
                       : !isExpired && !isTrial && user.subscriptionPlan === key
                         ? t("billing.currentPlan")
-                        : t("billing.upgrade")}
+                        : !isExpired && isTrial && key === "TRIAL"
+                          ? t("billing.active")
+                          : t("billing.upgrade")}
                   </Button>
                 </div>
               ))}

@@ -30,6 +30,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import RequiredIndicator from "@/components/ui/RequiredIndicator";
 import TwoFactorSetup from "@/components/auth/TwoFactorSetup";
+import { useRecaptcha } from "@/lib/hooks/useRecaptcha";
 
 type RegistrationStep = "form" | "2fa-setup";
 
@@ -47,6 +48,10 @@ export default function RegisterForm() {
   const [registeredEmail, setRegisteredEmail] = useState<string>("");
   const [registeredPassword, setRegisteredPassword] = useState<string>("");
   const t = useTranslations();
+
+  // Initialize reCAPTCHA
+  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+  const { executeRecaptcha } = useRecaptcha(recaptchaSiteKey);
 
   const registerSchema = z
     .object({
@@ -136,6 +141,23 @@ export default function RegisterForm() {
       try {
         const hasInvitationToken = !!token;
 
+        // Execute reCAPTCHA (only for regular registration, not for invitation acceptance)
+        let recaptchaToken: string | null = null;
+        if (!hasInvitationToken) {
+          try {
+            recaptchaToken = await executeRecaptcha("register");
+          } catch (recaptchaError) {
+            console.error("reCAPTCHA error:", recaptchaError);
+            // If reCAPTCHA is configured but fails, show error
+            if (recaptchaSiteKey) {
+              setError("reCAPTCHA verification failed. Please try again.");
+              setIsSubmitting(false);
+              return;
+            }
+            // If no site key, continue without token (backend allows in development)
+          }
+        }
+
         const endpoint = hasInvitationToken
           ? "/api/invitations/accept"
           : "/api/auth/register";
@@ -146,7 +168,10 @@ export default function RegisterForm() {
               name: data.name,
               password: data.password,
             }
-          : data;
+          : {
+              ...data,
+              recaptchaToken,
+            };
 
         const response = await fetch(endpoint, {
           method: "POST",
@@ -215,7 +240,15 @@ export default function RegisterForm() {
         setIsSubmitting(false);
       }
     },
-    [router, t, setIsSubmitting, setError, token]
+    [
+      router,
+      t,
+      setIsSubmitting,
+      setError,
+      token,
+      executeRecaptcha,
+      recaptchaSiteKey,
+    ]
   );
 
   const onSubmit = (data: RegisterFormValues) => {

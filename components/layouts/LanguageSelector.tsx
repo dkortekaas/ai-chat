@@ -151,13 +151,13 @@ export default function LanguageSelector() {
         <Button
           variant="ghost"
           className="flex items-center gap-2 px-3 py-2 h-auto"
-          aria-label="Select language"
+          aria-label={t("languageSelector.selectLanguage")}
         >
-          <Globe className="h-5 w-5" />
-          <span className="text-sm font-medium hidden md:inline-block">
+          <Globe className="h-5 w-5 text-gray-900" />
+          <span className="text-sm text-gray-900 font-medium hidden md:inline-block">
             {currentLanguage.flag} {currentLanguage.nativeName}
           </span>
-          <span className="text-sm font-medium md:hidden">
+          <span className="text-sm text-gray-900 font-medium md:hidden">
             {currentLanguage.flag}
           </span>
           <ChevronDown className="h-4 w-4 text-gray-500" />

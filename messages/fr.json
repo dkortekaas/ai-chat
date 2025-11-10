@@ -495,6 +495,7 @@
     "german": "Allemand",
     "french": "Français",
     "spanish": "Espagnol",
+    "selectLanguage": "Sélectionner la langue",
     "languageChanged": "Langue modifiée",
     "languageChangedDescription": "Langue de l'interface modifiée en {language}"
   },
@@ -710,6 +711,8 @@
     "fontFamily": "Famille de polices",
     "avatar": "Avatar",
     "avatarDescription": "Choisissez l'avatar pour votre assistant",
+    "assistantIcon": "Icone de l'assistant",
+    "assistantIconDescription": "Choisissez l'icône pour votre assistant",
     "assistantNameRequired": "Le nom de l'assistant est requis",
     "assistantCreatedSuccessfully": "Assistant créé avec succès",
     "failedToCreateAssistant": "Échec de la création de l'assistant",
@@ -1072,6 +1075,8 @@
     "syncing": "Synchronisation...",
     "subscriptionSynced": "Abonnement synchronisé avec succès",
     "failedToSyncSubscription": "Échec de la synchronisation de l'abonnement",
+    "active": "Actif",
+    "syncOnlyForPaidPlans": "La synchronisation n'est disponible que pour les abonnements payants",
     "incompleteDetails": "Détails de facturation incomplets",
     "incompleteDetailsDescription": "Veuillez compléter vos détails de facturation pour une facturation précise",
     "completeNow": "Compléter maintenant"

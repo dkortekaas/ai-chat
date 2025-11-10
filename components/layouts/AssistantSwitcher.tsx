@@ -91,8 +91,10 @@ export function AssistantSwitcher() {
           >
             <Bot className="w-2.5 h-2.5 text-white" />
           </div>
-          <span className="truncate">{currentAssistant.name}</span>
-          <ChevronDown className="w-4 h-4 text-gray-400" />
+          <span className="truncate text-gray-900 font-medium">
+            {currentAssistant.name}
+          </span>
+          <ChevronDown className="w-4 h-4 text-gray-500" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-64">

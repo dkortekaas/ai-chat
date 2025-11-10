@@ -398,7 +398,8 @@
     "assistantUpdatedSuccessfully": "Assistent succesvol bijgewerkt",
     "assistantDuplicatedDescription": "Assistent succesvol gedupliceerd",
     "assistantDeletedDescription": "Assistent succesvol verwijderd",
-    "assistantCreatedSuccessfully": "Assistent succesvol aangemaakt"
+    "assistantCreatedSuccessfully": "Assistent succesvol aangemaakt",
+    "accountCreated": "Account succesvol aangemaakt"
   },
   "notFound": {
     "title": "Pagina niet gevonden",
@@ -654,6 +655,7 @@
     "german": "Duits",
     "french": "Frans",
     "spanish": "Spaans",
+    "selectLanguage": "Selecteer taal",
     "languageChanged": "Taal gewijzigd",
     "languageChangedDescription": "Interface taal gewijzigd naar {language}"
   },
@@ -843,6 +845,8 @@
     "fontFamily": "Lettertype",
     "avatar": "Avatar",
     "avatarDescription": "Kies het avatar voor uw assistent",
+    "assistantIcon": "Assistent icon",
+    "assistantIconDescription": "Kies het icon voor uw assistent",
     "assistantNameRequired": "Assistentnaam is verplicht",
     "assistantCreatedSuccessfully": "Assistent succesvol aangemaakt",
     "failedToCreateAssistant": "Assistent aanmaken is mislukt",
@@ -1205,6 +1209,8 @@
     "syncing": "Synchroniseren...",
     "subscriptionSynced": "Abonnement succesvol gesynchroniseerd",
     "failedToSyncSubscription": "Fout bij synchroniseren abonnement",
+    "active": "Actief",
+    "syncOnlyForPaidPlans": "Synchroniseren is alleen beschikbaar voor betaalde abonnementen",
     "incompleteDetails": "Factuurgegevens incompleet",
     "incompleteDetailsDescription": "Vul uw factuurgegevens aan voor correcte facturering",
     "completeNow": "Nu aanvullen"
@@ -1420,6 +1426,16 @@
       "link": "Wachtwoord opnieuw instellen",
       "ignore": "Als je dit verzoek niet hebt gedaan, kun je dit bericht negeren. Je wachtwoord blijft ongewijzigd.",
       "expiration": "Deze link is 1 uur geldig."
+    },
+    "verifyEmail": {
+      "title": "Verifieer uw e-mailadres",
+      "greeting": "Hallo",
+      "description": "Bedankt voor uw aanmelding! Verifieer uw e-mailadres door op de knop hieronder te klikken:",
+      "button": "E-mailadres verifiëren",
+      "alternative": "Of kopieer en plak deze link in uw browser:",
+      "important": "Belangrijk:",
+      "expiration": "Deze verificatielink verloopt over 24 uur. Als u geen account heeft aangemaakt, negeer dan deze e-mail.",
+      "support": "Als u vragen heeft, neem dan contact op met ons ondersteuningsteam."
     }
   }
 }
