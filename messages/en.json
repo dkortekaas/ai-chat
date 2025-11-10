@@ -994,7 +994,8 @@
       "changePassword": "Change Password",
       "twoFactor": "Two-Factor Authentication",
       "subscription": "Subscription",
-      "team": "Team"
+      "team": "Team",
+      "deleteAccount": "Delete Account"
     },
     "pendingInvitations": "Pending Invitations",
     "pending": "Pending",
@@ -1069,6 +1070,33 @@
       "trialPeriod": "Trial Period",
       "trialPeriodExpired": "Trial Period Expired",
       "trialPeriodExpiredDescription": "Your trial period has expired. Please upgrade to a paid plan to continue using the chatbot."
+    },
+    "deleteAccount": {
+      "title": "Delete Account",
+      "description": "When you delete your account, all data will be permanently removed. This action cannot be undone.",
+      "warning": "Warning: This cannot be undone",
+      "warningDescription": "Deleting your account is permanent. All data, including your assistants, conversations, and settings will be permanently deleted.",
+      "whatWillBeDeleted": "What will be deleted?",
+      "deletedItems": {
+        "profile": "Your profile data and account information",
+        "assistants": "All AI assistants and their configurations",
+        "conversations": "All conversations and messages",
+        "settings": "All your settings and preferences",
+        "subscription": "Your subscription will be cancelled"
+      },
+      "reason": "Reason for deletion",
+      "reasonPlaceholder": "Optional: tell us why you're leaving",
+      "confirmationLabel": "Type DELETE to confirm",
+      "confirmationHint": "Type the word DELETE (in capital letters) to confirm",
+      "confirmationRequired": "Confirmation is required",
+      "confirmationMustBeDelete": "You must type DELETE to confirm",
+      "deleteButton": "Permanently Delete Account",
+      "deleting": "Deleting account...",
+      "finalConfirmation": "Final Confirmation",
+      "finalConfirmationDescription": "Are you sure you want to delete your account? This action cannot be undone and all data will be permanently deleted.",
+      "confirmDelete": "Yes, delete account",
+      "accountDeletedSuccess": "Your account has been successfully deleted. You will be logged out.",
+      "errorDeletingAccount": "An error occurred while deleting your account"
     }
   },
   "notifications": {

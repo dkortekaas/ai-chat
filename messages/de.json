@@ -861,7 +861,8 @@
       "changePassword": "Passwort ändern",
       "twoFactor": "Zwei-Faktor-Authentifizierung",
       "subscription": "Abonnement",
-      "team": "Team"
+      "team": "Team",
+      "deleteAccount": "Konto löschen"
     },
     "pendingInvitations": "Ausstehende Einladungen",
     "pending": "Ausstehend",
@@ -936,6 +937,33 @@
       "trialPeriod": "Testphase",
       "trialPeriodExpired": "Testphase abgelaufen",
       "trialPeriodExpiredDescription": "Ihre Testphase ist abgelaufen. Bitte upgraden Sie auf einen kostenpflichtigen Plan, um den Chatbot weiterhin zu verwenden."
+    },
+    "deleteAccount": {
+      "title": "Konto löschen",
+      "description": "Wenn Sie Ihr Konto löschen, werden alle Daten dauerhaft entfernt. Diese Aktion kann nicht rückgängig gemacht werden.",
+      "warning": "Warnung: Dies kann nicht rückgängig gemacht werden",
+      "warningDescription": "Das Löschen Ihres Kontos ist dauerhaft. Alle Daten, einschließlich Ihrer Assistenten, Unterhaltungen und Einstellungen werden dauerhaft gelöscht.",
+      "whatWillBeDeleted": "Was wird gelöscht?",
+      "deletedItems": {
+        "profile": "Ihre Profildaten und Kontoinformationen",
+        "assistants": "Alle KI-Assistenten und ihre Konfigurationen",
+        "conversations": "Alle Unterhaltungen und Nachrichten",
+        "settings": "Alle Ihre Einstellungen und Präferenzen",
+        "subscription": "Ihr Abonnement wird gekündigt"
+      },
+      "reason": "Grund für die Löschung",
+      "reasonPlaceholder": "Optional: Sagen Sie uns, warum Sie gehen",
+      "confirmationLabel": "Geben Sie DELETE ein, um zu bestätigen",
+      "confirmationHint": "Geben Sie das Wort DELETE (in Großbuchstaben) ein, um zu bestätigen",
+      "confirmationRequired": "Bestätigung ist erforderlich",
+      "confirmationMustBeDelete": "Sie müssen DELETE eingeben, um zu bestätigen",
+      "deleteButton": "Konto dauerhaft löschen",
+      "deleting": "Konto wird gelöscht...",
+      "finalConfirmation": "Letzte Bestätigung",
+      "finalConfirmationDescription": "Sind Sie sicher, dass Sie Ihr Konto löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden und alle Daten werden dauerhaft gelöscht.",
+      "confirmDelete": "Ja, Konto löschen",
+      "accountDeletedSuccess": "Ihr Konto wurde erfolgreich gelöscht. Sie werden abgemeldet.",
+      "errorDeletingAccount": "Ein Fehler ist beim Löschen Ihres Kontos aufgetreten"
     }
   },
   "notifications": {

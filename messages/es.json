@@ -861,7 +861,8 @@
       "changePassword": "Cambiar contraseña",
       "twoFactor": "Autenticación de dos factores",
       "subscription": "Suscripción",
-      "team": "Equipo"
+      "team": "Equipo",
+      "deleteAccount": "Eliminar cuenta"
     },
     "pendingInvitations": "Invitaciones pendientes",
     "pending": "Pendiente",
@@ -936,6 +937,33 @@
       "trialPeriod": "Período de prueba",
       "trialPeriodExpired": "Período de prueba expirado",
       "trialPeriodExpiredDescription": "Su período de prueba ha expirado. Por favor, actualice a un plan de pago para continuar usando el chatbot."
+    },
+    "deleteAccount": {
+      "title": "Eliminar cuenta",
+      "description": "Cuando elimine su cuenta, todos los datos se eliminarán permanentemente. Esta acción no se puede deshacer.",
+      "warning": "Advertencia: Esto no se puede deshacer",
+      "warningDescription": "La eliminación de su cuenta es permanente. Todos los datos, incluidos sus asistentes, conversaciones y configuraciones se eliminarán permanentemente.",
+      "whatWillBeDeleted": "¿Qué se eliminará?",
+      "deletedItems": {
+        "profile": "Sus datos de perfil e información de cuenta",
+        "assistants": "Todos los asistentes de IA y sus configuraciones",
+        "conversations": "Todas las conversaciones y mensajes",
+        "settings": "Todas sus configuraciones y preferencias",
+        "subscription": "Su suscripción será cancelada"
+      },
+      "reason": "Motivo de la eliminación",
+      "reasonPlaceholder": "Opcional: díganos por qué se va",
+      "confirmationLabel": "Escriba DELETE para confirmar",
+      "confirmationHint": "Escriba la palabra DELETE (en mayúsculas) para confirmar",
+      "confirmationRequired": "Se requiere confirmación",
+      "confirmationMustBeDelete": "Debe escribir DELETE para confirmar",
+      "deleteButton": "Eliminar cuenta permanentemente",
+      "deleting": "Eliminando cuenta...",
+      "finalConfirmation": "Confirmación final",
+      "finalConfirmationDescription": "¿Está seguro de que desea eliminar su cuenta? Esta acción no se puede deshacer y todos los datos se eliminarán permanentemente.",
+      "confirmDelete": "Sí, eliminar cuenta",
+      "accountDeletedSuccess": "Su cuenta ha sido eliminada con éxito. Se cerrará su sesión.",
+      "errorDeletingAccount": "Ocurrió un error al eliminar su cuenta"
     }
   },
   "notifications": {

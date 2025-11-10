@@ -994,7 +994,8 @@
       "changePassword": "Wachtwoord wijzigen",
       "twoFactor": "Twee-factor authenticatie",
       "subscription": "Abonnement",
-      "team": "Team"
+      "team": "Team",
+      "deleteAccount": "Account verwijderen"
     },
     "pendingInvitations": "Openstaande uitnodigingen",
     "pending": "In afwachting",
@@ -1069,6 +1070,33 @@
       "trialPeriod": "Proefperiode",
       "trialPeriodExpired": "Proefperiode verlopen",
       "trialPeriodExpiredDescription": "Uw proefperiode is verlopen. Upgrade naar een betaald plan om de chatbot te blijven gebruiken."
+    },
+    "deleteAccount": {
+      "title": "Account verwijderen",
+      "description": "Wanneer u uw account verwijdert, worden alle gegevens permanent gewist. Deze actie kan niet ongedaan worden gemaakt.",
+      "warning": "Waarschuwing: Dit kan niet ongedaan worden gemaakt",
+      "warningDescription": "Het verwijderen van uw account is permanent. Alle gegevens, inclusief uw assistenten, gesprekken en instellingen zullen permanent worden verwijderd.",
+      "whatWillBeDeleted": "Wat wordt er verwijderd?",
+      "deletedItems": {
+        "profile": "Uw profielgegevens en accountinformatie",
+        "assistants": "Alle AI-assistenten en hun configuraties",
+        "conversations": "Alle gesprekken en berichten",
+        "settings": "Al uw instellingen en voorkeuren",
+        "subscription": "Uw abonnement wordt geannuleerd"
+      },
+      "reason": "Reden voor verwijdering",
+      "reasonPlaceholder": "Optioneel: vertel ons waarom u vertrekt",
+      "confirmationLabel": "Typ DELETE om te bevestigen",
+      "confirmationHint": "Typ het woord DELETE (in hoofdletters) om te bevestigen",
+      "confirmationRequired": "Bevestiging is verplicht",
+      "confirmationMustBeDelete": "U moet DELETE typen om te bevestigen",
+      "deleteButton": "Account permanent verwijderen",
+      "deleting": "Account verwijderen...",
+      "finalConfirmation": "Laatste bevestiging",
+      "finalConfirmationDescription": "Weet u zeker dat u uw account wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt en alle gegevens worden permanent verwijderd.",
+      "confirmDelete": "Ja, verwijder account",
+      "accountDeletedSuccess": "Uw account is succesvol verwijderd. U wordt uitgelogd.",
+      "errorDeletingAccount": "Er is een fout opgetreden bij het verwijderen van uw account"
     }
   },
   "notifications": {

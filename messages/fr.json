@@ -861,7 +861,8 @@
       "changePassword": "Changer le mot de passe",
       "twoFactor": "Authentification à deux facteurs",
       "subscription": "Abonnement",
-      "team": "Équipe"
+      "team": "Équipe",
+      "deleteAccount": "Supprimer le compte"
     },
     "pendingInvitations": "Invitations en attente",
     "pending": "En attente",
@@ -936,6 +937,33 @@
       "trialPeriod": "Période d'essai",
       "trialPeriodExpired": "Période d'essai expirée",
       "trialPeriodExpiredDescription": "Votre période d'essai a expiré. Veuillez passer à un plan payant pour continuer à utiliser le chatbot."
+    },
+    "deleteAccount": {
+      "title": "Supprimer le compte",
+      "description": "Lorsque vous supprimez votre compte, toutes les données seront définitivement supprimées. Cette action ne peut pas être annulée.",
+      "warning": "Attention : Cela ne peut pas être annulé",
+      "warningDescription": "La suppression de votre compte est permanente. Toutes les données, y compris vos assistants, conversations et paramètres seront définitivement supprimées.",
+      "whatWillBeDeleted": "Que sera supprimé ?",
+      "deletedItems": {
+        "profile": "Vos données de profil et informations de compte",
+        "assistants": "Tous les assistants IA et leurs configurations",
+        "conversations": "Toutes les conversations et messages",
+        "settings": "Tous vos paramètres et préférences",
+        "subscription": "Votre abonnement sera annulé"
+      },
+      "reason": "Raison de la suppression",
+      "reasonPlaceholder": "Optionnel : dites-nous pourquoi vous partez",
+      "confirmationLabel": "Tapez DELETE pour confirmer",
+      "confirmationHint": "Tapez le mot DELETE (en majuscules) pour confirmer",
+      "confirmationRequired": "La confirmation est requise",
+      "confirmationMustBeDelete": "Vous devez taper DELETE pour confirmer",
+      "deleteButton": "Supprimer définitivement le compte",
+      "deleting": "Suppression du compte...",
+      "finalConfirmation": "Confirmation finale",
+      "finalConfirmationDescription": "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action ne peut pas être annulée et toutes les données seront définitivement supprimées.",
+      "confirmDelete": "Oui, supprimer le compte",
+      "accountDeletedSuccess": "Votre compte a été supprimé avec succès. Vous allez être déconnecté.",
+      "errorDeletingAccount": "Une erreur s'est produite lors de la suppression de votre compte"
     }
   },
   "notifications": {

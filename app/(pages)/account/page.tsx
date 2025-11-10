@@ -11,6 +11,7 @@ import { EmailSettingsTab } from "@/components/account/EmailSettingsTab";
 import { ChangePasswordTab } from "@/components/account/ChangePasswordTab";
 import { TwoFactorTab } from "@/components/account/TwoFactorTab";
 import { TeamTab } from "@/components/account/TeamTab";
+import { DeleteAccountTab } from "@/components/account/DeleteAccountTab";
 import { useTranslations } from "next-intl";
 
 function AccountPageContent() {
@@ -54,6 +55,13 @@ function AccountPageContent() {
         component: TeamTab,
       });
     }
+
+    // Add delete account tab
+    baseTabs.push({
+      id: "delete-account",
+      name: t("account.tabs.deleteAccount"),
+      component: DeleteAccountTab,
+    });
 
     return baseTabs;
   }, [t, session?.user?.role]);
