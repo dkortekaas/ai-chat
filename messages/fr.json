@@ -1476,6 +1476,304 @@
       "link": "Réinitialiser le mot de passe",
       "ignore": "Si vous n'avez pas fait cette demande, vous pouvez ignorer ce message. Votre mot de passe restera inchangé.",
       "expiration": "Ce lien est valable pendant 1 heure."
+    },
+    "verifyEmail": {
+      "title": "Vérifiez votre adresse e-mail",
+      "greeting": "Bonjour",
+      "description": "Merci de votre inscription ! Veuillez vérifier votre adresse e-mail en cliquant sur le bouton ci-dessous :",
+      "button": "Vérifier l'adresse e-mail",
+      "alternative": "Ou copiez et collez ce lien dans votre navigateur :",
+      "important": "Important :",
+      "expiration": "Ce lien de vérification expire dans 24 heures. Si vous n'avez pas créé de compte, veuillez ignorer cet e-mail.",
+      "support": "Si vous avez des questions, veuillez contacter notre équipe d'assistance."
+    }
+  },
+  "aboutUs": {
+    "title": "À Propos",
+    "description": "Découvrez Ainexo et notre mission de transformer le service client",
+    "hero": {
+      "title": "À Propos d'Ainexo",
+      "subtitle": "Nous croyons que chaque entreprise devrait avoir accès à des solutions de service client puissantes et intelligentes"
+    },
+    "mission": {
+      "label": "Notre Mission",
+      "title": "Rendre le Service Client Accessible à Tous",
+      "description1": "Chez Ainexo, nous sommes passionnés par l'utilisation de l'IA pour aider les entreprises à offrir des expériences client exceptionnelles. Notre mission est de rendre la technologie IA avancée accessible et abordable pour les entreprises de toutes tailles.",
+      "description2": "Nous comprenons qu'un excellent service client ne devrait pas être un luxe, mais une norme. C'est pourquoi nous avons construit une plateforme puissante, conviviale et abordable pour tous."
+    },
+    "vision": {
+      "title": "Notre Vision",
+      "description": "Un monde où chaque entreprise peut fournir un support client intelligent 24/7 sans augmenter ses coûts ni compromettre ses valeurs."
+    },
+    "story": {
+      "title": "Notre Histoire",
+      "paragraph1": "Ainexo a été fondée en 2023 par une équipe d'entrepreneurs et de spécialistes de l'IA qui ont constaté les frustrations rencontrées par les petites et moyennes entreprises en matière de service client. Les solutions traditionnelles étaient trop chères ou trop complexes, tandis que les outils plus simples manquaient de fonctionnalités essentielles.",
+      "paragraph2": "Nous avons décidé de combler cette lacune en créant une plateforme qui combine l'IA de niveau entreprise avec une expérience utilisateur intuitive. Après des mois de développement et de tests avec les premiers utilisateurs, nous avons lancé Ainexo au public.",
+      "paragraph3": "Aujourd'hui, Ainexo aide des centaines d'entreprises aux Pays-Bas et au-delà à offrir de meilleures expériences client, à réduire les coûts et à permettre à leurs équipes de se concentrer sur l'essentiel."
+    },
+    "values": {
+      "title": "Nos Valeurs",
+      "subtitle": "Les principes qui guident notre travail",
+      "innovation": {
+        "title": "Innovation",
+        "description": "Nous restons à la pointe en adoptant les dernières technologies d'IA et en améliorant continuellement notre plateforme."
+      },
+      "customerFirst": {
+        "title": "Le Client d'Abord",
+        "description": "Votre succès est notre succès. Nous écoutons vos commentaires et développons les fonctionnalités dont vous avez réellement besoin."
+      },
+      "trust": {
+        "title": "Confiance & Transparence",
+        "description": "Nous prenons la confidentialité et la sécurité au sérieux et sommes toujours honnêtes sur ce que notre plateforme peut et ne peut pas faire."
+      },
+      "simplicity": {
+        "title": "Simplicité",
+        "description": "Une technologie puissante n'a pas besoin d'être complexe. Nous visons la simplicité dans tout ce que nous faisons."
+      }
+    },
+    "cta": {
+      "title": "Prêt à Commencer ?",
+      "subtitle": "Rejoignez des centaines d'entreprises qui transforment leur service client avec Ainexo",
+      "startFree": "Commencer Gratuitement",
+      "contact": "Nous Contacter"
+    }
+  },
+  "featuresPage": {
+    "title": "Fonctionnalités",
+    "description": "Découvrez toutes les fonctionnalités d'Ainexo pour améliorer votre service client",
+    "hero": {
+      "title": "Fonctionnalités Puissantes pour un Service Client Moderne",
+      "subtitle": "Tout ce dont vous avez besoin pour offrir des expériences client exceptionnelles, le tout sur une seule plateforme",
+      "cta": "Commencer Gratuitement"
+    },
+    "mainFeatures": {
+      "title": "Fonctionnalités Principales",
+      "subtitle": "Les outils essentiels qui rendent votre assistant IA puissant",
+      "instantAnswers": {
+        "title": "Réponses Instantanées",
+        "description": "Répondez instantanément aux questions des clients avec des réponses alimentées par l'IA basées sur votre base de connaissances"
+      },
+      "securePrivate": {
+        "title": "Sécurisé & Privé",
+        "description": "Conforme au RGPD avec une sécurité de niveau entreprise. Vos données restent toujours protégées et privées"
+      },
+      "increaseConversions": {
+        "title": "Augmenter les Conversions",
+        "description": "Convertissez davantage de visiteurs en clients grâce à des suggestions intelligentes et des conseils personnalisés"
+      },
+      "available247": {
+        "title": "Disponible 24/7",
+        "description": "Votre assistant IA travaille jour et nuit, vous ne manquez jamais un client"
+      },
+      "multilingual": {
+        "title": "Multilingue",
+        "description": "Assistez les clients dans leur langue préférée avec traduction automatique et sources de connaissances multilingues"
+      },
+      "easyIntegration": {
+        "title": "Intégration Facile",
+        "description": "Déployez en quelques minutes avec un simple extrait de code. Aucune expertise technique requise"
+      }
+    },
+    "advancedFeatures": {
+      "title": "Fonctionnalités Avancées",
+      "subtitle": "Des outils puissants pour élever votre service client au niveau supérieur",
+      "knowledgeBase": {
+        "title": "Base de Connaissances Intelligente",
+        "description": "Téléchargez des documents, scrapez des sites web et ajoutez des FAQ pour former votre IA",
+        "item1": "Téléchargez des PDF, des documents Word et des fichiers texte",
+        "item2": "Scraping automatique de sites web avec synchronisation de contenu",
+        "item3": "FAQ manuelles avec gestion des priorités"
+      },
+      "customization": {
+        "title": "Personnalisation Complète",
+        "description": "Personnalisez chaque aspect de votre chatbot pour qu'il corresponde parfaitement à votre marque",
+        "item1": "Personnalisez les couleurs, les polices et le positionnement",
+        "item2": "Messages de bienvenue personnalisés et ton de voix",
+        "item3": "Logos de marque et avatars"
+      },
+      "analytics": {
+        "title": "Analyses & Insights",
+        "description": "Obtenez des informations approfondies sur les conversations et le comportement des clients",
+        "item1": "Historique des conversations avec évaluations",
+        "item2": "Statistiques de performance et temps de réponse",
+        "item3": "Identifiez les lacunes de connaissances et les opportunités d'amélioration"
+      },
+      "conversations": {
+        "title": "Gestion des Conversations",
+        "description": "Suivez et gérez toutes les interactions client en un seul endroit",
+        "item1": "Historique complet des conversations avec fonction de recherche",
+        "item2": "Statistiques de session et comptage des messages",
+        "item3": "Exportez les données de conversation en CSV ou JSON"
+      }
+    },
+    "technicalFeatures": {
+      "title": "Capacités Techniques",
+      "subtitle": "Technologie de niveau entreprise sous le capot",
+      "aiPowered": {
+        "title": "Propulsé par GPT-4",
+        "description": "Utilisez la dernière technologie d'IA pour des réponses précises et naturelles"
+      },
+      "websiteScraping": {
+        "title": "Scraping de Site Web",
+        "description": "Récupérez automatiquement le contenu de votre site web avec synchronisation programmée"
+      },
+      "gdprCompliant": {
+        "title": "Conforme au RGPD",
+        "description": "Conçu avec la confidentialité à l'esprit. Entièrement conforme aux réglementations européennes"
+      },
+      "mobileResponsive": {
+        "title": "Responsive Mobile",
+        "description": "Expérience parfaite sur ordinateur, tablette et appareils mobiles"
+      },
+      "continuousLearning": {
+        "title": "Apprentissage Continu",
+        "description": "Votre IA s'améliore au fil du temps en apprenant des conversations"
+      },
+      "multiTenant": {
+        "title": "Support Multi-tenant",
+        "description": "Créez plusieurs assistants pour différents sites web ou applications"
+      }
+    },
+    "cta": {
+      "title": "Prêt à Commencer ?",
+      "subtitle": "Commencez dès aujourd'hui à transformer votre service client",
+      "startFree": "Commencer Gratuitement",
+      "contact": "Nous Contacter"
+    }
+  },
+  "privacyPolicy": {
+    "title": "Politique de Confidentialité",
+    "description": "Découvrez comment Ainexo collecte, utilise et protège vos données personnelles",
+    "badge": "Confidentialité & Sécurité",
+    "lastUpdated": "Dernière mise à jour",
+    "intro": {
+      "paragraph1": "Chez Ainexo, nous prenons votre vie privée au sérieux. Cette politique de confidentialité explique comment nous collectons, utilisons, stockons et protégeons vos informations personnelles lorsque vous utilisez nos services.",
+      "paragraph2": "En utilisant nos services, vous consentez à la collecte et à l'utilisation d'informations conformément à cette politique. Si vous n'acceptez pas cette politique, veuillez ne pas utiliser nos services."
+    },
+    "sections": {
+      "dataCollection": {
+        "title": "Quelles Données Collectons-Nous ?",
+        "intro": "Nous collectons différents types d'informations pour vous fournir et améliorer nos services :",
+        "personalData": "Données personnelles : Nom, adresse e-mail, nom de l'entreprise et coordonnées que vous fournissez lors de l'inscription",
+        "usageData": "Données d'utilisation : Informations sur la façon dont vous utilisez nos services, y compris l'historique des conversations, les adresses IP et le type de navigateur",
+        "technicalData": "Données techniques : Informations sur votre appareil, système d'exploitation et connexion réseau"
+      },
+      "howWeUse": {
+        "title": "Comment Utilisons-Nous Vos Données ?",
+        "intro": "Nous utilisons vos données à diverses fins :",
+        "purpose1": "Pour fournir et maintenir nos services, y compris la formation de votre assistant IA",
+        "purpose2": "Pour améliorer votre expérience utilisateur et personnaliser nos services",
+        "purpose3": "Pour communiquer avec vous concernant les mises à jour, le support et les messages marketing",
+        "purpose4": "Pour résoudre les problèmes et fournir un support technique",
+        "purpose5": "Pour prévenir la fraude et garantir la sécurité de nos services"
+      },
+      "dataSecurity": {
+        "title": "Sécurité des Données",
+        "intro": "Nous prenons la sécurité de vos données au sérieux et mettons en œuvre diverses mesures :",
+        "measure1": "Chiffrement des données en transit et au repos avec des protocoles standard de l'industrie",
+        "measure2": "Audits de sécurité réguliers et tests d'intrusion",
+        "measure3": "Accès limité aux données personnelles selon le principe du besoin de savoir",
+        "measure4": "Hébergement sur des serveurs sécurisés dans l'UE (Francfort, Allemagne) conformément aux exigences du RGPD"
+      },
+      "yourRights": {
+        "title": "Vos Droits",
+        "intro": "En vertu du RGPD, vous disposez de divers droits concernant vos données personnelles :",
+        "right1": "Droit d'accès : Vous pouvez demander une copie de vos données personnelles",
+        "right2": "Droit de rectification : Vous pouvez demander la correction de données inexactes",
+        "right3": "Droit à l'effacement : Vous pouvez demander la suppression de vos données ('droit à l'oubli')",
+        "right4": "Droit à la limitation : Vous pouvez demander la limitation du traitement de vos données",
+        "right5": "Droit à la portabilité : Vous pouvez demander à recevoir vos données dans un format structuré",
+        "right6": "Droit d'opposition : Vous pouvez vous opposer au traitement de vos données"
+      },
+      "cookies": {
+        "title": "Cookies et Suivi",
+        "intro": "Nous utilisons des cookies et des technologies de suivi similaires pour améliorer votre expérience et analyser l'utilisation de nos services.",
+        "types": "Cookies essentiels pour l'authentification, cookies analytiques pour les statistiques d'utilisation et cookies de préférence pour mémoriser vos paramètres"
+      },
+      "thirdParties": {
+        "title": "Partage avec des Tiers",
+        "intro": "Nous ne partageons pas vos données personnelles avec des tiers, sauf dans les cas suivants :",
+        "services": "Avec des prestataires de services qui nous aident à fournir nos services (par exemple, fournisseurs d'hébergement, processeurs de paiement), qui sont contractuellement tenus de protéger vos données"
+      },
+      "changes": {
+        "title": "Modifications de Cette Politique",
+        "content": "Nous pouvons mettre à jour cette politique de confidentialité de temps à autre. Nous vous informerons des modifications en publiant la politique mise à jour sur cette page. Nous vous recommandons de consulter régulièrement cette politique pour les mises à jour."
+      }
+    },
+    "contact": {
+      "title": "Nous Contacter",
+      "description": "Si vous avez des questions concernant cette politique de confidentialité ou vos données personnelles, veuillez nous contacter :"
+    }
+  },
+  "termsOfService": {
+    "title": "Conditions d'Utilisation",
+    "description": "Lisez nos conditions d'utilisation pour l'utilisation d'Ainexo",
+    "badge": "Conditions Juridiques",
+    "lastUpdated": "Dernière mise à jour",
+    "intro": {
+      "paragraph1": "Bienvenue chez Ainexo. Ces Conditions d'Utilisation ('Conditions') régissent votre utilisation de nos services de plateforme de chatbot IA. En accédant ou en utilisant nos services, vous acceptez ces Conditions.",
+      "paragraph2": "Si vous n'acceptez pas ces Conditions, vous ne devez pas utiliser nos services. Nous vous recommandons de lire attentivement ces Conditions avant d'utiliser nos services."
+    },
+    "sections": {
+      "acceptance": {
+        "title": "Acceptation des Conditions",
+        "paragraph1": "En créant un compte ou en utilisant nos services, vous confirmez que vous avez lu, compris et accepté ces Conditions. Vous acceptez également de vous conformer à toutes les lois et réglementations applicables.",
+        "paragraph2": "Si vous agissez au nom d'une organisation, vous déclarez que vous êtes autorisé à engager cette organisation par ces Conditions."
+      },
+      "accountRegistration": {
+        "title": "Inscription au Compte",
+        "paragraph1": "Pour utiliser nos services, vous devez créer un compte et fournir des informations exactes, complètes et à jour.",
+        "paragraph2": "Vous êtes responsable de la protection de vos informations de compte et de toutes les activités qui se produisent sous votre compte.",
+        "paragraph3": "Vous devez nous informer immédiatement de toute utilisation non autorisée de votre compte ou d'autres violations de sécurité."
+      },
+      "subscriptionBilling": {
+        "title": "Abonnement & Facturation",
+        "paragraph1": "Nos services sont proposés sur la base de différents plans d'abonnement avec des fonctionnalités et des tarifs spécifiques.",
+        "paragraph2": "Les paiements sont facturés à l'avance sur une base mensuelle ou annuelle, selon le plan que vous avez choisi. Tous les montants sont hors TVA, sauf indication contraire.",
+        "paragraph3": "Vous pouvez annuler votre abonnement à tout moment. Les annulations prennent effet à la fin de la période de facturation en cours.",
+        "paragraph4": "Nous n'offrons pas de remboursements pour les périodes d'abonnement partiellement utilisées, sauf si la loi l'exige."
+      },
+      "useOfService": {
+        "title": "Utilisation des Services",
+        "intro": "En utilisant nos services, vous acceptez de ne pas :",
+        "prohibited1": "Utiliser les services à des fins illégales ou en violation de ces Conditions",
+        "prohibited2": "Tenter d'obtenir un accès non autorisé à nos systèmes ou réseaux",
+        "prohibited3": "Utiliser les services pour diffuser du contenu nuisible ou harceler d'autres personnes",
+        "prohibited4": "Procéder à l'ingénierie inverse de nos services ou tenter d'extraire le code source",
+        "prohibited5": "Utiliser les services pour envoyer du spam ou tromper d'autres personnes"
+      },
+      "intellectualProperty": {
+        "title": "Propriété Intellectuelle",
+        "paragraph1": "Tous les droits, titres et intérêts dans et sur nos services (à l'exclusion de votre contenu) restent la propriété d'Ainexo et de nos concédants de licence.",
+        "paragraph2": "Vous conservez tous les droits sur le contenu que vous téléchargez dans nos services. En téléchargeant du contenu, vous nous accordez une licence pour utiliser ce contenu afin de fournir nos services.",
+        "paragraph3": "Vous ne pouvez pas utiliser nos marques, logos ou noms commerciaux sans notre consentement écrit préalable."
+      },
+      "limitationLiability": {
+        "title": "Limitation de Responsabilité",
+        "paragraph1": "Nos services sont fournis 'tels quels' sans aucune garantie. Nous ne garantissons pas que nos services seront sans erreur, ininterrompus ou totalement sécurisés.",
+        "paragraph2": "Dans la mesure permise par la loi, nous ne sommes pas responsables des dommages indirects, accessoires, spéciaux ou consécutifs résultant de votre utilisation de nos services."
+      },
+      "termination": {
+        "title": "Résiliation",
+        "paragraph1": "Nous nous réservons le droit de suspendre ou de résilier votre compte si vous violez ces Conditions ou si nous pensons raisonnablement que vous abusez de nos services.",
+        "paragraph2": "En cas de résiliation, votre accès à nos services sera interrompu et nous pourrons supprimer les données de votre compte."
+      },
+      "dataPrivacy": {
+        "title": "Confidentialité des Données",
+        "content": "Votre utilisation de nos services est également soumise à notre Politique de Confidentialité, qui décrit comment nous collectons, utilisons et protégeons vos données personnelles."
+      },
+      "changes": {
+        "title": "Modifications des Conditions",
+        "content": "Nous pouvons mettre à jour ces Conditions de temps à autre. Si nous apportons des modifications importantes, nous vous en informerons par e-mail ou par une notification dans nos services. Votre utilisation continue de nos services après de telles modifications signifie que vous acceptez les Conditions mises à jour."
+      },
+      "governingLaw": {
+        "title": "Loi Applicable",
+        "content": "Ces Conditions sont régies et interprétées conformément aux lois des Pays-Bas, sans tenir compte des dispositions légales contradictoires."
+      }
+    },
+    "contact": {
+      "title": "Nous Contacter",
+      "description": "Si vous avez des questions concernant ces Conditions d'Utilisation, veuillez nous contacter :"
     }
   }
 }

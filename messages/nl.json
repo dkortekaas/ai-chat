@@ -1437,5 +1437,293 @@
       "expiration": "Deze verificatielink verloopt over 24 uur. Als u geen account heeft aangemaakt, negeer dan deze e-mail.",
       "support": "Als u vragen heeft, neem dan contact op met ons ondersteuningsteam."
     }
+  },
+  "aboutUs": {
+    "title": "Over Ons",
+    "description": "Leer meer over Ainexo en onze missie om klantenservice te transformeren",
+    "hero": {
+      "title": "Over Ainexo",
+      "subtitle": "We geloven dat elke onderneming toegang zou moeten hebben tot krachtige, intelligente klantenservice-oplossingen"
+    },
+    "mission": {
+      "label": "Onze Missie",
+      "title": "Klantenservice Toegankelijk Maken voor Iedereen",
+      "description1": "Bij Ainexo zijn we gepassioneerd over het gebruik van AI om bedrijven te helpen uitzonderlijke klantervaringen te leveren. Onze missie is om geavanceerde AI-technologie toegankelijk en betaalbaar te maken voor bedrijven van elke omvang.",
+      "description2": "We begrijpen dat geweldige klantenservice geen luxe zou moeten zijn, maar een norm. Daarom hebben we een platform gebouwd dat krachtig, gebruiksvriendelijk en betaalbaar is voor iedereen."
+    },
+    "vision": {
+      "title": "Onze Visie",
+      "description": "Een wereld waarin elk bedrijf intelligente, 24/7 klantenondersteuning kan bieden zonder hun kosten te verhogen of hun waarden in gevaar te brengen."
+    },
+    "story": {
+      "title": "Ons Verhaal",
+      "paragraph1": "Ainexo is opgericht in 2023 door een team van ondernemers en AI-specialisten die frustraties zagen waarmee kleine en middelgrote bedrijven worstelden met klantenservice. Traditionele oplossingen waren te duur of te complex, terwijl eenvoudigere tools belangrijke functies misten.",
+      "paragraph2": "We besloten deze kloof te overbruggen door een platform te creëren dat enterprise-grade AI combineert met een intuïtieve gebruikerservaring. Na maanden van ontwikkeling en testen met early adopters, lanceerden we Ainexo voor het publiek.",
+      "paragraph3": "Vandaag de dag helpt Ainexo honderden bedrijven in Nederland en daarbuiten om betere klantervaringen te leveren, kosten te verlagen en hun teams te laten focussen op wat het belangrijkst is."
+    },
+    "values": {
+      "title": "Onze Waarden",
+      "subtitle": "De principes die ons werk sturen",
+      "innovation": {
+        "title": "Innovatie",
+        "description": "We blijven vooroplopen door de nieuwste AI-technologieën te adopteren en voortdurend ons platform te verbeteren."
+      },
+      "customerFirst": {
+        "title": "Klant Eerst",
+        "description": "Uw succes is ons succes. We luisteren naar uw feedback en bouwen functies die u echt nodig heeft."
+      },
+      "trust": {
+        "title": "Vertrouwen & Transparantie",
+        "description": "We nemen privacy en beveiliging serieus en zijn altijd eerlijk over wat ons platform wel en niet kan."
+      },
+      "simplicity": {
+        "title": "Eenvoud",
+        "description": "Krachtige technologie hoeft niet complex te zijn. We streven naar eenvoud in alles wat we doen."
+      }
+    },
+    "cta": {
+      "title": "Klaar om te Beginnen?",
+      "subtitle": "Sluit u aan bij honderden bedrijven die hun klantenservice transformeren met Ainexo",
+      "startFree": "Gratis Beginnen",
+      "contact": "Neem Contact Op"
+    }
+  },
+  "featuresPage": {
+    "title": "Functies",
+    "description": "Ontdek alle functies van Ainexo om uw klantenservice te verbeteren",
+    "hero": {
+      "title": "Krachtige Functies voor Moderne Klantenservice",
+      "subtitle": "Alles wat u nodig heeft om uitzonderlijke klantervaringen te leveren, allemaal op één platform",
+      "cta": "Begin Gratis"
+    },
+    "mainFeatures": {
+      "title": "Kernfuncties",
+      "subtitle": "De essentiële tools die uw AI-assistent krachtig maken",
+      "instantAnswers": {
+        "title": "Directe Antwoorden",
+        "description": "Beantwoord klantvragen onmiddellijk met AI-aangedreven antwoorden op basis van uw kennisbank"
+      },
+      "securePrivate": {
+        "title": "Veilig & Privé",
+        "description": "GDPR-compliant met enterprise-grade beveiliging. Uw data blijft altijd beschermd en privé"
+      },
+      "increaseConversions": {
+        "title": "Verhoog Conversies",
+        "description": "Zet meer bezoekers om in klanten met intelligente suggesties en gepersonaliseerde begeleiding"
+      },
+      "available247": {
+        "title": "24/7 Beschikbaar",
+        "description": "Uw AI-assistent werkt dag en nacht, zodat u nooit een klant mist"
+      },
+      "multilingual": {
+        "title": "Meertalig",
+        "description": "Ondersteun klanten in hun voorkeurstaal met automatische vertaling en meertalige kennisbronnen"
+      },
+      "easyIntegration": {
+        "title": "Eenvoudige Integratie",
+        "description": "Implementeer in minuten met een simpele code snippet. Geen technische expertise vereist"
+      }
+    },
+    "advancedFeatures": {
+      "title": "Geavanceerde Functies",
+      "subtitle": "Krachtige tools om uw klantenservice naar een hoger niveau te tillen",
+      "knowledgeBase": {
+        "title": "Slimme Kennisbank",
+        "description": "Upload documenten, scrape websites en voeg FAQ's toe om uw AI te trainen",
+        "item1": "Upload PDF's, Word-documenten en tekstbestanden",
+        "item2": "Automatisch website scraping met inhoudssynchronisatie",
+        "item3": "Handmatige FAQ's met prioriteitsbeheer"
+      },
+      "customization": {
+        "title": "Volledige Aanpassing",
+        "description": "Pas elk aspect van uw chatbot aan om perfect bij uw merk te passen",
+        "item1": "Pas kleuren, lettertypen en positionering aan",
+        "item2": "Aangepaste welkomstberichten en toon van stem",
+        "item3": "Merklogo's en avatars"
+      },
+      "analytics": {
+        "title": "Analyses & Inzichten",
+        "description": "Krijg diepgaande inzichten in gesprekken en klantgedrag",
+        "item1": "Gesprekgeschiedenis met beoordelingen",
+        "item2": "Prestatiestatistieken en reactietijden",
+        "item3": "Identificeer kennislacunes en verbeterpunten"
+      },
+      "conversations": {
+        "title": "Gespreksbeheer",
+        "description": "Volg en beheer alle klantinteracties op één plaats",
+        "item1": "Volledige gesprekgeschiedenis met zoekfunctie",
+        "item2": "Sessiestatistieken en berichttelling",
+        "item3": "Exporteer gespreksgegevens in CSV of JSON"
+      }
+    },
+    "technicalFeatures": {
+      "title": "Technische Mogelijkheden",
+      "subtitle": "Enterprise-grade technologie onder de motorkap",
+      "aiPowered": {
+        "title": "Aangedreven door GPT-4",
+        "description": "Gebruik de nieuwste AI-technologie voor nauwkeurige en natuurlijke antwoorden"
+      },
+      "websiteScraping": {
+        "title": "Website Scraping",
+        "description": "Automatisch inhoud ophalen van uw website met geplande synchronisatie"
+      },
+      "gdprCompliant": {
+        "title": "GDPR Compliant",
+        "description": "Gebouwd met privacy in gedachten. Volledig compliant met Europese regelgeving"
+      },
+      "mobileResponsive": {
+        "title": "Mobiel Responsief",
+        "description": "Perfecte ervaring op desktop, tablet en mobiele apparaten"
+      },
+      "continuousLearning": {
+        "title": "Continu Leren",
+        "description": "Uw AI verbetert in de loop van de tijd door te leren van gesprekken"
+      },
+      "multiTenant": {
+        "title": "Multi-tenant Ondersteuning",
+        "description": "Maak meerdere assistenten voor verschillende websites of toepassingen"
+      }
+    },
+    "cta": {
+      "title": "Klaar om Aan de Slag te Gaan?",
+      "subtitle": "Begin vandaag nog met het transformeren van uw klantenservice",
+      "startFree": "Gratis Beginnen",
+      "contact": "Neem Contact Op"
+    }
+  },
+  "privacyPolicy": {
+    "title": "Privacybeleid",
+    "description": "Lees hoe Ainexo uw persoonlijke gegevens verzamelt, gebruikt en beschermt",
+    "badge": "Privacy & Beveiliging",
+    "lastUpdated": "Laatst bijgewerkt",
+    "intro": {
+      "paragraph1": "Bij Ainexo nemen we uw privacy serieus. Dit privacybeleid legt uit hoe we uw persoonlijke informatie verzamelen, gebruiken, opslaan en beschermen wanneer u onze diensten gebruikt.",
+      "paragraph2": "Door onze diensten te gebruiken, stemt u in met de verzameling en het gebruik van informatie in overeenstemming met dit beleid. Als u niet akkoord gaat met dit beleid, gebruik dan onze diensten niet."
+    },
+    "sections": {
+      "dataCollection": {
+        "title": "Welke Gegevens Verzamelen We?",
+        "intro": "We verzamelen verschillende soorten informatie om onze diensten aan u te kunnen leveren en te verbeteren:",
+        "personalData": "Persoonlijke gegevens: Naam, e-mailadres, bedrijfsnaam en contactgegevens die u verstrekt bij registratie",
+        "usageData": "Gebruiksgegevens: Informatie over hoe u onze diensten gebruikt, inclusief gesprekgeschiedenis, IP-adressen en browser type",
+        "technicalData": "Technische gegevens: Informatie over uw apparaat, besturingssysteem en netwerkverbinding"
+      },
+      "howWeUse": {
+        "title": "Hoe Gebruiken We Uw Gegevens?",
+        "intro": "We gebruiken uw gegevens voor verschillende doeleinden:",
+        "purpose1": "Om onze diensten te leveren en te onderhouden, inclusief het trainen van uw AI-assistent",
+        "purpose2": "Om uw gebruikerservaring te verbeteren en onze diensten te personaliseren",
+        "purpose3": "Om met u te communiceren over updates, ondersteuning en marketingberichten",
+        "purpose4": "Om problemen op te lossen en technische ondersteuning te bieden",
+        "purpose5": "Om fraude te voorkomen en de beveiliging van onze diensten te waarborgen"
+      },
+      "dataSecurity": {
+        "title": "Gegevensbeveiliging",
+        "intro": "We nemen de beveiliging van uw gegevens serieus en implementeren verschillende maatregelen:",
+        "measure1": "Encryptie van gegevens in transit en at rest met industrie-standaard protocollen",
+        "measure2": "Regelmatige beveiligingsaudits en penetratietests",
+        "measure3": "Beperkte toegang tot persoonlijke gegevens op basis van need-to-know principes",
+        "measure4": "Hosting op beveiligde servers in de EU (Frankfurt, Duitsland) conform GDPR-vereisten"
+      },
+      "yourRights": {
+        "title": "Uw Rechten",
+        "intro": "Onder de GDPR heeft u verschillende rechten met betrekking tot uw persoonlijke gegevens:",
+        "right1": "Recht op toegang: U kunt een kopie van uw persoonlijke gegevens opvragen",
+        "right2": "Recht op rectificatie: U kunt verzoeken om onjuiste gegevens te corrigeren",
+        "right3": "Recht op verwijdering: U kunt verzoeken om uw gegevens te verwijderen ('recht om vergeten te worden')",
+        "right4": "Recht op beperking: U kunt verzoeken om de verwerking van uw gegevens te beperken",
+        "right5": "Recht op overdraagbaarheid: U kunt verzoeken om uw gegevens in een gestructureerd formaat te ontvangen",
+        "right6": "Recht van bezwaar: U kunt bezwaar maken tegen de verwerking van uw gegevens"
+      },
+      "cookies": {
+        "title": "Cookies en Tracking",
+        "intro": "We gebruiken cookies en vergelijkbare tracking technologieën om uw ervaring te verbeteren en het gebruik van onze diensten te analyseren.",
+        "types": "Essentiële cookies voor authenticatie, analytische cookies voor gebruiksstatistieken, en voorkeurscookies om uw instellingen te onthouden"
+      },
+      "thirdParties": {
+        "title": "Delen met Derden",
+        "intro": "We delen uw persoonlijke gegevens niet met derden, behalve in de volgende gevallen:",
+        "services": "Met dienstverleners die ons helpen onze diensten te leveren (bijvoorbeeld hostingproviders, betalingverwerkers), die contractueel verplicht zijn om uw gegevens te beschermen"
+      },
+      "changes": {
+        "title": "Wijzigingen in Dit Beleid",
+        "content": "We kunnen dit privacybeleid van tijd tot tijd bijwerken. We zullen u op de hoogte stellen van wijzigingen door het bijgewerkte beleid op deze pagina te plaatsen. We raden u aan dit beleid regelmatig te bekijken voor updates."
+      }
+    },
+    "contact": {
+      "title": "Contact Opnemen",
+      "description": "Als u vragen heeft over dit privacybeleid of uw persoonlijke gegevens, neem dan contact met ons op:"
+    }
+  },
+  "termsOfService": {
+    "title": "Algemene Voorwaarden",
+    "description": "Lees onze algemene voorwaarden voor het gebruik van Ainexo",
+    "badge": "Juridische Voorwaarden",
+    "lastUpdated": "Laatst bijgewerkt",
+    "intro": {
+      "paragraph1": "Welkom bij Ainexo. Deze Algemene Voorwaarden ('Voorwaarden') regelen uw gebruik van onze AI chatbot platform diensten. Door toegang te krijgen tot of gebruik te maken van onze diensten, gaat u akkoord met deze Voorwaarden.",
+      "paragraph2": "Als u deze Voorwaarden niet accepteert, mag u onze diensten niet gebruiken. We raden u aan deze Voorwaarden zorgvuldig te lezen voordat u onze diensten gebruikt."
+    },
+    "sections": {
+      "acceptance": {
+        "title": "Acceptatie van Voorwaarden",
+        "paragraph1": "Door een account aan te maken of onze diensten te gebruiken, bevestigt u dat u deze Voorwaarden heeft gelezen, begrepen en accepteert. U stemt er ook mee in om alle toepasselijke wetten en regelgeving na te leven.",
+        "paragraph2": "Als u namens een organisatie handelt, verklaart u dat u bevoegd bent om die organisatie te binden aan deze Voorwaarden."
+      },
+      "accountRegistration": {
+        "title": "Account Registratie",
+        "paragraph1": "Om onze diensten te gebruiken, moet u een account aanmaken en nauwkeurige, volledige en actuele informatie verstrekken.",
+        "paragraph2": "U bent verantwoordelijk voor het beschermen van uw accountgegevens en voor alle activiteiten die plaatsvinden onder uw account.",
+        "paragraph3": "U moet ons onmiddellijk op de hoogte stellen van ongeautoriseerd gebruik van uw account of andere beveiligingsinbreuken."
+      },
+      "subscriptionBilling": {
+        "title": "Abonnement & Facturering",
+        "paragraph1": "Onze diensten worden aangeboden op basis van verschillende abonnementsplannen met specifieke functies en prijzen.",
+        "paragraph2": "Betalingen worden vooraf gefactureerd op maand- of jaarbasis, afhankelijk van uw gekozen plan. Alle bedragen zijn exclusief BTW, tenzij anders vermeld.",
+        "paragraph3": "U kunt uw abonnement op elk moment annuleren. Annuleringen worden van kracht aan het einde van de huidige factureringsperiode.",
+        "paragraph4": "We bieden geen restituties voor gedeeltelijk gebruikte abonnementsperioden, tenzij wettelijk vereist."
+      },
+      "useOfService": {
+        "title": "Gebruik van Diensten",
+        "intro": "Bij het gebruik van onze diensten stemt u ermee in om het volgende niet te doen:",
+        "prohibited1": "De diensten gebruiken voor illegale doeleinden of in strijd met deze Voorwaarden",
+        "prohibited2": "Proberen ongeautoriseerde toegang te krijgen tot onze systemen of netwerken",
+        "prohibited3": "De diensten gebruiken om schadelijke content te verspreiden of anderen lastig te vallen",
+        "prohibited4": "Onze diensten reverse engineeren of proberen de broncode te extraheren",
+        "prohibited5": "De diensten gebruiken om spam te verzenden of anderen te misleiden"
+      },
+      "intellectualProperty": {
+        "title": "Intellectueel Eigendom",
+        "paragraph1": "Alle rechten, titels en belangen in en aan onze diensten (exclusief uw content) blijven eigendom van Ainexo en onze licentiegevers.",
+        "paragraph2": "U behoudt alle rechten op de content die u uploadt naar onze diensten. Door content te uploaden, verleent u ons een licentie om die content te gebruiken voor het leveren van onze diensten.",
+        "paragraph3": "U mag onze handelsmerken, logo's of handelsnamen niet gebruiken zonder onze voorafgaande schriftelijke toestemming."
+      },
+      "limitationLiability": {
+        "title": "Beperking van Aansprakelijkheid",
+        "paragraph1": "Onze diensten worden geleverd 'zoals ze zijn' zonder enige garantie. We garanderen niet dat onze diensten foutloos, ononderbroken of volledig veilig zijn.",
+        "paragraph2": "Voor zover toegestaan door de wet, zijn we niet aansprakelijk voor indirecte, incidentele, speciale of gevolgschade die voortvloeit uit uw gebruik van onze diensten."
+      },
+      "termination": {
+        "title": "Beëindiging",
+        "paragraph1": "We behouden ons het recht voor om uw account op te schorten of te beëindigen als u deze Voorwaarden schendt of als we redelijkerwijs geloven dat u onze diensten misbruikt.",
+        "paragraph2": "Bij beëindiging wordt uw toegang tot onze diensten beëindigd en kunnen we uw account gegevens verwijderen."
+      },
+      "dataPrivacy": {
+        "title": "Gegevensprivacy",
+        "content": "Uw gebruik van onze diensten is ook onderworpen aan ons Privacybeleid, dat beschrijft hoe we uw persoonlijke gegevens verzamelen, gebruiken en beschermen."
+      },
+      "changes": {
+        "title": "Wijzigingen in Voorwaarden",
+        "content": "We kunnen deze Voorwaarden van tijd tot tijd bijwerken. Als we wezenlijke wijzigingen aanbrengen, zullen we u op de hoogte stellen via e-mail of door een kennisgeving in onze diensten. Uw voortgezet gebruik van onze diensten na dergelijke wijzigingen betekent dat u de bijgewerkte Voorwaarden accepteert."
+      },
+      "governingLaw": {
+        "title": "Toepasselijk Recht",
+        "content": "Deze Voorwaarden worden beheerst door en geïnterpreteerd in overeenstemming met de wetten van Nederland, zonder rekening te houden met eventuele conflicterende wettelijke bepalingen."
+      }
+    },
+    "contact": {
+      "title": "Contact Opnemen",
+      "description": "Als u vragen heeft over deze Algemene Voorwaarden, neem dan contact met ons op:"
+    }
   }
 }

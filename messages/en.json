@@ -1437,5 +1437,293 @@
       "expiration": "This verification link will expire in 24 hours. If you didn't create an account, please ignore this email.",
       "support": "If you have any questions, please contact our support team."
     }
+  },
+  "aboutUs": {
+    "title": "About Us",
+    "description": "Learn more about Ainexo and our mission to transform customer service",
+    "hero": {
+      "title": "About Ainexo",
+      "subtitle": "We believe every business should have access to powerful, intelligent customer service solutions"
+    },
+    "mission": {
+      "label": "Our Mission",
+      "title": "Making Customer Service Accessible to Everyone",
+      "description1": "At Ainexo, we're passionate about using AI to help businesses deliver exceptional customer experiences. Our mission is to make advanced AI technology accessible and affordable for businesses of all sizes.",
+      "description2": "We understand that great customer service shouldn't be a luxury, but a standard. That's why we've built a platform that's powerful, easy to use, and affordable for everyone."
+    },
+    "vision": {
+      "title": "Our Vision",
+      "description": "A world where every business can provide intelligent, 24/7 customer support without increasing costs or compromising their values."
+    },
+    "story": {
+      "title": "Our Story",
+      "paragraph1": "Ainexo was founded in 2023 by a team of entrepreneurs and AI specialists who saw the frustrations small and medium-sized businesses faced with customer service. Traditional solutions were too expensive or too complex, while simpler tools lacked essential features.",
+      "paragraph2": "We decided to bridge this gap by creating a platform that combines enterprise-grade AI with an intuitive user experience. After months of development and testing with early adopters, we launched Ainexo to the public.",
+      "paragraph3": "Today, Ainexo helps hundreds of businesses in the Netherlands and beyond deliver better customer experiences, reduce costs, and allow their teams to focus on what matters most."
+    },
+    "values": {
+      "title": "Our Values",
+      "subtitle": "The principles that guide our work",
+      "innovation": {
+        "title": "Innovation",
+        "description": "We stay ahead by adopting the latest AI technologies and continuously improving our platform."
+      },
+      "customerFirst": {
+        "title": "Customer First",
+        "description": "Your success is our success. We listen to your feedback and build features you truly need."
+      },
+      "trust": {
+        "title": "Trust & Transparency",
+        "description": "We take privacy and security seriously and are always honest about what our platform can and cannot do."
+      },
+      "simplicity": {
+        "title": "Simplicity",
+        "description": "Powerful technology doesn't have to be complex. We strive for simplicity in everything we do."
+      }
+    },
+    "cta": {
+      "title": "Ready to Get Started?",
+      "subtitle": "Join hundreds of businesses transforming their customer service with Ainexo",
+      "startFree": "Start Free",
+      "contact": "Contact Us"
+    }
+  },
+  "featuresPage": {
+    "title": "Features",
+    "description": "Discover all the features of Ainexo to improve your customer service",
+    "hero": {
+      "title": "Powerful Features for Modern Customer Service",
+      "subtitle": "Everything you need to deliver exceptional customer experiences, all in one platform",
+      "cta": "Start Free"
+    },
+    "mainFeatures": {
+      "title": "Core Features",
+      "subtitle": "The essential tools that make your AI assistant powerful",
+      "instantAnswers": {
+        "title": "Instant Answers",
+        "description": "Answer customer questions immediately with AI-powered responses based on your knowledge base"
+      },
+      "securePrivate": {
+        "title": "Secure & Private",
+        "description": "GDPR-compliant with enterprise-grade security. Your data stays protected and private always"
+      },
+      "increaseConversions": {
+        "title": "Increase Conversions",
+        "description": "Convert more visitors into customers with intelligent suggestions and personalized guidance"
+      },
+      "available247": {
+        "title": "24/7 Available",
+        "description": "Your AI assistant works day and night, so you never miss a customer"
+      },
+      "multilingual": {
+        "title": "Multilingual",
+        "description": "Support customers in their preferred language with automatic translation and multilingual knowledge sources"
+      },
+      "easyIntegration": {
+        "title": "Easy Integration",
+        "description": "Deploy in minutes with a simple code snippet. No technical expertise required"
+      }
+    },
+    "advancedFeatures": {
+      "title": "Advanced Features",
+      "subtitle": "Powerful tools to take your customer service to the next level",
+      "knowledgeBase": {
+        "title": "Smart Knowledge Base",
+        "description": "Upload documents, scrape websites, and add FAQs to train your AI",
+        "item1": "Upload PDFs, Word documents, and text files",
+        "item2": "Automatic website scraping with content synchronization",
+        "item3": "Manual FAQs with priority management"
+      },
+      "customization": {
+        "title": "Full Customization",
+        "description": "Customize every aspect of your chatbot to perfectly match your brand",
+        "item1": "Adjust colors, fonts, and positioning",
+        "item2": "Custom welcome messages and tone of voice",
+        "item3": "Brand logos and avatars"
+      },
+      "analytics": {
+        "title": "Analytics & Insights",
+        "description": "Get deep insights into conversations and customer behavior",
+        "item1": "Conversation history with ratings",
+        "item2": "Performance statistics and response times",
+        "item3": "Identify knowledge gaps and improvement opportunities"
+      },
+      "conversations": {
+        "title": "Conversation Management",
+        "description": "Track and manage all customer interactions in one place",
+        "item1": "Full conversation history with search functionality",
+        "item2": "Session statistics and message counting",
+        "item3": "Export conversation data in CSV or JSON"
+      }
+    },
+    "technicalFeatures": {
+      "title": "Technical Capabilities",
+      "subtitle": "Enterprise-grade technology under the hood",
+      "aiPowered": {
+        "title": "Powered by GPT-4",
+        "description": "Use the latest AI technology for accurate and natural responses"
+      },
+      "websiteScraping": {
+        "title": "Website Scraping",
+        "description": "Automatically fetch content from your website with scheduled synchronization"
+      },
+      "gdprCompliant": {
+        "title": "GDPR Compliant",
+        "description": "Built with privacy in mind. Fully compliant with European regulations"
+      },
+      "mobileResponsive": {
+        "title": "Mobile Responsive",
+        "description": "Perfect experience on desktop, tablet, and mobile devices"
+      },
+      "continuousLearning": {
+        "title": "Continuous Learning",
+        "description": "Your AI improves over time by learning from conversations"
+      },
+      "multiTenant": {
+        "title": "Multi-tenant Support",
+        "description": "Create multiple assistants for different websites or applications"
+      }
+    },
+    "cta": {
+      "title": "Ready to Get Started?",
+      "subtitle": "Start transforming your customer service today",
+      "startFree": "Start Free",
+      "contact": "Contact Us"
+    }
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "description": "Learn how Ainexo collects, uses, and protects your personal data",
+    "badge": "Privacy & Security",
+    "lastUpdated": "Last updated",
+    "intro": {
+      "paragraph1": "At Ainexo, we take your privacy seriously. This privacy policy explains how we collect, use, store, and protect your personal information when you use our services.",
+      "paragraph2": "By using our services, you agree to the collection and use of information in accordance with this policy. If you do not agree with this policy, please do not use our services."
+    },
+    "sections": {
+      "dataCollection": {
+        "title": "What Data Do We Collect?",
+        "intro": "We collect various types of information to provide and improve our services to you:",
+        "personalData": "Personal data: Name, email address, company name, and contact information you provide during registration",
+        "usageData": "Usage data: Information about how you use our services, including conversation history, IP addresses, and browser type",
+        "technicalData": "Technical data: Information about your device, operating system, and network connection"
+      },
+      "howWeUse": {
+        "title": "How Do We Use Your Data?",
+        "intro": "We use your data for various purposes:",
+        "purpose1": "To provide and maintain our services, including training your AI assistant",
+        "purpose2": "To improve your user experience and personalize our services",
+        "purpose3": "To communicate with you about updates, support, and marketing messages",
+        "purpose4": "To resolve issues and provide technical support",
+        "purpose5": "To prevent fraud and ensure the security of our services"
+      },
+      "dataSecurity": {
+        "title": "Data Security",
+        "intro": "We take the security of your data seriously and implement various measures:",
+        "measure1": "Encryption of data in transit and at rest with industry-standard protocols",
+        "measure2": "Regular security audits and penetration testing",
+        "measure3": "Limited access to personal data based on need-to-know principles",
+        "measure4": "Hosting on secure servers in the EU (Frankfurt, Germany) in compliance with GDPR requirements"
+      },
+      "yourRights": {
+        "title": "Your Rights",
+        "intro": "Under GDPR, you have various rights regarding your personal data:",
+        "right1": "Right of access: You can request a copy of your personal data",
+        "right2": "Right to rectification: You can request to correct inaccurate data",
+        "right3": "Right to erasure: You can request to delete your data ('right to be forgotten')",
+        "right4": "Right to restriction: You can request to restrict the processing of your data",
+        "right5": "Right to portability: You can request to receive your data in a structured format",
+        "right6": "Right to object: You can object to the processing of your data"
+      },
+      "cookies": {
+        "title": "Cookies and Tracking",
+        "intro": "We use cookies and similar tracking technologies to improve your experience and analyze the use of our services.",
+        "types": "Essential cookies for authentication, analytical cookies for usage statistics, and preference cookies to remember your settings"
+      },
+      "thirdParties": {
+        "title": "Sharing with Third Parties",
+        "intro": "We do not share your personal data with third parties, except in the following cases:",
+        "services": "With service providers who help us deliver our services (e.g., hosting providers, payment processors), who are contractually obligated to protect your data"
+      },
+      "changes": {
+        "title": "Changes to This Policy",
+        "content": "We may update this privacy policy from time to time. We will notify you of changes by posting the updated policy on this page. We recommend reviewing this policy regularly for updates."
+      }
+    },
+    "contact": {
+      "title": "Contact Us",
+      "description": "If you have questions about this privacy policy or your personal data, please contact us:"
+    }
+  },
+  "termsOfService": {
+    "title": "Terms of Service",
+    "description": "Read our terms of service for using Ainexo",
+    "badge": "Legal Terms",
+    "lastUpdated": "Last updated",
+    "intro": {
+      "paragraph1": "Welcome to Ainexo. These Terms of Service ('Terms') govern your use of our AI chatbot platform services. By accessing or using our services, you agree to these Terms.",
+      "paragraph2": "If you do not accept these Terms, you may not use our services. We recommend that you read these Terms carefully before using our services."
+    },
+    "sections": {
+      "acceptance": {
+        "title": "Acceptance of Terms",
+        "paragraph1": "By creating an account or using our services, you confirm that you have read, understood, and accept these Terms. You also agree to comply with all applicable laws and regulations.",
+        "paragraph2": "If you are acting on behalf of an organization, you represent that you have the authority to bind that organization to these Terms."
+      },
+      "accountRegistration": {
+        "title": "Account Registration",
+        "paragraph1": "To use our services, you must create an account and provide accurate, complete, and current information.",
+        "paragraph2": "You are responsible for protecting your account credentials and for all activities that occur under your account.",
+        "paragraph3": "You must notify us immediately of any unauthorized use of your account or other security breaches."
+      },
+      "subscriptionBilling": {
+        "title": "Subscription & Billing",
+        "paragraph1": "Our services are offered based on various subscription plans with specific features and pricing.",
+        "paragraph2": "Payments are billed in advance on a monthly or annual basis, depending on your chosen plan. All amounts are exclusive of VAT, unless otherwise stated.",
+        "paragraph3": "You can cancel your subscription at any time. Cancellations take effect at the end of the current billing period.",
+        "paragraph4": "We do not offer refunds for partially used subscription periods, unless required by law."
+      },
+      "useOfService": {
+        "title": "Use of Services",
+        "intro": "When using our services, you agree not to:",
+        "prohibited1": "Use the services for illegal purposes or in violation of these Terms",
+        "prohibited2": "Attempt to gain unauthorized access to our systems or networks",
+        "prohibited3": "Use the services to distribute harmful content or harass others",
+        "prohibited4": "Reverse engineer our services or attempt to extract the source code",
+        "prohibited5": "Use the services to send spam or deceive others"
+      },
+      "intellectualProperty": {
+        "title": "Intellectual Property",
+        "paragraph1": "All rights, titles, and interests in and to our services (excluding your content) remain the property of Ainexo and our licensors.",
+        "paragraph2": "You retain all rights to the content you upload to our services. By uploading content, you grant us a license to use that content to provide our services.",
+        "paragraph3": "You may not use our trademarks, logos, or trade names without our prior written consent."
+      },
+      "limitationLiability": {
+        "title": "Limitation of Liability",
+        "paragraph1": "Our services are provided 'as is' without any warranty. We do not guarantee that our services will be error-free, uninterrupted, or completely secure.",
+        "paragraph2": "To the extent permitted by law, we are not liable for indirect, incidental, special, or consequential damages arising from your use of our services."
+      },
+      "termination": {
+        "title": "Termination",
+        "paragraph1": "We reserve the right to suspend or terminate your account if you violate these Terms or if we reasonably believe you are misusing our services.",
+        "paragraph2": "Upon termination, your access to our services will be terminated and we may delete your account data."
+      },
+      "dataPrivacy": {
+        "title": "Data Privacy",
+        "content": "Your use of our services is also subject to our Privacy Policy, which describes how we collect, use, and protect your personal data."
+      },
+      "changes": {
+        "title": "Changes to Terms",
+        "content": "We may update these Terms from time to time. If we make material changes, we will notify you via email or by posting a notice in our services. Your continued use of our services after such changes means you accept the updated Terms."
+      },
+      "governingLaw": {
+        "title": "Governing Law",
+        "content": "These Terms are governed by and construed in accordance with the laws of the Netherlands, without regard to any conflicting legal provisions."
+      }
+    },
+    "contact": {
+      "title": "Contact Us",
+      "description": "If you have questions about these Terms of Service, please contact us:"
+    }
   }
 }
