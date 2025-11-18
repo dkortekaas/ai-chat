@@ -35,7 +35,7 @@ const Footer = () => {
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
-                  href="#features"
+                  href={`/${locale}/features`}
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
                   {t("features")}
@@ -49,14 +49,14 @@ const Footer = () => {
                   {t("pricing")}
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   href={`/${locale}/documentation`}
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
                   {t("documentation")}
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
 
@@ -73,14 +73,14 @@ const Footer = () => {
                   {t("aboutUs")}
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   href={`/${locale}/blog`}
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
                   {t("blog")}
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link
                   href={`/${locale}/contact`}
