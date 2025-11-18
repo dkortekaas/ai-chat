@@ -28,9 +28,7 @@ const missingPriceIds: string[] = [];
 if (!process.env.STRIPE_STARTER_PRICE_ID) missingPriceIds.push("STARTER");
 if (!process.env.STRIPE_PROFESSIONAL_PRICE_ID)
   missingPriceIds.push("PROFESSIONAL");
-if (!process.env.STRIPE_BUSINESS_PRICE_ID) missingPriceIds.push("BUSINESS");
-if (!process.env.STRIPE_ENTERPRISE_PRICE_ID)
-  missingPriceIds.push("ENTERPRISE");
+if (!process.env.STRIPE_ENTERPRISE_PRICE_ID) missingPriceIds.push("ENTERPRISE");
 
 if (missingPriceIds.length > 0) {
   console.warn(
@@ -50,10 +48,6 @@ export const SUBSCRIPTION_PLANS_WITH_PRICES = {
   PROFESSIONAL: {
     ...SUBSCRIPTION_PLANS.PROFESSIONAL,
     priceId: process.env.STRIPE_PROFESSIONAL_PRICE_ID,
-  },
-  BUSINESS: {
-    ...SUBSCRIPTION_PLANS.BUSINESS,
-    priceId: process.env.STRIPE_BUSINESS_PRICE_ID,
   },
   ENTERPRISE: {
     ...SUBSCRIPTION_PLANS.ENTERPRISE,

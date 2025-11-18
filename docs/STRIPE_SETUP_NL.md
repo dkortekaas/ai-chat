@@ -3,6 +3,7 @@
 ## Probleem
 
 Je krijgt deze error bij het upgraden van een subscription:
+
 ```
 Error: Invalid API Key provided: STRIPE_S***...
 ```
@@ -39,6 +40,7 @@ Dit betekent dat je Stripe API keys nog niet (correct) zijn ingesteld.
 Voor elke subscription tier moet je een product met prijzen aanmaken:
 
 #### 3.1 Starter Plan
+
 1. Ga naar [Products](https://dashboard.stripe.com/test/products)
 2. Klik "Add product"
 3. Vul in:
@@ -51,15 +53,19 @@ Voor elke subscription tier moet je een product met prijzen aanmaken:
 5. **Kopieer de Price ID** (begint met `price_...`)
 
 #### 3.2 Professional Plan
+
 Herhaal bovenstaande stappen met:
+
 - **Name**: Professional Plan
 - **Price**: €79/month
 
 #### 3.3 Business Plan
+
 - **Name**: Business Plan
 - **Price**: €149/month
 
 #### 3.4 Enterprise Plan
+
 - **Name**: Enterprise Plan
 - **Price**: €299/month (of "Contact us" voor custom pricing)
 
@@ -81,6 +87,7 @@ Herhaal bovenstaande stappen met:
 ### Stap 5: .env.local File Maken
 
 1. Kopieer `.env.example` naar `.env.local`:
+
    ```bash
    cp .env.example .env.local
    ```
@@ -96,7 +103,6 @@ STRIPE_WEBHOOK_SECRET=whsec_GHI...xyz
 # Stripe Price IDs (Required for subscriptions)
 STRIPE_STARTER_PRICE_ID=price_1ABC123...
 STRIPE_PROFESSIONAL_PRICE_ID=price_1DEF456...
-STRIPE_BUSINESS_PRICE_ID=price_1GHI789...
 STRIPE_ENTERPRISE_PRICE_ID=price_1JKL012...
 ```
 
@@ -122,33 +128,40 @@ npm run dev
 ## Veelvoorkomende Problemen
 
 ### ❌ "Invalid API Key"
+
 **Oorzaak**: De API key is niet correct gekopieerd of ontbreekt
 **Oplossing**:
+
 - Check dat je de **Secret Key** hebt gebruikt (niet Publishable Key)
 - Verwijder eventuele spaties voor/na de key
 - Controleer dat je in test mode bent en `sk_test_` gebruikt
 
 ### ❌ "Plan not configured"
+
 **Oorzaak**: Price IDs ontbreken in .env.local
 **Oplossing**: Voeg alle 4 price IDs toe zoals in Stap 5
 
 ### ❌ "No such price"
+
 **Oorzaak**: Price ID bestaat niet in Stripe
 **Oplossing**: Check dat je de juiste Price IDs hebt gekopieerd uit Stripe Dashboard
 
 ### ❌ Test payment werkt niet
+
 **Oorzaak**: Je gebruikt een echte creditcard in test mode
 **Oplossing**: Gebruik alleen [Stripe test cards](https://stripe.com/docs/testing)
 
 ## Test Mode vs Live Mode
 
 ### Test Mode (Development)
+
 - Keys beginnen met `pk_test_` en `sk_test_`
 - Geen echte betalingen
 - Gebruik test cards
 - Gratis te gebruiken
 
 ### Live Mode (Production)
+
 ⚠️ **Gebruik dit pas als je app productie-ready is!**
 
 1. Activeer je account in Stripe Dashboard

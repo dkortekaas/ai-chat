@@ -18,14 +18,17 @@ The validation runs automatically through Next.js instrumentation:
 ### Validation Levels
 
 **❌ Critical (Required)**
+
 - Missing or invalid: Server **will not start**
 - Examples: DATABASE_URL, NEXTAUTH_SECRET, ENCRYPTION_KEY
 
 **⚠️ Warning (Recommended)**
+
 - Missing or invalid: Server starts but logs warnings
 - Examples: SENTRY_DSN, UPSTASH_REDIS_REST_URL
 
 **ℹ️ Optional**
+
 - Missing: No warning, feature is disabled
 - Examples: RECAPTCHA_SITE_KEY, MOLLIE_API_KEY
 
@@ -33,45 +36,44 @@ The validation runs automatically through Next.js instrumentation:
 
 ### Critical (Always Required)
 
-| Variable | Validation | Example |
-|----------|------------|---------|
-| `DATABASE_URL` | Must start with `postgres://` or `postgresql://` | `postgresql://user:pass@localhost:5432/db` |
-| `NEXTAUTH_URL` | Must be valid URL | `https://yourapp.com` |
-| `NEXTAUTH_SECRET` | Min 32 characters, not default value | `openssl rand -base64 32` |
-| `ENCRYPTION_KEY` | Min 32, max 64 characters | `openssl rand -hex 32` |
-| `OPENAI_API_KEY` | Must start with `sk-` | `sk-proj-...` |
-| `RESEND_API_KEY` | Must start with `re_` | `re_...` |
-| `RESEND_FROM_EMAIL` | Valid email, not default | `noreply@yourapp.com` |
+| Variable            | Validation                                       | Example                                    |
+| ------------------- | ------------------------------------------------ | ------------------------------------------ |
+| `DATABASE_URL`      | Must start with `postgres://` or `postgresql://` | `postgresql://user:pass@localhost:5432/db` |
+| `NEXTAUTH_URL`      | Must be valid URL                                | `https://yourapp.com`                      |
+| `NEXTAUTH_SECRET`   | Min 32 characters, not default value             | `openssl rand -base64 32`                  |
+| `ENCRYPTION_KEY`    | Min 32, max 64 characters                        | `openssl rand -hex 32`                     |
+| `OPENAI_API_KEY`    | Must start with `sk-`                            | `sk-proj-...`                              |
+| `RESEND_API_KEY`    | Must start with `re_`                            | `re_...`                                   |
+| `RESEND_FROM_EMAIL` | Valid email, not default                         | `noreply@yourapp.com`                      |
 
 ### Production Only (Required in Production)
 
-| Variable | Validation | Example |
-|----------|------------|---------|
-| `STRIPE_SECRET_KEY` | Must start with `sk_live_` in prod | `sk_live_...` |
-| `STRIPE_WEBHOOK_SECRET` | Must start with `whsec_` | `whsec_...` |
-| `STRIPE_STARTER_PRICE_ID` | Must be present | `price_...` |
-| `STRIPE_PROFESSIONAL_PRICE_ID` | Must be present | `price_...` |
-| `STRIPE_BUSINESS_PRICE_ID` | Must be present | `price_...` |
-| `STRIPE_ENTERPRISE_PRICE_ID` | Must be present | `price_...` |
+| Variable                       | Validation                         | Example       |
+| ------------------------------ | ---------------------------------- | ------------- |
+| `STRIPE_SECRET_KEY`            | Must start with `sk_live_` in prod | `sk_live_...` |
+| `STRIPE_WEBHOOK_SECRET`        | Must start with `whsec_`           | `whsec_...`   |
+| `STRIPE_STARTER_PRICE_ID`      | Must be present                    | `price_...`   |
+| `STRIPE_PROFESSIONAL_PRICE_ID` | Must be present                    | `price_...`   |
+| `STRIPE_ENTERPRISE_PRICE_ID`   | Must be present                    | `price_...`   |
 
 ### Recommended (Warning if Missing)
 
-| Variable | Purpose | Impact if Missing |
-|----------|---------|-------------------|
-| `NEXT_PUBLIC_SENTRY_DSN` | Error tracking | No error monitoring |
-| `SENTRY_DSN` | Server error tracking | No server error logs |
-| `UPSTASH_REDIS_REST_URL` | Rate limiting | In-memory rate limiting (doesn't scale) |
-| `UPSTASH_REDIS_REST_TOKEN` | Redis authentication | Rate limiting won't work |
-| `CRON_SECRET` | Cron job security | Unprotected cron endpoints |
+| Variable                   | Purpose               | Impact if Missing                       |
+| -------------------------- | --------------------- | --------------------------------------- |
+| `NEXT_PUBLIC_SENTRY_DSN`   | Error tracking        | No error monitoring                     |
+| `SENTRY_DSN`               | Server error tracking | No server error logs                    |
+| `UPSTASH_REDIS_REST_URL`   | Rate limiting         | In-memory rate limiting (doesn't scale) |
+| `UPSTASH_REDIS_REST_TOKEN` | Redis authentication  | Rate limiting won't work                |
+| `CRON_SECRET`              | Cron job security     | Unprotected cron endpoints              |
 
 ### Optional
 
-| Variable | Purpose |
-|----------|---------|
-| `RECAPTCHA_SITE_KEY` | Bot protection |
-| `RECAPTCHA_SECRET_KEY` | reCAPTCHA verification |
-| `MOLLIE_API_KEY` | Alternative payment provider |
-| `VERCEL_*` | Auto-populated by Vercel |
+| Variable               | Purpose                      |
+| ---------------------- | ---------------------------- |
+| `RECAPTCHA_SITE_KEY`   | Bot protection               |
+| `RECAPTCHA_SECRET_KEY` | reCAPTCHA verification       |
+| `MOLLIE_API_KEY`       | Alternative payment provider |
+| `VERCEL_*`             | Auto-populated by Vercel     |
 
 ## Error Messages
 
@@ -186,6 +188,7 @@ openssl rand -hex 32     # For CRON_SECRET
 ### 3. Add API Keys
 
 Get API keys from:
+
 - **Database**: [Neon](https://neon.tech/) or any PostgreSQL provider
 - **OpenAI**: [platform.openai.com/api-keys](https://platform.openai.com/api-keys)
 - **Resend**: [resend.com/api-keys](https://resend.com/api-keys)
@@ -210,6 +213,7 @@ If validation fails, you'll see detailed error messages. Fix the issues and rest
 **Symptom**: Server exits immediately with validation errors
 
 **Solution**:
+
 1. Read the error messages carefully
 2. Check `.env.local` file exists
 3. Compare with `.env.example`
@@ -221,6 +225,7 @@ If validation fails, you'll see detailed error messages. Fix the issues and rest
 **Symptom**: `NEXTAUTH_SECRET cannot be the default value`
 
 **Solution**:
+
 ```bash
 # Generate a new secret
 openssl rand -base64 32
@@ -234,6 +239,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 **Symptom**: `DATABASE_URL must be a valid PostgreSQL connection string`
 
 **Solution**:
+
 ```bash
 # ✅ Correct formats
 postgresql://user:password@host:5432/database
@@ -249,6 +255,7 @@ http://...   # Wrong protocol
 **Symptom**: `STRIPE_SECRET_KEY must start with 'sk_live_' in production`
 
 **Solution**:
+
 - Development: Use `sk_test_...` keys
 - Production: Use `sk_live_...` keys
 - Never use test keys in production
@@ -258,6 +265,7 @@ http://...   # Wrong protocol
 **Symptom**: `All Stripe Price IDs are required in production`
 
 **Solution**:
+
 1. Go to [Stripe Dashboard → Products](https://dashboard.stripe.com/products)
 2. Create products for each plan (Starter, Professional, Business, Enterprise)
 3. Copy the `price_...` IDs
@@ -295,6 +303,7 @@ STRIPE_SECRET_KEY=sk_live_...
 ### 4. Use Secret Management Tools
 
 For production, consider:
+
 - **Vercel**: Environment Variables (encrypted at rest)
 - **AWS Secrets Manager**: Centralized secret storage
 - **HashiCorp Vault**: Enterprise secret management
@@ -343,7 +352,7 @@ Set environment variables in:
 
 ### 2. Format Validation
 
-- API keys must have correct prefixes (sk-, re_, whsec_)
+- API keys must have correct prefixes (sk-, re*, whsec*)
 - URLs must be valid HTTP/HTTPS
 - Emails must be valid format
 
@@ -356,6 +365,7 @@ Set environment variables in:
 ### 4. Sensitive Data
 
 Never log or expose:
+
 - API keys
 - Secrets
 - Database passwords

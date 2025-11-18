@@ -408,7 +408,6 @@ ai-chat-platform/
    STRIPE_WEBHOOK_SECRET="whsec_..."
    STRIPE_STARTER_PRICE_ID="price_..."
    STRIPE_PROFESSIONAL_PRICE_ID="price_..."
-   STRIPE_BUSINESS_PRICE_ID="price_..."
    STRIPE_ENTERPRISE_PRICE_ID="price_..."
    ```
 
@@ -885,7 +884,6 @@ STRIPE_SECRET_KEY="sk_test_51ABC123..."
 STRIPE_WEBHOOK_SECRET="whsec_ABC123..."
 STRIPE_STARTER_PRICE_ID="price_1ABC123..."
 STRIPE_PROFESSIONAL_PRICE_ID="price_1DEF456..."
-STRIPE_BUSINESS_PRICE_ID="price_1GHI789..."
 STRIPE_ENTERPRISE_PRICE_ID="price_1JKL012..."
 
 # OpenAI Configuration (Required for RAG and embeddings)

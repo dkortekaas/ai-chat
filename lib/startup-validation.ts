@@ -30,7 +30,9 @@ const colors = {
  */
 const envSchema = z.object({
   // Node Environment
-  NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
+  NODE_ENV: z
+    .enum(["development", "production", "test"])
+    .default("development"),
 
   // Database
   DATABASE_URL: z
@@ -96,15 +98,12 @@ const envSchema = z.object({
   // Stripe (conditional - required in production)
   STRIPE_SECRET_KEY: z
     .string()
-    .refine(
-      (key) => {
-        if (process.env.NODE_ENV === "production") {
-          return key.startsWith("sk_live_");
-        }
-        return key.startsWith("sk_test_") || key.startsWith("sk_live_");
-      },
-      "STRIPE_SECRET_KEY must start with 'sk_live_' in production or 'sk_test_' in development"
-    )
+    .refine((key) => {
+      if (process.env.NODE_ENV === "production") {
+        return key.startsWith("sk_live_");
+      }
+      return key.startsWith("sk_test_") || key.startsWith("sk_live_");
+    }, "STRIPE_SECRET_KEY must start with 'sk_live_' in production or 'sk_test_' in development")
     .optional(),
 
   STRIPE_WEBHOOK_SECRET: z
@@ -118,7 +117,6 @@ const envSchema = z.object({
   // Stripe Price IDs (required in production)
   STRIPE_STARTER_PRICE_ID: z.string().optional(),
   STRIPE_PROFESSIONAL_PRICE_ID: z.string().optional(),
-  STRIPE_BUSINESS_PRICE_ID: z.string().optional(),
   STRIPE_ENTERPRISE_PRICE_ID: z.string().optional(),
 
   // Cron Secret
@@ -188,7 +186,6 @@ export function validateEnvironmentVariables(): EnvSchema {
       if (
         !env.STRIPE_STARTER_PRICE_ID ||
         !env.STRIPE_PROFESSIONAL_PRICE_ID ||
-        !env.STRIPE_BUSINESS_PRICE_ID ||
         !env.STRIPE_ENTERPRISE_PRICE_ID
       ) {
         productionErrors.push(
@@ -236,7 +233,9 @@ export function validateEnvironmentVariables(): EnvSchema {
 
       error.errors.forEach((err) => {
         const path = err.path.join(".");
-        console.error(`  ${colors.red}•${colors.reset} ${path}: ${err.message}`);
+        console.error(
+          `  ${colors.red}•${colors.reset} ${path}: ${err.message}`
+        );
       });
 
       console.error(
