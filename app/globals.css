@@ -94,6 +94,15 @@
     background-color: var(--color-primary);
   }
 
+  .hover\:bg-gradient-primary:hover {
+    background-image: linear-gradient(
+      to right,
+      var(--color-primary),
+      var(--color-accent)
+    );
+    background-color: var(--color-primary);
+  }
+
   .bg-gradient-radial {
     background-image: radial-gradient(
       circle at center,

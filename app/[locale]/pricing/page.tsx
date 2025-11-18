@@ -55,7 +55,7 @@ const pricingTiers = [
       "Advanced analytics",
       "Custom branding",
     ],
-    cta: "Get Started",
+    cta: "Start Free Trial",
     variant: "gradient" as const,
     popular: true,
   },
@@ -73,7 +73,7 @@ const pricingTiers = [
       "Advanced analytics",
       "Custom branding",
     ],
-    cta: "Get Started",
+    cta: "Start Free Trial",
     variant: "outline" as const,
   },
 ];
