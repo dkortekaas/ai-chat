@@ -42,15 +42,26 @@ export function DeleteAccountTab() {
     confirmation: z
       .string()
       .min(1, { message: t("account.deleteAccount.confirmationRequired") })
-      .refine(
-        (val) => val === "DELETE",
-        { message: t("account.deleteAccount.confirmationMustBeDelete") }
-      ),
+      .refine((val) => val === "DELETE", {
+        message: t("account.deleteAccount.confirmationMustBeDelete"),
+      }),
     reason: z.string().optional(),
   });
 
+  // Type for form input (allows empty string)
+  type DeleteAccountFormInput = {
+    confirmation: string;
+    reason?: string;
+  };
+
+  // Type for validated form output (confirmation must be "DELETE")
+  type DeleteAccountFormOutput = {
+    confirmation: "DELETE";
+    reason?: string;
+  };
+
   // React Hook Form setup
-  const form = useForm<z.infer<typeof deleteAccountSchema>>({
+  const form = useForm<DeleteAccountFormInput, any, DeleteAccountFormOutput>({
     resolver: zodResolver(deleteAccountSchema),
     defaultValues: {
       confirmation: "",
@@ -58,22 +69,25 @@ export function DeleteAccountTab() {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof deleteAccountSchema>) => {
+  const onSubmit = async (data: DeleteAccountFormOutput) => {
     if (!session?.user?.id) return;
 
     setIsDeleting(true);
 
     try {
-      const response = await fetch(`/api/users/${session.user.id}/delete-account`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          confirmation: data.confirmation,
-          reason: data.reason || undefined,
-        }),
-      });
+      const response = await fetch(
+        `/api/users/${session.user.id}/delete-account`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            confirmation: data.confirmation,
+            reason: data.reason || undefined,
+          }),
+        }
+      );
 
       if (response.ok) {
         toast({
@@ -90,7 +104,8 @@ export function DeleteAccountTab() {
         const errorData = await response.json();
         toast({
           title: t("error.error"),
-          description: errorData.error || t("account.deleteAccount.errorDeletingAccount"),
+          description:
+            errorData.error || t("account.deleteAccount.errorDeletingAccount"),
           variant: "destructive",
         });
         setIsDeleting(false);
@@ -194,7 +209,10 @@ export function DeleteAccountTab() {
             />
 
             <div className="pt-4">
-              <AlertDialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
+              <AlertDialog
+                open={showConfirmDialog}
+                onOpenChange={setShowConfirmDialog}
+              >
                 <AlertDialogTrigger asChild>
                   <Button
                     type="button"
