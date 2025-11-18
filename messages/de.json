@@ -1476,6 +1476,304 @@
       "link": "Passwort zurücksetzen",
       "ignore": "Wenn Sie diese Anfrage nicht gestellt haben, können Sie diese Nachricht ignorieren. Ihr Passwort bleibt unverändert.",
       "expiration": "Dieser Link ist 1 Stunde gültig."
+    },
+    "verifyEmail": {
+      "title": "E-Mail-Adresse verifizieren",
+      "greeting": "Hallo",
+      "description": "Vielen Dank für Ihre Anmeldung! Bitte verifizieren Sie Ihre E-Mail-Adresse, indem Sie auf die Schaltfläche unten klicken:",
+      "button": "E-Mail-Adresse verifizieren",
+      "alternative": "Oder kopieren Sie diesen Link und fügen Sie ihn in Ihren Browser ein:",
+      "important": "Wichtig:",
+      "expiration": "Dieser Verifizierungslink läuft in 24 Stunden ab. Wenn Sie kein Konto erstellt haben, ignorieren Sie bitte diese E-Mail.",
+      "support": "Wenn Sie Fragen haben, wenden Sie sich bitte an unser Support-Team."
+    }
+  },
+  "aboutUs": {
+    "title": "Über Uns",
+    "description": "Erfahren Sie mehr über Ainexo und unsere Mission, den Kundenservice zu transformieren",
+    "hero": {
+      "title": "Über Ainexo",
+      "subtitle": "Wir glauben, dass jedes Unternehmen Zugang zu leistungsstarken, intelligenten Kundenservice-Lösungen haben sollte"
+    },
+    "mission": {
+      "label": "Unsere Mission",
+      "title": "Kundenservice für Alle Zugänglich Machen",
+      "description1": "Bei Ainexo sind wir leidenschaftlich daran interessiert, KI zu nutzen, um Unternehmen dabei zu helfen, außergewöhnliche Kundenerlebnisse zu bieten. Unsere Mission ist es, fortschrittliche KI-Technologie für Unternehmen jeder Größe zugänglich und erschwinglich zu machen.",
+      "description2": "Wir verstehen, dass hervorragender Kundenservice kein Luxus sein sollte, sondern ein Standard. Deshalb haben wir eine Plattform entwickelt, die leistungsstark, benutzerfreundlich und für jeden erschwinglich ist."
+    },
+    "vision": {
+      "title": "Unsere Vision",
+      "description": "Eine Welt, in der jedes Unternehmen intelligenten 24/7-Kundensupport bieten kann, ohne die Kosten zu erhöhen oder ihre Werte zu gefährden."
+    },
+    "story": {
+      "title": "Unsere Geschichte",
+      "paragraph1": "Ainexo wurde 2023 von einem Team aus Unternehmern und KI-Spezialisten gegründet, die die Frustrationen sahen, mit denen kleine und mittelständische Unternehmen beim Kundenservice zu kämpfen hatten. Traditionelle Lösungen waren zu teuer oder zu komplex, während einfachere Tools wichtige Funktionen vermissen ließen.",
+      "paragraph2": "Wir beschlossen, diese Lücke zu schließen, indem wir eine Plattform entwickelten, die KI auf Enterprise-Niveau mit einer intuitiven Benutzererfahrung kombiniert. Nach Monaten der Entwicklung und Tests mit Early Adopters haben wir Ainexo für die Öffentlichkeit eingeführt.",
+      "paragraph3": "Heute hilft Ainexo Hunderten von Unternehmen in den Niederlanden und darüber hinaus, bessere Kundenerlebnisse zu bieten, Kosten zu senken und ihren Teams zu ermöglichen, sich auf das Wesentliche zu konzentrieren."
+    },
+    "values": {
+      "title": "Unsere Werte",
+      "subtitle": "Die Prinzipien, die unsere Arbeit leiten",
+      "innovation": {
+        "title": "Innovation",
+        "description": "Wir bleiben führend, indem wir die neuesten KI-Technologien übernehmen und unsere Plattform kontinuierlich verbessern."
+      },
+      "customerFirst": {
+        "title": "Kunde an Erster Stelle",
+        "description": "Ihr Erfolg ist unser Erfolg. Wir hören auf Ihr Feedback und entwickeln Funktionen, die Sie wirklich benötigen."
+      },
+      "trust": {
+        "title": "Vertrauen & Transparenz",
+        "description": "Wir nehmen Datenschutz und Sicherheit ernst und sind immer ehrlich darüber, was unsere Plattform kann und was nicht."
+      },
+      "simplicity": {
+        "title": "Einfachheit",
+        "description": "Leistungsstarke Technologie muss nicht komplex sein. Wir streben nach Einfachheit in allem, was wir tun."
+      }
+    },
+    "cta": {
+      "title": "Bereit Loszulegen?",
+      "subtitle": "Schließen Sie sich Hunderten von Unternehmen an, die ihren Kundenservice mit Ainexo transformieren",
+      "startFree": "Kostenlos Beginnen",
+      "contact": "Kontaktieren Sie Uns"
+    }
+  },
+  "featuresPage": {
+    "title": "Funktionen",
+    "description": "Entdecken Sie alle Funktionen von Ainexo zur Verbesserung Ihres Kundenservice",
+    "hero": {
+      "title": "Leistungsstarke Funktionen für Modernen Kundenservice",
+      "subtitle": "Alles, was Sie brauchen, um außergewöhnliche Kundenerlebnisse zu bieten, alles auf einer Plattform",
+      "cta": "Kostenlos Beginnen"
+    },
+    "mainFeatures": {
+      "title": "Kernfunktionen",
+      "subtitle": "Die wesentlichen Tools, die Ihren KI-Assistenten leistungsstark machen",
+      "instantAnswers": {
+        "title": "Sofortige Antworten",
+        "description": "Beantworten Sie Kundenfragen sofort mit KI-gesteuerten Antworten basierend auf Ihrer Wissensdatenbank"
+      },
+      "securePrivate": {
+        "title": "Sicher & Privat",
+        "description": "DSGVO-konform mit Sicherheit auf Enterprise-Niveau. Ihre Daten bleiben immer geschützt und privat"
+      },
+      "increaseConversions": {
+        "title": "Konversionen Steigern",
+        "description": "Wandeln Sie mehr Besucher in Kunden um mit intelligenten Vorschlägen und personalisierter Beratung"
+      },
+      "available247": {
+        "title": "24/7 Verfügbar",
+        "description": "Ihr KI-Assistent arbeitet Tag und Nacht, damit Sie nie einen Kunden verpassen"
+      },
+      "multilingual": {
+        "title": "Mehrsprachig",
+        "description": "Unterstützen Sie Kunden in ihrer bevorzugten Sprache mit automatischer Übersetzung und mehrsprachigen Wissensquellen"
+      },
+      "easyIntegration": {
+        "title": "Einfache Integration",
+        "description": "Implementieren Sie in Minuten mit einem einfachen Code-Snippet. Keine technische Expertise erforderlich"
+      }
+    },
+    "advancedFeatures": {
+      "title": "Erweiterte Funktionen",
+      "subtitle": "Leistungsstarke Tools, um Ihren Kundenservice auf die nächste Stufe zu heben",
+      "knowledgeBase": {
+        "title": "Intelligente Wissensdatenbank",
+        "description": "Laden Sie Dokumente hoch, scrapen Sie Websites und fügen Sie FAQs hinzu, um Ihre KI zu trainieren",
+        "item1": "Laden Sie PDFs, Word-Dokumente und Textdateien hoch",
+        "item2": "Automatisches Website-Scraping mit Inhaltssynchronisation",
+        "item3": "Manuelle FAQs mit Prioritätsverwaltung"
+      },
+      "customization": {
+        "title": "Vollständige Anpassung",
+        "description": "Passen Sie jeden Aspekt Ihres Chatbots perfekt an Ihre Marke an",
+        "item1": "Passen Sie Farben, Schriftarten und Positionierung an",
+        "item2": "Individuelle Begrüßungsnachrichten und Tonfall",
+        "item3": "Markenlogos und Avatare"
+      },
+      "analytics": {
+        "title": "Analysen & Einblicke",
+        "description": "Erhalten Sie tiefe Einblicke in Gespräche und Kundenverhalten",
+        "item1": "Gesprächsverlauf mit Bewertungen",
+        "item2": "Leistungsstatistiken und Reaktionszeiten",
+        "item3": "Identifizieren Sie Wissenslücken und Verbesserungsmöglichkeiten"
+      },
+      "conversations": {
+        "title": "Gesprächsverwaltung",
+        "description": "Verfolgen und verwalten Sie alle Kundeninteraktionen an einem Ort",
+        "item1": "Vollständiger Gesprächsverlauf mit Suchfunktion",
+        "item2": "Sitzungsstatistiken und Nachrichtenzählung",
+        "item3": "Exportieren Sie Gesprächsdaten als CSV oder JSON"
+      }
+    },
+    "technicalFeatures": {
+      "title": "Technische Fähigkeiten",
+      "subtitle": "Enterprise-Grade-Technologie unter der Haube",
+      "aiPowered": {
+        "title": "Angetrieben von GPT-4",
+        "description": "Nutzen Sie die neueste KI-Technologie für präzise und natürliche Antworten"
+      },
+      "websiteScraping": {
+        "title": "Website-Scraping",
+        "description": "Holen Sie automatisch Inhalte von Ihrer Website mit geplanter Synchronisation ab"
+      },
+      "gdprCompliant": {
+        "title": "DSGVO-Konform",
+        "description": "Mit Fokus auf Datenschutz entwickelt. Vollständig konform mit europäischen Vorschriften"
+      },
+      "mobileResponsive": {
+        "title": "Mobil Responsiv",
+        "description": "Perfekte Erfahrung auf Desktop, Tablet und mobilen Geräten"
+      },
+      "continuousLearning": {
+        "title": "Kontinuierliches Lernen",
+        "description": "Ihre KI verbessert sich im Laufe der Zeit durch das Lernen aus Gesprächen"
+      },
+      "multiTenant": {
+        "title": "Multi-Tenant-Unterstützung",
+        "description": "Erstellen Sie mehrere Assistenten für verschiedene Websites oder Anwendungen"
+      }
+    },
+    "cta": {
+      "title": "Bereit Anzufangen?",
+      "subtitle": "Beginnen Sie noch heute mit der Transformation Ihres Kundenservice",
+      "startFree": "Kostenlos Beginnen",
+      "contact": "Kontaktieren Sie Uns"
+    }
+  },
+  "privacyPolicy": {
+    "title": "Datenschutzerklärung",
+    "description": "Erfahren Sie, wie Ainexo Ihre persönlichen Daten erfasst, verwendet und schützt",
+    "badge": "Datenschutz & Sicherheit",
+    "lastUpdated": "Zuletzt aktualisiert",
+    "intro": {
+      "paragraph1": "Bei Ainexo nehmen wir Ihre Privatsphäre ernst. Diese Datenschutzerklärung erläutert, wie wir Ihre persönlichen Informationen erfassen, verwenden, speichern und schützen, wenn Sie unsere Dienste nutzen.",
+      "paragraph2": "Durch die Nutzung unserer Dienste stimmen Sie der Erfassung und Verwendung von Informationen gemäß dieser Richtlinie zu. Wenn Sie mit dieser Richtlinie nicht einverstanden sind, nutzen Sie bitte unsere Dienste nicht."
+    },
+    "sections": {
+      "dataCollection": {
+        "title": "Welche Daten Erfassen Wir?",
+        "intro": "Wir erfassen verschiedene Arten von Informationen, um Ihnen unsere Dienste bereitzustellen und zu verbessern:",
+        "personalData": "Persönliche Daten: Name, E-Mail-Adresse, Firmenname und Kontaktinformationen, die Sie bei der Registrierung angeben",
+        "usageData": "Nutzungsdaten: Informationen darüber, wie Sie unsere Dienste nutzen, einschließlich Gesprächsverlauf, IP-Adressen und Browsertyp",
+        "technicalData": "Technische Daten: Informationen über Ihr Gerät, Betriebssystem und Netzwerkverbindung"
+      },
+      "howWeUse": {
+        "title": "Wie Verwenden Wir Ihre Daten?",
+        "intro": "Wir verwenden Ihre Daten für verschiedene Zwecke:",
+        "purpose1": "Um unsere Dienste bereitzustellen und aufrechtzuerhalten, einschließlich der Schulung Ihres KI-Assistenten",
+        "purpose2": "Um Ihre Benutzererfahrung zu verbessern und unsere Dienste zu personalisieren",
+        "purpose3": "Um mit Ihnen über Updates, Support und Marketingmitteilungen zu kommunizieren",
+        "purpose4": "Um Probleme zu lösen und technischen Support zu leisten",
+        "purpose5": "Um Betrug zu verhindern und die Sicherheit unserer Dienste zu gewährleisten"
+      },
+      "dataSecurity": {
+        "title": "Datensicherheit",
+        "intro": "Wir nehmen die Sicherheit Ihrer Daten ernst und implementieren verschiedene Maßnahmen:",
+        "measure1": "Verschlüsselung von Daten während der Übertragung und im Ruhezustand mit branchenüblichen Protokollen",
+        "measure2": "Regelmäßige Sicherheitsaudits und Penetrationstests",
+        "measure3": "Eingeschränkter Zugriff auf persönliche Daten nach dem Need-to-know-Prinzip",
+        "measure4": "Hosting auf sicheren Servern in der EU (Frankfurt, Deutschland) gemäß DSGVO-Anforderungen"
+      },
+      "yourRights": {
+        "title": "Ihre Rechte",
+        "intro": "Gemäß DSGVO haben Sie verschiedene Rechte in Bezug auf Ihre persönlichen Daten:",
+        "right1": "Auskunftsrecht: Sie können eine Kopie Ihrer persönlichen Daten anfordern",
+        "right2": "Recht auf Berichtigung: Sie können die Korrektur unrichtiger Daten verlangen",
+        "right3": "Recht auf Löschung: Sie können die Löschung Ihrer Daten verlangen ('Recht auf Vergessenwerden')",
+        "right4": "Recht auf Einschränkung: Sie können die Einschränkung der Verarbeitung Ihrer Daten verlangen",
+        "right5": "Recht auf Datenübertragbarkeit: Sie können verlangen, Ihre Daten in einem strukturierten Format zu erhalten",
+        "right6": "Widerspruchsrecht: Sie können der Verarbeitung Ihrer Daten widersprechen"
+      },
+      "cookies": {
+        "title": "Cookies und Tracking",
+        "intro": "Wir verwenden Cookies und ähnliche Tracking-Technologien, um Ihr Erlebnis zu verbessern und die Nutzung unserer Dienste zu analysieren.",
+        "types": "Erforderliche Cookies für die Authentifizierung, Analyse-Cookies für Nutzungsstatistiken und Präferenz-Cookies zum Speichern Ihrer Einstellungen"
+      },
+      "thirdParties": {
+        "title": "Weitergabe an Dritte",
+        "intro": "Wir geben Ihre persönlichen Daten nicht an Dritte weiter, außer in den folgenden Fällen:",
+        "services": "An Dienstleister, die uns bei der Bereitstellung unserer Dienste unterstützen (z. B. Hosting-Anbieter, Zahlungsabwickler), die vertraglich verpflichtet sind, Ihre Daten zu schützen"
+      },
+      "changes": {
+        "title": "Änderungen an Dieser Richtlinie",
+        "content": "Wir können diese Datenschutzerklärung von Zeit zu Zeit aktualisieren. Wir werden Sie über Änderungen informieren, indem wir die aktualisierte Richtlinie auf dieser Seite veröffentlichen. Wir empfehlen Ihnen, diese Richtlinie regelmäßig auf Aktualisierungen zu überprüfen."
+      }
+    },
+    "contact": {
+      "title": "Kontaktieren Sie Uns",
+      "description": "Wenn Sie Fragen zu dieser Datenschutzerklärung oder zu Ihren persönlichen Daten haben, kontaktieren Sie uns bitte:"
+    }
+  },
+  "termsOfService": {
+    "title": "Nutzungsbedingungen",
+    "description": "Lesen Sie unsere Nutzungsbedingungen für die Verwendung von Ainexo",
+    "badge": "Rechtliche Bedingungen",
+    "lastUpdated": "Zuletzt aktualisiert",
+    "intro": {
+      "paragraph1": "Willkommen bei Ainexo. Diese Nutzungsbedingungen ('Bedingungen') regeln Ihre Nutzung unserer KI-Chatbot-Plattform-Dienste. Durch den Zugriff auf oder die Nutzung unserer Dienste stimmen Sie diesen Bedingungen zu.",
+      "paragraph2": "Wenn Sie diese Bedingungen nicht akzeptieren, dürfen Sie unsere Dienste nicht nutzen. Wir empfehlen Ihnen, diese Bedingungen sorgfältig zu lesen, bevor Sie unsere Dienste nutzen."
+    },
+    "sections": {
+      "acceptance": {
+        "title": "Annahme der Bedingungen",
+        "paragraph1": "Durch die Erstellung eines Kontos oder die Nutzung unserer Dienste bestätigen Sie, dass Sie diese Bedingungen gelesen, verstanden und akzeptiert haben. Sie stimmen auch zu, alle geltenden Gesetze und Vorschriften einzuhalten.",
+        "paragraph2": "Wenn Sie im Namen einer Organisation handeln, erklären Sie, dass Sie befugt sind, diese Organisation an diese Bedingungen zu binden."
+      },
+      "accountRegistration": {
+        "title": "Kontoregistrierung",
+        "paragraph1": "Um unsere Dienste zu nutzen, müssen Sie ein Konto erstellen und genaue, vollständige und aktuelle Informationen bereitstellen.",
+        "paragraph2": "Sie sind für den Schutz Ihrer Kontodaten und für alle Aktivitäten verantwortlich, die unter Ihrem Konto stattfinden.",
+        "paragraph3": "Sie müssen uns unverzüglich über unbefugte Nutzung Ihres Kontos oder andere Sicherheitsverletzungen informieren."
+      },
+      "subscriptionBilling": {
+        "title": "Abonnement & Abrechnung",
+        "paragraph1": "Unsere Dienste werden auf Basis verschiedener Abonnementpläne mit spezifischen Funktionen und Preisen angeboten.",
+        "paragraph2": "Zahlungen werden im Voraus monatlich oder jährlich abgerechnet, abhängig von Ihrem gewählten Plan. Alle Beträge verstehen sich zuzüglich Mehrwertsteuer, sofern nicht anders angegeben.",
+        "paragraph3": "Sie können Ihr Abonnement jederzeit kündigen. Kündigungen werden am Ende des aktuellen Abrechnungszeitraums wirksam.",
+        "paragraph4": "Wir bieten keine Rückerstattungen für teilweise genutzte Abonnementzeiträume an, sofern nicht gesetzlich vorgeschrieben."
+      },
+      "useOfService": {
+        "title": "Nutzung der Dienste",
+        "intro": "Bei der Nutzung unserer Dienste stimmen Sie zu, Folgendes nicht zu tun:",
+        "prohibited1": "Die Dienste für illegale Zwecke oder in Verletzung dieser Bedingungen zu nutzen",
+        "prohibited2": "Zu versuchen, unbefugten Zugriff auf unsere Systeme oder Netzwerke zu erlangen",
+        "prohibited3": "Die Dienste zu nutzen, um schädliche Inhalte zu verbreiten oder andere zu belästigen",
+        "prohibited4": "Unsere Dienste zurückzuentwickeln oder zu versuchen, den Quellcode zu extrahieren",
+        "prohibited5": "Die Dienste zu nutzen, um Spam zu versenden oder andere zu täuschen"
+      },
+      "intellectualProperty": {
+        "title": "Geistiges Eigentum",
+        "paragraph1": "Alle Rechte, Titel und Interessen an und in unseren Diensten (ausgenommen Ihre Inhalte) bleiben Eigentum von Ainexo und unseren Lizenzgebern.",
+        "paragraph2": "Sie behalten alle Rechte an den Inhalten, die Sie in unsere Dienste hochladen. Durch das Hochladen von Inhalten gewähren Sie uns eine Lizenz zur Nutzung dieser Inhalte zur Bereitstellung unserer Dienste.",
+        "paragraph3": "Sie dürfen unsere Marken, Logos oder Handelsnamen nicht ohne unsere vorherige schriftliche Zustimmung verwenden."
+      },
+      "limitationLiability": {
+        "title": "Haftungsbeschränkung",
+        "paragraph1": "Unsere Dienste werden 'wie besehen' ohne jegliche Garantie bereitgestellt. Wir garantieren nicht, dass unsere Dienste fehlerfrei, ununterbrochen oder vollständig sicher sind.",
+        "paragraph2": "Soweit gesetzlich zulässig, haften wir nicht für indirekte, zufällige, besondere oder Folgeschäden, die sich aus Ihrer Nutzung unserer Dienste ergeben."
+      },
+      "termination": {
+        "title": "Beendigung",
+        "paragraph1": "Wir behalten uns das Recht vor, Ihr Konto auszusetzen oder zu beenden, wenn Sie gegen diese Bedingungen verstoßen oder wenn wir vernünftigerweise glauben, dass Sie unsere Dienste missbrauchen.",
+        "paragraph2": "Bei Beendigung wird Ihr Zugriff auf unsere Dienste beendet und wir können Ihre Kontodaten löschen."
+      },
+      "dataPrivacy": {
+        "title": "Datenschutz",
+        "content": "Ihre Nutzung unserer Dienste unterliegt auch unserer Datenschutzerklärung, die beschreibt, wie wir Ihre persönlichen Daten erfassen, verwenden und schützen."
+      },
+      "changes": {
+        "title": "Änderungen der Bedingungen",
+        "content": "Wir können diese Bedingungen von Zeit zu Zeit aktualisieren. Wenn wir wesentliche Änderungen vornehmen, werden wir Sie per E-Mail oder durch eine Benachrichtigung in unseren Diensten informieren. Ihre fortgesetzte Nutzung unserer Dienste nach solchen Änderungen bedeutet, dass Sie die aktualisierten Bedingungen akzeptieren."
+      },
+      "governingLaw": {
+        "title": "Anwendbares Recht",
+        "content": "Diese Bedingungen unterliegen den Gesetzen der Niederlande und werden nach diesen ausgelegt, ohne Berücksichtigung etwaiger widersprüchlicher Rechtsvorschriften."
+      }
+    },
+    "contact": {
+      "title": "Kontaktieren Sie Uns",
+      "description": "Wenn Sie Fragen zu diesen Nutzungsbedingungen haben, kontaktieren Sie uns bitte:"
     }
   }
 }
