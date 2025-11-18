@@ -43,7 +43,7 @@ const pricingTiers = [
   },
   {
     name: "Professional",
-    monthlyPrice: "€50",
+    monthlyPrice: "€49",
     yearlyMonthPrice: "€40",
     yearlyPrice: "€480",
     description: "For growing businesses that need more",
@@ -61,7 +61,7 @@ const pricingTiers = [
   },
   {
     name: "Enterprise",
-    monthlyPrice: "€125",
+    monthlyPrice: "€145",
     yearlyMonthPrice: "€125",
     yearlyPrice: "€1500",
     description: "For large organizations with complex needs",
