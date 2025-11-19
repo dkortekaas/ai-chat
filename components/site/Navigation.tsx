@@ -5,17 +5,19 @@ import { useParams, usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui";
+import { useTranslations } from "next-intl";
 
 const Navigation = () => {
+  const t = useTranslations("header");
   const params = useParams();
   const locale = params?.locale as string;
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/pricing", label: "Prijzen" },
-    { href: "/contact", label: "Contact" },
+    { href: "/", label: t("home") },
+    { href: "/pricing", label: t("pricing") },
+    { href: "/contact", label: t("contact") },
   ];
 
   const getHref = (href: string) => {
@@ -105,10 +107,10 @@ const Navigation = () => {
                 ))}
                 <div className="pt-4 border-t flex flex-col gap-3">
                   <Button asChild variant="outline" className="w-full">
-                    <Link href="/login">Inloggen</Link>
+                    <Link href="/login">{t("login")}</Link>
                   </Button>
                   <Button asChild variant="gradient" className="w-full">
-                    <Link href="/register">Gratis proberen</Link>
+                    <Link href="/register">{t("tryFree")}</Link>
                   </Button>
                 </div>
               </div>
