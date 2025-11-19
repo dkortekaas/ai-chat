@@ -17,7 +17,7 @@ const nextConfig = {
   generateEtags: true,
 
   // Webpack configuration
-  webpack: (config) => {
+  webpack: (config, { isServer }) => {
     config.resolve.extensions = [
       ".js",
       ".jsx",
@@ -25,6 +25,24 @@ const nextConfig = {
       ".tsx",
       ...config.resolve.extensions,
     ];
+
+    // Suppress webpack cache warnings about large strings
+    // These warnings are informational and don't affect functionality
+    // They come from webpack's infrastructure logging system
+    config.infrastructureLogging = {
+      level: 'error', // Only show errors, suppress warnings about cache serialization
+    };
+
+    // Also ignore warnings that might slip through
+    config.ignoreWarnings = [
+      {
+        message: /PackFileCacheStrategy/,
+      },
+      {
+        message: /Serializing big strings/,
+      },
+    ];
+
     return config;
   },
 };
