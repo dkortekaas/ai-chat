@@ -2,33 +2,7 @@
 import { getAuthSession } from "@/lib/auth";
 import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
-import dynamic from "next/dynamic";
-import { Loader2 } from "lucide-react";
-
-// Lazy load charts for better performance (recharts is heavy ~240KB)
-const ConversationChart = dynamic(
-  () => import("@/components/dashboard/ConversationChart"),
-  {
-    loading: () => (
-      <div className="flex items-center justify-center p-8 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    ),
-    ssr: false,
-  }
-);
-
-const KnowledgeSourceChart = dynamic(
-  () => import("@/components/dashboard/KnowledgeSourceChart"),
-  {
-    loading: () => (
-      <div className="flex items-center justify-center p-8 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    ),
-    ssr: false,
-  }
-);
+import DashboardCharts from "@/components/dashboard/DashboardCharts";
 
 async function getDashboardData() {
   const session = await getAuthSession();
@@ -57,8 +31,7 @@ export default async function Dashboard() {
 
       {/* Dashboard Widgets */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-        <ConversationChart />
-        <KnowledgeSourceChart />
+        <DashboardCharts />
       </div>
     </div>
   );
