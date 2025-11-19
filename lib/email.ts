@@ -17,6 +17,11 @@ function getResendClient(): Resend {
   return resend;
 }
 
+// Get the verified FROM email address for Resend
+function getFromEmail(): string {
+  return process.env.RESEND_FROM_EMAIL || config.email;
+}
+
 async function createEmailTemplate(content: string) {
   const t = await getTranslations();
 
@@ -71,7 +76,7 @@ export async function sendWelcomeEmail(
 
   try {
     await getResendClient().emails.send({
-      from: `${config.appTitle} <${config.email}>`,
+      from: `${config.appTitle} <${getFromEmail()}>`,
       to: email,
       subject: t("title"),
       html: await createEmailTemplate(`
@@ -166,7 +171,7 @@ export async function sendPasswordResetEmail(
     console.log(`[EMAIL] Reset link: ${resetLink}`);
 
     const result = await getResendClient().emails.send({
-      from: `${config.appTitle} <${config.email}>`,
+      from: `${config.appTitle} <${getFromEmail()}>`,
       to: email,
       subject: t("mail.resetPassword.title"),
       html: await createEmailTemplate(`
@@ -217,7 +222,7 @@ export async function sendEmailVerificationEmail(
 
   try {
     await getResendClient().emails.send({
-      from: `${config.appTitle} <${config.email}>`,
+      from: `${config.appTitle} <${getFromEmail()}>`,
       to: email,
       subject: t("mail.verifyEmail.title") || "Verify your email address",
       html: await createEmailTemplate(`
@@ -285,7 +290,7 @@ export async function sendInvitationEmail(
 
   try {
     const result = await getResendClient().emails.send({
-      from: `${config.appTitle} <${config.email}>`,
+      from: `${config.appTitle} <${getFromEmail()}>`,
       to: email,
       subject: t("subject", { companyName }),
       html: await createEmailTemplate(`
@@ -479,7 +484,7 @@ export async function sendDeclarationStatusEmail(
 
   try {
     await getResendClient().emails.send({
-      from: `${config.appTitle} <${config.email}>`,
+      from: `${config.appTitle} <${getFromEmail()}>`,
       to: email,
       subject: `${t("declaration")} ${statusMessages[status]}`,
       html: await createEmailTemplate(`
@@ -517,7 +522,7 @@ export async function sendDeclarationCreatedEmail(
 
   try {
     await getResendClient().emails.send({
-      from: `${config.appTitle} <${config.email}>`,
+      from: `${config.appTitle} <${getFromEmail()}>`,
       to: email,
       subject: t("title"),
       html: await createEmailTemplate(`
@@ -555,7 +560,7 @@ export async function sendDeclarationToApproveEmail(
 
   try {
     await getResendClient().emails.send({
-      from: `${config.appTitle} <${config.email}>`,
+      from: `${config.appTitle} <${getFromEmail()}>`,
       to: email,
       subject: t("title"),
       html: await createEmailTemplate(`
@@ -590,7 +595,7 @@ export async function sendDeclarationDeletedEmail(
 
   try {
     await getResendClient().emails.send({
-      from: `${config.appTitle} <${config.email}>`,
+      from: `${config.appTitle} <${getFromEmail()}>`,
       to: email,
       subject: t("mail.declarationDeleted.title"),
       html: await createEmailTemplate(`
@@ -640,7 +645,7 @@ export async function sendSubscriptionExpiringEmail(
 
   try {
     await getResendClient().emails.send({
-      from: `${config.appTitle} <${config.email}>`,
+      from: `${config.appTitle} <${getFromEmail()}>`,
       to: email,
       subject: subject,
       html: await createEmailTemplate(`
@@ -764,7 +769,7 @@ export async function sendEmail(
 ) {
   try {
     await getResendClient().emails.send({
-      from: `${config.appTitle} <${config.email}>`,
+      from: `${config.appTitle} <${getFromEmail()}>`,
       to: email,
       subject: subject,
       html: await createEmailTemplate(html),
@@ -801,7 +806,7 @@ export async function sendSubscriptionExpiredEmail(
 
   try {
     await getResendClient().emails.send({
-      from: `${config.appTitle} <${config.email}>`,
+      from: `${config.appTitle} <${getFromEmail()}>`,
       to: email,
       subject: subject,
       html: await createEmailTemplate(`
@@ -910,7 +915,7 @@ export async function sendContactFormEmail(data: {
   try {
     // Send notification email to admin
     await getResendClient().emails.send({
-      from: `${config.appTitle} <${config.email}>`,
+      from: `${config.appTitle} <${getFromEmail()}>`,
       to: config.email,
       replyTo: data.email,
       subject: `Nieuw contactformulier bericht van ${data.name}`,
@@ -946,7 +951,7 @@ export async function sendContactFormEmail(data: {
 
     // Send confirmation email to user
     await getResendClient().emails.send({
-      from: `${config.appTitle} <${config.email}>`,
+      from: `${config.appTitle} <${getFromEmail()}>`,
       to: data.email,
       subject: `Bevestiging: We hebben je bericht ontvangen`,
       html: await createEmailTemplate(`
