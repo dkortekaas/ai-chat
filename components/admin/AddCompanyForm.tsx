@@ -70,7 +70,7 @@ export function AddCompanyForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label
             htmlFor="name"
@@ -107,7 +107,7 @@ export function AddCompanyForm() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="flex flex-col h-full">
           <label
             htmlFor="address"
@@ -143,7 +143,7 @@ export function AddCompanyForm() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="flex flex-col h-full">
           <label
             htmlFor="city"
@@ -183,7 +183,7 @@ export function AddCompanyForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="inline-flex justify-center rounded-md border border-transparent bg-primary py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="inline-flex justify-center rounded-md border border-transparent bg-primary py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed w-full md:w-auto"
         >
           {isSubmitting ? t("common.statuses.processing") : t("actions.create")}
         </button>

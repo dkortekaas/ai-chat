@@ -237,7 +237,7 @@ export function AdminSubscriptionsTable() {
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <CardTitle>Stripe Subscriptions</CardTitle>
           <div className="text-sm text-muted-foreground">
             {pagination.totalCount} total subscriptions
@@ -246,8 +246,8 @@ export function AdminSubscriptionsTable() {
       </CardHeader>
       <CardContent>
         {/* Filters */}
-        <div className="flex items-center space-x-4 mb-6">
-          <div className="relative flex-1 max-w-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
+          <div className="relative flex-1 w-full sm:max-w-sm">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
               placeholder="Search subscriptions..."
@@ -257,7 +257,7 @@ export function AdminSubscriptionsTable() {
             />
           </div>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-full sm:w-[180px]">
               <SelectValue placeholder="Filter by status" />
             </SelectTrigger>
             <SelectContent>
@@ -277,7 +277,7 @@ export function AdminSubscriptionsTable() {
         </div>
 
         {/* Table */}
-        <div className="rounded-md border">
+        <div className="rounded-md border overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>

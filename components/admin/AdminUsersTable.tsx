@@ -326,9 +326,9 @@ export function AdminUsersTable() {
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <CardTitle>Users Management</CardTitle>
-          <Button>
+          <Button className="w-full sm:w-auto">
             <UserPlus className="h-4 w-4 mr-2" />
             Add User
           </Button>
@@ -336,8 +336,8 @@ export function AdminUsersTable() {
       </CardHeader>
       <CardContent>
         {/* Filters */}
-        <div className="flex items-center space-x-4 mb-6">
-          <div className="relative flex-1 max-w-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
+          <div className="relative flex-1 w-full sm:max-w-sm">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
               placeholder="Search users..."
@@ -347,7 +347,7 @@ export function AdminUsersTable() {
             />
           </div>
           <Select value={roleFilter} onValueChange={setRoleFilter}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-full sm:w-[180px]">
               <SelectValue placeholder="Filter by role" />
             </SelectTrigger>
             <SelectContent>
@@ -358,7 +358,7 @@ export function AdminUsersTable() {
             </SelectContent>
           </Select>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-full sm:w-[180px]">
               <SelectValue placeholder="Filter by status" />
             </SelectTrigger>
             <SelectContent>
@@ -372,7 +372,7 @@ export function AdminUsersTable() {
         </div>
 
         {/* Table */}
-        <div className="rounded-md border">
+        <div className="rounded-md border overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
@@ -537,8 +537,8 @@ export function AdminUsersTable() {
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="name" className="text-right">
+              <div className="grid grid-cols-1 sm:grid-cols-4 items-start sm:items-center gap-2 sm:gap-4">
+                <Label htmlFor="name" className="sm:text-right">
                   Name
                 </Label>
                 <Input
@@ -547,11 +547,11 @@ export function AdminUsersTable() {
                   onChange={(e) =>
                     setEditForm((prev) => ({ ...prev, name: e.target.value }))
                   }
-                  className="col-span-3"
+                  className="sm:col-span-3"
                 />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="email" className="text-right">
+              <div className="grid grid-cols-1 sm:grid-cols-4 items-start sm:items-center gap-2 sm:gap-4">
+                <Label htmlFor="email" className="sm:text-right">
                   Email
                 </Label>
                 <Input
@@ -561,11 +561,11 @@ export function AdminUsersTable() {
                   onChange={(e) =>
                     setEditForm((prev) => ({ ...prev, email: e.target.value }))
                   }
-                  className="col-span-3"
+                  className="sm:col-span-3"
                 />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="role" className="text-right">
+              <div className="grid grid-cols-1 sm:grid-cols-4 items-start sm:items-center gap-2 sm:gap-4">
+                <Label htmlFor="role" className="sm:text-right">
                   Role
                 </Label>
                 <Select
@@ -574,7 +574,7 @@ export function AdminUsersTable() {
                     setEditForm((prev) => ({ ...prev, role: value }))
                   }
                 >
-                  <SelectTrigger className="col-span-3">
+                  <SelectTrigger className="sm:col-span-3">
                     <SelectValue placeholder="Select role" />
                   </SelectTrigger>
                   <SelectContent>
@@ -584,8 +584,8 @@ export function AdminUsersTable() {
                   </SelectContent>
                 </Select>
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="status" className="text-right">
+              <div className="grid grid-cols-1 sm:grid-cols-4 items-start sm:items-center gap-2 sm:gap-4">
+                <Label htmlFor="status" className="sm:text-right">
                   Status
                 </Label>
                 <Select
@@ -597,7 +597,7 @@ export function AdminUsersTable() {
                     }))
                   }
                 >
-                  <SelectTrigger className="col-span-3">
+                  <SelectTrigger className="sm:col-span-3">
                     <SelectValue placeholder="Select status" />
                   </SelectTrigger>
                   <SelectContent>
@@ -614,8 +614,8 @@ export function AdminUsersTable() {
                   </SelectContent>
                 </Select>
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="plan" className="text-right">
+              <div className="grid grid-cols-1 sm:grid-cols-4 items-start sm:items-center gap-2 sm:gap-4">
+                <Label htmlFor="plan" className="sm:text-right">
                   Plan
                 </Label>
                 <Select
@@ -627,7 +627,7 @@ export function AdminUsersTable() {
                     }))
                   }
                 >
-                  <SelectTrigger className="col-span-3">
+                  <SelectTrigger className="sm:col-span-3">
                     <SelectValue placeholder="Select plan" />
                   </SelectTrigger>
                   <SelectContent>
@@ -638,8 +638,8 @@ export function AdminUsersTable() {
                   </SelectContent>
                 </Select>
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="active" className="text-right">
+              <div className="grid grid-cols-1 sm:grid-cols-4 items-start sm:items-center gap-2 sm:gap-4">
+                <Label htmlFor="active" className="sm:text-right">
                   Active
                 </Label>
                 <Select
@@ -651,7 +651,7 @@ export function AdminUsersTable() {
                     }))
                   }
                 >
-                  <SelectTrigger className="col-span-3">
+                  <SelectTrigger className="sm:col-span-3">
                     <SelectValue placeholder="Select status" />
                   </SelectTrigger>
                   <SelectContent>

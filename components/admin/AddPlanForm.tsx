@@ -277,7 +277,7 @@ export function AddPlanForm({ onSuccess }: AddPlanFormProps) {
         <div className="space-y-3">
           <FormLabel>{t("admin.plans.features")}</FormLabel>
 
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <Input
               value={newFeature}
               onChange={(e) => setNewFeature(e.target.value)}
@@ -288,8 +288,9 @@ export function AddPlanForm({ onSuccess }: AddPlanFormProps) {
                   addFeature();
                 }
               }}
+              className="flex-1"
             />
-            <Button type="button" onClick={addFeature} variant="outline">
+            <Button type="button" onClick={addFeature} variant="outline" className="w-full sm:w-auto">
               {t("admin.plans.addFeature")}
             </Button>
           </div>
@@ -313,7 +314,7 @@ export function AddPlanForm({ onSuccess }: AddPlanFormProps) {
           )}
         </div>
 
-        <div className="flex justify-end gap-2">
+        <div className="flex flex-col sm:flex-row justify-end gap-2">
           <Button
             type="button"
             variant="outline"
@@ -322,13 +323,14 @@ export function AddPlanForm({ onSuccess }: AddPlanFormProps) {
               setFeatures([]);
               onSuccess?.();
             }}
+            className="w-full sm:w-auto"
           >
             {t("actions.cancel")}
           </Button>
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="bg-primary hover:bg-primary/80"
+            className="bg-primary hover:bg-primary/80 w-full sm:w-auto"
           >
             {isSubmitting
               ? t("common.statuses.processing")

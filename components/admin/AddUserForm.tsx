@@ -94,7 +94,7 @@ export function AddUserForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormField
             control={form.control}
             name="name"
@@ -167,7 +167,7 @@ export function AddUserForm() {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="bg-primary hover:bg-primary/80"
+            className="bg-primary hover:bg-primary/80 w-full md:w-auto"
           >
             {isSubmitting
               ? t("common.statuses.processing")

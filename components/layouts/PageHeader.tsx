@@ -18,10 +18,10 @@ export default function PageHeader({
 
   return (
     <div className="mb-6">
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+      <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
         {namespace ? t("title") : title}
       </h1>
-      <p className="text-gray-600">
+      <p className="text-sm sm:text-base text-gray-600">
         {namespace ? t("description") : description}
       </p>
     </div>

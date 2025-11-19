@@ -98,7 +98,7 @@ export function EditUserForm({ user, onSuccess, onCancel }: EditUserFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormField
             control={form.control}
             name="name"
@@ -156,14 +156,14 @@ export function EditUserForm({ user, onSuccess, onCancel }: EditUserFormProps) {
           />
         </div>
 
-        <div className="flex justify-end gap-2">
-          <Button type="button" variant="outline" onClick={onCancel}>
+        <div className="flex flex-col sm:flex-row justify-end gap-2">
+          <Button type="button" variant="outline" onClick={onCancel} className="w-full sm:w-auto">
             {t("actions.cancel")}
           </Button>
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="bg-primary hover:bg-primary/80"
+            className="bg-primary hover:bg-primary/80 w-full sm:w-auto"
           >
             {isSubmitting
               ? t("common.statuses.processing")
