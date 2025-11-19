@@ -164,15 +164,17 @@ export default function AssistantsPage() {
 
   return (
     <div className="space-y-8">
-      <div className="flex justify-between items-center">
-        <PageHeader
-          title={t("assistants.aiAssistants")}
-          description={t("assistants.aiAssistantsDescription")}
-        />
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+        <div className="flex-1">
+          <PageHeader
+            title={t("assistants.aiAssistants")}
+            description={t("assistants.aiAssistantsDescription")}
+          />
+        </div>
         {isAdmin && (
           <div className="flex gap-2">
             <Button
-              className="bg-primary hover:bg-primary/80"
+              className="bg-primary hover:bg-primary/80 w-full md:w-auto"
               onClick={handleAddAssistant}
             >
               <Plus className="w-4 h-4 mr-2" />

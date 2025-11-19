@@ -340,17 +340,19 @@ export default function BillingPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-gray-900">
-          {t("billing.title")}
-        </h1>
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div className="flex-1">
+          <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">
+            {t("billing.title")}
+          </h1>
+        </div>
         {!(isTrial && !user.stripeCustomerId) && (
           <Button
             onClick={handleSyncSubscription}
             disabled={syncing}
             variant="outline"
             size="sm"
-            className="border-primary text-primary hover:bg-indigo-50"
+            className="border-primary text-primary hover:bg-indigo-50 w-full md:w-auto"
           >
             <RefreshCw
               className={`w-4 h-4 mr-2 ${syncing ? "animate-spin" : ""}`}

@@ -22,6 +22,7 @@ import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import config from "@/config";
 import Image from "next/image";
+import UserMenu from "@/components/layouts/UserMenu";
 
 type SidebarProps = {
   userRole?: string;
@@ -255,6 +256,10 @@ export default function Sidebar({
               </>
             )}
             <div className="border-t border-gray-200 dark:border-gray-700 mt-6 pt-4">
+              {/* User menu on mobile */}
+              <div className="px-4 mb-3">
+                <UserMenu />
+              </div>
               <button
                 onClick={async () => {
                   await signOut({ redirect: false });

@@ -81,8 +81,8 @@ export default function Header({ toggleSidebar, isSidebarOpen }: HeaderProps) {
         {/* Notifications dropdown */}
         {!isMobile && <NotificationDropdown />}
 
-        {/* User Menu component */}
-        <UserMenu />
+        {/* User Menu component - hidden on mobile, shown in sidebar */}
+        {!isMobile && <UserMenu />}
       </div>
 
       {/* Mobile search overlay */}
