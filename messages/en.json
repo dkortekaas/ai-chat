@@ -50,6 +50,58 @@
     "fasterInstallation": "Faster installation, Friendly UI",
     "personalizeToYourAudience": "Personalize to your audience",
     "safeAndSecure": "Safe and secure",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "perMonth": "/month",
+    "perYear": "/year",
+    "plans": {
+      "starter": {
+        "name": "Starter",
+        "description": "Perfect for small businesses starting with AI",
+        "monthlyPrice": "€25",
+        "yearlyMonthPrice": "€17.50",
+        "yearlyPrice": "€300",
+        "features": [
+          "Chat Assistant on 1 website",
+          "Up to 50 conversations/month",
+          "Email support",
+          "Basic analytics"
+        ],
+        "cta": "Start Free Trial"
+      },
+      "professional": {
+        "name": "Professional",
+        "description": "For growing businesses that need more",
+        "monthlyPrice": "€49",
+        "yearlyMonthPrice": "€40",
+        "yearlyPrice": "€480",
+        "features": [
+          "Chat Assistant on unlimited websites",
+          "Up to 400 conversations/month",
+          "Email Assistant included",
+          "Priority support",
+          "Advanced analytics",
+          "Custom branding"
+        ],
+        "cta": "Start Free Trial"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "description": "For large organizations with complex needs",
+        "monthlyPrice": "€145",
+        "yearlyMonthPrice": "€125",
+        "yearlyPrice": "€1500",
+        "features": [
+          "Chat Assistant on unlimited websites",
+          "Up to 3,000 conversations/month",
+          "Email Assistant included",
+          "Priority support",
+          "Advanced analytics",
+          "Custom branding"
+        ],
+        "cta": "Start Free Trial"
+      }
+    },
     "categories": {
       "usageBillingPayment": "Usage, Billing & Payment",
       "serviceSupport": "Service & Support",

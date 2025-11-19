@@ -1266,6 +1266,7 @@
     "logout": "Déconnexion"
   },
   "header": {
+    "home": "Accueil",
     "features": "Fonctionnalités",
     "pricing": "Tarifs",
     "contact": "Contact",
@@ -1331,6 +1332,58 @@
     "fasterInstallation": "Installation plus rapide, interface conviviale",
     "personalizeToYourAudience": "Personnalisez pour votre public",
     "safeAndSecure": "Sécurisé et protégé",
+    "monthly": "Mensuel",
+    "yearly": "Annuel",
+    "perMonth": "/mois",
+    "perYear": "/an",
+    "plans": {
+      "starter": {
+        "name": "Starter",
+        "description": "Parfait pour les petites entreprises qui débutent avec l'IA",
+        "monthlyPrice": "€25",
+        "yearlyMonthPrice": "€17,50",
+        "yearlyPrice": "€300",
+        "features": [
+          "Assistant de Chat sur 1 site web",
+          "Jusqu'à 50 conversations/mois",
+          "Support par e-mail",
+          "Analyses de base"
+        ],
+        "cta": "Démarrer l'essai gratuit"
+      },
+      "professional": {
+        "name": "Professional",
+        "description": "Pour les entreprises en croissance qui ont besoin de plus",
+        "monthlyPrice": "€49",
+        "yearlyMonthPrice": "€40",
+        "yearlyPrice": "€480",
+        "features": [
+          "Assistant de Chat sur sites web illimités",
+          "Jusqu'à 400 conversations/mois",
+          "Assistant e-mail inclus",
+          "Support prioritaire",
+          "Analyses avancées",
+          "Image de marque personnalisée"
+        ],
+        "cta": "Démarrer l'essai gratuit"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "description": "Pour les grandes organisations aux besoins complexes",
+        "monthlyPrice": "€145",
+        "yearlyMonthPrice": "€125",
+        "yearlyPrice": "€1500",
+        "features": [
+          "Assistant de Chat sur sites web illimités",
+          "Jusqu'à 3 000 conversations/mois",
+          "Assistant e-mail inclus",
+          "Support prioritaire",
+          "Analyses avancées",
+          "Image de marque personnalisée"
+        ],
+        "cta": "Démarrer l'essai gratuit"
+      }
+    },
     "categories": {
       "usageBillingPayment": "Utilisation, Facturation & Paiement",
       "serviceSupport": "Service & Support",

@@ -1266,6 +1266,7 @@
     "logout": "Cerrar sesión"
   },
   "header": {
+    "home": "Inicio",
     "features": "Funciones",
     "pricing": "Precios",
     "contact": "Contacto",
@@ -1331,6 +1332,58 @@
     "fasterInstallation": "Instalación más rápida, interfaz amigable",
     "personalizeToYourAudience": "Personaliza para tu audiencia",
     "safeAndSecure": "Seguro y protegido",
+    "monthly": "Mensual",
+    "yearly": "Anual",
+    "perMonth": "/mes",
+    "perYear": "/año",
+    "plans": {
+      "starter": {
+        "name": "Starter",
+        "description": "Perfecto para pequeñas empresas que comienzan con IA",
+        "monthlyPrice": "€25",
+        "yearlyMonthPrice": "€17,50",
+        "yearlyPrice": "€300",
+        "features": [
+          "Asistente de Chat en 1 sitio web",
+          "Hasta 50 conversaciones/mes",
+          "Soporte por correo electrónico",
+          "Análisis básicos"
+        ],
+        "cta": "Iniciar prueba gratuita"
+      },
+      "professional": {
+        "name": "Professional",
+        "description": "Para empresas en crecimiento que necesitan más",
+        "monthlyPrice": "€49",
+        "yearlyMonthPrice": "€40",
+        "yearlyPrice": "€480",
+        "features": [
+          "Asistente de Chat en sitios web ilimitados",
+          "Hasta 400 conversaciones/mes",
+          "Asistente de correo electrónico incluido",
+          "Soporte prioritario",
+          "Análisis avanzados",
+          "Marca personalizada"
+        ],
+        "cta": "Iniciar prueba gratuita"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "description": "Para grandes organizaciones con necesidades complejas",
+        "monthlyPrice": "€145",
+        "yearlyMonthPrice": "€125",
+        "yearlyPrice": "€1500",
+        "features": [
+          "Asistente de Chat en sitios web ilimitados",
+          "Hasta 3.000 conversaciones/mes",
+          "Asistente de correo electrónico incluido",
+          "Soporte prioritario",
+          "Análisis avanzados",
+          "Marca personalizada"
+        ],
+        "cta": "Iniciar prueba gratuita"
+      }
+    },
     "categories": {
       "usageBillingPayment": "Uso, Facturación y Pago",
       "serviceSupport": "Servicio y Soporte",
