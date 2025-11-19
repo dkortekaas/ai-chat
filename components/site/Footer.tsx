@@ -24,6 +24,8 @@ const Footer = () => {
               className="h-20 sm:h-28 w-auto object-contain"
               width={100}
               height={100}
+              sizes="(max-width: 640px) 80px, 112px"
+              loading="lazy"
             />
             <p className="text-sm text-muted-foreground max-w-xs">
               {t("description")}
