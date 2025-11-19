@@ -4,11 +4,18 @@ import { Resend } from "resend";
 import { logger } from "@/lib/logger";
 import { db } from "@/lib/db";
 
-if (!process.env.RESEND_API_KEY) {
-  throw new Error("Missing RESEND_API_KEY environment variable");
-}
+// Lazy initialization of Resend client to avoid build-time errors
+let resend: Resend | null = null;
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResendClient(): Resend {
+  if (!resend) {
+    if (!process.env.RESEND_API_KEY) {
+      throw new Error("Missing RESEND_API_KEY environment variable");
+    }
+    resend = new Resend(process.env.RESEND_API_KEY);
+  }
+  return resend;
+}
 
 async function createEmailTemplate(content: string) {
   const t = await getTranslations();
@@ -63,7 +70,7 @@ export async function sendWelcomeEmail(
   const isAdmin = userInfo?.role === "ADMIN";
 
   try {
-    await resend.emails.send({
+    await getResendClient().emails.send({
       from: `${config.appTitle} <${config.email}>`,
       to: email,
       subject: t("title"),
@@ -158,7 +165,7 @@ export async function sendPasswordResetEmail(
     console.log(`[EMAIL] From: ${config.appTitle} <${config.email}>`);
     console.log(`[EMAIL] Reset link: ${resetLink}`);
 
-    const result = await resend.emails.send({
+    const result = await getResendClient().emails.send({
       from: `${config.appTitle} <${config.email}>`,
       to: email,
       subject: t("mail.resetPassword.title"),
@@ -209,7 +216,7 @@ export async function sendEmailVerificationEmail(
   const verificationLink = `${process.env.NEXT_PUBLIC_APP_URL}/verify-email?token=${verificationToken}`;
 
   try {
-    await resend.emails.send({
+    await getResendClient().emails.send({
       from: `${config.appTitle} <${config.email}>`,
       to: email,
       subject: t("mail.verifyEmail.title") || "Verify your email address",
@@ -277,7 +284,7 @@ export async function sendInvitationEmail(
   expiryDate.setDate(expiryDate.getDate() + 7);
 
   try {
-    const result = await resend.emails.send({
+    const result = await getResendClient().emails.send({
       from: `${config.appTitle} <${config.email}>`,
       to: email,
       subject: t("subject", { companyName }),
@@ -471,7 +478,7 @@ export async function sendDeclarationStatusEmail(
   const declarationLink = `${process.env.NEXT_PUBLIC_APP_URL}/declarations/${declarationId}`;
 
   try {
-    await resend.emails.send({
+    await getResendClient().emails.send({
       from: `${config.appTitle} <${config.email}>`,
       to: email,
       subject: `${t("declaration")} ${statusMessages[status]}`,
@@ -509,7 +516,7 @@ export async function sendDeclarationCreatedEmail(
   const declarationLink = `${process.env.NEXT_PUBLIC_APP_URL}/declarations/${declarationId}`;
 
   try {
-    await resend.emails.send({
+    await getResendClient().emails.send({
       from: `${config.appTitle} <${config.email}>`,
       to: email,
       subject: t("title"),
@@ -547,7 +554,7 @@ export async function sendDeclarationToApproveEmail(
   const declarationLink = `${process.env.NEXT_PUBLIC_APP_URL}/declarations/${declarationId}`;
 
   try {
-    await resend.emails.send({
+    await getResendClient().emails.send({
       from: `${config.appTitle} <${config.email}>`,
       to: email,
       subject: t("title"),
@@ -582,7 +589,7 @@ export async function sendDeclarationDeletedEmail(
   const t = await getTranslations();
 
   try {
-    await resend.emails.send({
+    await getResendClient().emails.send({
       from: `${config.appTitle} <${config.email}>`,
       to: email,
       subject: t("mail.declarationDeleted.title"),
@@ -632,7 +639,7 @@ export async function sendSubscriptionExpiringEmail(
         : `Je ${subscriptionType} verloopt over ${daysRemaining} dagen`;
 
   try {
-    await resend.emails.send({
+    await getResendClient().emails.send({
       from: `${config.appTitle} <${config.email}>`,
       to: email,
       subject: subject,
@@ -756,7 +763,7 @@ export async function sendEmail(
   user?: { id: string; companyId?: string | null | undefined }
 ) {
   try {
-    await resend.emails.send({
+    await getResendClient().emails.send({
       from: `${config.appTitle} <${config.email}>`,
       to: email,
       subject: subject,
@@ -793,7 +800,7 @@ export async function sendSubscriptionExpiredEmail(
       : `Je ${subscriptionType} is ${daysExpired} ${daysExpired === 1 ? "dag" : "dagen"} geleden verlopen`;
 
   try {
-    await resend.emails.send({
+    await getResendClient().emails.send({
       from: `${config.appTitle} <${config.email}>`,
       to: email,
       subject: subject,
@@ -902,7 +909,7 @@ export async function sendContactFormEmail(data: {
 
   try {
     // Send notification email to admin
-    await resend.emails.send({
+    await getResendClient().emails.send({
       from: `${config.appTitle} <${config.email}>`,
       to: config.email,
       replyTo: data.email,
@@ -938,7 +945,7 @@ export async function sendContactFormEmail(data: {
     });
 
     // Send confirmation email to user
-    await resend.emails.send({
+    await getResendClient().emails.send({
       from: `${config.appTitle} <${config.email}>`,
       to: data.email,
       subject: `Bevestiging: We hebben je bericht ontvangen`,
