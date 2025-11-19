@@ -4,23 +4,41 @@ import {
   type SubscriptionPlanType,
 } from "@/lib/subscriptionPlans";
 
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error(
-    "STRIPE_SECRET_KEY is not set. Please check your .env.local file. See docs/STRIPE_SETUP_NL.md for setup instructions."
-  );
+// Lazy initialization of Stripe client to allow builds without STRIPE_SECRET_KEY
+let stripeInstance: Stripe | null = null;
+
+function getStripeInstance(): Stripe {
+  if (!stripeInstance) {
+    if (!process.env.STRIPE_SECRET_KEY) {
+      throw new Error(
+        "STRIPE_SECRET_KEY is not set. Please check your .env.local file. See docs/STRIPE_SETUP_NL.md for setup instructions."
+      );
+    }
+
+    // Validate the Stripe key format
+    const stripeKey = process.env.STRIPE_SECRET_KEY;
+    if (!stripeKey.startsWith("sk_test_") && !stripeKey.startsWith("sk_live_")) {
+      console.warn(
+        "⚠️  WARNING: STRIPE_SECRET_KEY does not appear to be valid. It should start with 'sk_test_' or 'sk_live_'. See docs/STRIPE_SETUP_NL.md"
+      );
+    }
+
+    stripeInstance = new Stripe(stripeKey, {
+      apiVersion: "2025-08-27.basil",
+      typescript: true,
+    });
+  }
+
+  return stripeInstance;
 }
 
-// Validate the Stripe key format
-const stripeKey = process.env.STRIPE_SECRET_KEY;
-if (!stripeKey.startsWith("sk_test_") && !stripeKey.startsWith("sk_live_")) {
-  console.warn(
-    "⚠️  WARNING: STRIPE_SECRET_KEY does not appear to be valid. It should start with 'sk_test_' or 'sk_live_'. See docs/STRIPE_SETUP_NL.md"
-  );
-}
-
-export const stripe = new Stripe(stripeKey, {
-  apiVersion: "2025-08-27.basil",
-  typescript: true,
+// Export a getter that lazily initializes Stripe
+export const stripe = new Proxy({} as Stripe, {
+  get: (_target, prop) => {
+    const instance = getStripeInstance();
+    const value = instance[prop as keyof Stripe];
+    return typeof value === 'function' ? value.bind(instance) : value;
+  },
 });
 
 // Warn about missing price IDs
