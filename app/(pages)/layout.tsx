@@ -22,11 +22,11 @@ type AppLayoutProps = {
 
 export default function AppLayout({ children }: AppLayoutProps) {
   const { data: session } = useSession();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  // Initialize with SSR-friendly defaults to prevent CLS
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
-  // Check responsiveness
+  // Check responsiveness - optimized to reduce CLS
   useEffect(() => {
     const checkIfMobile = () => {
       const mobile = window.innerWidth < 768;
@@ -40,9 +40,9 @@ export default function AppLayout({ children }: AppLayoutProps) {
       }
     };
 
+    // Run immediately to sync with actual viewport
     checkIfMobile();
     window.addEventListener("resize", checkIfMobile);
-    setIsLoading(false);
 
     return () => {
       window.removeEventListener("resize", checkIfMobile);
@@ -55,14 +55,6 @@ export default function AppLayout({ children }: AppLayoutProps) {
       setIsSidebarOpen((prev) => !prev);
     }
   };
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
-        <div className="animate-spin h-12 w-12 border-t-2 border-b-2 border-primary rounded-full"></div>
-      </div>
-    );
-  }
 
   return (
     <SubscriptionProvider>
@@ -153,9 +145,11 @@ function AppLayoutContent({
           <div className="pb-safe">{children}</div>
         </main>
 
-        {/* Mobile bottom navigation */}
-        {isMobile && (
-          <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 z-20 h-16 pb-safe">
+        {/* Mobile bottom navigation - Hidden with CSS on desktop to prevent CLS */}
+        <div
+          className="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 z-20 h-16 pb-safe"
+          suppressHydrationWarning
+        >
             <div
               className={`grid ${session?.user?.role === "SUPERUSER" ? "grid-cols-3" : "grid-cols-5"} h-full`}
             >
@@ -254,8 +248,7 @@ function AppLayoutContent({
                 <span>{t("common.navigation.settings")}</span>
               </Link>
             </div>
-          </div>
-        )}
+        </div>
       </div>
     </div>
   );

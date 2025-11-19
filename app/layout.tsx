@@ -11,7 +11,11 @@ import GoogleAnalytics from "@/components/GoogleAnalytics";
 import InactivityTimer from "@/components/auth/InactivityTimer";
 import config from "@/config";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  display: 'swap', // Prevent invisible text during font load
+  preload: true,
+});
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations();
@@ -61,6 +65,12 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} className="scroll-smooth">
+      <head>
+        {/* Preconnect to third-party domains for better performance */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
+        <link rel="dns-prefetch" href="https://ai-chat-pi-blond.vercel.app" />
+      </head>
       <body
         className={`${inter.className} bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100`}
         suppressHydrationWarning
@@ -76,11 +86,11 @@ export default async function RootLayout({
                   process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || ""
                 }
               />
-              {/* Chatbot Widget */}
+              {/* Chatbot Widget - Deferred for better performance */}
               <Script
                 src="https://ai-chat-pi-blond.vercel.app/widget/loader.js"
                 data-chatbot-id="220c14b0-888e-42d5-8072-44b84f68688d"
-                strategy="afterInteractive"
+                strategy="lazyOnload"
               />
             </AuthProvider>
           </NextIntlClientProvider>

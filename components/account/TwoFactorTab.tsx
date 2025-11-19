@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import dynamic from "next/dynamic";
 import {
   Input,
   Form,
@@ -20,7 +21,6 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { useTranslations } from "next-intl";
 import { Shield, ShieldCheck, ShieldOff, Loader2 } from "lucide-react";
-import TwoFactorSetup from "@/components/auth/TwoFactorSetup";
 import {
   Dialog,
   DialogContent,
@@ -29,6 +29,19 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+
+// Lazy load TwoFactorSetup for better performance
+const TwoFactorSetup = dynamic(
+  () => import("@/components/auth/TwoFactorSetup"),
+  {
+    loading: () => (
+      <div className="flex items-center justify-center p-8">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    ),
+    ssr: false,
+  }
+);
 
 export function TwoFactorTab() {
   const { data: session, update } = useSession();

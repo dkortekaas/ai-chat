@@ -41,11 +41,12 @@ export default function Hero() {
 
           <div className="relative mt-8 lg:mt-0">
             <Image
-              src={heroIllustration.src}
+              src={heroIllustration}
               alt="AI chat bubbles connecting across multiple devices"
               className="w-full h-auto rounded-lg sm:rounded-2xl shadow-xl sm:shadow-2xl"
               width={500}
               height={500}
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 500px"
               priority
             />
           </div>
