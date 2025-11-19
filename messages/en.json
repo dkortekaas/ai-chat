@@ -142,6 +142,7 @@
     "message": "Message",
     "company": "Company",
     "send": "Send",
+    "sending": "Sending...",
     "sendEmail": "Send us an email",
     "sendPhone": "Call us",
     "callUs": "Call us",
@@ -156,7 +157,15 @@
     "missingFields": "Missing fields",
     "missingFieldsDescription": "Please fill in all required fields.",
     "messageSent": "Message sent!",
-    "messageSentDescription": "We'll get back to you as soon as possible."
+    "messageSentDescription": "We'll get back to you as soon as possible.",
+    "errorSending": "Error sending",
+    "errorSendingDescription": "Something went wrong while sending your message. Please try again.",
+    "nameRequired": "Please fill in this field",
+    "emailRequired": "Please fill in this field",
+    "emailInvalid": "Please enter a valid email address",
+    "companyRequired": "Please fill in this field",
+    "messageRequired": "Please fill in this field",
+    "messageTooShort": "The message must be at least 10 characters long"
   },
   "common": {
     "success": "Success",
