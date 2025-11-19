@@ -1266,6 +1266,7 @@
     "logout": "Abmelden"
   },
   "header": {
+    "home": "Startseite",
     "features": "Funktionen",
     "pricing": "Preise",
     "contact": "Kontakt",
@@ -1331,6 +1332,58 @@
     "fasterInstallation": "Schnellere Installation, benutzerfreundliche Oberfläche",
     "personalizeToYourAudience": "Personalisieren Sie für Ihr Publikum",
     "safeAndSecure": "Sicher und geschützt",
+    "monthly": "Monatlich",
+    "yearly": "Jährlich",
+    "perMonth": "/Monat",
+    "perYear": "/Jahr",
+    "plans": {
+      "starter": {
+        "name": "Starter",
+        "description": "Perfekt für kleine Unternehmen, die mit KI beginnen",
+        "monthlyPrice": "€25",
+        "yearlyMonthPrice": "€17,50",
+        "yearlyPrice": "€300",
+        "features": [
+          "Chat-Assistent auf 1 Website",
+          "Bis zu 50 Gespräche/Monat",
+          "E-Mail-Support",
+          "Basis-Analysen"
+        ],
+        "cta": "Kostenlose Testversion starten"
+      },
+      "professional": {
+        "name": "Professional",
+        "description": "Für wachsende Unternehmen, die mehr benötigen",
+        "monthlyPrice": "€49",
+        "yearlyMonthPrice": "€40",
+        "yearlyPrice": "€480",
+        "features": [
+          "Chat-Assistent auf unbegrenzten Websites",
+          "Bis zu 400 Gespräche/Monat",
+          "E-Mail-Assistent enthalten",
+          "Prioritäts-Support",
+          "Erweiterte Analysen",
+          "Individuelles Branding"
+        ],
+        "cta": "Kostenlose Testversion starten"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "description": "Für große Organisationen mit komplexen Anforderungen",
+        "monthlyPrice": "€145",
+        "yearlyMonthPrice": "€125",
+        "yearlyPrice": "€1500",
+        "features": [
+          "Chat-Assistent auf unbegrenzten Websites",
+          "Bis zu 3.000 Gespräche/Monat",
+          "E-Mail-Assistent enthalten",
+          "Prioritäts-Support",
+          "Erweiterte Analysen",
+          "Individuelles Branding"
+        ],
+        "cta": "Kostenlose Testversion starten"
+      }
+    },
     "categories": {
       "usageBillingPayment": "Nutzung, Abrechnung & Zahlung",
       "serviceSupport": "Service & Support",

@@ -67,6 +67,58 @@
     "fasterInstallation": "Snellere installatie, vriendelijke interface",
     "personalizeToYourAudience": "Personaliseer voor jouw publiek",
     "safeAndSecure": "Veilig en betrouwbaar",
+    "monthly": "Maandelijks",
+    "yearly": "Jaarlijks",
+    "perMonth": "/maand",
+    "perYear": "/jaar",
+    "plans": {
+      "starter": {
+        "name": "Starter",
+        "description": "Perfect voor kleine bedrijven die starten met AI",
+        "monthlyPrice": "€25",
+        "yearlyMonthPrice": "€17,50",
+        "yearlyPrice": "€300",
+        "features": [
+          "Chat Assistent op 1 website",
+          "Tot 50 gesprekken/maand",
+          "E-mailondersteuning",
+          "Basis analytics"
+        ],
+        "cta": "Start gratis proefperiode"
+      },
+      "professional": {
+        "name": "Professional",
+        "description": "Voor groeiende bedrijven die meer nodig hebben",
+        "monthlyPrice": "€49",
+        "yearlyMonthPrice": "€40",
+        "yearlyPrice": "€480",
+        "features": [
+          "Chat Assistent op onbeperkte websites",
+          "Tot 400 gesprekken/maand",
+          "E-mail Assistent inbegrepen",
+          "Prioriteitsondersteuning",
+          "Geavanceerde analytics",
+          "Aangepaste branding"
+        ],
+        "cta": "Start gratis proefperiode"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "description": "Voor grote organisaties met complexe behoeften",
+        "monthlyPrice": "€145",
+        "yearlyMonthPrice": "€125",
+        "yearlyPrice": "€1500",
+        "features": [
+          "Chat Assistent op onbeperkte websites",
+          "Tot 3.000 gesprekken/maand",
+          "E-mail Assistent inbegrepen",
+          "Prioriteitsondersteuning",
+          "Geavanceerde analytics",
+          "Aangepaste branding"
+        ],
+        "cta": "Start gratis proefperiode"
+      }
+    },
     "categories": {
       "usageBillingPayment": "Gebruik, Facturering & Betaling",
       "serviceSupport": "Service & Ondersteuning",
