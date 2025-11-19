@@ -140,19 +140,19 @@ export default function FeaturesContent() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-b from-primary/10 to-background">
+      <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-primary/10 to-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center animate-fade-in-up">
-            <h1 className="text-5xl sm:text-6xl font-bold text-foreground mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 sm:mb-6 leading-tight">
               {t("hero.title")}
             </h1>
-            <p className="text-xl text-muted-foreground leading-relaxed mb-8">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed mb-6 sm:mb-8 px-4">
               {t("hero.subtitle")}
             </p>
             <Link href={`/${locale}/pricing`}>
               <Button
                 size="lg"
-                className="bg-primary hover:bg-primary-dark text-primary-foreground font-semibold shadow-glow"
+                className="bg-primary hover:bg-primary-dark text-primary-foreground font-semibold shadow-glow w-full sm:w-auto"
               >
                 {t("hero.cta")}
               </Button>
@@ -162,32 +162,32 @@ export default function FeaturesContent() {
       </section>
 
       {/* Main Features Grid */}
-      <section className="py-20 bg-background">
+      <section className="py-12 sm:py-16 md:py-20 bg-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-foreground mb-4">
+            <div className="text-center mb-10 sm:mb-12 md:mb-16">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 sm:mb-4">
                 {t("mainFeatures.title")}
               </h2>
-              <p className="text-xl text-muted-foreground">
+              <p className="text-base sm:text-lg md:text-xl text-muted-foreground px-4">
                 {t("mainFeatures.subtitle")}
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {mainFeatures.map((feature, index) => (
                 <div
                   key={feature.title}
-                  className="bg-card rounded-2xl p-8 shadow-card border border-border hover:shadow-glow transition-all duration-300 animate-fade-in-up"
+                  className="bg-card rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8 shadow-card border border-border hover:shadow-glow transition-all duration-300 animate-fade-in-up"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <div className="w-14 h-14 bg-primary rounded-xl flex items-center justify-center mb-6">
-                    <feature.icon className="w-7 h-7 text-white" />
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary rounded-lg sm:rounded-xl flex items-center justify-center mb-4 sm:mb-6">
+                    <feature.icon className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                   </div>
-                  <h3 className="text-xl font-semibold text-card-foreground mb-3">
+                  <h3 className="text-lg sm:text-xl font-semibold text-card-foreground mb-2 sm:mb-3">
                     {feature.title}
                   </h3>
-                  <p className="text-muted-foreground leading-relaxed">
+                  <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
                     {feature.description}
                   </p>
                 </div>
@@ -198,43 +198,43 @@ export default function FeaturesContent() {
       </section>
 
       {/* Advanced Features */}
-      <section className="py-20 bg-primary/5">
+      <section className="py-12 sm:py-16 md:py-20 bg-primary/5">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-foreground mb-4">
+            <div className="text-center mb-10 sm:mb-12 md:mb-16">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 sm:mb-4">
                 {t("advancedFeatures.title")}
               </h2>
-              <p className="text-xl text-muted-foreground">
+              <p className="text-base sm:text-lg md:text-xl text-muted-foreground px-4">
                 {t("advancedFeatures.subtitle")}
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
               {advancedFeatures.map((feature, index) => (
                 <div
                   key={feature.title}
-                  className="bg-card rounded-2xl p-8 shadow-card border border-border animate-fade-in-up"
+                  className="bg-card rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8 shadow-card border border-border animate-fade-in-up"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <div className="flex items-start gap-4 mb-6">
-                    <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center flex-shrink-0">
-                      <feature.icon className="w-6 h-6 text-white" />
+                  <div className="flex items-start gap-3 sm:gap-4 mb-4 sm:mb-6">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0">
+                      <feature.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-semibold text-card-foreground mb-2">
+                      <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-card-foreground mb-1 sm:mb-2">
                         {feature.title}
                       </h3>
-                      <p className="text-muted-foreground">
+                      <p className="text-sm sm:text-base text-muted-foreground">
                         {feature.description}
                       </p>
                     </div>
                   </div>
-                  <ul className="space-y-3">
+                  <ul className="space-y-2 sm:space-y-3">
                     {feature.items.map((item, idx) => (
                       <li
                         key={idx}
-                        className="flex items-start gap-2 text-muted-foreground"
+                        className="flex items-start gap-2 text-sm sm:text-base text-muted-foreground"
                       >
                         <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0" />
                         <span>{item}</span>
@@ -249,11 +249,11 @@ export default function FeaturesContent() {
       </section>
 
       {/* Technical Features */}
-      <section className="py-20 bg-background">
+      <section className="py-12 sm:py-16 md:py-20 bg-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-foreground mb-4">
+            <div className="text-center mb-10 sm:mb-12 md:mb-16">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 sm:mb-4">
                 {t("technicalFeatures.title")}
               </h2>
               <p className="text-xl text-muted-foreground">

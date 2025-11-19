@@ -88,13 +88,13 @@ const ContactPage = () => {
     };
 
     return (
-      <section className="py-20 px-4">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
         <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-16 animate-fade-in">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-primary bg-clip-text text-transparent">
+          <div className="text-center mb-10 sm:mb-12 md:mb-16 animate-fade-in">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 bg-gradient-primary bg-clip-text text-transparent">
               {t("title")}
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
               {t("description")}
             </p>
           </div>
@@ -128,13 +128,15 @@ const ContactPage = () => {
           </div> */}
 
           <Card className="max-w-3xl mx-auto border-2 shadow-xl">
-            <CardHeader>
-              <CardTitle className="text-2xl">{t("sendMessage")}</CardTitle>
-              <CardDescription>{t("sendMessageDescription")}</CardDescription>
+            <CardHeader className="px-4 sm:px-6">
+              <CardTitle className="text-xl sm:text-2xl">{t("sendMessage")}</CardTitle>
+              <CardDescription className="text-sm sm:text-base">
+                {t("sendMessageDescription")}
+              </CardDescription>
             </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
+            <CardContent className="px-4 sm:px-6">
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="name">
                       {t("name")} <span className="text-destructive">*</span>

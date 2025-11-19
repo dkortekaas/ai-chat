@@ -15,21 +15,23 @@ const Footer = () => {
 
   return (
     <footer className="border-t bg-background">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid gap-8 md:grid-cols-4">
-          <div className="space-y-4">
+      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          <div className="space-y-3 sm:space-y-4 sm:col-span-2 lg:col-span-1">
             <Image
               src={config.appLogo}
               alt={config.appTitle}
-              className="h-28 w-auto object-contain"
+              className="h-20 sm:h-28 w-auto object-contain"
               width={100}
               height={100}
             />
-            <p className="text-sm text-muted-foreground">{t("description")}</p>
+            <p className="text-sm text-muted-foreground max-w-xs">
+              {t("description")}
+            </p>
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4 text-foreground">
+            <h4 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base text-foreground">
               {t("product")}
             </h4>
             <ul className="space-y-2 text-sm">
@@ -61,7 +63,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4 text-foreground">
+            <h4 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base text-foreground">
               {t("company")}
             </h4>
             <ul className="space-y-2 text-sm">
@@ -93,7 +95,9 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4 text-foreground">{t("legal")}</h4>
+            <h4 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base text-foreground">
+              {t("legal")}
+            </h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
@@ -115,7 +119,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t text-center text-sm text-muted-foreground">
+        <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t text-center text-xs sm:text-sm text-muted-foreground">
           <p>
             © {currentYear} {config.appTitle}. {t("allRightsReserved")}
           </p>

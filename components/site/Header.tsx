@@ -64,9 +64,10 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto px-4">
-        <div className="relative flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="relative flex h-16 items-center justify-between gap-2">
+          {/* Logo */}
+          <div className="flex items-center gap-2 shrink-0">
             <Link
               href={`/${locale}`}
               title={config.appTitle}
@@ -75,18 +76,22 @@ export default function Header() {
               <Image
                 src={config.appLogo}
                 alt={config.appTitle}
-                className="h-20 w-auto object-contain"
+                className="h-16 sm:h-20 w-auto object-contain"
                 width={100}
                 height={100}
+                priority
               />
             </Link>
           </div>
 
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          {/* Desktop Navigation - Centered */}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:block">
             <Navigation />
           </div>
 
-          <div className="flex items-center gap-4">
+          {/* Right Side Actions */}
+          <div className="flex items-center gap-2 sm:gap-4">
+            {/* Language Selector */}
             <DropdownMenu
               open={isLangDropdownOpen}
               onOpenChange={setIsLangDropdownOpen}
@@ -95,7 +100,7 @@ export default function Header() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="gap-2"
+                  className="gap-1 sm:gap-2 shrink-0"
                   disabled={isTransitioning}
                   aria-label={t("language")}
                 >
@@ -126,12 +131,18 @@ export default function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <Button asChild variant="ghost" className="hidden sm:inline-flex">
+            {/* Desktop Login & Register Buttons */}
+            <Button asChild variant="ghost" className="hidden md:inline-flex">
               <Link href={`/login`}>{t("login")}</Link>
             </Button>
-            <Button asChild variant="gradient">
+            <Button asChild variant="gradient" className="hidden md:inline-flex">
               <Link href={`/register`}>{t("tryFree")}</Link>
             </Button>
+
+            {/* Mobile Menu Toggle */}
+            <div className="md:hidden">
+              <Navigation />
+            </div>
           </div>
         </div>
       </div>
