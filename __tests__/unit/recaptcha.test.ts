@@ -133,11 +133,8 @@ describe("reCAPTCHA Verification", () => {
 
     it("should allow all requests in development without config", async () => {
       const originalNodeEnv = process.env.NODE_ENV;
-      Object.defineProperty(process.env, "NODE_ENV", {
-        value: "development",
-        configurable: true,
-        writable: true,
-      });
+      // @ts-expect-error - NODE_ENV is read-only in types but can be modified at runtime in tests
+      process.env.NODE_ENV = "development";
       // No RECAPTCHA_SECRET_KEY set
 
       const result = await verifyRecaptchaToken("any-token", "register", 0.5);
@@ -146,20 +143,19 @@ describe("reCAPTCHA Verification", () => {
       expect(result.score).toBe(1.0);
 
       // Restore original NODE_ENV
-      Object.defineProperty(process.env, "NODE_ENV", {
-        value: originalNodeEnv,
-        configurable: true,
-        writable: true,
-      });
+      if (originalNodeEnv) {
+        // @ts-expect-error - NODE_ENV is read-only in types but can be modified at runtime in tests
+        process.env.NODE_ENV = originalNodeEnv;
+      } else {
+        // @ts-expect-error - NODE_ENV is read-only in types but can be modified at runtime in tests
+        delete process.env.NODE_ENV;
+      }
     });
 
     it("should fail closed in production without config", async () => {
       const originalNodeEnv = process.env.NODE_ENV;
-      Object.defineProperty(process.env, "NODE_ENV", {
-        value: "production",
-        configurable: true,
-        writable: true,
-      });
+      // @ts-expect-error - NODE_ENV is read-only in types but can be modified at runtime in tests
+      process.env.NODE_ENV = "production";
       // No RECAPTCHA_SECRET_KEY set
 
       const result = await verifyRecaptchaToken("any-token", "register", 0.5);
@@ -168,11 +164,13 @@ describe("reCAPTCHA Verification", () => {
       expect(result.error).toContain("not configured");
 
       // Restore original NODE_ENV
-      Object.defineProperty(process.env, "NODE_ENV", {
-        value: originalNodeEnv,
-        configurable: true,
-        writable: true,
-      });
+      if (originalNodeEnv) {
+        // @ts-expect-error - NODE_ENV is read-only in types but can be modified at runtime in tests
+        process.env.NODE_ENV = originalNodeEnv;
+      } else {
+        // @ts-expect-error - NODE_ENV is read-only in types but can be modified at runtime in tests
+        delete process.env.NODE_ENV;
+      }
     });
 
     it("should support custom score thresholds", async () => {
