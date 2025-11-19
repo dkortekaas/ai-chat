@@ -51,6 +51,7 @@ const ContactPage = () => {
 
   const Contact = () => {
     const { toast } = useToast();
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [formData, setFormData] = useState({
       name: "",
       email: "",
@@ -58,7 +59,7 @@ const ContactPage = () => {
       message: "",
     });
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
 
       // Simple validation
@@ -71,14 +72,38 @@ const ContactPage = () => {
         return;
       }
 
-      // In a real app, this would send to a backend
-      toast({
-        title: t("messageSent"),
-        description: t("messageSentDescription"),
-      });
+      setIsSubmitting(true);
 
-      // Reset form
-      setFormData({ name: "", email: "", company: "", message: "" });
+      try {
+        const response = await fetch("/api/contact", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to submit form");
+        }
+
+        toast({
+          title: t("messageSent"),
+          description: t("messageSentDescription"),
+        });
+
+        // Reset form
+        setFormData({ name: "", email: "", company: "", message: "" });
+      } catch (error) {
+        console.error("Error submitting contact form:", error);
+        toast({
+          title: t("errorSending") || "Error",
+          description: t("errorSendingDescription") || "Failed to send your message. Please try again.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsSubmitting(false);
+      }
     };
 
     const handleChange = (
@@ -193,8 +218,9 @@ const ContactPage = () => {
                   variant="gradient"
                   size="lg"
                   className="w-full"
+                  disabled={isSubmitting}
                 >
-                  {t("send")}
+                  {isSubmitting ? t("sending") || "Versturen..." : t("send")}
                 </Button>
               </form>
             </CardContent>
