@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Alert, AlertDescription } from "@/components/ui";
 import Link from "next/link";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import config from "@/config";
 import { toast } from "@/components/ui/use-toast";
@@ -46,36 +47,50 @@ export function ResetPasswordForm({ token }: { token?: string }) {
     },
   });
 
-  if (!token) {
-    toast({
-      title: t("error.invalidLink"),
-      variant: "destructive",
-      duration: 3000,
-    });
+  useEffect(() => {
+    if (!token) {
+      toast({
+        title: t("error.invalidLink"),
+        variant: "destructive",
+        duration: 3000,
+      });
+    }
+  }, [token, t]);
 
+  if (!token) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 px-4 sm:px-6">
-        <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-md w-full max-w-md mx-auto">
-          <div className="text-center mb-6 sm:mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-primary dark:text-primary mb-2">
-              {config.appTitle}
-            </h2>
-            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300">
-              {t("auth.resetpassword.title")}
-            </p>
+        <div className="w-full max-w-md mx-auto">
+          <div className="flex justify-center mb-6">
+            <Image
+              src={config.appLogo}
+              alt={config.appTitle}
+              className="h-24 sm:h-28 w-auto object-contain"
+              width={140}
+              height={140}
+              sizes="(max-width: 640px) 64px, 80px"
+              priority
+            />
           </div>
-          <Alert
-            variant="destructive"
-            className="dark:bg-red-900 dark:border-red-700 dark:text-red-200 text-sm sm:text-base"
-          >
-            <AlertDescription>{t("error.invalidLink")}</AlertDescription>
-          </Alert>
-          <div className="mt-6 text-center">
-            <Link href="/forgot-password">
-              <Button className="w-full bg-primary hover:bg-primary/80">
-                {t("auth.resetpassword.forgotPassword")}
-              </Button>
-            </Link>
+          <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-md">
+            <div className="text-center mb-6 sm:mb-8">
+              <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300">
+                {t("auth.resetPasswordForm.title")}
+              </p>
+            </div>
+            <Alert
+              variant="destructive"
+              className="dark:bg-red-900 dark:border-red-700 dark:text-red-200 text-sm sm:text-base"
+            >
+              <AlertDescription>{t("error.invalidLink")}</AlertDescription>
+            </Alert>
+            <div className="mt-6 text-center">
+              <Link href="/forgot-password">
+                <Button className="w-full bg-primary hover:bg-primary/80">
+                  {t("auth.resetPasswordForm.forgotPassword")}
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -127,76 +142,86 @@ export function ResetPasswordForm({ token }: { token?: string }) {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 px-4 sm:px-6">
-      <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-md w-full max-w-md mx-auto">
-        <div className="text-center mb-6 sm:mb-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-primary dark:text-primary mb-2">
-            {config.appTitle}
-          </h2>
-          <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300">
-            {t("auth.resetpassword.title")}
-          </p>
+      <div className="w-full max-w-md mx-auto">
+        <div className="flex justify-center mb-2">
+          <Image
+            src={config.appLogo}
+            alt={config.appTitle}
+            className="h-24 sm:h-28 w-auto object-contain"
+            width={140}
+            height={140}
+            sizes="(max-width: 640px) 64px, 80px"
+            priority
+          />
         </div>
+        <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-md">
+          <div className="text-center mb-6 sm:mb-8">
+            <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300">
+              {t("auth.resetPasswordForm.title")}
+            </p>
+          </div>
 
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4 sm:space-y-6"
-          >
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    {t("auth.newPassword")}
-                    <RequiredIndicator />
-                  </FormLabel>
-                  <FormMessage />
-                  <FormControl>
-                    <Input type="password" {...field} disabled={isLoading} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-4 sm:space-y-6"
+            >
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      {t("auth.newPassword")}
+                      <RequiredIndicator />
+                    </FormLabel>
+                    <FormMessage />
+                    <FormControl>
+                      <Input type="password" {...field} disabled={isLoading} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="confirmPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    {t("auth.confirmPassword")}
-                    <RequiredIndicator />
-                  </FormLabel>
-                  <FormMessage />
-                  <FormControl>
-                    <Input type="password" {...field} disabled={isLoading} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      {t("auth.confirmPassword")}
+                      <RequiredIndicator />
+                    </FormLabel>
+                    <FormMessage />
+                    <FormControl>
+                      <Input type="password" {...field} disabled={isLoading} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
 
+              <Button
+                type="submit"
+                className="w-full bg-primary hover:bg-primary/80"
+                disabled={isLoading}
+              >
+                {isLoading
+                  ? t("common.statuses.loading")
+                  : t("auth.resetPasswordForm.submitButton")}
+              </Button>
+            </form>
+          </Form>
+
+          <div className="mt-6 text-center">
             <Button
-              type="submit"
-              className="w-full bg-primary hover:bg-primary/80"
+              variant="outline"
+              onClick={() => router.push("/login")}
+              className="w-full"
               disabled={isLoading}
             >
-              {isLoading
-                ? t("common.statuses.loading")
-                : t("auth.resetpassword.submitButton")}
+              {t("auth.resetPasswordForm.backToLogin")}
             </Button>
-          </form>
-        </Form>
-
-        <div className="mt-6 text-center">
-          <Button
-            variant="outline"
-            onClick={() => router.push("/login")}
-            className="w-full"
-            disabled={isLoading}
-          >
-            {t("auth.resetpassword.backToLogin")}
-          </Button>
+          </div>
         </div>
       </div>
     </div>

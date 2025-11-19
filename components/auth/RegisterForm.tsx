@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useTranslations } from "next-intl";
 import { debounce } from "lodash";
+import Image from "next/image";
 import config from "@/config";
 import { Button } from "@/components/ui/button";
 import {
@@ -286,104 +287,78 @@ export default function RegisterForm() {
   if (registrationStep === "2fa-setup") {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gray-100 dark:bg-gray-900 px-4 sm:px-6">
-        <Card className="w-full max-w-2xl">
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl sm:text-3xl font-bold text-primary dark:text-primary">
-              {config.appTitle}
-            </CardTitle>
-            <CardDescription className="text-base sm:text-lg">
-              {t("auth.registerForm.twoFactorSetupTitle")}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <TwoFactorSetup
-              onComplete={handle2FASetupComplete}
-              onSkip={handleSkip2FA}
-              showSkipOption={true}
+        <div className="w-full max-w-2xl">
+          <div className="flex justify-center mb-2">
+            <Image
+              src={config.appLogo}
+              alt={config.appTitle}
+              className="h-24 sm:h-28 w-auto object-contain"
+              width={140}
+              height={140}
+              sizes="(max-width: 640px) 64px, 80px"
+              priority
             />
-          </CardContent>
-        </Card>
+          </div>
+          <Card>
+            <CardHeader className="text-center">
+              <CardDescription className="text-base sm:text-xl">
+                {t("auth.registerForm.twoFactorSetupTitle")}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <TwoFactorSetup
+                onComplete={handle2FASetupComplete}
+                onSkip={handleSkip2FA}
+                showSkipOption={true}
+              />
+            </CardContent>
+          </Card>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 dark:bg-gray-900 px-4 sm:px-6">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl sm:text-3xl font-bold text-primary dark:text-primary">
-            {config.appTitle}
-          </CardTitle>
-          <CardDescription className="text-base sm:text-lg">
-            {t("auth.registerForm.title")}
-          </CardDescription>
-        </CardHeader>
+      <div className="w-full max-w-md">
+        <div className="flex justify-center mb-2">
+          <Image
+            src={config.appLogo}
+            alt={config.appTitle}
+            className="h-24 sm:h-28 w-auto object-contain"
+            width={140}
+            height={140}
+            sizes="(max-width: 640px) 64px, 80px"
+            priority
+          />
+        </div>
+        <Card>
+          <CardHeader className="text-center">
+            <CardDescription className="text-base sm:text-xl">
+              {t("auth.registerForm.title")}
+            </CardDescription>
+          </CardHeader>
 
-        <CardContent>
-          {error && (
-            <Alert variant="destructive" className="mb-4">
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
+          <CardContent>
+            {error && (
+              <Alert variant="destructive" className="mb-4">
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
 
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4 sm:space-y-6"
-              aria-label={t("auth.registerForm.title")}
-            >
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      {t("auth.name")}
-                      <RequiredIndicator />
-                    </FormLabel>
-                    <FormMessage />
-                    <FormControl>
-                      <Input
-                        {...field}
-                        disabled={isSubmitting || isLoading}
-                        autoFocus
-                        aria-required="true"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      {t("auth.email")}
-                      <RequiredIndicator />
-                    </FormLabel>
-                    <FormMessage />
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="email"
-                        disabled={isSubmitting || isLoading || !!token}
-                        aria-required="true"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
-              {!token && (
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-4 sm:space-y-6"
+                aria-label={t("auth.registerForm.title")}
+              >
                 <FormField
                   control={form.control}
-                  name="companyName"
+                  name="name"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        {t("auth.companyName")}
+                        {t("auth.name")}
                         <RequiredIndicator />
                       </FormLabel>
                       <FormMessage />
@@ -391,150 +366,198 @@ export default function RegisterForm() {
                         <Input
                           {...field}
                           disabled={isSubmitting || isLoading}
+                          autoFocus
                           aria-required="true"
                         />
                       </FormControl>
                     </FormItem>
                   )}
                 />
-              )}
 
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      {t("auth.password")}
-                      <RequiredIndicator />
-                    </FormLabel>
-                    <FormMessage />
-                    <FormControl>
-                      <div className="relative">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        {t("auth.email")}
+                        <RequiredIndicator />
+                      </FormLabel>
+                      <FormMessage />
+                      <FormControl>
                         <Input
                           {...field}
-                          type={showPassword ? "text" : "password"}
-                          disabled={isSubmitting || isLoading}
+                          type="email"
+                          disabled={isSubmitting || isLoading || !!token}
                           aria-required="true"
                         />
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          className="absolute right-2 top-1/2 transform -translate-y-1/2"
-                          onClick={() => setShowPassword(!showPassword)}
-                          aria-label={
-                            showPassword
-                              ? t("auth.hidePassword")
-                              : t("auth.showPassword")
-                          }
-                        >
-                          {showPassword ? (
-                            <EyeOff size={20} />
-                          ) : (
-                            <Eye size={20} />
-                          )}
-                        </Button>
-                      </div>
-                    </FormControl>
-                    {field.value && (
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {t("auth.passwordStrength.label")}:{" "}
-                        {getPasswordStrength(field.value)}
-                      </p>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                {!token && (
+                  <FormField
+                    control={form.control}
+                    name="companyName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          {t("auth.companyName")}
+                          <RequiredIndicator />
+                        </FormLabel>
+                        <FormMessage />
+                        <FormControl>
+                          <Input
+                            {...field}
+                            disabled={isSubmitting || isLoading}
+                            aria-required="true"
+                          />
+                        </FormControl>
+                      </FormItem>
                     )}
-                  </FormItem>
+                  />
                 )}
-              />
 
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      {t("auth.confirmPassword")}
-                      <RequiredIndicator />
-                    </FormLabel>
-                    <FormMessage />
-                    <FormControl>
-                      <div className="relative">
-                        <Input
-                          {...field}
-                          type={showConfirmPassword ? "text" : "password"}
-                          disabled={isSubmitting || isLoading}
-                          aria-required="true"
-                        />
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          className="absolute right-2 top-1/2 transform -translate-y-1/2"
-                          onClick={() =>
-                            setShowConfirmPassword(!showConfirmPassword)
-                          }
-                          aria-label={
-                            showConfirmPassword
-                              ? t("auth.hidePassword")
-                              : t("auth.showPassword")
-                          }
-                        >
-                          {showConfirmPassword ? (
-                            <EyeOff size={20} />
-                          ) : (
-                            <Eye size={20} />
-                          )}
-                        </Button>
-                      </div>
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        {t("auth.password")}
+                        <RequiredIndicator />
+                      </FormLabel>
+                      <FormMessage />
+                      <FormControl>
+                        <div className="relative">
+                          <Input
+                            {...field}
+                            type={showPassword ? "text" : "password"}
+                            disabled={isSubmitting || isLoading}
+                            aria-required="true"
+                          />
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                            onClick={() => setShowPassword(!showPassword)}
+                            aria-label={
+                              showPassword
+                                ? t("auth.hidePassword")
+                                : t("auth.showPassword")
+                            }
+                          >
+                            {showPassword ? (
+                              <EyeOff size={20} />
+                            ) : (
+                              <Eye size={20} />
+                            )}
+                          </Button>
+                        </div>
+                      </FormControl>
+                      {field.value && (
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          {t("auth.passwordStrength.label")}:{" "}
+                          {getPasswordStrength(field.value)}
+                        </p>
+                      )}
+                    </FormItem>
+                  )}
+                />
 
-              <Button
-                type="submit"
-                className="w-full bg-primary hover:bg-primary/80"
-                disabled={isSubmitting || isLoading || !form.formState.isValid}
-                aria-label={t("auth.registerForm.registerButton")}
-              >
-                {isSubmitting || isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    {t("common.statuses.loading")}
-                  </>
-                ) : (
-                  t("auth.registerForm.registerButton")
-                )}
-              </Button>
-            </form>
-          </Form>
+                <FormField
+                  control={form.control}
+                  name="confirmPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        {t("auth.confirmPassword")}
+                        <RequiredIndicator />
+                      </FormLabel>
+                      <FormMessage />
+                      <FormControl>
+                        <div className="relative">
+                          <Input
+                            {...field}
+                            type={showConfirmPassword ? "text" : "password"}
+                            disabled={isSubmitting || isLoading}
+                            aria-required="true"
+                          />
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                            onClick={() =>
+                              setShowConfirmPassword(!showConfirmPassword)
+                            }
+                            aria-label={
+                              showConfirmPassword
+                                ? t("auth.hidePassword")
+                                : t("auth.showPassword")
+                            }
+                          >
+                            {showConfirmPassword ? (
+                              <EyeOff size={20} />
+                            ) : (
+                              <Eye size={20} />
+                            )}
+                          </Button>
+                        </div>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
 
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
-                  {t("auth.registerForm.alreadyAccount")}
-                </span>
-              </div>
-            </div>
+                <Button
+                  type="submit"
+                  className="w-full bg-primary hover:bg-primary/80"
+                  disabled={
+                    isSubmitting || isLoading || !form.formState.isValid
+                  }
+                  aria-label={t("auth.registerForm.registerButton")}
+                >
+                  {isSubmitting || isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      {t("common.statuses.loading")}
+                    </>
+                  ) : (
+                    t("auth.registerForm.registerButton")
+                  )}
+                </Button>
+              </form>
+            </Form>
 
             <div className="mt-6">
-              <Button
-                variant="outline"
-                className="w-full"
-                onClick={() => router.push("/login")}
-                disabled={isSubmitting || isLoading}
-                aria-label={t("auth.registerForm.loginButton")}
-              >
-                {t("auth.registerForm.loginButton")}
-              </Button>
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+                    {t("auth.registerForm.alreadyAccount")}
+                  </span>
+                </div>
+              </div>
+
+              <div className="mt-6">
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => router.push("/login")}
+                  disabled={isSubmitting || isLoading}
+                  aria-label={t("auth.registerForm.loginButton")}
+                >
+                  {t("auth.registerForm.loginButton")}
+                </Button>
+              </div>
             </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
