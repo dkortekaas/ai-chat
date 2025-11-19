@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://ainexo.com";
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://ainexo.app";
 
 const locales = ["nl", "en", "de", "es", "fr"];
 
