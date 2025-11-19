@@ -1828,5 +1828,7 @@
       "title": "Contáctenos",
       "description": "Si tiene preguntas sobre estos Términos de Servicio, contáctenos:"
     }
-  }
+  },
+  "closeSidebar": "Cerrar barra lateral",
+  "openSidebar": "Abrir barra lateral"
 }

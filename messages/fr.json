@@ -1828,5 +1828,7 @@
       "title": "Nous Contacter",
       "description": "Si vous avez des questions concernant ces Conditions d'Utilisation, veuillez nous contacter :"
     }
-  }
+  },
+  "closeSidebar": "Fermer la barre latérale",
+  "openSidebar": "Ouvrir la barre latérale"
 }

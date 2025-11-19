@@ -1828,5 +1828,7 @@
       "title": "Kontaktieren Sie Uns",
       "description": "Wenn Sie Fragen zu diesen Nutzungsbedingungen haben, kontaktieren Sie uns bitte:"
     }
-  }
+  },
+  "closeSidebar": "Sidebar schließen",
+  "openSidebar": "Sidebar öffnen"
 }

@@ -1790,5 +1790,7 @@
       "title": "Contact Opnemen",
       "description": "Als u vragen heeft over deze Algemene Voorwaarden, neem dan contact met ons op:"
     }
-  }
+  },
+  "closeSidebar": "Sidebar sluiten",
+  "openSidebar": "Sidebar openen"
 }
