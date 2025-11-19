@@ -25,64 +25,27 @@ import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 
-const pricingTiers = [
-  {
-    name: "Starter",
-    monthlyPrice: "€25",
-    yearlyMonthPrice: "€17,50",
-    yearlyPrice: "€300",
-    description: "Perfect for small businesses starting with AI",
-    features: [
-      "Chat Assistant on 1 website",
-      "Up to 50 conversations/month",
-      "Email support",
-      "Basic analytics",
-    ],
-    cta: "Start Free Trial",
-    variant: "outline" as const,
-  },
-  {
-    name: "Professional",
-    monthlyPrice: "€49",
-    yearlyMonthPrice: "€40",
-    yearlyPrice: "€480",
-    description: "For growing businesses that need more",
-    features: [
-      "Chat Assistant on unlimited websites",
-      "Up to 400 conversations/month",
-      "Email Assistant included",
-      "Priority support",
-      "Advanced analytics",
-      "Custom branding",
-    ],
-    cta: "Start Free Trial",
-    variant: "gradient" as const,
-    popular: true,
-  },
-  {
-    name: "Enterprise",
-    monthlyPrice: "€145",
-    yearlyMonthPrice: "€125",
-    yearlyPrice: "€1500",
-    description: "For large organizations with complex needs",
-    features: [
-      "Chat Assistant on unlimited websites",
-      "Up to 3,000 conversations/month",
-      "Email Assistant included",
-      "Priority support",
-      "Advanced analytics",
-      "Custom branding",
-    ],
-    cta: "Start Free Trial",
-    variant: "outline" as const,
-  },
-];
-
 const Pricing = () => {
   const params = useParams();
   const locale = params?.locale as string;
   const t = useTranslations("pricing");
   const [isYearly, setIsYearly] = useState(false);
+
+  const pricingTiers = [
+    {
+      key: "starter",
+      variant: "outline" as const,
+    },
+    {
+      key: "professional",
+      variant: "gradient" as const,
+      popular: true,
+    },
+    {
+      key: "enterprise",
+      variant: "outline" as const,
+    },
+  ];
 
   return (
     <section className="py-20 px-4">
@@ -101,7 +64,7 @@ const Pricing = () => {
           <span
             className={`text-sm font-medium ${!isYearly ? "text-foreground" : "text-muted-foreground"}`}
           >
-            Maandelijks
+            {t("monthly")}
           </span>
           <Switch
             checked={isYearly}
@@ -111,14 +74,14 @@ const Pricing = () => {
           <span
             className={`text-sm font-medium ${isYearly ? "text-foreground" : "text-muted-foreground"}`}
           >
-            Jaarlijks
+            {t("yearly")}
           </span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-12">
           {pricingTiers.map((tier, index) => (
             <Card
-              key={tier.name}
+              key={tier.key}
               className={`relative flex flex-col ${
                 tier.popular
                   ? "border-2 border-primary shadow-xl shadow-primary/20 md:scale-105"
@@ -134,24 +97,24 @@ const Pricing = () => {
 
               <CardHeader className="text-center pb-6 sm:pb-8 pt-6 sm:pt-8">
                 <CardTitle className="text-xl sm:text-2xl mb-2">
-                  {tier.name}
+                  {t(`plans.${tier.key}.name`)}
                 </CardTitle>
                 <CardDescription className="text-sm sm:text-base">
-                  {tier.description}
+                  {t(`plans.${tier.key}.description`)}
                 </CardDescription>
                 <div className="mt-4">
                   <div>
                     <span className="text-4xl sm:text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                      {isYearly ? tier.yearlyMonthPrice : tier.monthlyPrice}
+                      {isYearly ? t(`plans.${tier.key}.yearlyMonthPrice`) : t(`plans.${tier.key}.monthlyPrice`)}
                     </span>
                     <span className="text-muted-foreground ml-1 text-sm sm:text-base">
-                      /maand
+                      {t("perMonth")}
                     </span>
                   </div>
                   {isYearly && (
                     <div className="mt-2">
                       <span className="text-base sm:text-lg text-muted-foreground">
-                        {tier.yearlyPrice}/jaar
+                        {t(`plans.${tier.key}.yearlyPrice`)}{t("perYear")}
                       </span>
                     </div>
                   )}
@@ -160,8 +123,8 @@ const Pricing = () => {
 
               <CardContent className="flex-1 px-4 sm:px-6">
                 <ul className="space-y-3">
-                  {tier.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2 sm:gap-3">
+                  {t.raw(`plans.${tier.key}.features`).map((feature: string, featureIndex: number) => (
+                    <li key={featureIndex} className="flex items-start gap-2 sm:gap-3">
                       <div className="w-5 h-5 rounded-full bg-gradient-primary flex items-center justify-center flex-shrink-0 mt-0.5">
                         <Check className="w-3 h-3 text-primary-foreground" />
                       </div>
@@ -178,7 +141,7 @@ const Pricing = () => {
                   className="w-full"
                   asChild
                 >
-                  <Link href={`/register`}>{tier.cta}</Link>
+                  <Link href={`/register`}>{t(`plans.${tier.key}.cta`)}</Link>
                 </Button>
               </CardFooter>
             </Card>
@@ -242,13 +205,13 @@ const Pricing = () => {
                         Feature
                       </TableHead>
                       <TableHead className="text-center font-semibold text-xs sm:text-sm px-2 sm:px-4">
-                        Starter
+                        {t("plans.starter.name")}
                       </TableHead>
                       <TableHead className="text-center font-semibold text-xs sm:text-sm bg-primary/5 px-2 sm:px-4">
-                        Professional
+                        {t("plans.professional.name")}
                       </TableHead>
                       <TableHead className="text-center font-semibold text-xs sm:text-sm px-2 sm:px-4">
-                        Enterprise
+                        {t("plans.enterprise.name")}
                       </TableHead>
                     </TableRow>
                   </TableHeader>
