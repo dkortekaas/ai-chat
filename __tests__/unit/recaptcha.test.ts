@@ -5,7 +5,8 @@
 import { describe, it, expect, beforeEach, jest } from '@jest/globals';
 
 // Mock fetch
-global.fetch = jest.fn() as jest.MockedFunction<typeof fetch>;
+const mockFetch = jest.fn();
+global.fetch = mockFetch as unknown as typeof fetch;
 
 // Import after mocks
 import { verifyRecaptchaToken, isRecaptchaEnabled } from '@/lib/recaptcha';
@@ -30,7 +31,7 @@ describe('reCAPTCHA Verification', () => {
         hostname: 'localhost',
       };
 
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
+      mockFetch.mockResolvedValueOnce({
         ok: true,
         json: async () => mockResponse,
       });
@@ -53,7 +54,7 @@ describe('reCAPTCHA Verification', () => {
         hostname: 'localhost',
       };
 
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
+      mockFetch.mockResolvedValueOnce({
         ok: true,
         json: async () => mockResponse,
       });
@@ -76,7 +77,7 @@ describe('reCAPTCHA Verification', () => {
         hostname: 'localhost',
       };
 
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
+      mockFetch.mockResolvedValueOnce({
         ok: true,
         json: async () => mockResponse,
       });
@@ -104,7 +105,7 @@ describe('reCAPTCHA Verification', () => {
         'error-codes': ['invalid-input-secret', 'timeout-or-duplicate'],
       };
 
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
+      mockFetch.mockResolvedValueOnce({
         ok: true,
         json: async () => mockResponse,
       });
@@ -118,7 +119,7 @@ describe('reCAPTCHA Verification', () => {
     it('should handle network errors', async () => {
       process.env.RECAPTCHA_SECRET_KEY = 'test-secret-key';
 
-      (global.fetch as jest.Mock).mockRejectedValueOnce(new Error('Network error'));
+      mockFetch.mockRejectedValueOnce(new Error('Network error'));
 
       const result = await verifyRecaptchaToken('token', 'register', 0.5);
 
@@ -127,23 +128,47 @@ describe('reCAPTCHA Verification', () => {
     });
 
     it('should allow all requests in development without config', async () => {
-      process.env.NODE_ENV = 'development';
+      const originalNodeEnv = process.env.NODE_ENV;
+      Object.defineProperty(process.env, 'NODE_ENV', {
+        value: 'development',
+        configurable: true,
+        writable: true,
+      });
       // No RECAPTCHA_SECRET_KEY set
 
       const result = await verifyRecaptchaToken('any-token', 'register', 0.5);
 
       expect(result.success).toBe(true);
       expect(result.score).toBe(1.0);
+
+      // Restore original NODE_ENV
+      Object.defineProperty(process.env, 'NODE_ENV', {
+        value: originalNodeEnv,
+        configurable: true,
+        writable: true,
+      });
     });
 
     it('should fail closed in production without config', async () => {
-      process.env.NODE_ENV = 'production';
+      const originalNodeEnv = process.env.NODE_ENV;
+      Object.defineProperty(process.env, 'NODE_ENV', {
+        value: 'production',
+        configurable: true,
+        writable: true,
+      });
       // No RECAPTCHA_SECRET_KEY set
 
       const result = await verifyRecaptchaToken('any-token', 'register', 0.5);
 
       expect(result.success).toBe(false);
       expect(result.error).toContain('not configured');
+
+      // Restore original NODE_ENV
+      Object.defineProperty(process.env, 'NODE_ENV', {
+        value: originalNodeEnv,
+        configurable: true,
+        writable: true,
+      });
     });
 
     it('should support custom score thresholds', async () => {
@@ -157,7 +182,7 @@ describe('reCAPTCHA Verification', () => {
         hostname: 'localhost',
       };
 
-      (global.fetch as jest.Mock).mockResolvedValue({
+      mockFetch.mockResolvedValue({
         ok: true,
         json: async () => mockResponse,
       });
