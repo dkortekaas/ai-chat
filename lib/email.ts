@@ -891,3 +891,121 @@ export async function sendSubscriptionExpiredEmail(
     throw error;
   }
 }
+
+export async function sendContactFormEmail(data: {
+  name: string;
+  email: string;
+  company: string;
+  message: string;
+}) {
+  const t = await getTranslations("mail.contact");
+
+  try {
+    // Send notification email to admin
+    await resend.emails.send({
+      from: `${config.appTitle} <${config.email}>`,
+      to: config.email,
+      replyTo: data.email,
+      subject: `Nieuw contactformulier bericht van ${data.name}`,
+      html: await createEmailTemplate(`
+        <h1 style="color: #333; margin-bottom: 20px;">Nieuw contactformulier bericht</h1>
+
+        <div style="background-color: #F3F4F6; border-radius: 8px; padding: 20px; margin: 20px 0;">
+          <p style="color: #666; line-height: 1.6; margin: 0 0 10px 0;">
+            <strong>Naam:</strong> ${data.name}
+          </p>
+          <p style="color: #666; line-height: 1.6; margin: 0 0 10px 0;">
+            <strong>Email:</strong> <a href="mailto:${data.email}" style="color: #3B82F6; text-decoration: none;">${data.email}</a>
+          </p>
+          <p style="color: #666; line-height: 1.6; margin: 0 0 10px 0;">
+            <strong>Bedrijf:</strong> ${data.company}
+          </p>
+        </div>
+
+        <h2 style="color: #333; margin: 30px 0 15px;">Bericht:</h2>
+        <div style="background-color: #ffffff; border-left: 4px solid #3B82F6; padding: 15px; margin: 20px 0;">
+          <p style="color: #666; line-height: 1.6; white-space: pre-wrap; margin: 0;">
+            ${data.message}
+          </p>
+        </div>
+
+        <div style="text-align: center; margin: 30px 0;">
+          <a href="mailto:${data.email}" style="background-color: #3B82F6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">
+            Beantwoorden
+          </a>
+        </div>
+      `),
+    });
+
+    // Send confirmation email to user
+    await resend.emails.send({
+      from: `${config.appTitle} <${config.email}>`,
+      to: data.email,
+      subject: `Bevestiging: We hebben je bericht ontvangen`,
+      html: await createEmailTemplate(`
+        <h1 style="color: #333; margin-bottom: 20px;">Bedankt voor je bericht!</h1>
+
+        <p style="color: #666; line-height: 1.6; font-size: 16px;">
+          Beste ${data.name},
+        </p>
+
+        <p style="color: #666; line-height: 1.6; font-size: 16px;">
+          Bedankt voor je bericht. We hebben je contactverzoek goed ontvangen en zullen zo spoedig mogelijk contact met je opnemen.
+        </p>
+
+        <div style="background-color: #F3F4F6; border-radius: 8px; padding: 20px; margin: 20px 0;">
+          <h3 style="color: #333; margin: 0 0 15px 0;">Samenvatting van je bericht:</h3>
+          <p style="color: #666; line-height: 1.6; margin: 0 0 10px 0;">
+            <strong>Naam:</strong> ${data.name}
+          </p>
+          <p style="color: #666; line-height: 1.6; margin: 0 0 10px 0;">
+            <strong>Email:</strong> ${data.email}
+          </p>
+          <p style="color: #666; line-height: 1.6; margin: 0 0 10px 0;">
+            <strong>Bedrijf:</strong> ${data.company}
+          </p>
+          <p style="color: #666; line-height: 1.6; margin: 15px 0 0 0;">
+            <strong>Bericht:</strong><br/>
+            <span style="white-space: pre-wrap;">${data.message}</span>
+          </p>
+        </div>
+
+        <div style="background-color: #DBEAFE; border-radius: 8px; padding: 20px; margin: 30px 0;">
+          <h3 style="color: #1E40AF; margin: 0 0 10px 0;">Wat gebeurt er nu?</h3>
+          <p style="color: #1E40AF; line-height: 1.6; margin: 0;">
+            Ons team bekijkt je bericht en neemt binnen 1-2 werkdagen contact met je op via het opgegeven emailadres.
+          </p>
+        </div>
+
+        <p style="color: #666; line-height: 1.6; margin: 30px 0;">
+          Met vriendelijke groet,<br/>
+          Het ${config.appTitle} Team
+        </p>
+
+        <div style="background-color: #F3F4F6; border-radius: 8px; padding: 15px; margin: 30px 0;">
+          <p style="color: #666; line-height: 1.6; margin: 0; font-size: 14px;">
+            <strong>Vragen in de tussentijd?</strong><br/>
+            Neem gerust contact met ons op via <a href="mailto:${config.email}" style="color: #3B82F6; text-decoration: none;">${config.email}</a>
+          </p>
+        </div>
+      `),
+    });
+
+    logger.info("Contact form email sent", {
+      context: {
+        name: data.name,
+        email: data.email,
+        company: data.company,
+      },
+    });
+  } catch (error) {
+    logger.error("Failed to send contact form email", {
+      context: {
+        error: error instanceof Error ? error.message : String(error),
+        name: data.name,
+        email: data.email,
+      },
+    });
+    throw error;
+  }
+}

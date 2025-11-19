@@ -21,17 +21,6 @@ import config from "@/config";
 
 const ContactPage = () => {
   const t = useTranslations("contact");
-  const [formData, setFormData] = useState<{
-    name: string;
-    email: string;
-    company: string;
-    message: string;
-  }>({
-    name: "",
-    email: "",
-    company: "",
-    message: "",
-  });
 
   const contactMethods = [
     {
@@ -51,40 +40,109 @@ const ContactPage = () => {
 
   const Contact = () => {
     const { toast } = useToast();
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [formData, setFormData] = useState({
       name: "",
       email: "",
       company: "",
       message: "",
     });
+    const [errors, setErrors] = useState({
+      name: "",
+      email: "",
+      company: "",
+      message: "",
+    });
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const validateEmail = (email: string) => {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    };
+
+    const validateForm = () => {
+      const newErrors = {
+        name: "",
+        email: "",
+        company: "",
+        message: "",
+      };
+
+      if (!formData.name.trim()) {
+        newErrors.name = t("nameRequired");
+      }
+
+      if (!formData.email.trim()) {
+        newErrors.email = t("emailRequired");
+      } else if (!validateEmail(formData.email)) {
+        newErrors.email = t("emailInvalid");
+      }
+
+      if (!formData.company.trim()) {
+        newErrors.company = t("companyRequired");
+      }
+
+      if (!formData.message.trim()) {
+        newErrors.message = t("messageRequired");
+      } else if (formData.message.trim().length < 10) {
+        newErrors.message = t("messageTooShort");
+      }
+
+      setErrors(newErrors);
+      return !Object.values(newErrors).some((error) => error !== "");
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
 
-      // Simple validation
-      if (!formData.name || !formData.email || !formData.message) {
-        toast({
-          title: t("missingFields"),
-          description: t("missingFieldsDescription"),
-          variant: "destructive",
-        });
+      // Validate form
+      if (!validateForm()) {
         return;
       }
 
-      // In a real app, this would send to a backend
-      toast({
-        title: t("messageSent"),
-        description: t("messageSentDescription"),
-      });
+      setIsSubmitting(true);
 
-      // Reset form
-      setFormData({ name: "", email: "", company: "", message: "" });
+      try {
+        const response = await fetch("/api/contact", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to submit form");
+        }
+
+        toast({
+          title: t("messageSent"),
+          description: t("messageSentDescription"),
+        });
+
+        // Reset form
+        setFormData({ name: "", email: "", company: "", message: "" });
+        setErrors({ name: "", email: "", company: "", message: "" });
+      } catch (error) {
+        console.error("Error submitting contact form:", error);
+        toast({
+          title: t("errorSending") || "Error",
+          description: t("errorSendingDescription") || "Failed to send your message. Please try again.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsSubmitting(false);
+      }
     };
 
     const handleChange = (
       e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
-      setFormData({ ...formData, [e.target.name]: e.target.value });
+      const { name, value } = e.target;
+      setFormData({ ...formData, [name]: value });
+      // Clear error when user starts typing
+      if (errors[name as keyof typeof errors]) {
+        setErrors({ ...errors, [name]: "" });
+      }
     };
 
     return (
@@ -135,7 +193,7 @@ const ContactPage = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="px-4 sm:px-6">
-              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+              <form onSubmit={handleSubmit} noValidate className="space-y-4 sm:space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="name">
@@ -147,8 +205,11 @@ const ContactPage = () => {
                       placeholder={t("namePlaceholder")}
                       value={formData.name}
                       onChange={handleChange}
-                      required
+                      className={errors.name ? "border-destructive" : ""}
                     />
+                    {errors.name && (
+                      <p className="text-sm text-destructive">{errors.name}</p>
+                    )}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">
@@ -161,8 +222,11 @@ const ContactPage = () => {
                       placeholder={t("emailPlaceholder")}
                       value={formData.email}
                       onChange={handleChange}
-                      required
+                      className={errors.email ? "border-destructive" : ""}
                     />
+                    {errors.email && (
+                      <p className="text-sm text-destructive">{errors.email}</p>
+                    )}
                   </div>
                 </div>
 
@@ -176,25 +240,37 @@ const ContactPage = () => {
                     placeholder={t("companyPlaceholder")}
                     value={formData.company}
                     onChange={handleChange}
-                    required
+                    className={errors.company ? "border-destructive" : ""}
                   />
+                  {errors.company && (
+                    <p className="text-sm text-destructive">{errors.company}</p>
+                  )}
                 </div>
-                <Textarea
-                  id="message"
-                  name="message"
-                  placeholder={t("messagePlaceholder")}
-                  rows={10}
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                />
+                <div className="space-y-2">
+                  <Label htmlFor="message">
+                    {t("message")} <span className="text-destructive">*</span>
+                  </Label>
+                  <Textarea
+                    id="message"
+                    name="message"
+                    placeholder={t("messagePlaceholder")}
+                    rows={10}
+                    value={formData.message}
+                    onChange={handleChange}
+                    className={errors.message ? "border-destructive" : ""}
+                  />
+                  {errors.message && (
+                    <p className="text-sm text-destructive">{errors.message}</p>
+                  )}
+                </div>
                 <Button
                   type="submit"
                   variant="gradient"
                   size="lg"
                   className="w-full"
+                  disabled={isSubmitting}
                 >
-                  {t("send")}
+                  {isSubmitting ? t("sending") || "Versturen..." : t("send")}
                 </Button>
               </form>
             </CardContent>

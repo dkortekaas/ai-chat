@@ -1,5 +1,6 @@
 {
   "header": {
+    "home": "Home",
     "features": "Functies",
     "pricing": "Prijzen",
     "contact": "Contact",
@@ -142,13 +143,14 @@
     "message": "Bericht",
     "company": "Bedrijf",
     "send": "Verzenden",
+    "sending": "Versturen...",
     "sendEmail": "Verzend ons een email",
     "sendPhone": "Bel ons",
     "callUs": "Bel ons",
     "callUsDescription": "Bel ons op +31 20 123 4567",
     "phoneDescription": "Bel ons op +31 20 123 4567",
-    "sendMessage": "Verzend ons een bericht",
-    "sendMessageDescription": "Vul het formulier hieronder in en we zullen zo snel mogelijk terugkomen.",
+    "sendMessage": "Stuur ons een bericht",
+    "sendMessageDescription": "Vul het formulier hieronder in en we nemen zo snel mogelijk contact met je op.",
     "namePlaceholder": "Je naam",
     "emailPlaceholder": "Je email",
     "companyPlaceholder": "Je bedrijfsnaam",
@@ -156,7 +158,15 @@
     "missingFields": "Ontbrekende velden",
     "missingFieldsDescription": "Vul alle verplichte velden in.",
     "messageSent": "Bericht verzonden!",
-    "messageSentDescription": "We zullen zo snel mogelijk terugkomen."
+    "messageSentDescription": "We zullen zo snel mogelijk terugkomen.",
+    "errorSending": "Fout bij verzenden",
+    "errorSendingDescription": "Er is iets misgegaan bij het verzenden van je bericht. Probeer het opnieuw.",
+    "nameRequired": "Vul dit veld in",
+    "emailRequired": "Vul dit veld in",
+    "emailInvalid": "Voer een geldig e-mailadres in",
+    "companyRequired": "Vul dit veld in",
+    "messageRequired": "Vul dit veld in",
+    "messageTooShort": "Het bericht moet minimaal 10 tekens bevatten"
   },
   "common": {
     "success": "Succes",
