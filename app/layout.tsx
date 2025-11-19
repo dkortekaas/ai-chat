@@ -8,7 +8,6 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import { Toaster } from "@/components/ui/toaster";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
-import InactivityTimer from "@/components/auth/InactivityTimer";
 import config from "@/config";
 
 const inter = Inter({
@@ -26,14 +25,17 @@ export async function generateMetadata(): Promise<Metadata> {
     description: t("metadata.description"),
     icons: {
       icon: [
-        { url: "/favicon.ico" },
+        { url: "/favicon-32x32.png" },
         { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
         { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+        { url: "/favicon-192x192.png", sizes: "192x192", type: "image/png" },
+        { url: "/favicon-512x512.png", sizes: "512x512", type: "image/png" },
       ],
       apple: [
-        { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+        { url: "/favicon-192x192.png", sizes: "192x192", type: "image/png" },
       ],
     },
+    manifest: "/manifest.json",
     appleWebApp: {
       capable: true,
       statusBarStyle: "default",
@@ -70,6 +72,28 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="https://ai-chat-pi-blond.vercel.app" />
+
+        {/* Preload critical images for LCP optimization */}
+        <link
+          rel="preload"
+          as="image"
+          href="/hero-illustration-mobile.webp"
+          media="(max-width: 640px)"
+          type="image/webp"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/hero-illustration.webp"
+          media="(min-width: 641px)"
+          type="image/webp"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/ainexo-logo-optimized.png"
+          type="image/png"
+        />
       </head>
       <body
         className={`${inter.className} bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100`}
@@ -78,7 +102,6 @@ export default async function RootLayout({
         <ThemeProvider>
           <NextIntlClientProvider messages={messages} locale={locale}>
             <AuthProvider>
-              <InactivityTimer />
               {children}
               <Toaster />
               <GoogleAnalytics

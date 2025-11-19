@@ -3,7 +3,8 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Button } from "@/components/ui";
-import heroIllustration from "@/public/hero-illustration.jpg";
+import heroIllustrationWebP from "@/public/hero-illustration.webp";
+import heroIllustrationMobileWebP from "@/public/hero-illustration-mobile.webp";
 import Link from "next/link";
 
 export default function Hero() {
@@ -40,15 +41,26 @@ export default function Hero() {
           </div>
 
           <div className="relative mt-8 lg:mt-0">
-            <Image
-              src={heroIllustration}
-              alt="AI chat bubbles connecting across multiple devices"
-              className="w-full h-auto rounded-lg sm:rounded-2xl shadow-xl sm:shadow-2xl"
-              width={500}
-              height={500}
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 500px"
-              priority
-            />
+            <picture>
+              <source
+                media="(max-width: 640px)"
+                srcSet="/hero-illustration-mobile.webp"
+                type="image/webp"
+              />
+              <source
+                srcSet="/hero-illustration.webp"
+                type="image/webp"
+              />
+              <Image
+                src={heroIllustrationWebP}
+                alt="AI chat bubbles connecting across multiple devices"
+                className="w-full h-auto rounded-lg sm:rounded-2xl shadow-xl sm:shadow-2xl"
+                width={500}
+                height={500}
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 500px"
+                priority
+              />
+            </picture>
           </div>
         </div>
       </div>

@@ -13,6 +13,7 @@ import { Session } from "next-auth";
 import { SubscriptionProvider } from "@/lib/subscription-context";
 import { useSubscription } from "@/lib/subscription-context";
 import { AssistantProvider } from "@/contexts/assistant-context";
+import InactivityTimer from "@/components/auth/InactivityTimer";
 
 type AppLayoutProps = {
   children: React.ReactNode;
@@ -59,6 +60,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
   return (
     <SubscriptionProvider>
       <AssistantProvider>
+        <InactivityTimer />
         <AppLayoutContent
           session={session}
           isSidebarOpen={isSidebarOpen}
