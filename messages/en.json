@@ -301,7 +301,10 @@
       "invitations": "Invitations",
       "admin": "Admin",
       "menu": "Menu",
-      "logout": "Logout"
+      "logout": "Logout",
+      "declarationsList": "Declarations",
+      "new": "New",
+      "settings": "Settings"
     },
     "status": "Status",
     "statuses": {

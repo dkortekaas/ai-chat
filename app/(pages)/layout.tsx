@@ -152,104 +152,91 @@ function AppLayoutContent({
           className="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 z-20 h-16 pb-safe"
           suppressHydrationWarning
         >
-            <div
-              className={`grid ${session?.user?.role === "SUPERUSER" ? "grid-cols-3" : "grid-cols-5"} h-full`}
+          <div
+            className={`grid ${session?.user?.role === "SUPERUSER" ? "grid-cols-3" : "grid-cols-5"} h-full`}
+          >
+            <Link
+              href={
+                session?.user?.role === "SUPERUSER"
+                  ? "/admindashboard"
+                  : "/dashboard"
+              }
+              className={`flex flex-col items-center justify-center text-xs ${
+                typeof window !== "undefined" &&
+                (window.location.pathname === "/dashboard" ||
+                  (session?.user?.role === "SUPERUSER" &&
+                    window.location.pathname === "/admindashboard"))
+                  ? "text-primary"
+                  : "text-gray-500"
+              }`}
             >
-              <Link
-                href={
-                  session?.user?.role === "SUPERUSER"
-                    ? "/admindashboard"
-                    : "/dashboard"
-                }
-                className={`flex flex-col items-center justify-center text-xs ${
-                  typeof window !== "undefined" &&
-                  (window.location.pathname === "/dashboard" ||
-                    (session?.user?.role === "SUPERUSER" &&
-                      window.location.pathname === "/admindashboard"))
-                    ? "text-primary"
-                    : "text-gray-500"
-                }`}
-              >
-                <Home className="h-6 w-6 mb-1" />
-                <span>
-                  {session?.user?.role === "SUPERUSER"
-                    ? "AdminDashboard"
-                    : t("common.navigation.dashboard")}
-                </span>
-              </Link>
+              <Home className="h-6 w-6 mb-1" />
+              <span>
+                {session?.user?.role === "SUPERUSER"
+                  ? "AdminDashboard"
+                  : t("common.navigation.dashboard")}
+              </span>
+            </Link>
 
-              {session?.user?.role !== "SUPERUSER" && (
-                <>
-                  <Link
-                    href="/declarations"
-                    className={`flex flex-col items-center justify-center text-xs ${
-                      typeof window !== "undefined" &&
-                      window.location.pathname.includes("/declarations") &&
-                      !window.location.pathname.includes("/new")
-                        ? "text-primary"
-                        : "text-gray-500"
-                    }`}
-                  >
-                    <FileText className="h-6 w-6 mb-1" />
-                    <span>{t("common.navigation.declarationsList")}</span>
-                  </Link>
-
-                  <Link
-                    href="/declarations/new"
-                    className={`flex flex-col items-center justify-center text-xs ${
-                      typeof window !== "undefined" &&
-                      window.location.pathname === "/declarations/new"
-                        ? "text-primary"
-                        : "text-gray-500"
-                    }`}
-                  >
-                    <FilePlus className="h-6 w-6 mb-1" />
-                    <span>{t("common.navigation.new")}</span>
-                  </Link>
-                </>
-              )}
-
-              {session?.user?.role === "SUPERUSER" && (
+            {session?.user?.role !== "SUPERUSER" && (
+              <>
                 <Link
-                  href="/admin"
+                  href="/declarations"
                   className={`flex flex-col items-center justify-center text-xs ${
                     typeof window !== "undefined" &&
-                    window.location.pathname === "/admin"
+                    window.location.pathname.includes("/declarations") &&
+                    !window.location.pathname.includes("/new")
                       ? "text-primary"
                       : "text-gray-500"
                   }`}
                 >
-                  <Shield className="h-6 w-6 mb-1" />
-                  <span>{t("common.navigation.admin")}</span>
+                  <FileText className="h-6 w-6 mb-1" />
+                  <span>{t("common.navigation.declarationsList")}</span>
                 </Link>
-              )}
+              </>
+            )}
 
+            {session?.user?.role === "SUPERUSER" && (
               <Link
-                href="/notifications"
+                href="/admin"
                 className={`flex flex-col items-center justify-center text-xs ${
                   typeof window !== "undefined" &&
-                  window.location.pathname === "/notifications"
+                  window.location.pathname === "/admin"
                     ? "text-primary"
                     : "text-gray-500"
                 }`}
               >
-                <Bell className="h-6 w-6 mb-1" />
-                <span>{t("common.navigation.notifications")}</span>
+                <Shield className="h-6 w-6 mb-1" />
+                <span>{t("common.navigation.admin")}</span>
               </Link>
+            )}
 
-              <Link
-                href="/settings"
-                className={`flex flex-col items-center justify-center text-xs ${
-                  typeof window !== "undefined" &&
-                  window.location.pathname === "/settings"
-                    ? "text-primary"
-                    : "text-gray-500"
-                }`}
-              >
-                <Settings className="h-6 w-6 mb-1" />
-                <span>{t("common.navigation.settings")}</span>
-              </Link>
-            </div>
+            <Link
+              href="/notifications"
+              className={`flex flex-col items-center justify-center text-xs ${
+                typeof window !== "undefined" &&
+                window.location.pathname === "/notifications"
+                  ? "text-primary"
+                  : "text-gray-500"
+              }`}
+            >
+              <Bell className="h-6 w-6 mb-1" />
+              <span>{t("common.navigation.notifications")}</span>
+            </Link>
+
+            <Link
+              href="/settings"
+              className={`flex flex-col items-center justify-center text-xs ${
+                typeof window !== "undefined" &&
+                window.location.pathname === "/settings"
+                  ? "text-primary"
+                  : "text-gray-500"
+              }`}
+            >
+              <Settings className="h-6 w-6 mb-1" />
+              <span>{t("common.navigation.settings")}</span>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

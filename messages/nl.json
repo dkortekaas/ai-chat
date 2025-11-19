@@ -301,7 +301,10 @@
       "invitations": "Uitnodigingen",
       "admin": "Beheerder",
       "menu": "Menu",
-      "logout": "Uitloggen"
+      "logout": "Uitloggen",
+      "declarationsList": "Declaraties",
+      "new": "Nieuw",
+      "settings": "Instellingen"
     },
     "status": "Status",
     "statuses": {
