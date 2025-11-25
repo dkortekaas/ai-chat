@@ -217,6 +217,7 @@
     "dataImported": "Datos importados con éxito",
     "forgotPassword": "Enlace de restablecimiento enviado a su correo electrónico",
     "resetPassword": "Contraseña restablecida con éxito",
+    "emailVerified": "Dirección de correo electrónico verificada con éxito",
     "recoveryCodesCopied": "Códigos de recuperación copiados al portapapeles",
     "codeCopied": "Código copiado al portapapeles",
     "twoFactorSetupSuccess": "Autenticación de dos factores habilitada con éxito",
@@ -321,6 +322,15 @@
       "title": "Restablecer contraseña",
       "forgotPassword": "¿Olvidó su contraseña?",
       "submitButton": "Restablecer contraseña",
+      "backToLogin": "Volver al inicio de sesión"
+    },
+    "verifyEmail": {
+      "title": "Verificar dirección de correo electrónico",
+      "description": "Por favor espere mientras verificamos su dirección de correo electrónico...",
+      "verifying": "Verificando su correo electrónico...",
+      "success": "¡Su correo electrónico ha sido verificado con éxito!",
+      "error": "Error en la verificación",
+      "redirecting": "Redirigiendo a la página de inicio de sesión...",
       "backToLogin": "Volver al inicio de sesión"
     }
   },

@@ -217,6 +217,7 @@
     "dataImported": "Données importées avec succès",
     "forgotPassword": "Lien de réinitialisation envoyé à votre e-mail",
     "resetPassword": "Mot de passe réinitialisé avec succès",
+    "emailVerified": "Adresse e-mail vérifiée avec succès",
     "recoveryCodesCopied": "Codes de récupération copiés dans le presse-papiers",
     "codeCopied": "Code copié dans le presse-papiers",
     "twoFactorSetupSuccess": "Authentification à deux facteurs activée avec succès",
@@ -321,6 +322,15 @@
       "title": "Réinitialiser le mot de passe",
       "forgotPassword": "Mot de passe oublié ?",
       "submitButton": "Réinitialiser le mot de passe",
+      "backToLogin": "Retour à la connexion"
+    },
+    "verifyEmail": {
+      "title": "Vérifier l'adresse e-mail",
+      "description": "Veuillez patienter pendant que nous vérifions votre adresse e-mail...",
+      "verifying": "Vérification de votre e-mail...",
+      "success": "Votre e-mail a été vérifié avec succès !",
+      "error": "Échec de la vérification",
+      "redirecting": "Redirection vers la page de connexion...",
       "backToLogin": "Retour à la connexion"
     }
   },

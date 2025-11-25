@@ -75,10 +75,13 @@ export default function LoginForm() {
     }
   }, [form]);
 
-  // Check for registration success
+  // Check for registration success and email verification
   useEffect(() => {
     if (searchParams.get("registered") === "true") {
       setSuccess(t("auth.registrationSuccess"));
+    }
+    if (searchParams.get("verified") === "true") {
+      setSuccess(t("success.emailVerified") || "Your email has been verified successfully! You can now log in.");
     }
     // Check for error in URL (from NextAuth redirect)
     const errorParam = searchParams.get("error");

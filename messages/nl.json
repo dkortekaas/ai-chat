@@ -441,6 +441,7 @@
     "dataImported": "Gegevens succesvol geïmporteerd",
     "forgotPassword": "Wachtwoord resetlink verzonden naar uw e-mail",
     "resetPassword": "Wachtwoord succesvol gereset",
+    "emailVerified": "E-mailadres succesvol geverifieerd",
     "recoveryCodesCopied": "Herstelcodes gekopieerd naar klembord",
     "codeCopied": "Code gekopieerd naar klembord",
     "twoFactorSetupSuccess": "Twee-factor authenticatie succesvol ingeschakeld",
@@ -546,6 +547,15 @@
       "title": "Wachtwoord resetten",
       "forgotPassword": "Wachtwoord vergeten?",
       "submitButton": "Wachtwoord resetten",
+      "backToLogin": "Terug naar inloggen"
+    },
+    "verifyEmail": {
+      "title": "E-mailadres verifiëren",
+      "description": "Even geduld terwijl we uw e-mailadres verifiëren...",
+      "verifying": "Uw e-mailadres wordt geverifieerd...",
+      "success": "Uw e-mailadres is succesvol geverifieerd!",
+      "error": "Verificatie mislukt",
+      "redirecting": "U wordt doorgestuurd naar de inlogpagina...",
       "backToLogin": "Terug naar inloggen"
     }
   },

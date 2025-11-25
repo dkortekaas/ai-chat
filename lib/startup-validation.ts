@@ -76,22 +76,27 @@ const envSchema = z.object({
       "OPENAI_API_KEY must start with 'sk-'"
     ),
 
-  // Email (Resend)
-  RESEND_API_KEY: z
+  // Email (AWS SES)
+  AWS_ACCESS_KEY_ID: z
     .string()
-    .min(1, "RESEND_API_KEY is required for sending emails")
-    .refine(
-      (key) => key.startsWith("re_"),
-      "RESEND_API_KEY must start with 're_'"
-    ),
+    .min(1, "AWS_ACCESS_KEY_ID is required for sending emails via AWS SES"),
 
-  // RESEND_FROM_EMAIL is optional - falls back to config.email if not set
-  RESEND_FROM_EMAIL: z
+  AWS_SECRET_ACCESS_KEY: z
     .string()
-    .email("RESEND_FROM_EMAIL must be a valid email address")
+    .min(1, "AWS_SECRET_ACCESS_KEY is required for sending emails via AWS SES"),
+
+  AWS_REGION: z
+    .string()
+    .min(1, "AWS_REGION is required (e.g., us-east-1, eu-west-1)")
+    .optional(),
+
+  // AWS_SES_FROM_EMAIL is optional - falls back to config.email if not set
+  AWS_SES_FROM_EMAIL: z
+    .string()
+    .email("AWS_SES_FROM_EMAIL must be a valid email address")
     .refine(
       (email) => email !== "noreply@yourdomain.com",
-      "RESEND_FROM_EMAIL cannot be the default value"
+      "AWS_SES_FROM_EMAIL cannot be the default value"
     )
     .optional(),
 
@@ -276,7 +281,7 @@ function printConfigSummary(
     `  Redis: ${env.UPSTASH_REDIS_REST_URL ? "Configured ✓" : "Not configured ✗"}`
   );
   console.log(
-    `  Email: ${env.RESEND_API_KEY ? "Configured ✓" : "Not configured ✗"}`
+    `  Email: ${env.AWS_ACCESS_KEY_ID && env.AWS_SECRET_ACCESS_KEY ? "Configured ✓" : "Not configured ✗"}`
   );
   console.log("");
 }

@@ -117,6 +117,7 @@ const ContactPage = () => {
         toast({
           title: t("messageSent"),
           description: t("messageSentDescription"),
+          variant: "success",
         });
 
         // Reset form
@@ -126,7 +127,9 @@ const ContactPage = () => {
         console.error("Error submitting contact form:", error);
         toast({
           title: t("errorSending") || "Error",
-          description: t("errorSendingDescription") || "Failed to send your message. Please try again.",
+          description:
+            t("errorSendingDescription") ||
+            "Failed to send your message. Please try again.",
           variant: "destructive",
         });
       } finally {
@@ -187,13 +190,19 @@ const ContactPage = () => {
 
           <Card className="max-w-3xl mx-auto border-2 shadow-xl">
             <CardHeader className="px-4 sm:px-6">
-              <CardTitle className="text-xl sm:text-2xl">{t("sendMessage")}</CardTitle>
+              <CardTitle className="text-xl sm:text-2xl">
+                {t("sendMessage")}
+              </CardTitle>
               <CardDescription className="text-sm sm:text-base">
                 {t("sendMessageDescription")}
               </CardDescription>
             </CardHeader>
             <CardContent className="px-4 sm:px-6">
-              <form onSubmit={handleSubmit} noValidate className="space-y-4 sm:space-y-6">
+              <form
+                onSubmit={handleSubmit}
+                noValidate
+                className="space-y-4 sm:space-y-6"
+              >
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="name">

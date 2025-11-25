@@ -82,14 +82,28 @@ export async function GET(req: NextRequest) {
     }
 
     // Update user's emailVerified field
-    await db.user.update({
+    const updatedUser = await db.user.update({
       where: {
         id: user.id,
       },
       data: {
         emailVerified: new Date(),
       },
+      select: {
+        id: true,
+        email: true,
+        emailVerified: true,
+      },
     });
+
+    // Verify the update was successful
+    if (!updatedUser.emailVerified) {
+      logger.error(`[VERIFY_EMAIL] Failed to update emailVerified for user: ${user.id}`);
+      return NextResponse.json(
+        { error: "Failed to verify email. Please try again." },
+        { status: 500 }
+      );
+    }
 
     // Delete the verification token
     await db.verificationToken.delete({
@@ -98,12 +112,14 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    logger.info(`[VERIFY_EMAIL] Email verified successfully for user: ${user.id}`);
+    logger.info(`[VERIFY_EMAIL] Email verified successfully for user: ${user.id}, email: ${updatedUser.email}, verified at: ${updatedUser.emailVerified}`);
 
     return NextResponse.json(
       {
         message: "Email verified successfully",
         success: true,
+        email: updatedUser.email,
+        verifiedAt: updatedUser.emailVerified,
       },
       { status: 200 }
     );

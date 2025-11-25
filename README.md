@@ -23,6 +23,31 @@ A modern, fully functional Ainexo platform built with Next.js 15, TypeScript, an
 - **Metadata Extraction**: Automatic extraction of document information
 - **File Management**: Edit, delete, and organize uploaded files
 
+### 📧 Email System
+
+- **AWS SES Integration**: Production-ready email delivery via Amazon SES
+- **Email Templates**: Professional HTML email templates with responsive design
+- **Email Types**:
+  - Welcome emails for new users
+  - Email verification with 24-hour token expiration
+  - Password reset emails with secure tokens
+  - Contact form submissions
+  - 2FA recovery codes
+  - Subscription expiration notifications
+  - Invitation emails for team members
+- **Multi-language Support**: All emails support internationalization
+- **Attachment Support**: Email attachments via raw MIME messages
+- **Error Handling**: Graceful degradation if email service unavailable
+- **Email Logging**: Comprehensive logging for debugging and monitoring
+
+### 📝 Contact Form
+
+- **Public Contact Form**: Accessible contact form for website visitors
+- **Form Validation**: Client and server-side validation
+- **Email Notifications**: Automatic email notifications for form submissions
+- **Field Support**: Name, email, company, and message fields
+- **Security**: Rate limiting and validation to prevent spam
+
 ### 🌐 Website Scraping & RAG Integration
 
 - **Intelligent Web Scraping**: Automatic content extraction from websites
@@ -146,6 +171,24 @@ A modern, fully functional Ainexo platform built with Next.js 15, TypeScript, an
 - **Session Management**: Secure session handling with role information
 - **API Security**: Protected endpoints with authentication
 - **Password Security**: bcryptjs password hashing
+- **Two-Factor Authentication (2FA)**: Complete TOTP-based 2FA system
+  - **TOTP Authenticatie**: Time-based One-Time Password via authenticator apps (Google Authenticator, Authy, Microsoft Authenticator, 1Password)
+  - **QR Code Setup**: Easy configuration via QR code scanning
+  - **Backup Codes**: 10 one-time recovery codes for account access
+  - **Email Recovery**: Temporary recovery code via email (last resort, resets 2FA)
+  - **Admin Reset**: Admins can reset 2FA for users in their organization
+  - **Security Logging**: All 2FA events logged for audit purposes
+- **Email Verification**: Email verification required on registration
+  - Verification tokens with 24-hour expiration
+  - Resend verification email functionality
+  - Security audit logging
+- **Account Security**:
+  - **Brute Force Protection**: Account lockout after 10 failed login attempts
+  - **reCAPTCHA Integration**: Required after 3 failed attempts
+  - **30-minute Lockout**: Automatic account lockout duration
+  - **Admin Unlock**: Admins can unlock locked accounts
+  - **Failed Login Tracking**: Comprehensive security audit trail
+- **Password Reset**: Secure password reset via email with token expiration
 
 ### 💳 Subscription & Billing System
 
@@ -297,6 +340,10 @@ EmbedIQ is **production-ready** with enterprise-grade infrastructure and securit
 - **Sentry**: Error tracking and performance monitoring
 - **OpenAI**: AI embeddings and chat completions
 - **JSDOM**: Server-side HTML parsing for web scraping
+- **AWS SES**: Email delivery service
+- **otplib**: TOTP (Time-based One-Time Password) for 2FA
+- **qrcode**: QR code generation for 2FA setup
+- **react-google-recaptcha**: reCAPTCHA integration for brute force protection
 
 ### Development Tools
 
@@ -409,6 +456,19 @@ ai-chat-platform/
    STRIPE_STARTER_PRICE_ID="price_..."
    STRIPE_PROFESSIONAL_PRICE_ID="price_..."
    STRIPE_ENTERPRISE_PRICE_ID="price_..."
+
+   # AWS SES Configuration (for email)
+   AWS_ACCESS_KEY_ID="your-aws-access-key"
+   AWS_SECRET_ACCESS_KEY="your-aws-secret-key"
+   AWS_REGION="us-east-1"
+   AWS_SES_FROM_EMAIL="noreply@yourdomain.com"
+
+   # OpenAI Configuration (Required for RAG and embeddings)
+   OPENAI_API_KEY="sk-..."
+
+   # reCAPTCHA Configuration (for brute force protection)
+   RECAPTCHA_SITE_KEY="your-recaptcha-site-key"
+   RECAPTCHA_SECRET_KEY="your-recaptcha-secret-key"
    ```
 
 4. **Setup database**
@@ -622,6 +682,20 @@ After running the seed script, you can login with these test accounts:
 
 - `POST /api/auth/signup` - User registration
 - `POST /api/auth/[...nextauth]` - NextAuth.js endpoints
+- `POST /api/auth/forgot-password` - Request password reset
+- `POST /api/auth/reset-password` - Reset password with token
+- `POST /api/auth/verify-email` - Verify email address
+- `POST /api/auth/resend-verification` - Resend verification email
+
+### Two-Factor Authentication (2FA)
+
+- `POST /api/auth/2fa/setup` - Generate TOTP secret and QR code
+- `POST /api/auth/2fa/verify` - Verify TOTP code during setup
+- `POST /api/auth/2fa/verify-login` - Verify 2FA code during login
+- `POST /api/auth/2fa/disable` - Disable 2FA (requires current 2FA code)
+- `POST /api/auth/2fa/regenerate-backup-codes` - Generate new backup codes
+- `POST /api/auth/2fa/request-recovery` - Request email recovery code
+- `POST /api/users/[userId]/reset-2fa` - Admin reset 2FA for user
 
 ### Assistants
 
@@ -719,6 +793,10 @@ After running the seed script, you can login with these test accounts:
 - `GET /api/analytics/stats` - Overview statistics
 - `GET /api/analytics/conversations` - Conversation data
 - `GET /api/analytics/ratings` - Rating data
+
+### Contact
+
+- `POST /api/contact` - Submit contact form
 
 ## 🗄️ Database Schema
 
@@ -869,7 +947,72 @@ Voor de RAG functionaliteit en website scraping heb je een OpenAI API key nodig:
 - Zonder API key werkt website scraping wel, maar geen RAG functionaliteit
 - Kosten zijn ongeveer $0.02 per 1M tokens voor embeddings
 
-### 7. Environment Variables Instellen
+### 7. AWS SES Email Setup
+
+Voor het email systeem (welcome emails, password reset, 2FA recovery, etc.) heb je AWS SES nodig:
+
+1. **Ga naar [AWS Console](https://console.aws.amazon.com/)** en log in
+2. **Navigeer naar Amazon SES** (Simple Email Service)
+3. **Verifieer je email adres**:
+   - Ga naar **Verified identities** → **Create identity**
+   - Selecteer **Email address**
+   - Voer je email adres in (bijv. `noreply@yourdomain.com`)
+   - Bevestig via de verificatie email
+4. **Verifieer je domein** (aanbevolen voor productie):
+   - Selecteer **Domain** in plaats van Email
+   - Voeg DNS records toe aan je domein
+   - Dit geeft betere deliverability
+5. **Maak IAM gebruiker aan**:
+   - Ga naar **IAM** → **Users** → **Create user**
+   - Geef de gebruiker SES send permissions:
+     ```json
+     {
+       "Version": "2012-10-17",
+       "Statement": [
+         {
+           "Effect": "Allow",
+           "Action": [
+             "ses:SendEmail",
+             "ses:SendRawEmail"
+           ],
+           "Resource": "*"
+         }
+       ]
+     }
+     ```
+   - Maak **Access Key** aan en kopieer de credentials
+6. **Noteer je AWS credentials**:
+   - Access Key ID
+   - Secret Access Key
+   - Region (bijv. `us-east-1`, `eu-west-1`)
+
+**Belangrijk**:
+
+- In **Sandbox mode** kun je alleen naar geverifieerde email adressen sturen
+- Voor productie moet je **Production access** aanvragen
+- Kosten zijn ongeveer $0.10 per 1000 emails
+- Zonder AWS SES werken emails niet, maar de applicatie blijft functioneren
+
+### 8. reCAPTCHA Setup (Optioneel maar Aanbevolen)
+
+Voor brute force protection heb je Google reCAPTCHA nodig:
+
+1. **Ga naar [Google reCAPTCHA](https://www.google.com/recaptcha/admin)**
+2. **Maak een nieuwe site aan**:
+   - Label: "AI Chat Platform"
+   - reCAPTCHA type: **reCAPTCHA v2** → "I'm not a robot" Checkbox
+   - Domains: Voeg je domein toe (bijv. `localhost` voor development)
+3. **Kopieer de keys**:
+   - **Site Key** (publiek, kan in frontend)
+   - **Secret Key** (privé, alleen in backend)
+
+**Belangrijk**:
+
+- reCAPTCHA is optioneel maar sterk aanbevolen voor beveiliging
+- Zonder reCAPTCHA werkt brute force protection nog steeds, maar zonder CAPTCHA challenge
+- Gratis tot 1 miljoen requests per maand
+
+### 9. Environment Variables Instellen
 
 Update je `.env.local` bestand:
 
@@ -890,7 +1033,7 @@ STRIPE_ENTERPRISE_PRICE_ID="price_1JKL012..."
 OPENAI_API_KEY="sk-..."
 ```
 
-### 8. Test Cards
+### 10. Test Cards
 
 Voor testing kun je deze Stripe test cards gebruiken:
 
@@ -906,7 +1049,7 @@ Requires 3D Secure: 4000 0025 0000 3155
 - **CVC**: Elke 3-cijferige code (bijv. 123)
 - **ZIP**: Elke postcode (bijv. 12345)
 
-### 9. Database Migratie Uitvoeren
+### 11. Database Migratie Uitvoeren
 
 ```bash
 # Zorg dat je database up-to-date is met billing details
@@ -917,7 +1060,7 @@ npx prisma generate
 npm run db:seed
 ```
 
-### 10. Testen van Billing Functionaliteit
+### 12. Testen van Billing Functionaliteit
 
 1. **Login** met `user@example.com` / `user123` (trial account)
 2. **Ga naar Billing** pagina (nieuw menu item in sidebar)
@@ -947,7 +1090,7 @@ npm run db:seed
    stripe trigger customer.subscription.updated
    ```
 
-### 11. Production Setup
+### 13. Production Setup
 
 Voor productie:
 
@@ -1004,6 +1147,16 @@ Voor productie:
 This project is licensed under the MIT License.
 
 ## 🆕 Recent Features
+
+### v2.4.0 - Security & Email Enhancements
+
+- ✅ **Two-Factor Authentication (2FA)**: Complete TOTP-based 2FA system with backup codes and email recovery
+- ✅ **Email Verification**: Email verification required on registration with resend functionality
+- ✅ **Brute Force Protection**: Account lockout after 10 failed attempts with reCAPTCHA integration
+- ✅ **AWS SES Integration**: Production-ready email delivery system
+- ✅ **Contact Form**: Public contact form with email notifications
+- ✅ **Security Audit Logging**: Comprehensive logging for all security events
+- ✅ **Admin 2FA Reset**: Admins can reset 2FA for users in their organization
 
 ### v2.3.0 - Internationalization (i18n)
 
@@ -1062,6 +1215,12 @@ This project is licensed under the MIT License.
 
 ### Latest Updates
 
+- **Two-Factor Authentication (2FA)**: Complete TOTP-based 2FA system with QR code setup, backup codes, email recovery, and admin reset
+- **Email Verification**: Email verification on registration with 24-hour token expiration and resend functionality
+- **Brute Force Protection**: Account lockout system with reCAPTCHA integration after 3 attempts and full lockout after 10 attempts
+- **AWS SES Email System**: Production-ready email delivery with professional templates, multi-language support, and attachment handling
+- **Contact Form**: Public contact form with validation and email notifications
+- **Security Audit Logging**: Comprehensive logging for all authentication and security events
 - **Internationalization (i18n)**: Full multi-language support with 5 languages (Dutch, English, German, French, Spanish)
 - **next-intl Integration**: Complete internationalization system with locale-based routing
 - **Language Preference**: User-selectable interface language with persistence

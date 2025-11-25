@@ -217,6 +217,7 @@
     "dataImported": "Daten erfolgreich importiert",
     "forgotPassword": "Passwort-Reset-Link an Ihre E-Mail gesendet",
     "resetPassword": "Passwort erfolgreich zurückgesetzt",
+    "emailVerified": "E-Mail-Adresse erfolgreich verifiziert",
     "recoveryCodesCopied": "Wiederherstellungscodes in Zwischenablage kopiert",
     "codeCopied": "Code in Zwischenablage kopiert",
     "twoFactorSetupSuccess": "Zwei-Faktor-Authentifizierung erfolgreich aktiviert",
@@ -321,6 +322,15 @@
       "title": "Passwort zurücksetzen",
       "forgotPassword": "Passwort vergessen?",
       "submitButton": "Passwort zurücksetzen",
+      "backToLogin": "Zurück zur Anmeldung"
+    },
+    "verifyEmail": {
+      "title": "E-Mail-Adresse verifizieren",
+      "description": "Bitte warten Sie, während wir Ihre E-Mail-Adresse verifizieren...",
+      "verifying": "Ihre E-Mail wird verifiziert...",
+      "success": "Ihre E-Mail wurde erfolgreich verifiziert!",
+      "error": "Verifizierung fehlgeschlagen",
+      "redirecting": "Weiterleitung zur Anmeldeseite...",
       "backToLogin": "Zurück zur Anmeldung"
     }
   },

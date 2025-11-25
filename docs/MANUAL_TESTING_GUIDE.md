@@ -35,8 +35,11 @@ Execute this SQL to create test users with different subscription states:
 Ensure `.env` contains:
 
 ```bash
-# Email Configuration
-RESEND_API_KEY=your_resend_api_key
+# Email Configuration (AWS SES)
+AWS_ACCESS_KEY_ID=your_aws_access_key_id
+AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
+AWS_REGION=us-east-1
+AWS_SES_FROM_EMAIL=noreply@yourapp.com
 
 # Cron Secret
 CRON_SECRET=your_secure_cron_secret
@@ -941,7 +944,7 @@ After completing all tests, verify:
 **Solution:** Check `CRON_SECRET` in `.env` matches the header value
 
 ### Issue: Emails not sending
-**Solution:** Verify `RESEND_API_KEY` is valid and has send permissions
+**Solution:** Verify AWS SES credentials (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`) are valid and the IAM user has SES send permissions. Also ensure the `AWS_SES_FROM_EMAIL` address is verified in AWS SES.
 
 ### Issue: Webhooks show "Connection refused"
 **Solution:** Ensure webhook URL is publicly accessible (not localhost without ngrok)

@@ -441,6 +441,7 @@
     "dataImported": "Data imported successfully",
     "forgotPassword": "Password reset link sent to your email",
     "resetPassword": "Password reset successfully",
+    "emailVerified": "Email address verified successfully",
     "recoveryCodesCopied": "Recovery codes copied to clipboard",
     "codeCopied": "Code copied to clipboard",
     "twoFactorSetupSuccess": "Two-factor authentication enabled successfully",
@@ -546,6 +547,15 @@
       "title": "Reset Password",
       "forgotPassword": "Forgot your password?",
       "submitButton": "Reset Password",
+      "backToLogin": "Back to Login"
+    },
+    "verifyEmail": {
+      "title": "Verify Email Address",
+      "description": "Please wait while we verify your email address...",
+      "verifying": "Verifying your email...",
+      "success": "Your email has been verified successfully!",
+      "error": "Verification failed",
+      "redirecting": "Redirecting to login page...",
       "backToLogin": "Back to Login"
     }
   },

@@ -43,8 +43,10 @@ The validation runs automatically through Next.js instrumentation:
 | `NEXTAUTH_SECRET`   | Min 32 characters, not default value             | `openssl rand -base64 32`                  |
 | `ENCRYPTION_KEY`    | Min 32, max 64 characters                        | `openssl rand -hex 32`                     |
 | `OPENAI_API_KEY`    | Must start with `sk-`                            | `sk-proj-...`                              |
-| `RESEND_API_KEY`    | Must start with `re_`                            | `re_...`                                   |
-| `RESEND_FROM_EMAIL` | Valid email, not default                         | `noreply@yourapp.com`                      |
+| `AWS_ACCESS_KEY_ID` | Required for AWS SES                            | `AKIAIOSFODNN7EXAMPLE`                     |
+| `AWS_SECRET_ACCESS_KEY` | Required for AWS SES                        | `wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY` |
+| `AWS_REGION`        | AWS region (optional, defaults to us-east-1)    | `us-east-1`, `eu-west-1`                   |
+| `AWS_SES_FROM_EMAIL` | Valid email, not default (optional)          | `noreply@yourapp.com`                      |
 
 ### Production Only (Required in Production)
 
@@ -150,19 +152,30 @@ const apiKey = process.env.OPENAI_API_KEY; // Could be undefined
 
 ```typescript
 import { getEnv } from "@/lib/startup-validation";
+import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 
 export async function sendEmail(to: string, subject: string, body: string) {
   const env = getEnv();
 
   // TypeScript knows these are validated and exist
-  const resend = new Resend(env.RESEND_API_KEY);
-
-  await resend.emails.send({
-    from: env.RESEND_FROM_EMAIL,
-    to,
-    subject,
-    html: body,
+  const sesClient = new SESClient({
+    region: env.AWS_REGION || "us-east-1",
+    credentials: {
+      accessKeyId: env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
+    },
   });
+
+  await sesClient.send(
+    new SendEmailCommand({
+      Source: env.AWS_SES_FROM_EMAIL || "noreply@yourapp.com",
+      Destination: { ToAddresses: [to] },
+      Message: {
+        Subject: { Data: subject, Charset: "UTF-8" },
+        Body: { Html: { Data: body, Charset: "UTF-8" } },
+      },
+    })
+  );
 }
 ```
 
@@ -191,7 +204,7 @@ Get API keys from:
 
 - **Database**: [Neon](https://neon.tech/) or any PostgreSQL provider
 - **OpenAI**: [platform.openai.com/api-keys](https://platform.openai.com/api-keys)
-- **Resend**: [resend.com/api-keys](https://resend.com/api-keys)
+- **AWS SES**: [AWS Console - IAM](https://console.aws.amazon.com/iam/) (create IAM user with SES permissions)
 - **Stripe**: [dashboard.stripe.com/apikeys](https://dashboard.stripe.com/apikeys)
 - **Sentry**: [sentry.io/settings/projects](https://sentry.io/settings/projects)
 - **Upstash**: [console.upstash.com/](https://console.upstash.com/)

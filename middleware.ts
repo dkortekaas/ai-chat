@@ -15,6 +15,7 @@ const noLocalePaths = [
   "/2fa-verify",
   "/forgot-password",
   "/reset-password",
+  "/verify-email",
   "/accept-invitation",
   "/beta-registration",
 ];
@@ -33,6 +34,7 @@ const publicPaths = [
   "/register",
   "/forgot-password",
   "/reset-password",
+  "/verify-email",
   "/accept-invitation",
   "/beta-registration",
 ];

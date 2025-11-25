@@ -1,60 +1,199 @@
 import config from "@/config";
 import { getTranslations } from "next-intl/server";
-import { Resend } from "resend";
+import {
+  SESClient,
+  SendEmailCommand,
+  SendRawEmailCommand,
+} from "@aws-sdk/client-ses";
 import { logger } from "@/lib/logger";
 import { db } from "@/lib/db";
+import { join } from "path";
+import { existsSync } from "fs";
+import nodemailer, { type Transporter } from "nodemailer";
+import type StreamTransport from "nodemailer/lib/stream-transport";
 
-// Lazy initialization of Resend client to avoid build-time errors
-let resend: Resend | null = null;
+// Lazy initialization of AWS SES client to avoid build-time errors
+let sesClient: SESClient | null = null;
 
-function getResendClient(): Resend {
-  if (!resend) {
-    if (!process.env.RESEND_API_KEY) {
-      throw new Error("Missing RESEND_API_KEY environment variable");
+function getSESClient(): SESClient {
+  if (!sesClient) {
+    if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
+      throw new Error(
+        "Missing AWS credentials (AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY)"
+      );
     }
-    resend = new Resend(process.env.RESEND_API_KEY);
+    sesClient = new SESClient({
+      region: process.env.AWS_REGION || "us-east-1",
+      credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      },
+    });
   }
-  return resend;
+  return sesClient;
 }
 
-// Get the verified FROM email address for Resend
+// Get the verified FROM email address for AWS SES
 function getFromEmail(): string {
-  return process.env.RESEND_FROM_EMAIL || config.email;
+  return process.env.AWS_SES_FROM_EMAIL || config.email;
 }
 
-async function createEmailTemplate(content: string) {
+// Helper function to send email via AWS SES
+async function sendEmailViaSES(
+  to: string | string[],
+  subject: string,
+  html: string,
+  replyTo?: string
+) {
+  const client = getSESClient();
+  const fromEmail = getFromEmail();
+  const from = `${config.appTitle} <${fromEmail}>`;
+  const toAddresses = Array.isArray(to) ? to : [to];
+  const attachments = getEmailAttachments();
+
+  // Als er geen attachments zijn, gebruik de simpelere SendEmailCommand
+  if (attachments.length === 0) {
+    const command = new SendEmailCommand({
+      Source: from,
+      Destination: {
+        ToAddresses: toAddresses,
+      },
+      Message: {
+        Subject: {
+          Data: subject,
+          Charset: "UTF-8",
+        },
+        Body: {
+          Html: {
+            Data: html,
+            Charset: "UTF-8",
+          },
+          Text: {
+            Data: html.replace(/<[^>]*>/g, ""), // Text fallback
+            Charset: "UTF-8",
+          },
+        },
+      },
+      ...(replyTo && {
+        ReplyToAddresses: [replyTo],
+      }),
+    });
+
+    return await client.send(command);
+  }
+
+  // Voor emails met attachments, gebruik raw MIME message
+  const transporter = nodemailer.createTransport({
+    streamTransport: true,
+    newline: "unix",
+  }) as Transporter<StreamTransport.SentMessageInfo>;
+
+  const mailOptions = {
+    from,
+    to: toAddresses,
+    subject,
+    html,
+    text: html.replace(/<[^>]*>/g, ""),
+    ...(replyTo && { replyTo }),
+    attachments,
+  };
+
+  try {
+    // Genereer raw MIME message
+    const info = (await transporter.sendMail(
+      mailOptions
+    )) as unknown as StreamTransport.SentMessageInfo;
+
+    // Bij streamTransport is message een readable stream
+    // We moeten deze naar een Buffer converteren
+    let rawMessage: Buffer;
+    if (Buffer.isBuffer(info.message)) {
+      rawMessage = info.message;
+    } else {
+      // Als het een stream is, converteer naar buffer
+      const chunks: Buffer[] = [];
+      for await (const chunk of info.message) {
+        chunks.push(Buffer.from(chunk));
+      }
+      rawMessage = Buffer.concat(chunks);
+    }
+
+    // Verstuur via AWS SES
+    const command = new SendRawEmailCommand({
+      RawMessage: {
+        Data: rawMessage,
+      },
+    });
+
+    return await client.send(command);
+  } catch (error) {
+    logger.error("[EMAIL] Failed to generate raw MIME message", {
+      context: {
+        error: error instanceof Error ? error.message : String(error),
+      },
+    });
+    throw error;
+  }
+}
+
+export async function createEmailTemplate(content: string) {
   const t = await getTranslations();
 
   return `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-      <div style="display: flex; align-items: center; margin-bottom: 30px;">
-        <img src="${process.env.NEXT_PUBLIC_APP_URL}/declair-logo.svg" alt="Declair Logo" style="width: 80px; height: auto; margin-right: 15px;" />
-        <h1 style="color: #333; margin: 0; font-size: 24px;">${config.appTitle}</h1>
-      </div>
-      <div style="background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-        ${content}
-      </div>
-      <div style="text-align: center; margin-top: 30px; color: #666; font-size: 0.9em;">
-        <p>© ${new Date().getFullYear()} ${config.appTitle}. ${t("mail.rights")}.</p>
-        <p style="margin: 10px 0;">
-          <a href="${process.env.NEXT_PUBLIC_APP_URL}" style="color: #589bff; text-decoration: none;">${process.env.NEXT_PUBLIC_APP_URL}</a>
-        </p>
-        <div style="margin-top: 15px;">
-          <a href="${process.env.NEXT_PUBLIC_LINKEDIN_URL}" style="color: #666; text-decoration: none; margin: 0 10px;">
-            <img src="${process.env.NEXT_PUBLIC_APP_URL}/social/linkedin.png" alt="LinkedIn" style="width: 24px; height: 24px;" />
-          </a>
-          <a href="${process.env.NEXT_PUBLIC_TWITTER_URL}" style="color: #666; text-decoration: none; margin: 0 10px;">
-            <img src="${process.env.NEXT_PUBLIC_APP_URL}/social/twitter.png" alt="Twitter" style="width: 24px; height: 24px;" />
-          </a>
-          <a href="${process.env.NEXT_PUBLIC_INSTAGRAM_URL}" style="color: #666; text-decoration: none; margin: 0 10px;">
-            <img src="${process.env.NEXT_PUBLIC_APP_URL}/social/instagram.png" alt="Instagram" style="width: 24px; height: 24px;" />
-          </a>
-          <a href="${process.env.NEXT_PUBLIC_FACEBOOK_URL}" style="color: #666; text-decoration: none; margin: 0 10px;">
-            <img src="${process.env.NEXT_PUBLIC_APP_URL}/social/facebook.png" alt="Facebook" style="width: 24px; height: 24px;" />
-          </a>
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body style="margin: 0; padding: 0; background-color: #f5f5f5;">
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="display: flex; align-items: center; margin-bottom: 30px;">
+          <img src="cid:logo" alt="Ainexo Logo" style="width: 80px; height: auto; margin-right: 15px;" />
+          <h1 style="color: #333; margin: 0; font-size: 24px;">${
+            config.appTitle
+          }</h1>
+        </div>
+        <div style="background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          ${content}
+        </div>
+        <div style="text-align: center; margin-top: 30px; color: #666; font-size: 0.9em;">
+          <p style="margin: 10px 0;">© ${new Date().getFullYear()} ${
+    config.appTitle
+  }. ${t("mail.rights")}.</p>
+          <p style="margin: 10px 0;">
+            <a href="${
+              process.env.NEXT_PUBLIC_APP_URL
+            }" style="color: #589bff; text-decoration: none;">${
+    process.env.NEXT_PUBLIC_APP_URL
+  }</a>
+          </p>
+          <div style="margin-top: 15px;">
+            <a href="${
+              process.env.NEXT_PUBLIC_LINKEDIN_URL
+            }" style="display: inline-block; margin: 0 10px;">
+              <img src="cid:linkedin" alt="LinkedIn" style="width: 24px; height: 24px; display: block;" />
+            </a>
+            <a href="${
+              process.env.NEXT_PUBLIC_TWITTER_URL
+            }" style="display: inline-block; margin: 0 10px;">
+              <img src="cid:twitter" alt="Twitter" style="width: 24px; height: 24px; display: block;" />
+            </a>
+            <a href="${
+              process.env.NEXT_PUBLIC_INSTAGRAM_URL
+            }" style="display: inline-block; margin: 0 10px;">
+              <img src="cid:instagram" alt="Instagram" style="width: 24px; height: 24px; display: block;" />
+            </a>
+            <a href="${
+              process.env.NEXT_PUBLIC_FACEBOOK_URL
+            }" style="display: inline-block; margin: 0 10px;">
+              <img src="cid:facebook" alt="Facebook" style="width: 24px; height: 24px; display: block;" />
+            </a>
+          </div>
         </div>
       </div>
-    </div>
+    </body>
+    </html>
   `;
 }
 
@@ -75,11 +214,10 @@ export async function sendWelcomeEmail(
   const isAdmin = userInfo?.role === "ADMIN";
 
   try {
-    await getResendClient().emails.send({
-      from: `${config.appTitle} <${getFromEmail()}>`,
-      to: email,
-      subject: t("title"),
-      html: await createEmailTemplate(`
+    await sendEmailViaSES(
+      email,
+      t("title"),
+      await createEmailTemplate(`
         <h1 style="color: #333; margin-bottom: 20px;">${t("title")}</h1>
         <p style="color: #666; line-height: 1.6;">${t("description")}</p>
         
@@ -93,7 +231,9 @@ export async function sendWelcomeEmail(
 
         <h2 style="color: #333; margin: 30px 0 15px;">${t("tips.title")}</h2>
         <ul style="color: #666; line-height: 1.6; list-style: none; padding: 0;">
-          <li style="margin-bottom: 10px;">${t("tips.login", { loginLink })}</li>
+          <li style="margin-bottom: 10px;">${t("tips.login", {
+            loginLink,
+          })}</li>
           <li style="margin-bottom: 10px;">${t("tips.profile")}</li>
           <li style="margin-bottom: 10px;">${t("tips.firstDeclaration")}</li>
           <li style="margin-bottom: 10px;">${t("tips.invite")}</li>
@@ -102,12 +242,20 @@ export async function sendWelcomeEmail(
         ${
           isAdmin
             ? `
-        <h2 style="color: #333; margin: 30px 0 15px;">${t("companyInfo.title")}</h2>
+        <h2 style="color: #333; margin: 30px 0 15px;">${t(
+          "companyInfo.title"
+        )}</h2>
         <ul style="color: #666; line-height: 1.6; list-style: none; padding: 0;">
           <li style="margin-bottom: 10px;">${t("companyInfo.admin.invite")}</li>
-          <li style="margin-bottom: 10px;">${t("companyInfo.admin.settings")}</li>
-          <li style="margin-bottom: 10px;">${t("companyInfo.admin.approve")}</li>
-          <li style="margin-bottom: 10px;">${t("companyInfo.admin.reports")}</li>
+          <li style="margin-bottom: 10px;">${t(
+            "companyInfo.admin.settings"
+          )}</li>
+          <li style="margin-bottom: 10px;">${t(
+            "companyInfo.admin.approve"
+          )}</li>
+          <li style="margin-bottom: 10px;">${t(
+            "companyInfo.admin.reports"
+          )}</li>
         </ul>
         `
             : ""
@@ -116,35 +264,56 @@ export async function sendWelcomeEmail(
         <h2 style="color: #333; margin: 30px 0 15px;">${t("help.title")}</h2>
         <ul style="color: #666; line-height: 1.6; list-style: none; padding: 0;">
           <li style="margin-bottom: 10px;">${t("help.faq", { faqLink })}</li>
-          <li style="margin-bottom: 10px;">${t("help.manual", { manualLink })}</li>
+          <li style="margin-bottom: 10px;">${t("help.manual", {
+            manualLink,
+          })}</li>
           <li style="margin-bottom: 10px;">${t("help.support")}</li>
           <li style="margin-bottom: 10px;">${t("help.phone")}</li>
         </ul>
 
-        <h2 style="color: #333; margin: 30px 0 15px;">${t("nextSteps.title")}</h2>
+        <h2 style="color: #333; margin: 30px 0 15px;">${t(
+          "nextSteps.title"
+        )}</h2>
         <ul style="color: #666; line-height: 1.6; list-style: none; padding: 0;">
           <li style="margin-bottom: 10px;">${t("nextSteps.confirmEmail")}</li>
           <li style="margin-bottom: 10px;">${t("nextSteps.setup2FA")}</li>
           <li style="margin-bottom: 10px;">${t("nextSteps.uploadReceipt")}</li>
         </ul>
 
-        <p style="color: #666; line-height: 1.6; margin: 30px 0;">${t("signature")}</p>
+        <p style="color: #666; line-height: 1.6; margin: 30px 0;">${t(
+          "signature"
+        )}</p>
 
         <div style="margin: 30px 0;">
           <p style="color: #666; line-height: 1.6;">${t("social.title")}</p>
           <div style="margin-top: 15px;">
-            <a href="${process.env.NEXT_PUBLIC_LINKEDIN_URL}" style="color: #666; text-decoration: none; margin-right: 15px;">${t("social.linkedin")}</a>
-            <a href="${process.env.NEXT_PUBLIC_TWITTER_URL}" style="color: #666; text-decoration: none;">${t("social.twitter")}</a>
+            <a href="${
+              process.env.NEXT_PUBLIC_LINKEDIN_URL
+            }" style="color: #666; text-decoration: none; margin-right: 15px;">${t(
+        "social.linkedin"
+      )}</a>
+            <a href="${
+              process.env.NEXT_PUBLIC_TWITTER_URL
+            }" style="color: #666; text-decoration: none;">${t(
+        "social.twitter"
+      )}</a>
           </div>
         </div>
 
         <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
-          <p style="color: #999; font-size: 0.9em; line-height: 1.6;">${t("footer.sentTo", { email })}</p>
-          <p style="color: #999; font-size: 0.9em; line-height: 1.6;">${t("footer.unsubscribe")}</p>
-          <p style="color: #999; font-size: 0.9em; line-height: 1.6; white-space: pre-line;">${t("footer.address")}</p>
+          <p style="color: #999; font-size: 0.9em; line-height: 1.6;">${t(
+            "footer.sentTo",
+            { email }
+          )}</p>
+          <p style="color: #999; font-size: 0.9em; line-height: 1.6;">${t(
+            "footer.unsubscribe"
+          )}</p>
+          <p style="color: #999; font-size: 0.9em; line-height: 1.6; white-space: pre-line;">${t(
+            "footer.address"
+          )}</p>
         </div>
-      `),
-    });
+      `)
+    );
   } catch (error) {
     logger.error("Failed to send welcome email", {
       context: {
@@ -170,20 +339,29 @@ export async function sendPasswordResetEmail(
     console.log(`[EMAIL] From: ${config.appTitle} <${config.email}>`);
     console.log(`[EMAIL] Reset link: ${resetLink}`);
 
-    const result = await getResendClient().emails.send({
-      from: `${config.appTitle} <${getFromEmail()}>`,
-      to: email,
-      subject: t("mail.resetPassword.title"),
-      html: await createEmailTemplate(`
-        <h1 style="color: #333; margin-bottom: 20px;">${t("mail.resetPassword.title")}</h1>
-        <p style="color: #666; line-height: 1.6;">${t("mail.resetPassword.description")}</p>
+    const result = await sendEmailViaSES(
+      email,
+      t("mail.resetPassword.title"),
+      await createEmailTemplate(`
+        <h1 style="color: #333; margin-bottom: 20px;">${t(
+          "mail.resetPassword.title"
+        )}</h1>
+        <p style="color: #666; line-height: 1.6;">${t(
+          "mail.resetPassword.description"
+        )}</p>
         <div style="text-align: center; margin: 30px 0;">
-          <a href="${resetLink}" style="background-color: #589bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">${t("mail.resetPassword.link")}</a>
+          <a href="${resetLink}" style="background-color: #589bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">${t(
+        "mail.resetPassword.link"
+      )}</a>
         </div>
-        <p style="color: #666; line-height: 1.6;">${t("mail.resetPassword.ignore")}</p>
-        <p style="color: #666; line-height: 1.6;">${t("mail.resetPassword.expiration")}</p>
-      `),
-    });
+        <p style="color: #666; line-height: 1.6;">${t(
+          "mail.resetPassword.ignore"
+        )}</p>
+        <p style="color: #666; line-height: 1.6;">${t(
+          "mail.resetPassword.expiration"
+        )}</p>
+      `)
+    );
 
     console.log(
       `[EMAIL] Password reset email sent successfully. Result:`,
@@ -221,17 +399,21 @@ export async function sendEmailVerificationEmail(
   const verificationLink = `${process.env.NEXT_PUBLIC_APP_URL}/verify-email?token=${verificationToken}`;
 
   try {
-    await getResendClient().emails.send({
-      from: `${config.appTitle} <${getFromEmail()}>`,
-      to: email,
-      subject: t("mail.verifyEmail.title") || "Verify your email address",
-      html: await createEmailTemplate(`
-        <h1 style="color: #333; margin-bottom: 20px;">${t("mail.verifyEmail.title") || "Verify Your Email Address"}</h1>
+    await sendEmailViaSES(
+      email,
+      t("mail.verifyEmail.title") || "Verify your email address",
+      await createEmailTemplate(`
+        <h1 style="color: #333; margin-bottom: 20px;">${
+          t("mail.verifyEmail.title") || "Verify Your Email Address"
+        }</h1>
         <p style="color: #666; line-height: 1.6;">
           ${t("mail.verifyEmail.greeting") || "Hi"} ${user.name || "there"},
         </p>
         <p style="color: #666; line-height: 1.6;">
-          ${t("mail.verifyEmail.description") || "Thank you for signing up! Please verify your email address by clicking the button below:"}
+          ${
+            t("mail.verifyEmail.description") ||
+            "Thank you for signing up! Please verify your email address by clicking the button below:"
+          }
         </p>
         <div style="text-align: center; margin: 30px 0;">
           <a href="${verificationLink}" style="background-color: #10B981; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block; font-weight: bold;">
@@ -239,22 +421,33 @@ export async function sendEmailVerificationEmail(
           </a>
         </div>
         <p style="color: #666; line-height: 1.6; font-size: 14px;">
-          ${t("mail.verifyEmail.alternative") || "Or copy and paste this link into your browser:"}
+          ${
+            t("mail.verifyEmail.alternative") ||
+            "Or copy and paste this link into your browser:"
+          }
         </p>
         <p style="color: #589bff; line-height: 1.6; font-size: 14px; word-break: break-all;">
           ${verificationLink}
         </p>
         <div style="background-color: #FEF3C7; border-left: 4px solid #F59E0B; padding: 15px; margin: 30px 0;">
           <p style="color: #92400E; margin: 0; line-height: 1.6;">
-            <strong>${t("mail.verifyEmail.important") || "Important:"}</strong><br/>
-            ${t("mail.verifyEmail.expiration") || "This verification link will expire in 24 hours. If you didn't create an account, please ignore this email."}
+            <strong>${
+              t("mail.verifyEmail.important") || "Important:"
+            }</strong><br/>
+            ${
+              t("mail.verifyEmail.expiration") ||
+              "This verification link will expire in 24 hours. If you didn't create an account, please ignore this email."
+            }
           </p>
         </div>
         <p style="color: #666; line-height: 1.6;">
-          ${t("mail.verifyEmail.support") || "If you have any questions, please contact our support team."}
+          ${
+            t("mail.verifyEmail.support") ||
+            "If you have any questions, please contact our support team."
+          }
         </p>
-      `),
-    });
+      `)
+    );
 
     logger.info("Email verification email sent", {
       context: {
@@ -289,22 +482,31 @@ export async function sendInvitationEmail(
   expiryDate.setDate(expiryDate.getDate() + 7);
 
   try {
-    const result = await getResendClient().emails.send({
-      from: `${config.appTitle} <${getFromEmail()}>`,
-      to: email,
-      subject: t("subject", { companyName }),
-      html: await createEmailTemplate(`
+    const result = await sendEmailViaSES(
+      email,
+      t("subject", { companyName }),
+      await createEmailTemplate(`
         <p style="color: #666; line-height: 1.6;">${t("greeting")}</p>
-        <p style="color: #666; line-height: 1.6;">${t("intro", { companyName })}</p>
-        <p style="color: #666; line-height: 1.6;">${t("inviter", { inviterName: inviter.name })}</p>
+        <p style="color: #666; line-height: 1.6;">${t("intro", {
+          companyName,
+        })}</p>
+        <p style="color: #666; line-height: 1.6;">${t("inviter", {
+          inviterName: inviter.name,
+        })}</p>
 
-        <h2 style="color: #333; margin: 30px 0 15px;">${t("role.title", { companyName })}</h2>
-        <p style="color: #666; line-height: 1.6;">${t("role.invitedAs", { role })}</p>
+        <h2 style="color: #333; margin: 30px 0 15px;">${t("role.title", {
+          companyName,
+        })}</h2>
+        <p style="color: #666; line-height: 1.6;">${t("role.invitedAs", {
+          role,
+        })}</p>
 
         ${
           role === "USER"
             ? `
-        <h3 style="color: #333; margin: 20px 0 10px;">${t("role.user.title")}</h3>
+        <h3 style="color: #333; margin: 20px 0 10px;">${t(
+          "role.user.title"
+        )}</h3>
         <ul style="color: #666; line-height: 1.6; list-style: none; padding: 0;">
           <li style="margin-bottom: 10px;">${t("role.user.features.0")}</li>
           <li style="margin-bottom: 10px;">${t("role.user.features.1")}</li>
@@ -318,7 +520,9 @@ export async function sendInvitationEmail(
         ${
           role === "APPROVER"
             ? `
-        <h3 style="color: #333; margin: 20px 0 10px;">${t("role.approver.title")}</h3>
+        <h3 style="color: #333; margin: 20px 0 10px;">${t(
+          "role.approver.title"
+        )}</h3>
         <ul style="color: #666; line-height: 1.6; list-style: none; padding: 0;">
           <li style="margin-bottom: 10px;">${t("role.approver.features.0")}</li>
           <li style="margin-bottom: 10px;">${t("role.approver.features.1")}</li>
@@ -332,7 +536,9 @@ export async function sendInvitationEmail(
         ${
           role === "ADMIN"
             ? `
-        <h3 style="color: #333; margin: 20px 0 10px;">${t("role.admin.title")}</h3>
+        <h3 style="color: #333; margin: 20px 0 10px;">${t(
+          "role.admin.title"
+        )}</h3>
         <ul style="color: #666; line-height: 1.6; list-style: none; padding: 0;">
           <li style="margin-bottom: 10px;">${t("role.admin.features.0")}</li>
           <li style="margin-bottom: 10px;">${t("role.admin.features.1")}</li>
@@ -346,7 +552,9 @@ export async function sendInvitationEmail(
         ${
           role === "FINANCE"
             ? `
-        <h3 style="color: #333; margin: 20px 0 10px;">${t("role.finance.title")}</h3>
+        <h3 style="color: #333; margin: 20px 0 10px;">${t(
+          "role.finance.title"
+        )}</h3>
         <ul style="color: #666; line-height: 1.6; list-style: none; padding: 0;">
           <li style="margin-bottom: 10px;">${t("role.finance.features.0")}</li>
           <li style="margin-bottom: 10px;">${t("role.finance.features.1")}</li>
@@ -357,8 +565,12 @@ export async function sendInvitationEmail(
             : ""
         }
 
-        <h2 style="color: #333; margin: 30px 0 15px;">${t("whatIsDeclair.title")}</h2>
-        <p style="color: #666; line-height: 1.6;">${t("whatIsDeclair.description")}</p>
+        <h2 style="color: #333; margin: 30px 0 15px;">${t(
+          "whatIsDeclair.title"
+        )}</h2>
+        <p style="color: #666; line-height: 1.6;">${t(
+          "whatIsDeclair.description"
+        )}</p>
         <ul style="color: #666; line-height: 1.6; list-style: none; padding: 0;">
           <li style="margin-bottom: 10px;">${t("whatIsDeclair.features.0")}</li>
           <li style="margin-bottom: 10px;">${t("whatIsDeclair.features.1")}</li>
@@ -366,47 +578,77 @@ export async function sendInvitationEmail(
           <li style="margin-bottom: 10px;">${t("whatIsDeclair.features.3")}</li>
         </ul>
 
-        <h2 style="color: #333; margin: 30px 0 15px;">${t("activation.title")}</h2>
+        <h2 style="color: #333; margin: 30px 0 15px;">${t(
+          "activation.title"
+        )}</h2>
         <ul style="color: #666; line-height: 1.6; list-style: none; padding: 0;">
           <li style="margin-bottom: 10px;">${t("activation.steps.0")}</li>
           <li style="margin-bottom: 10px;">${t("activation.steps.1")}</li>
           <li style="margin-bottom: 10px;">${t("activation.steps.2")}</li>
         </ul>
 
-        <h2 style="color: #333; margin: 30px 0 15px;">${t("important.title")}</h2>
+        <h2 style="color: #333; margin: 30px 0 15px;">${t(
+          "important.title"
+        )}</h2>
         <ul style="color: #666; line-height: 1.6; list-style: none; padding: 0;">
           <li style="margin-bottom: 10px;">${t("important.items.0")}</li>
-          <li style="margin-bottom: 10px;">${t("important.items.1", { companyName })}</li>
+          <li style="margin-bottom: 10px;">${t("important.items.1", {
+            companyName,
+          })}</li>
           <li style="margin-bottom: 10px;">${t("important.items.2")}</li>
-          <li style="margin-bottom: 10px;">${t("important.items.3", { inviterName: inviter.name })}</li>
+          <li style="margin-bottom: 10px;">${t("important.items.3", {
+            inviterName: inviter.name,
+          })}</li>
         </ul>
 
-        <h2 style="color: #333; margin: 30px 0 15px;">${t("gettingStarted.title")}</h2>
+        <h2 style="color: #333; margin: 30px 0 15px;">${t(
+          "gettingStarted.title"
+        )}</h2>
         
-        <h3 style="color: #333; margin: 20px 0 10px;">${t("gettingStarted.beginners.title")}</h3>
+        <h3 style="color: #333; margin: 20px 0 10px;">${t(
+          "gettingStarted.beginners.title"
+        )}</h3>
         <ul style="color: #666; line-height: 1.6; list-style: none; padding: 0;">
-          <li style="margin-bottom: 10px;">${t("gettingStarted.beginners.items.0")}</li>
-          <li style="margin-bottom: 10px;">${t("gettingStarted.beginners.items.1")}</li>
-          <li style="margin-bottom: 10px;">${t("gettingStarted.beginners.items.2")}</li>
+          <li style="margin-bottom: 10px;">${t(
+            "gettingStarted.beginners.items.0"
+          )}</li>
+          <li style="margin-bottom: 10px;">${t(
+            "gettingStarted.beginners.items.1"
+          )}</li>
+          <li style="margin-bottom: 10px;">${t(
+            "gettingStarted.beginners.items.2"
+          )}</li>
         </ul>
 
-        <h3 style="color: #333; margin: 20px 0 10px;">${t("gettingStarted.experienced.title")}</h3>
+        <h3 style="color: #333; margin: 20px 0 10px;">${t(
+          "gettingStarted.experienced.title"
+        )}</h3>
         <ul style="color: #666; line-height: 1.6; list-style: none; padding: 0;">
-          <li style="margin-bottom: 10px;">${t("gettingStarted.experienced.items.0")}</li>
-          <li style="margin-bottom: 10px;">${t("gettingStarted.experienced.items.1")}</li>
-          <li style="margin-bottom: 10px;">${t("gettingStarted.experienced.items.2")}</li>
+          <li style="margin-bottom: 10px;">${t(
+            "gettingStarted.experienced.items.0"
+          )}</li>
+          <li style="margin-bottom: 10px;">${t(
+            "gettingStarted.experienced.items.1"
+          )}</li>
+          <li style="margin-bottom: 10px;">${t(
+            "gettingStarted.experienced.items.2"
+          )}</li>
         </ul>
 
         <h2 style="color: #333; margin: 30px 0 15px;">${t("support.title")}</h2>
         
-        <h3 style="color: #333; margin: 20px 0 10px;">${t("support.team.title")}</h3>
+        <h3 style="color: #333; margin: 20px 0 10px;">${t(
+          "support.team.title"
+        )}</h3>
         <ul style="color: #666; line-height: 1.6; list-style: none; padding: 0;">
           <li style="margin-bottom: 10px;">${t("support.team.email")}</li>
           <!--<li style="margin-bottom: 10px;">${t("support.team.phone")}</li>
           <li style="margin-bottom: 10px;">${t("support.team.chat")}</li> -->
         </ul>
 
-        <h3 style="color: #333; margin: 20px 0 10px;">${t("support.contact.title")}</h3>
+        <h3 style="color: #333; margin: 20px 0 10px;">${t(
+          "support.contact.title"
+        )}</h3>
         <p style="color: #666; line-height: 1.6; white-space: pre-line;">${t(
           "support.contact.info",
           {
@@ -417,8 +659,12 @@ export async function sendInvitationEmail(
           }
         )}</p>
 
-        <h2 style="color: #333; margin: 30px 0 15px;">${t("security.title")}</h2>
-        <p style="color: #666; line-height: 1.6;">${t("security.description")}</p>
+        <h2 style="color: #333; margin: 30px 0 15px;">${t(
+          "security.title"
+        )}</h2>
+        <p style="color: #666; line-height: 1.6;">${t(
+          "security.description"
+        )}</p>
         <ul style="color: #666; line-height: 1.6; list-style: none; padding: 0;">
           <li style="margin-bottom: 10px;">${t("security.features.1")}</li>
           <li style="margin-bottom: 10px;">${t("security.features.2")}</li>
@@ -426,7 +672,9 @@ export async function sendInvitationEmail(
         </ul>
 
         <div style="margin: 30px 0;">
-          <h2 style="color: #333; margin-bottom: 15px;">${t("closing.welcome")}</h2>
+          <h2 style="color: #333; margin-bottom: 15px;">${t(
+            "closing.welcome"
+          )}</h2>
           <p style="color: #666; line-height: 1.6;">${t("closing.message")}</p>
           <p style="color: #666; line-height: 1.6; white-space: pre-line;">${t(
             "closing.signature",
@@ -435,7 +683,9 @@ export async function sendInvitationEmail(
               companyName,
             }
           )}</p>
-          <p style="color: #666; line-height: 1.6;">${t("closing.ps", { inviterEmail: inviter.email })}</p>
+          <p style="color: #666; line-height: 1.6;">${t("closing.ps", {
+            inviterEmail: inviter.email,
+          })}</p>
         </div>
 
         <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
@@ -446,14 +696,18 @@ export async function sendInvitationEmail(
               companyName,
             }
           )}</p>
-          <p style="color: #999; font-size: 0.9em; line-height: 1.6;">${t("footer.unsubscribe")}</p>
+          <p style="color: #999; font-size: 0.9em; line-height: 1.6;">${t(
+            "footer.unsubscribe"
+          )}</p>
         </div>
 
         <div style="text-align: center; margin: 30px 0;">
-          <a href="${invitationLink}" style="background-color: #589bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">${t("createAccountLink")}</a>
+          <a href="${invitationLink}" style="background-color: #589bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">${t(
+        "createAccountLink"
+      )}</a>
         </div>
-      `),
-    });
+      `)
+    );
 
     return result;
   } catch (error) {
@@ -483,20 +737,35 @@ export async function sendDeclarationStatusEmail(
   const declarationLink = `${process.env.NEXT_PUBLIC_APP_URL}/declarations/${declarationId}`;
 
   try {
-    await getResendClient().emails.send({
-      from: `${config.appTitle} <${getFromEmail()}>`,
-      to: email,
-      subject: `${t("declaration")} ${statusMessages[status]}`,
-      html: await createEmailTemplate(`
-        <h1 style="color: #333; margin-bottom: 20px;">${t("declaration")} ${statusMessages[status]}</h1>
-        <p style="color: #666; line-height: 1.6;">${t("yourDeclaration")} "${declarationTitle}" ${t("hasBeen")} ${statusMessages[status].toLowerCase()}.</p>
-        ${comment ? `<p style="color: #666; line-height: 1.6;">${t("comment")}: ${comment}</p>` : ""}
-        <p style="color: #666; line-height: 1.6;">${t("viewDeclarationIn")} ${config.appTitle}.</p>
+    await sendEmailViaSES(
+      email,
+      `${t("declaration")} ${statusMessages[status]}`,
+      await createEmailTemplate(`
+        <h1 style="color: #333; margin-bottom: 20px;">${t("declaration")} ${
+        statusMessages[status]
+      }</h1>
+        <p style="color: #666; line-height: 1.6;">${t(
+          "yourDeclaration"
+        )} "${declarationTitle}" ${t("hasBeen")} ${statusMessages[
+        status
+      ].toLowerCase()}.</p>
+        ${
+          comment
+            ? `<p style="color: #666; line-height: 1.6;">${t(
+                "comment"
+              )}: ${comment}</p>`
+            : ""
+        }
+        <p style="color: #666; line-height: 1.6;">${t("viewDeclarationIn")} ${
+        config.appTitle
+      }.</p>
         <div style="text-align: center; margin: 30px 0;">
-          <a href="${declarationLink}" style="background-color: #589bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">${t("viewDeclaration")}</a>
+          <a href="${declarationLink}" style="background-color: #589bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">${t(
+        "viewDeclaration"
+      )}</a>
         </div>
-      `),
-    });
+      `)
+    );
   } catch (error) {
     logger.error("Failed to send declaration status email", {
       context: {
@@ -521,20 +790,23 @@ export async function sendDeclarationCreatedEmail(
   const declarationLink = `${process.env.NEXT_PUBLIC_APP_URL}/declarations/${declarationId}`;
 
   try {
-    await getResendClient().emails.send({
-      from: `${config.appTitle} <${getFromEmail()}>`,
-      to: email,
-      subject: t("title"),
-      html: await createEmailTemplate(`
+    await sendEmailViaSES(
+      email,
+      t("title"),
+      await createEmailTemplate(`
         <h1 style="color: #333; margin-bottom: 20px;">${t("title")}</h1>
-        <p style="color: #666; line-height: 1.6;">${t("description", { declarationTitle })}</p>
+        <p style="color: #666; line-height: 1.6;">${t("description", {
+          declarationTitle,
+        })}</p>
         <p style="color: #666; line-height: 1.6;">${t("processing")}</p>
         <p style="color: #666; line-height: 1.6;">${t("viewDeclaration")}</p>
         <div style="text-align: center; margin: 30px 0;">
-          <a href="${declarationLink}" style="background-color: #589bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">${t("viewDeclarationLink")}</a>
+          <a href="${declarationLink}" style="background-color: #589bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">${t(
+        "viewDeclarationLink"
+      )}</a>
         </div>
-      `),
-    });
+      `)
+    );
   } catch (error) {
     logger.error("Failed to send declaration created email", {
       context: {
@@ -559,19 +831,22 @@ export async function sendDeclarationToApproveEmail(
   const declarationLink = `${process.env.NEXT_PUBLIC_APP_URL}/declarations/${declarationId}`;
 
   try {
-    await getResendClient().emails.send({
-      from: `${config.appTitle} <${getFromEmail()}>`,
-      to: email,
-      subject: t("title"),
-      html: await createEmailTemplate(`
+    await sendEmailViaSES(
+      email,
+      t("title"),
+      await createEmailTemplate(`
         <h1 style="color: #333; margin-bottom: 20px;">${t("title")}</h1>
-        <p style="color: #666; line-height: 1.6;">${t("description", { declarationTitle })}</p>
+        <p style="color: #666; line-height: 1.6;">${t("description", {
+          declarationTitle,
+        })}</p>
         <p style="color: #666; line-height: 1.6;">${t("processing")}</p>
         <div style="text-align: center; margin: 30px 0;">
-          <a href="${declarationLink}" style="background-color: #589bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">${t("viewDeclarationLink")}</a>
+          <a href="${declarationLink}" style="background-color: #589bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">${t(
+        "viewDeclarationLink"
+      )}</a>
         </div>
-      `),
-    });
+      `)
+    );
   } catch (error) {
     logger.error("Failed to send declaration created email", {
       context: {
@@ -594,16 +869,22 @@ export async function sendDeclarationDeletedEmail(
   const t = await getTranslations();
 
   try {
-    await getResendClient().emails.send({
-      from: `${config.appTitle} <${getFromEmail()}>`,
-      to: email,
-      subject: t("mail.declarationDeleted.title"),
-      html: await createEmailTemplate(`
-        <h1 style="color: #333; margin-bottom: 20px;">${t("mail.declarationDeleted.title")}</h1>
-        <p style="color: #666; line-height: 1.6;">${t("mail.declarationDeleted.description", { declarationTitle })}</p>
-        <p style="color: #666; line-height: 1.6;">${t("mail.declarationDeleted.contact")}</p>
-      `),
-    });
+    await sendEmailViaSES(
+      email,
+      t("mail.declarationDeleted.title"),
+      await createEmailTemplate(`
+        <h1 style="color: #333; margin-bottom: 20px;">${t(
+          "mail.declarationDeleted.title"
+        )}</h1>
+        <p style="color: #666; line-height: 1.6;">${t(
+          "mail.declarationDeleted.description",
+          { declarationTitle }
+        )}</p>
+        <p style="color: #666; line-height: 1.6;">${t(
+          "mail.declarationDeleted.contact"
+        )}</p>
+      `)
+    );
   } catch (error) {
     logger.error("Failed to send declaration deleted email", {
       context: {
@@ -640,17 +921,20 @@ export async function sendSubscriptionExpiringEmail(
     daysRemaining === 0
       ? `Je ${subscriptionType} verloopt vandaag!`
       : daysRemaining === 1
-        ? `Je ${subscriptionType} verloopt morgen!`
-        : `Je ${subscriptionType} verloopt over ${daysRemaining} dagen`;
+      ? `Je ${subscriptionType} verloopt morgen!`
+      : `Je ${subscriptionType} verloopt over ${daysRemaining} dagen`;
 
   try {
-    await getResendClient().emails.send({
-      from: `${config.appTitle} <${getFromEmail()}>`,
-      to: email,
-      subject: subject,
-      html: await createEmailTemplate(`
+    await sendEmailViaSES(
+      email,
+      subject,
+      await createEmailTemplate(`
         <h1 style="color: #333; margin-bottom: 20px;">
-          ${daysRemaining === 0 ? "⏰ Laatste dag van je " + subscriptionType : "📅 " + subject}
+          ${
+            daysRemaining === 0
+              ? "⏰ Laatste dag van je " + subscriptionType
+              : "📅 " + subject
+          }
         </h1>
 
         <p style="color: #666; line-height: 1.6; font-size: 16px;">
@@ -662,8 +946,8 @@ export async function sendSubscriptionExpiringEmail(
             daysRemaining === 0
               ? `Je ${subscriptionType} verloopt <strong>vandaag</strong>.`
               : daysRemaining === 1
-                ? `Je ${subscriptionType} verloopt <strong>morgen</strong>.`
-                : `Je ${subscriptionType} verloopt over <strong>${daysRemaining} dagen</strong>.`
+              ? `Je ${subscriptionType} verloopt <strong>morgen</strong>.`
+              : `Je ${subscriptionType} verloopt over <strong>${daysRemaining} dagen</strong>.`
           }
         </p>
 
@@ -673,7 +957,13 @@ export async function sendSubscriptionExpiringEmail(
         <div style="background-color: #FEF3C7; border-left: 4px solid #F59E0B; padding: 15px; margin: 20px 0;">
           <p style="color: #92400E; margin: 0; line-height: 1.6;">
             <strong>Trial periode bijna voorbij</strong><br/>
-            Na ${daysRemaining === 0 ? "vandaag" : daysRemaining === 1 ? "morgen" : daysRemaining + " dagen"} kun je geen premium features meer gebruiken:
+            Na ${
+              daysRemaining === 0
+                ? "vandaag"
+                : daysRemaining === 1
+                ? "morgen"
+                : daysRemaining + " dagen"
+            } kun je geen premium features meer gebruiken:
           </p>
           <ul style="color: #92400E; margin: 10px 0; padding-left: 20px;">
             <li>AI Assistenten bewerken</li>
@@ -686,7 +976,13 @@ export async function sendSubscriptionExpiringEmail(
         <div style="background-color: #FEE2E2; border-left: 4px solid #EF4444; padding: 15px; margin: 20px 0;">
           <p style="color: #991B1B; margin: 0; line-height: 1.6;">
             <strong>Abonnement verloopt binnenkort</strong><br/>
-            Na ${daysRemaining === 0 ? "vandaag" : daysRemaining === 1 ? "morgen" : daysRemaining + " dagen"} worden je premium features uitgeschakeld.
+            Na ${
+              daysRemaining === 0
+                ? "vandaag"
+                : daysRemaining === 1
+                ? "morgen"
+                : daysRemaining + " dagen"
+            } worden je premium features uitgeschakeld.
           </p>
         </div>
         `
@@ -730,7 +1026,11 @@ export async function sendSubscriptionExpiringEmail(
         <div style="background-color: #F3F4F6; border-radius: 8px; padding: 20px; margin: 30px 0;">
           <h3 style="color: #333; margin: 0 0 10px 0;">💡 Heb je vragen?</h3>
           <p style="color: #666; line-height: 1.6; margin: 0;">
-            Neem contact met ons op via <a href="mailto:${config.email}" style="color: #3B82F6; text-decoration: none;">${config.email}</a><br/>
+            Neem contact met ons op via <a href="mailto:${
+              config.email
+            }" style="color: #3B82F6; text-decoration: none;">${
+        config.email
+      }</a><br/>
             We helpen je graag met het kiezen van het juiste abonnement.
           </p>
         </div>
@@ -739,8 +1039,8 @@ export async function sendSubscriptionExpiringEmail(
           Met vriendelijke groet,<br/>
           Het ${config.appTitle} Team
         </p>
-      `),
-    });
+      `)
+    );
 
     logger.info("Subscription expiring email sent", {
       context: {
@@ -761,6 +1061,60 @@ export async function sendSubscriptionExpiringEmail(
   }
 }
 
+function getImagePath(imagePath: string): string | null {
+  const fullPath = join(process.cwd(), "public", imagePath);
+  return existsSync(fullPath) ? fullPath : null;
+}
+
+// Prepareer email attachments
+function getEmailAttachments() {
+  const attachments = [
+    {
+      filename: "logo.png",
+      path: getImagePath("ainexo-logo.png"),
+      cid: "logo",
+    },
+    {
+      filename: "linkedin.png",
+      path: getImagePath("social/linkedin.png"),
+      cid: "linkedin",
+    },
+    {
+      filename: "twitter.png",
+      path: getImagePath("social/twitter.png"),
+      cid: "twitter",
+    },
+    {
+      filename: "instagram.png",
+      path: getImagePath("social/instagram.png"),
+      cid: "instagram",
+    },
+    {
+      filename: "facebook.png",
+      path: getImagePath("social/facebook.png"),
+      cid: "facebook",
+    },
+  ]
+    .filter((att): att is typeof att & { path: string } => att.path !== null)
+    .map((att) => ({
+      filename: att.filename,
+      path: att.path,
+      cid: att.cid,
+    })); // Filter out missing images and ensure proper typing
+
+  // Log warning voor missende afbeeldingen
+  const totalExpected = 5;
+  if (attachments.length < totalExpected) {
+    logger.warn(
+      `[EMAIL] ${
+        totalExpected - attachments.length
+      } image(s) missing from public folder`
+    );
+  }
+
+  return attachments;
+}
+
 export async function sendEmail(
   email: string,
   subject: string,
@@ -768,12 +1122,9 @@ export async function sendEmail(
   user?: { id: string; companyId?: string | null | undefined }
 ) {
   try {
-    await getResendClient().emails.send({
-      from: `${config.appTitle} <${getFromEmail()}>`,
-      to: email,
-      subject: subject,
-      html: await createEmailTemplate(html),
-    });
+    // createEmailTemplate wordt al aangeroepen door de caller
+    // Dus html bevat al de volledige template
+    await sendEmailViaSES(email, subject, html);
   } catch (error) {
     logger.error("Failed to send email", {
       context: {
@@ -802,14 +1153,15 @@ export async function sendSubscriptionExpiredEmail(
   const subject =
     daysExpired === 0
       ? `Je ${subscriptionType} is verlopen`
-      : `Je ${subscriptionType} is ${daysExpired} ${daysExpired === 1 ? "dag" : "dagen"} geleden verlopen`;
+      : `Je ${subscriptionType} is ${daysExpired} ${
+          daysExpired === 1 ? "dag" : "dagen"
+        } geleden verlopen`;
 
   try {
-    await getResendClient().emails.send({
-      from: `${config.appTitle} <${getFromEmail()}>`,
-      to: email,
-      subject: subject,
-      html: await createEmailTemplate(`
+    await sendEmailViaSES(
+      email,
+      subject,
+      await createEmailTemplate(`
         <h1 style="color: #333; margin-bottom: 20px;">
           🔒 Je ${subscriptionType} is verlopen
         </h1>
@@ -819,7 +1171,11 @@ export async function sendSubscriptionExpiredEmail(
         </p>
 
         <p style="color: #666; line-height: 1.6; font-size: 16px;">
-          Je ${subscriptionType} is ${daysExpired === 0 ? "vandaag" : daysExpired + (daysExpired === 1 ? " dag" : " dagen") + " geleden"} verlopen.
+          Je ${subscriptionType} is ${
+        daysExpired === 0
+          ? "vandaag"
+          : daysExpired + (daysExpired === 1 ? " dag" : " dagen") + " geleden"
+      } verlopen.
         </p>
 
         <div style="background-color: #FEE2E2; border-left: 4px solid #EF4444; padding: 20px; margin: 20px 0;">
@@ -848,7 +1204,11 @@ export async function sendSubscriptionExpiredEmail(
 
         <h2 style="color: #333; margin: 30px 0 15px;">✅ Heractiveer je account nu</h2>
         <p style="color: #666; line-height: 1.6;">
-          ${isTrial ? "Upgrade naar een premium abonnement" : "Verlengen je abonnement"} om direct weer toegang te krijgen tot:
+          ${
+            isTrial
+              ? "Upgrade naar een premium abonnement"
+              : "Verlengen je abonnement"
+          } om direct weer toegang te krijgen tot:
         </p>
         <ul style="color: #666; line-height: 1.6; padding-left: 20px;">
           <li>Al je assistenten en instellingen</li>
@@ -875,7 +1235,9 @@ export async function sendSubscriptionExpiredEmail(
         <h2 style="color: #333; margin: 30px 0 15px;">💬 Hulp nodig?</h2>
         <p style="color: #666; line-height: 1.6;">
           Twijfel je nog of heb je vragen over de verschillende abonnementen?<br/>
-          Neem contact met ons op via <a href="mailto:${config.email}" style="color: #3B82F6; text-decoration: none;">${config.email}</a>
+          Neem contact met ons op via <a href="mailto:${
+            config.email
+          }" style="color: #3B82F6; text-decoration: none;">${config.email}</a>
         </p>
 
         <p style="color: #666; line-height: 1.6; margin: 30px 0;">
@@ -883,8 +1245,8 @@ export async function sendSubscriptionExpiredEmail(
           Met vriendelijke groet,<br/>
           Het ${config.appTitle} Team
         </p>
-      `),
-    });
+      `)
+    );
 
     logger.info("Subscription expired email sent", {
       context: {
@@ -910,16 +1272,14 @@ export async function sendContactFormEmail(data: {
   company: string;
   message: string;
 }) {
-  const t = await getTranslations("mail.contact");
+  //const t = await getTranslations("mail.contact");
 
   try {
     // Send notification email to admin
-    await getResendClient().emails.send({
-      from: `${config.appTitle} <${getFromEmail()}>`,
-      to: config.email,
-      replyTo: data.email,
-      subject: `Nieuw contactformulier bericht van ${data.name}`,
-      html: await createEmailTemplate(`
+    await sendEmailViaSES(
+      config.email,
+      `Nieuw contactformulier bericht van ${data.name}`,
+      await createEmailTemplate(`
         <h1 style="color: #333; margin-bottom: 20px;">Nieuw contactformulier bericht</h1>
 
         <div style="background-color: #F3F4F6; border-radius: 8px; padding: 20px; margin: 20px 0;">
@@ -947,14 +1307,14 @@ export async function sendContactFormEmail(data: {
           </a>
         </div>
       `),
-    });
+      data.email
+    );
 
     // Send confirmation email to user
-    await getResendClient().emails.send({
-      from: `${config.appTitle} <${getFromEmail()}>`,
-      to: data.email,
-      subject: `Bevestiging: We hebben je bericht ontvangen`,
-      html: await createEmailTemplate(`
+    await sendEmailViaSES(
+      data.email,
+      `Bevestiging: We hebben je bericht ontvangen`,
+      await createEmailTemplate(`
         <h1 style="color: #333; margin-bottom: 20px;">Bedankt voor je bericht!</h1>
 
         <p style="color: #666; line-height: 1.6; font-size: 16px;">
@@ -1000,8 +1360,8 @@ export async function sendContactFormEmail(data: {
             Neem gerust contact met ons op via <a href="mailto:${config.email}" style="color: #3B82F6; text-decoration: none;">${config.email}</a>
           </p>
         </div>
-      `),
-    });
+      `)
+    );
 
     logger.info("Contact form email sent", {
       context: {
