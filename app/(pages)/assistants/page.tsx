@@ -17,6 +17,8 @@ import {
   Copy,
   Settings,
 } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -38,6 +40,9 @@ export default function AssistantsPage() {
     null
   );
   const [isDeleting, setIsDeleting] = useState(false);
+  const [togglingAssistantId, setTogglingAssistantId] = useState<string | null>(
+    null
+  );
   const { toast } = useToast();
   const t = useTranslations();
   const { data: session } = useSession();
@@ -143,6 +148,50 @@ export default function AssistantsPage() {
     if (!isDeleting) {
       setIsDeleteModalOpen(false);
       setAssistantToDelete(null);
+    }
+  };
+
+  const handleToggleActive = async (assistant: Assistant) => {
+    setTogglingAssistantId(assistant.id);
+
+    try {
+      const response = await fetch(`/api/assistants/${assistant.id}/toggle`, {
+        method: "PATCH",
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        toast({
+          title: t("common.success") || "Success",
+          description:
+            data.isActive
+              ? t("success.assistantActivated") ||
+                "Assistent succesvol geactiveerd"
+              : t("success.assistantDeactivated") ||
+                "Assistent succesvol gedeactiveerd",
+          variant: "success",
+        });
+        refreshAssistants();
+      } else {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          errorData.error ||
+            t("error.failedToToggleAssistant") ||
+            "Toggle mislukt"
+        );
+      }
+    } catch (error) {
+      toast({
+        title: t("common.error") || "Error",
+        description:
+          error instanceof Error
+            ? error.message
+            : t("error.failedToToggleAssistant") || "Toggle mislukt",
+        variant: "destructive",
+      });
+      refreshAssistants(); // Refresh to get correct state
+    } finally {
+      setTogglingAssistantId(null);
     }
   };
 
@@ -287,17 +336,27 @@ export default function AssistantsPage() {
 
                 {/* Assistant Status */}
                 <div className="flex items-center justify-between">
-                  {assistant.isActive ? (
-                    <Badge className="bg-green-100 text-green-800">
-                      <CheckCircle className="w-3 h-3 mr-1" />
-                      {t("common.active")}
-                    </Badge>
-                  ) : (
-                    <Badge className="bg-gray-100 text-gray-800">
-                      <XCircle className="w-3 h-3 mr-1" />
-                      {t("common.inactive")}
-                    </Badge>
-                  )}
+                  <div className="flex items-center gap-2">
+                    {assistant.isActive ? (
+                      <Badge className="bg-green-100 text-green-800">
+                        <CheckCircle className="w-3 h-3 mr-1" />
+                        {t("common.active")}
+                      </Badge>
+                    ) : (
+                      <Badge className="bg-gray-100 text-gray-800">
+                        <XCircle className="w-3 h-3 mr-1" />
+                        {t("common.inactive")}
+                      </Badge>
+                    )}
+                    {isAdmin && (
+                      <Switch
+                        checked={assistant.isActive}
+                        onCheckedChange={() => handleToggleActive(assistant)}
+                        disabled={togglingAssistantId === assistant.id}
+                        className="data-[state=checked]:bg-primary"
+                      />
+                    )}
+                  </div>
                   <span className="text-xs text-gray-500">
                     {t("common.created")}{" "}
                     {formatCreatedDate(assistant.createdAt)}

@@ -11,7 +11,12 @@ import { randomBytes } from "crypto";
 import { getCorsHeaders, validateCorsOrigin } from "@/lib/cors";
 import { checkRateLimit, getRateLimitHeaders } from "@/lib/redis-rate-limiter";
 import { checkGracePeriod } from "@/lib/subscription";
-import { getUsageLimit } from "@/lib/subscriptionPlans";
+import {
+  checkConversationQuota,
+  trackConversationSession,
+  updateConversationSession,
+  createQuotaErrorResponse,
+} from "@/lib/usage-tracking";
 
 const messageSchema = z.object({
   question: z.string().min(1).max(1000),
@@ -133,58 +138,32 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check conversation limits for subscription plan
-    const subscriptionPlan = user.subscriptionPlan;
-    const conversationLimit = getUsageLimit(
-      subscriptionPlan,
-      "conversationsPerMonth"
+    // Check conversation quota using usage tracking middleware
+    corsHeaders = getCorsHeaders(origin, chatbotSettings.allowedDomains);
+    const quotaCheck = await checkConversationQuota(
+      user.id,
+      chatbotSettings.id
     );
 
-    // Only check limits if not unlimited (-1)
-    if (conversationLimit !== -1) {
-      // Get start of current month
-      const now = new Date();
-      const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-
-      // Count conversations for this assistant this month
-      const monthlyConversations = await db.conversationSession.count({
-        where: {
-          assistantId: chatbotSettings.id,
-          startedAt: {
-            gte: startOfMonth,
-          },
-        },
-      });
-
+    if (!quotaCheck.allowed) {
       console.log(
-        `📊 Monthly conversations: ${monthlyConversations}/${conversationLimit} for assistant ${chatbotSettings.id}`
+        `🚫 Quota exceeded: ${quotaCheck.currentCount}/${quotaCheck.limit} for assistant ${chatbotSettings.id}`
       );
 
-      // Check if limit reached
-      if (monthlyConversations >= conversationLimit) {
-        // Auto-disable the assistant
+      // Auto-disable the assistant if quota exceeded
+      if (quotaCheck.error?.code === "QUOTA_EXCEEDED") {
         await db.chatbotSettings.update({
           where: { id: chatbotSettings.id },
           data: { isActive: false },
         });
-
-        corsHeaders = getCorsHeaders(origin, chatbotSettings.allowedDomains);
-        return NextResponse.json(
-          {
-            success: false,
-            error: "Conversation limit reached",
-            message: `This assistant has reached its monthly conversation limit of ${conversationLimit}. The assistant has been automatically disabled. Please upgrade your subscription plan or wait until next month.`,
-            currentCount: monthlyConversations,
-            limit: conversationLimit,
-            plan: subscriptionPlan || "TRIAL",
-          },
-          {
-            status: 403,
-            headers: corsHeaders,
-          }
-        );
       }
+
+      return createQuotaErrorResponse(quotaCheck, corsHeaders);
     }
+
+    console.log(
+      `📊 Quota check passed: ${quotaCheck.currentCount}/${quotaCheck.limit} (${quotaCheck.remaining} remaining) for assistant ${chatbotSettings.id}`
+    );
 
     // Validate CORS origin against allowed domains
     const corsError = validateCorsOrigin(
@@ -227,6 +206,17 @@ export async function POST(request: NextRequest) {
     // Generate session ID if not provided - use crypto for security
     const finalSessionId =
       sessionId || `session_${randomBytes(16).toString("hex")}`;
+
+    // Track conversation session using usage tracking middleware
+    const ipAddress =
+      request.headers.get("x-forwarded-for") ||
+      request.headers.get("x-real-ip") ||
+      undefined;
+    await trackConversationSession(finalSessionId, chatbotSettings.id, {
+      ipAddress,
+      userAgent: metadata?.userAgent,
+      referrer: metadata?.referrer,
+    });
 
     // Check if question triggers any forms
     const forms = await db.contactForm.findMany({
@@ -517,39 +507,15 @@ export async function POST(request: NextRequest) {
       finalTokensUsed =
         tokensUsed || Math.ceil((question.length + answer.length) / 4); // Use actual tokens or estimate
 
-      // Get or create conversation session
-      let conversationSession = await db.conversationSession.findUnique({
+      // Get conversation session (already created by trackConversationSession)
+      const conversationSession = await db.conversationSession.findUnique({
         where: { sessionId: finalSessionId },
       });
 
-      if (!conversationSession) {
-        // Create new session
-        conversationSession = await db.conversationSession.create({
-          data: {
-            sessionId: finalSessionId,
-            assistantId: chatbotSettings.id,
-            projectId: chatbotSettings.projectId || undefined,
-            ipAddress:
-              request.headers.get("x-forwarded-for") ||
-              request.headers.get("x-real-ip"),
-            userAgent: metadata?.userAgent,
-            referrer: metadata?.referrer,
-            startedAt: new Date(),
-            lastActivity: new Date(),
-            messageCount: 0,
-            totalTokens: 0,
-          },
-        });
-      } else {
-        // Update existing session
-        await db.conversationSession.update({
-          where: { sessionId: finalSessionId },
-          data: {
-            lastActivity: new Date(),
-            messageCount: { increment: 2 }, // User message + assistant response
-            totalTokens: { increment: finalTokensUsed },
-          },
-        });
+      if (conversationSession) {
+        // Update session with message count and tokens using usage tracking
+        // This increments messageCount by 2 (user message + assistant response)
+        await updateConversationSession(finalSessionId, finalTokensUsed);
       }
 
       // Save user message

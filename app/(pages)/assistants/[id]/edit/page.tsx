@@ -108,7 +108,7 @@ export default function EditAssistantPage() {
   const router = useRouter();
   const params = useParams();
   const { toast } = useToast();
-  const { setCurrentAssistant } = useAssistant();
+  const { setCurrentAssistant, refreshAssistants } = useAssistant();
   const { data: session } = useSession();
   const t = useTranslations();
 
@@ -164,6 +164,7 @@ export default function EditAssistantPage() {
     isActive: true,
     allowedDomains: [] as string[],
     rateLimit: 10,
+    mainPrompt: "",
   });
 
   // Load assistant data
@@ -201,6 +202,7 @@ export default function EditAssistantPage() {
             isActive: data.isActive,
             allowedDomains: data.allowedDomains,
             rateLimit: data.rateLimit,
+            mainPrompt: data.mainPrompt || "",
           });
         } else {
           toast({
@@ -262,13 +264,26 @@ export default function EditAssistantPage() {
   const handleSave = useCallback(async () => {
     if (!assistant) return;
 
+    // Optimistic update: update UI immediately
+    const previousAssistant = { ...assistant };
+    const previousFormData = { ...formData };
+    const optimisticAssistant = {
+      ...assistant,
+      ...formData,
+      updatedAt: new Date().toISOString(),
+    };
+    
+    // Update local state optimistically
+    setAssistant(optimisticAssistant);
+    setCurrentAssistant(optimisticAssistant);
+    setHasChanges(false);
+
     setIsSaving(true);
     try {
       // If we're on the look-and-feel tab, use the tab's save function
       if (activeTab === "look-and-feel" && lookAndFeelRef.current) {
         await lookAndFeelRef.current.save();
         // Don't refresh context here - let the tab handle its own state
-        setHasChanges(false);
         return;
       }
 
@@ -276,7 +291,6 @@ export default function EditAssistantPage() {
       if (activeTab === "personality" && personalityRef.current && isAdmin) {
         await personalityRef.current.save();
         // Don't refresh context here - let the tab handle its own state
-        setHasChanges(false);
         return;
       }
 
@@ -291,25 +305,51 @@ export default function EditAssistantPage() {
 
       if (response.ok) {
         const updatedAssistant = await response.json();
+        // Update with server response (source of truth)
         setAssistant(updatedAssistant);
-        setHasChanges(false);
+        setCurrentAssistant(updatedAssistant);
+        
+        // Refresh assistants list in context
+        await refreshAssistants();
+        
         toast({
-          description: t("success.assistantUpdatedSuccessfully"),
+          title: t("common.success") || "Success",
+          description: t("success.assistantUpdatedSuccessfully") || "Assistent succesvol bijgewerkt",
           variant: "success",
         });
       } else {
-        throw new Error("Failed to update assistant");
+        // Rollback optimistic update on error
+        setAssistant(previousAssistant);
+        setCurrentAssistant(previousAssistant);
+        setFormData(previousFormData);
+        setHasChanges(true);
+        
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          errorData.error || t("error.failedToUpdateAssistant") || "Bijwerken mislukt"
+        );
       }
     } catch (error) {
       console.error("Error updating assistant:", error);
+      
+      // Rollback optimistic update on error
+      setAssistant(previousAssistant);
+      setCurrentAssistant(previousAssistant);
+      setFormData(previousFormData);
+      setHasChanges(true);
+      
       toast({
-        description: t("error.failedToUpdateAssistant"),
+        title: t("common.error") || "Error",
+        description:
+          error instanceof Error
+            ? error.message
+            : t("error.failedToUpdateAssistant") || "Bijwerken mislukt",
         variant: "destructive",
       });
     } finally {
       setIsSaving(false);
     }
-  }, [assistant, formData, toast, activeTab, t, isAdmin]);
+  }, [assistant, formData, toast, activeTab, t, isAdmin, setCurrentAssistant, refreshAssistants]);
 
   if (isLoading) {
     return (

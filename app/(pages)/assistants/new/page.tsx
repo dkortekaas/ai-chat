@@ -28,6 +28,10 @@ import { ArrowLeft, Save, X, Plus, Info } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { PageHeader } from "@/components/layouts";
 import { avatarOptions, assistantIconOptions } from "@/lib/avatar-icons";
+import {
+  getDefaultSystemPrompt,
+  getPromptTemplates,
+} from "@/lib/assistant-utils";
 
 const fontOptions = [
   "Inter",
@@ -91,6 +95,7 @@ export default function NewAssistantPage() {
     isActive: true,
     allowedDomains: [] as string[],
     rateLimit: 10,
+    mainPrompt: getDefaultSystemPrompt("DEFAULT"),
   });
 
   const handleInputChange = (
@@ -124,10 +129,20 @@ export default function NewAssistantPage() {
   };
 
   const handleSave = async () => {
+    // Validate required fields
     if (!formData.name.trim()) {
       toast({
         title: t("common.error"),
         description: t("error.assistantNameRequired"),
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!formData.welcomeMessage.trim()) {
+      toast({
+        title: t("common.error"),
+        description: t("error.welcomeMessageRequired") || "Welkomstbericht is verplicht",
         variant: "destructive",
       });
       return;
@@ -158,6 +173,7 @@ export default function NewAssistantPage() {
           isActive: formData.isActive,
           allowedDomains: formData.allowedDomains,
           rateLimit: formData.rateLimit,
+          mainPrompt: formData.mainPrompt,
         }),
       });
 
@@ -510,7 +526,7 @@ export default function NewAssistantPage() {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="welcomeMessage">
-                  {t("assistants.welcomeMessage")}
+                  {t("assistants.welcomeMessage")} *
                 </Label>
                 <Textarea
                   id="welcomeMessage"
@@ -520,6 +536,7 @@ export default function NewAssistantPage() {
                   }
                   placeholder={t("assistants.enterWelcomeMessage")}
                   rows={2}
+                  required
                 />
               </div>
               <div className="space-y-2">
@@ -561,6 +578,56 @@ export default function NewAssistantPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="mainPrompt">
+                  {t("assistants.mainPrompt") || "Systeem Prompt"}
+                </Label>
+                <p className="text-sm text-gray-500">
+                  {t("assistants.mainPromptDescription") ||
+                    "Definieer hoe de assistent zich gedraagt en communiceert. Dit is de basis instructie voor de AI."}
+                </p>
+                <Textarea
+                  id="mainPrompt"
+                  value={formData.mainPrompt}
+                  onChange={(e) =>
+                    handleInputChange("mainPrompt", e.target.value)
+                  }
+                  placeholder={getDefaultSystemPrompt("DEFAULT")}
+                  rows={12}
+                  className="font-mono text-sm"
+                />
+                <div className="flex gap-2">
+                  <Select
+                    onValueChange={(value) => {
+                      const template = getDefaultSystemPrompt(
+                        value as any
+                      );
+                      handleInputChange("mainPrompt", template);
+                    }}
+                  >
+                    <SelectTrigger className="w-[200px]">
+                      <SelectValue placeholder="Kies template" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {getPromptTemplates().map((template) => (
+                        <SelectItem key={template.key} value={template.key}>
+                          {template.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      handleInputChange("mainPrompt", getDefaultSystemPrompt("DEFAULT"));
+                    }}
+                  >
+                    Reset naar standaard
+                  </Button>
+                </div>
+              </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="maxResponseLength">

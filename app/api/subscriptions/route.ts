@@ -8,6 +8,7 @@ import {
 } from "@/lib/stripe";
 import { stripe } from "@/lib/stripe";
 import { checkGracePeriod } from "@/lib/subscription";
+import { createSubscription, getSubscription } from "@/lib/subscription-crud";
 
 export async function GET() {
   try {
@@ -108,66 +109,24 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
     }
 
-    const user = await db.user.findUnique({
-      where: { id: session.user.id },
+    // Use CRUD function to create subscription (Stripe checkout)
+    const result = await createSubscription(session.user.id, {
+      plan: plan as SubscriptionPlanType,
+      createStripeCheckout: true,
+      successUrl: `${process.env.NEXTAUTH_URL}/account?success=true`,
+      cancelUrl: `${process.env.NEXTAUTH_URL}/account?canceled=true`,
     });
 
-    if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    // If result is a checkout URL, return it
+    if ("checkoutUrl" in result) {
+      return NextResponse.json({ url: result.checkoutUrl });
     }
 
-    const selectedPlan =
-      SUBSCRIPTION_PLANS_WITH_PRICES[
-        plan as keyof typeof SUBSCRIPTION_PLANS_WITH_PRICES
-      ];
-
-    if (!selectedPlan.priceId) {
-      return NextResponse.json(
-        { error: "Plan not configured" },
-        { status: 400 }
-      );
-    }
-
-    let customerId = user.stripeCustomerId;
-
-    // Create Stripe customer if doesn't exist
-    if (!customerId) {
-      const customer = await stripe.customers.create({
-        email: user.email,
-        name: user.name || undefined,
-        metadata: {
-          userId: user.id,
-        },
-      });
-
-      customerId = customer.id;
-
-      await db.user.update({
-        where: { id: user.id },
-        data: { stripeCustomerId: customerId },
-      });
-    }
-
-    // Create checkout session
-    const session_url = await stripe.checkout.sessions.create({
-      customer: customerId,
-      payment_method_types: ["card"],
-      line_items: [
-        {
-          price: selectedPlan.priceId,
-          quantity: 1,
-        },
-      ],
-      mode: "subscription",
-      success_url: `${process.env.NEXTAUTH_URL}/account?success=true`,
-      cancel_url: `${process.env.NEXTAUTH_URL}/account?canceled=true`,
-      metadata: {
-        userId: user.id,
-        plan: plan,
-      },
-    });
-
-    return NextResponse.json({ url: session_url.url });
+    // Otherwise return error (shouldn't happen for paid plans)
+    return NextResponse.json(
+      { error: "Unexpected result from subscription creation" },
+      { status: 500 }
+    );
   } catch (error: any) {
     console.error("Error creating subscription:", error);
 

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { randomBytes } from "crypto";
+import { generateApiKey } from "@/lib/assistant-utils";
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,8 +12,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Generate new API key - use crypto for security
-    const newApiKey = `cbk_live_${randomBytes(32).toString("hex")}`;
+    // Generate new API key using assistant utils
+    const newApiKey = generateApiKey();
 
     // Update the chatbot settings with new API key
     const updatedSettings = await db.chatbotSettings.updateMany({

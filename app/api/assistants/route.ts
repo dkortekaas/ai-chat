@@ -8,6 +8,10 @@ import {
   createPaginatedResponse,
 } from "@/lib/pagination";
 import { getUsageLimit } from "@/lib/subscriptionPlans";
+import {
+  generateApiKey,
+  getDefaultSystemPrompt,
+} from "@/lib/assistant-utils";
 
 export async function GET(request: NextRequest) {
   try {
@@ -152,12 +156,26 @@ export async function POST(request: NextRequest) {
       isActive,
       allowedDomains,
       rateLimit,
+      mainPrompt,
     } = body;
 
     // Validate required fields
     if (!name) {
       return NextResponse.json({ error: "Name is required" }, { status: 400 });
     }
+
+    if (!welcomeMessage) {
+      return NextResponse.json(
+        { error: "Welcome message is required" },
+        { status: 400 }
+      );
+    }
+
+    // Generate unique API key using assistant utils
+    const apiKey = generateApiKey();
+
+    // Get system prompt (use provided or default)
+    const systemPrompt = mainPrompt || getDefaultSystemPrompt("DEFAULT");
 
     const assistant = await db.chatbotSettings.create({
       data: {
@@ -187,7 +205,8 @@ export async function POST(request: NextRequest) {
         isActive: isActive !== undefined ? isActive : true,
         allowedDomains: allowedDomains || [],
         rateLimit: rateLimit || 10,
-        apiKey: crypto.randomUUID(),
+        apiKey: apiKey,
+        mainPrompt: systemPrompt, // Use provided or default system prompt
         updatedAt: new Date(),
       },
     });

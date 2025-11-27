@@ -80,10 +80,6 @@ export async function POST(req: NextRequest) {
     // Hash the password
     const hashedPassword = await hash(password, 12);
 
-    // Calculate trial period (30 days from now)
-    const now = new Date();
-    const trialEndDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
-
     // Create the user
     const user = await db.user.create({
       data: {
@@ -92,12 +88,13 @@ export async function POST(req: NextRequest) {
         password: hashedPassword,
         role: invitation.role,
         companyId: invitation.companyId,
-        trialStartDate: now,
-        trialEndDate,
-        subscriptionStatus: "TRIAL",
         isActive: true,
       },
     });
+
+    // Initialize trial subscription using CRUD function
+    const { initializeTrialSubscription } = await import("@/lib/subscription-crud");
+    await initializeTrialSubscription(user.id, 30);
 
     // Update the invitation
     await db.invitation.update({

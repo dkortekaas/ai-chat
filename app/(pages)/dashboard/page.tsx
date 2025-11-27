@@ -3,6 +3,8 @@ import { getAuthSession } from "@/lib/auth";
 import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
 import DashboardCharts from "@/components/dashboard/DashboardCharts";
+import { TrialDashboardWidgets } from "@/components/dashboard/TrialDashboardWidgets";
+import { AssistantOverview } from "@/components/dashboard/AssistantOverview";
 
 async function getDashboardData() {
   const session = await getAuthSession();
@@ -27,6 +29,14 @@ export default async function Dashboard() {
             {t("dashboard.welcome", { name: session?.user?.name || "" })}
           </p>
         </div>
+      </div>
+
+      {/* Trial Status & Quota Widgets */}
+      <TrialDashboardWidgets />
+
+      {/* Assistant Overview */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+        <AssistantOverview />
       </div>
 
       {/* Dashboard Widgets */}

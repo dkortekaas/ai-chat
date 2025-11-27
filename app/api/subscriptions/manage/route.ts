@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { stripe } from "@/lib/stripe";
 import { db } from "@/lib/db";
+import { cancelSubscription, getSubscription } from "@/lib/subscription-crud";
 
 export async function GET() {
   try {
@@ -51,32 +52,16 @@ export async function DELETE() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const user = await db.user.findUnique({
-      where: { id: session.user.id },
-      select: {
-        stripeSubscriptionId: true,
-      },
-    });
-
-    if (!user?.stripeSubscriptionId) {
+    const subscription = await getSubscription(session.user.id);
+    if (!subscription?.stripeSubscriptionId) {
       return NextResponse.json(
         { error: "No active subscription found" },
         { status: 404 }
       );
     }
 
-    // Cancel subscription at period end
-    await stripe.subscriptions.update(user.stripeSubscriptionId, {
-      cancel_at_period_end: true,
-    });
-
-    // Update user in database
-    await db.user.update({
-      where: { id: session.user.id },
-      data: {
-        subscriptionCanceled: true,
-      },
-    });
+    // Cancel subscription at period end using CRUD function
+    await cancelSubscription(session.user.id, false);
 
     return NextResponse.json({ success: true });
   } catch (error) {

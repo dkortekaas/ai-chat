@@ -128,6 +128,13 @@ export async function PUT(
       return NextResponse.json({ error: "Name is required" }, { status: 400 });
     }
 
+    if (!welcomeMessage) {
+      return NextResponse.json(
+        { error: "Welcome message is required" },
+        { status: 400 }
+      );
+    }
+
     const assistant = await db.chatbotSettings.update({
       where: {
         id,

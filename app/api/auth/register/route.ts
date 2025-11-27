@@ -71,10 +71,6 @@ export async function POST(req: NextRequest) {
     // Hash the password
     const hashedPassword = await hash(password, 12);
 
-    // Calculate trial period (30 days from now)
-    const now = new Date();
-    const trialEndDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
-
     // Always create a default company for the registrant
     const companyName = name ? `${name}'s Company` : `${email}'s Company`;
     const company = await db.company.create({
@@ -85,7 +81,7 @@ export async function POST(req: NextRequest) {
     });
     const companyId = company.id;
 
-    // Create new user with trial period (email NOT verified yet)
+    // Create new user (email NOT verified yet)
     const user = await db.user.create({
       data: {
         name,
@@ -93,9 +89,6 @@ export async function POST(req: NextRequest) {
         password: hashedPassword,
         // Registrant becomes ADMIN of their own company
         role: "ADMIN",
-        subscriptionStatus: "TRIAL",
-        trialStartDate: now,
-        trialEndDate: trialEndDate,
         isActive: true,
         companyId: companyId,
         emailVerified: null, // Will be set when user verifies email
@@ -113,6 +106,10 @@ export async function POST(req: NextRequest) {
         companyId: true,
       },
     });
+
+    // Initialize trial subscription using CRUD function
+    const { initializeTrialSubscription } = await import("@/lib/subscription-crud");
+    await initializeTrialSubscription(user.id, 30);
 
     // Generate email verification token
     const verificationToken = generateToken();

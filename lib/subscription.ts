@@ -153,7 +153,11 @@ export async function getUsageStats(userId: string) {
   const user = await db.user.findUnique({
     where: { id: userId },
     include: {
-      chatbot_settings: true,
+      chatbot_settings: {
+        select: {
+          id: true,
+        },
+      },
     },
   });
 
@@ -161,18 +165,75 @@ export async function getUsageStats(userId: string) {
     return null;
   }
 
-  // Get basic counts - relationships are complex in this schema
-  const [totalDocuments, totalWebsites, monthlyConversations] =
-    await Promise.all([
-      db.document.count(),
-      db.website.count(),
-      db.conversation.count({
+  const assistantIds = user.chatbot_settings.map((assistant) => assistant.id);
+  const startOfMonth = new Date(
+    new Date().getFullYear(),
+    new Date().getMonth(),
+    1
+  );
+
+  // Get counts for this user's assistants only
+  // First get project IDs for user's assistants
+  const projects = assistantIds.length > 0
+    ? await db.projects.findMany({
         where: {
-          createdAt: {
-            gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1), // This month
+          ChatbotSettings: {
+            some: {
+              userId: userId,
+            },
           },
         },
-      }),
+        select: {
+          id: true,
+        },
+      })
+    : [];
+  const projectIds = projects.map((p) => p.id);
+
+  const [totalDocuments, totalWebsites, monthlyConversations] =
+    await Promise.all([
+      // Count unique documents in projects linked to user's assistants
+      projectIds.length > 0
+        ? (async () => {
+            // Get all document IDs from project_documents
+            const projectDocs = await db.project_documents.findMany({
+              where: {
+                projectId: {
+                  in: projectIds,
+                },
+              },
+              select: {
+                documentId: true,
+              },
+            });
+            // Count unique document IDs
+            const uniqueDocIds = new Set(projectDocs.map((pd) => pd.documentId));
+            return uniqueDocIds.size;
+          })()
+        : Promise.resolve(0),
+      // Count websites for user's assistants
+      assistantIds.length > 0
+        ? db.website.count({
+            where: {
+              assistantId: {
+                in: assistantIds,
+              },
+            },
+          })
+        : 0,
+      // Count conversation sessions for user's assistants this month
+      assistantIds.length > 0
+        ? db.conversationSession.count({
+            where: {
+              assistantId: {
+                in: assistantIds,
+              },
+              startedAt: {
+                gte: startOfMonth,
+              },
+            },
+          })
+        : 0,
     ]);
 
   return {
