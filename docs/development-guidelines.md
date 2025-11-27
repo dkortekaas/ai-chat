@@ -340,10 +340,8 @@ describe('Button', () => {
 DATABASE_URL="postgresql://..."
 NEXTAUTH_SECRET="your-secret"
 NEXTAUTH_URL="http://localhost:3000"
-AWS_ACCESS_KEY_ID="your-access-key"
-AWS_SECRET_ACCESS_KEY="your-secret-key"
-AWS_REGION="us-east-1"
-AWS_SES_FROM_EMAIL="noreply@yourapp.com"
+RESEND_API_KEY="re_xxxxxxxxxxxxx"
+RESEND_FROM_EMAIL="noreply@yourapp.com"
 BLOB_READ_WRITE_TOKEN="your-token"
 ```
 

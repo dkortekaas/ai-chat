@@ -1,133 +1,69 @@
 import config from "@/config";
 import { getTranslations } from "next-intl/server";
-import {
-  SESClient,
-  SendEmailCommand,
-  SendRawEmailCommand,
-} from "@aws-sdk/client-ses";
+import { Resend } from "resend";
 import { logger } from "@/lib/logger";
 import { db } from "@/lib/db";
 import { join } from "path";
 import { existsSync } from "fs";
-import nodemailer, { type Transporter } from "nodemailer";
-import type StreamTransport from "nodemailer/lib/stream-transport";
+import { readFileSync } from "fs";
 
-// Lazy initialization of AWS SES client to avoid build-time errors
-let sesClient: SESClient | null = null;
+// Lazy initialization of Resend client to avoid build-time errors
+let resendClient: Resend | null = null;
 
-function getSESClient(): SESClient {
-  if (!sesClient) {
-    if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
+function getResendClient(): Resend {
+  if (!resendClient) {
+    if (!process.env.RESEND_API_KEY) {
       throw new Error(
-        "Missing AWS credentials (AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY)"
+        "Missing Resend API key (RESEND_API_KEY)"
       );
     }
-    sesClient = new SESClient({
-      region: process.env.AWS_REGION || "us-east-1",
-      credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-      },
-    });
+    resendClient = new Resend(process.env.RESEND_API_KEY);
   }
-  return sesClient;
+  return resendClient;
 }
 
-// Get the verified FROM email address for AWS SES
+// Get the verified FROM email address for Resend
 function getFromEmail(): string {
-  return process.env.AWS_SES_FROM_EMAIL || config.email;
+  return process.env.RESEND_FROM_EMAIL || config.email;
 }
 
-// Helper function to send email via AWS SES
-async function sendEmailViaSES(
+// Helper function to send email via Resend
+async function sendEmailViaResend(
   to: string | string[],
   subject: string,
   html: string,
   replyTo?: string
 ) {
-  const client = getSESClient();
+  const client = getResendClient();
   const fromEmail = getFromEmail();
   const from = `${config.appTitle} <${fromEmail}>`;
   const toAddresses = Array.isArray(to) ? to : [to];
   const attachments = getEmailAttachments();
 
-  // Als er geen attachments zijn, gebruik de simpelere SendEmailCommand
-  if (attachments.length === 0) {
-    const command = new SendEmailCommand({
-      Source: from,
-      Destination: {
-        ToAddresses: toAddresses,
-      },
-      Message: {
-        Subject: {
-          Data: subject,
-          Charset: "UTF-8",
-        },
-        Body: {
-          Html: {
-            Data: html,
-            Charset: "UTF-8",
-          },
-          Text: {
-            Data: html.replace(/<[^>]*>/g, ""), // Text fallback
-            Charset: "UTF-8",
-          },
-        },
-      },
-      ...(replyTo && {
-        ReplyToAddresses: [replyTo],
-      }),
-    });
-
-    return await client.send(command);
-  }
-
-  // Voor emails met attachments, gebruik raw MIME message
-  const transporter = nodemailer.createTransport({
-    streamTransport: true,
-    newline: "unix",
-  }) as Transporter<StreamTransport.SentMessageInfo>;
-
-  const mailOptions = {
-    from,
-    to: toAddresses,
-    subject,
-    html,
-    text: html.replace(/<[^>]*>/g, ""),
-    ...(replyTo && { replyTo }),
-    attachments,
-  };
+  // Convert attachments to Resend format
+  const resendAttachments = attachments.map((att) => {
+    const fileContent = readFileSync(att.path);
+    return {
+      filename: att.filename,
+      content: fileContent,
+      cid: att.cid,
+    };
+  });
 
   try {
-    // Genereer raw MIME message
-    const info = (await transporter.sendMail(
-      mailOptions
-    )) as unknown as StreamTransport.SentMessageInfo;
-
-    // Bij streamTransport is message een readable stream
-    // We moeten deze naar een Buffer converteren
-    let rawMessage: Buffer;
-    if (Buffer.isBuffer(info.message)) {
-      rawMessage = info.message;
-    } else {
-      // Als het een stream is, converteer naar buffer
-      const chunks: Buffer[] = [];
-      for await (const chunk of info.message) {
-        chunks.push(Buffer.from(chunk));
-      }
-      rawMessage = Buffer.concat(chunks);
-    }
-
-    // Verstuur via AWS SES
-    const command = new SendRawEmailCommand({
-      RawMessage: {
-        Data: rawMessage,
-      },
+    const result = await client.emails.send({
+      from,
+      to: toAddresses,
+      subject,
+      html,
+      text: html.replace(/<[^>]*>/g, ""), // Text fallback
+      ...(replyTo && { reply_to: replyTo }),
+      ...(resendAttachments.length > 0 && { attachments: resendAttachments }),
     });
 
-    return await client.send(command);
+    return result;
   } catch (error) {
-    logger.error("[EMAIL] Failed to generate raw MIME message", {
+    logger.error("[EMAIL] Failed to send email via Resend", {
       context: {
         error: error instanceof Error ? error.message : String(error),
       },
@@ -214,7 +150,7 @@ export async function sendWelcomeEmail(
   const isAdmin = userInfo?.role === "ADMIN";
 
   try {
-    await sendEmailViaSES(
+    await sendEmailViaResend(
       email,
       t("title"),
       await createEmailTemplate(`
@@ -339,7 +275,7 @@ export async function sendPasswordResetEmail(
     console.log(`[EMAIL] From: ${config.appTitle} <${config.email}>`);
     console.log(`[EMAIL] Reset link: ${resetLink}`);
 
-    const result = await sendEmailViaSES(
+    const result = await sendEmailViaResend(
       email,
       t("mail.resetPassword.title"),
       await createEmailTemplate(`
@@ -399,7 +335,7 @@ export async function sendEmailVerificationEmail(
   const verificationLink = `${process.env.NEXT_PUBLIC_APP_URL}/verify-email?token=${verificationToken}`;
 
   try {
-    await sendEmailViaSES(
+    await sendEmailViaResend(
       email,
       t("mail.verifyEmail.title") || "Verify your email address",
       await createEmailTemplate(`
@@ -482,7 +418,7 @@ export async function sendInvitationEmail(
   expiryDate.setDate(expiryDate.getDate() + 7);
 
   try {
-    const result = await sendEmailViaSES(
+    const result = await sendEmailViaResend(
       email,
       t("subject", { companyName }),
       await createEmailTemplate(`
@@ -737,7 +673,7 @@ export async function sendDeclarationStatusEmail(
   const declarationLink = `${process.env.NEXT_PUBLIC_APP_URL}/declarations/${declarationId}`;
 
   try {
-    await sendEmailViaSES(
+    await sendEmailViaResend(
       email,
       `${t("declaration")} ${statusMessages[status]}`,
       await createEmailTemplate(`
@@ -790,7 +726,7 @@ export async function sendDeclarationCreatedEmail(
   const declarationLink = `${process.env.NEXT_PUBLIC_APP_URL}/declarations/${declarationId}`;
 
   try {
-    await sendEmailViaSES(
+    await sendEmailViaResend(
       email,
       t("title"),
       await createEmailTemplate(`
@@ -831,7 +767,7 @@ export async function sendDeclarationToApproveEmail(
   const declarationLink = `${process.env.NEXT_PUBLIC_APP_URL}/declarations/${declarationId}`;
 
   try {
-    await sendEmailViaSES(
+    await sendEmailViaResend(
       email,
       t("title"),
       await createEmailTemplate(`
@@ -869,7 +805,7 @@ export async function sendDeclarationDeletedEmail(
   const t = await getTranslations();
 
   try {
-    await sendEmailViaSES(
+    await sendEmailViaResend(
       email,
       t("mail.declarationDeleted.title"),
       await createEmailTemplate(`
@@ -925,7 +861,7 @@ export async function sendSubscriptionExpiringEmail(
       : `Je ${subscriptionType} verloopt over ${daysRemaining} dagen`;
 
   try {
-    await sendEmailViaSES(
+    await sendEmailViaResend(
       email,
       subject,
       await createEmailTemplate(`
@@ -1124,7 +1060,7 @@ export async function sendEmail(
   try {
     // createEmailTemplate wordt al aangeroepen door de caller
     // Dus html bevat al de volledige template
-    await sendEmailViaSES(email, subject, html);
+    await sendEmailViaResend(email, subject, html);
   } catch (error) {
     logger.error("Failed to send email", {
       context: {
@@ -1158,7 +1094,7 @@ export async function sendSubscriptionExpiredEmail(
         } geleden verlopen`;
 
   try {
-    await sendEmailViaSES(
+    await sendEmailViaResend(
       email,
       subject,
       await createEmailTemplate(`
@@ -1276,7 +1212,7 @@ export async function sendContactFormEmail(data: {
 
   try {
     // Send notification email to admin
-    await sendEmailViaSES(
+    await sendEmailViaResend(
       config.email,
       `Nieuw contactformulier bericht van ${data.name}`,
       await createEmailTemplate(`
@@ -1311,7 +1247,7 @@ export async function sendContactFormEmail(data: {
     );
 
     // Send confirmation email to user
-    await sendEmailViaSES(
+    await sendEmailViaResend(
       data.email,
       `Bevestiging: We hebben je bericht ontvangen`,
       await createEmailTemplate(`

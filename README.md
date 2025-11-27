@@ -25,7 +25,7 @@ A modern, fully functional Ainexo platform built with Next.js 15, TypeScript, an
 
 ### 📧 Email System
 
-- **AWS SES Integration**: Production-ready email delivery via Amazon SES
+- **Resend Integration**: Production-ready email delivery via Resend
 - **Email Templates**: Professional HTML email templates with responsive design
 - **Email Types**:
   - Welcome emails for new users
@@ -340,7 +340,7 @@ EmbedIQ is **production-ready** with enterprise-grade infrastructure and securit
 - **Sentry**: Error tracking and performance monitoring
 - **OpenAI**: AI embeddings and chat completions
 - **JSDOM**: Server-side HTML parsing for web scraping
-- **AWS SES**: Email delivery service
+- **Resend**: Email delivery service
 - **otplib**: TOTP (Time-based One-Time Password) for 2FA
 - **qrcode**: QR code generation for 2FA setup
 - **react-google-recaptcha**: reCAPTCHA integration for brute force protection
@@ -457,11 +457,9 @@ ai-chat-platform/
    STRIPE_PROFESSIONAL_PRICE_ID="price_..."
    STRIPE_ENTERPRISE_PRICE_ID="price_..."
 
-   # AWS SES Configuration (for email)
-   AWS_ACCESS_KEY_ID="your-aws-access-key"
-   AWS_SECRET_ACCESS_KEY="your-aws-secret-key"
-   AWS_REGION="us-east-1"
-   AWS_SES_FROM_EMAIL="noreply@yourdomain.com"
+   # Resend Configuration (for email)
+   RESEND_API_KEY="re_xxxxxxxxxxxxx"
+   RESEND_FROM_EMAIL="noreply@yourdomain.com"
 
    # OpenAI Configuration (Required for RAG and embeddings)
    OPENAI_API_KEY="sk-..."
@@ -947,51 +945,33 @@ Voor de RAG functionaliteit en website scraping heb je een OpenAI API key nodig:
 - Zonder API key werkt website scraping wel, maar geen RAG functionaliteit
 - Kosten zijn ongeveer $0.02 per 1M tokens voor embeddings
 
-### 7. AWS SES Email Setup
+### 7. Resend Email Setup
 
-Voor het email systeem (welcome emails, password reset, 2FA recovery, etc.) heb je AWS SES nodig:
+Voor het email systeem (welcome emails, password reset, 2FA recovery, etc.) heb je Resend nodig:
 
-1. **Ga naar [AWS Console](https://console.aws.amazon.com/)** en log in
-2. **Navigeer naar Amazon SES** (Simple Email Service)
-3. **Verifieer je email adres**:
-   - Ga naar **Verified identities** → **Create identity**
-   - Selecteer **Email address**
-   - Voer je email adres in (bijv. `noreply@yourdomain.com`)
-   - Bevestig via de verificatie email
-4. **Verifieer je domein** (aanbevolen voor productie):
-   - Selecteer **Domain** in plaats van Email
-   - Voeg DNS records toe aan je domein
-   - Dit geeft betere deliverability
-5. **Maak IAM gebruiker aan**:
-   - Ga naar **IAM** → **Users** → **Create user**
-   - Geef de gebruiker SES send permissions:
-     ```json
-     {
-       "Version": "2012-10-17",
-       "Statement": [
-         {
-           "Effect": "Allow",
-           "Action": [
-             "ses:SendEmail",
-             "ses:SendRawEmail"
-           ],
-           "Resource": "*"
-         }
-       ]
-     }
-     ```
-   - Maak **Access Key** aan en kopieer de credentials
-6. **Noteer je AWS credentials**:
-   - Access Key ID
-   - Secret Access Key
-   - Region (bijv. `us-east-1`, `eu-west-1`)
+1. **Ga naar [Resend](https://resend.com/)** en maak een account aan
+2. **Verifieer je email adres**:
+   - Ga naar **Domains** → **Add Domain**
+   - Voeg je domein toe (bijv. `yourdomain.com`)
+   - Voeg de DNS records toe aan je domein provider
+   - Wacht tot verificatie is voltooid
+3. **Maak een API key aan**:
+   - Ga naar **API Keys** → **Create API Key**
+   - Geef de key een naam (bijv. "Production" of "Development")
+   - Kopieer de API key (begint met `re_`)
+   - **Belangrijk**: Bewaar deze key veilig, je kunt hem later niet meer zien!
+4. **Voeg toe aan je `.env.local` bestand**:
+   ```
+   RESEND_API_KEY="re_xxxxxxxxxxxxx"
+   RESEND_FROM_EMAIL="noreply@yourdomain.com"
+   ```
 
 **Belangrijk**:
 
-- In **Sandbox mode** kun je alleen naar geverifieerde email adressen sturen
-- Voor productie moet je **Production access** aanvragen
-- Kosten zijn ongeveer $0.10 per 1000 emails
-- Zonder AWS SES werken emails niet, maar de applicatie blijft functioneren
+- Resend heeft een gratis tier met 3,000 emails per maand
+- Voor productie is een geverifieerd domein aanbevolen voor betere deliverability
+- Kosten zijn ongeveer $20 per 50,000 emails na de gratis tier
+- Zonder Resend API key werken emails niet, maar de applicatie blijft functioneren
 
 ### 8. reCAPTCHA Setup (Optioneel maar Aanbevolen)
 
@@ -1153,7 +1133,7 @@ This project is licensed under the MIT License.
 - ✅ **Two-Factor Authentication (2FA)**: Complete TOTP-based 2FA system with backup codes and email recovery
 - ✅ **Email Verification**: Email verification required on registration with resend functionality
 - ✅ **Brute Force Protection**: Account lockout after 10 failed attempts with reCAPTCHA integration
-- ✅ **AWS SES Integration**: Production-ready email delivery system
+- ✅ **Resend Integration**: Production-ready email delivery system
 - ✅ **Contact Form**: Public contact form with email notifications
 - ✅ **Security Audit Logging**: Comprehensive logging for all security events
 - ✅ **Admin 2FA Reset**: Admins can reset 2FA for users in their organization
@@ -1218,7 +1198,7 @@ This project is licensed under the MIT License.
 - **Two-Factor Authentication (2FA)**: Complete TOTP-based 2FA system with QR code setup, backup codes, email recovery, and admin reset
 - **Email Verification**: Email verification on registration with 24-hour token expiration and resend functionality
 - **Brute Force Protection**: Account lockout system with reCAPTCHA integration after 3 attempts and full lockout after 10 attempts
-- **AWS SES Email System**: Production-ready email delivery with professional templates, multi-language support, and attachment handling
+- **Resend Email System**: Production-ready email delivery with professional templates, multi-language support, and attachment handling
 - **Contact Form**: Public contact form with validation and email notifications
 - **Security Audit Logging**: Comprehensive logging for all authentication and security events
 - **Internationalization (i18n)**: Full multi-language support with 5 languages (Dutch, English, German, French, Spanish)
