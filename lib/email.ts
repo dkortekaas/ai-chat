@@ -13,9 +13,7 @@ let resendClient: Resend | null = null;
 function getResendClient(): Resend {
   if (!resendClient) {
     if (!process.env.RESEND_API_KEY) {
-      throw new Error(
-        "Missing Resend API key (RESEND_API_KEY)"
-      );
+      throw new Error("Missing Resend API key (RESEND_API_KEY)");
     }
     resendClient = new Resend(process.env.RESEND_API_KEY);
   }
@@ -41,12 +39,16 @@ async function sendEmailViaResend(
   const attachments = getEmailAttachments();
 
   // Convert attachments to Resend format
+  // For inline images with CID, convert to base64 for better email client compatibility
   const resendAttachments = attachments.map((att) => {
     const fileContent = readFileSync(att.path);
+    // Convert Buffer to base64 string for inline images
+    // This ensures better compatibility across email clients
+    const base64Content = fileContent.toString("base64");
     return {
       filename: att.filename,
-      content: fileContent,
-      cid: att.cid,
+      content: base64Content,
+      cid: att.cid, // CID makes it an inline attachment (not a regular attachment)
     };
   });
 
@@ -95,14 +97,14 @@ export async function createEmailTemplate(content: string) {
         </div>
         <div style="text-align: center; margin-top: 30px; color: #666; font-size: 0.9em;">
           <p style="margin: 10px 0;">© ${new Date().getFullYear()} ${
-    config.appTitle
-  }. ${t("mail.rights")}.</p>
+            config.appTitle
+          }. ${t("mail.rights")}.</p>
           <p style="margin: 10px 0;">
             <a href="${
               process.env.NEXT_PUBLIC_APP_URL
             }" style="color: #589bff; text-decoration: none;">${
-    process.env.NEXT_PUBLIC_APP_URL
-  }</a>
+              process.env.NEXT_PUBLIC_APP_URL
+            }</a>
           </p>
           <div style="margin-top: 15px;">
             <a href="${
@@ -226,13 +228,13 @@ export async function sendWelcomeEmail(
             <a href="${
               process.env.NEXT_PUBLIC_LINKEDIN_URL
             }" style="color: #666; text-decoration: none; margin-right: 15px;">${t(
-        "social.linkedin"
-      )}</a>
+              "social.linkedin"
+            )}</a>
             <a href="${
               process.env.NEXT_PUBLIC_TWITTER_URL
             }" style="color: #666; text-decoration: none;">${t(
-        "social.twitter"
-      )}</a>
+              "social.twitter"
+            )}</a>
           </div>
         </div>
 
@@ -287,8 +289,8 @@ export async function sendPasswordResetEmail(
         )}</p>
         <div style="text-align: center; margin: 30px 0;">
           <a href="${resetLink}" style="background-color: #589bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">${t(
-        "mail.resetPassword.link"
-      )}</a>
+            "mail.resetPassword.link"
+          )}</a>
         </div>
         <p style="color: #666; line-height: 1.6;">${t(
           "mail.resetPassword.ignore"
@@ -639,8 +641,8 @@ export async function sendInvitationEmail(
 
         <div style="text-align: center; margin: 30px 0;">
           <a href="${invitationLink}" style="background-color: #589bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">${t(
-        "createAccountLink"
-      )}</a>
+            "createAccountLink"
+          )}</a>
         </div>
       `)
     );
@@ -678,13 +680,13 @@ export async function sendDeclarationStatusEmail(
       `${t("declaration")} ${statusMessages[status]}`,
       await createEmailTemplate(`
         <h1 style="color: #333; margin-bottom: 20px;">${t("declaration")} ${
-        statusMessages[status]
-      }</h1>
+          statusMessages[status]
+        }</h1>
         <p style="color: #666; line-height: 1.6;">${t(
           "yourDeclaration"
         )} "${declarationTitle}" ${t("hasBeen")} ${statusMessages[
-        status
-      ].toLowerCase()}.</p>
+          status
+        ].toLowerCase()}.</p>
         ${
           comment
             ? `<p style="color: #666; line-height: 1.6;">${t(
@@ -693,12 +695,12 @@ export async function sendDeclarationStatusEmail(
             : ""
         }
         <p style="color: #666; line-height: 1.6;">${t("viewDeclarationIn")} ${
-        config.appTitle
-      }.</p>
+          config.appTitle
+        }.</p>
         <div style="text-align: center; margin: 30px 0;">
           <a href="${declarationLink}" style="background-color: #589bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">${t(
-        "viewDeclaration"
-      )}</a>
+            "viewDeclaration"
+          )}</a>
         </div>
       `)
     );
@@ -738,8 +740,8 @@ export async function sendDeclarationCreatedEmail(
         <p style="color: #666; line-height: 1.6;">${t("viewDeclaration")}</p>
         <div style="text-align: center; margin: 30px 0;">
           <a href="${declarationLink}" style="background-color: #589bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">${t(
-        "viewDeclarationLink"
-      )}</a>
+            "viewDeclarationLink"
+          )}</a>
         </div>
       `)
     );
@@ -778,8 +780,8 @@ export async function sendDeclarationToApproveEmail(
         <p style="color: #666; line-height: 1.6;">${t("processing")}</p>
         <div style="text-align: center; margin: 30px 0;">
           <a href="${declarationLink}" style="background-color: #589bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">${t(
-        "viewDeclarationLink"
-      )}</a>
+            "viewDeclarationLink"
+          )}</a>
         </div>
       `)
     );
@@ -857,8 +859,8 @@ export async function sendSubscriptionExpiringEmail(
     daysRemaining === 0
       ? `Je ${subscriptionType} verloopt vandaag!`
       : daysRemaining === 1
-      ? `Je ${subscriptionType} verloopt morgen!`
-      : `Je ${subscriptionType} verloopt over ${daysRemaining} dagen`;
+        ? `Je ${subscriptionType} verloopt morgen!`
+        : `Je ${subscriptionType} verloopt over ${daysRemaining} dagen`;
 
   try {
     await sendEmailViaResend(
@@ -882,8 +884,8 @@ export async function sendSubscriptionExpiringEmail(
             daysRemaining === 0
               ? `Je ${subscriptionType} verloopt <strong>vandaag</strong>.`
               : daysRemaining === 1
-              ? `Je ${subscriptionType} verloopt <strong>morgen</strong>.`
-              : `Je ${subscriptionType} verloopt over <strong>${daysRemaining} dagen</strong>.`
+                ? `Je ${subscriptionType} verloopt <strong>morgen</strong>.`
+                : `Je ${subscriptionType} verloopt over <strong>${daysRemaining} dagen</strong>.`
           }
         </p>
 
@@ -897,8 +899,8 @@ export async function sendSubscriptionExpiringEmail(
               daysRemaining === 0
                 ? "vandaag"
                 : daysRemaining === 1
-                ? "morgen"
-                : daysRemaining + " dagen"
+                  ? "morgen"
+                  : daysRemaining + " dagen"
             } kun je geen premium features meer gebruiken:
           </p>
           <ul style="color: #92400E; margin: 10px 0; padding-left: 20px;">
@@ -916,8 +918,8 @@ export async function sendSubscriptionExpiringEmail(
               daysRemaining === 0
                 ? "vandaag"
                 : daysRemaining === 1
-                ? "morgen"
-                : daysRemaining + " dagen"
+                  ? "morgen"
+                  : daysRemaining + " dagen"
             } worden je premium features uitgeschakeld.
           </p>
         </div>
@@ -965,8 +967,8 @@ export async function sendSubscriptionExpiringEmail(
             Neem contact met ons op via <a href="mailto:${
               config.email
             }" style="color: #3B82F6; text-decoration: none;">${
-        config.email
-      }</a><br/>
+              config.email
+            }</a><br/>
             We helpen je graag met het kiezen van het juiste abonnement.
           </p>
         </div>
@@ -1108,10 +1110,12 @@ export async function sendSubscriptionExpiredEmail(
 
         <p style="color: #666; line-height: 1.6; font-size: 16px;">
           Je ${subscriptionType} is ${
-        daysExpired === 0
-          ? "vandaag"
-          : daysExpired + (daysExpired === 1 ? " dag" : " dagen") + " geleden"
-      } verlopen.
+            daysExpired === 0
+              ? "vandaag"
+              : daysExpired +
+                (daysExpired === 1 ? " dag" : " dagen") +
+                " geleden"
+          } verlopen.
         </p>
 
         <div style="background-color: #FEE2E2; border-left: 4px solid #EF4444; padding: 20px; margin: 20px 0;">
