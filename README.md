@@ -102,11 +102,27 @@ A modern, fully functional Ainexo platform built with Next.js 15, TypeScript, an
 - **RAG Integration**: Full vector search and semantic understanding
 - **Content View**: Dedicated interface for viewing scraped website content
 - **Link Discovery**: Automatic extraction and management of website links
-- **FAQ Management**: Create and manage frequently asked questions
+- **FAQ Management**: Complete FAQ system with full CRUD operations
+  - **Create FAQs**: Add individual FAQs with question, answer, order, and enabled status
+  - **Edit FAQs**: Update existing FAQs with validation and character limits
+  - **Delete FAQs**: Remove FAQs with confirmation dialog
+  - **FAQ Overview**: Table and card views with search, sort, and pagination
+  - **FAQ Preview**: Modal preview showing full FAQ content with formatting
+  - **Bulk Import**: CSV upload for importing multiple FAQs at once
+    - CSV parsing with quoted field support
+    - Real-time validation with error reporting
+    - Progress tracking during import
+    - Batch processing for performance
+  - **Enable/Disable**: Toggle FAQ active status
+  - **Order Management**: Set display order for FAQs
+  - **Search & Filter**: Search by question/answer content
+  - **Sort Options**: Sort by question, creation date, or modification date
+  - **Pagination**: Handle large FAQ lists efficiently
 - **File Upload**: Upload knowledge files for AI training
 - **Content Organization**: Organize knowledge by categories
 - **Sync Management**: Control website synchronization settings
 - **Status Tracking**: Monitor processing status of knowledge sources
+- **KnowledgeBase Model**: Database model linking FAQs, websites, and documents to assistants
 
 ### 💬 Conversation Management
 
@@ -597,9 +613,15 @@ After running the seed script, you can login with these test accounts:
 - **Intelligent Scraping**: Multi-page crawling with content extraction
 - **RAG Integration**: Vector embeddings for semantic search
 - **Content View**: Dedicated page for viewing scraped content and links
-- **FAQs**: Create frequently asked questions
+- **FAQs**: Complete FAQ management system
+  - Create, edit, delete, and preview FAQs
+  - Search, sort, and pagination
+  - Enable/disable and order management
+  - Bulk CSV import with validation
+  - Preview modal with full content display
 - **Files**: Upload knowledge files (PDF, DOCX, TXT, etc.)
 - **Organization**: Categorize and manage knowledge sources
+- **KnowledgeBase Model**: Link FAQs, websites, and documents to assistants
 
 ### Action Buttons
 
@@ -752,11 +774,19 @@ After running the seed script, you can login with these test accounts:
 
 #### FAQs
 
-- `GET /api/faqs` - List FAQs for assistant
+- `GET /api/faqs?assistantId=[id]` - List FAQs for assistant
 - `POST /api/faqs` - Create FAQ
 - `GET /api/faqs/[id]` - Get FAQ details
 - `PUT /api/faqs/[id]` - Update FAQ
 - `DELETE /api/faqs/[id]` - Delete FAQ
+- `POST /api/faqs/bulk` - Bulk import FAQs from CSV
+
+#### Knowledge Base
+
+- `POST /api/assistants/[id]/knowledge` - Create knowledge base entry (link FAQ/website/document to assistant)
+- `GET /api/assistants/[id]/knowledge` - List knowledge base entries for assistant
+- `PATCH /api/knowledge/[id]` - Update knowledge base entry (enable/disable)
+- `DELETE /api/knowledge/[id]` - Delete knowledge base entry
 
 #### Files
 
@@ -815,7 +845,8 @@ After running the seed script, you can login with these test accounts:
 - **KnowledgeFile**: Knowledge base files
 - **Website**: Website integration for knowledge base with scraping data
 - **WebsitePage**: Individual scraped pages with content and links
-- **FAQ**: Frequently asked questions
+- **FAQ**: Frequently asked questions with full CRUD operations
+- **KnowledgeBase**: Links FAQs, websites, and documents to assistants with enable/disable functionality
 
 #### Communication
 
@@ -1128,6 +1159,31 @@ This project is licensed under the MIT License.
 
 ## 🆕 Recent Features
 
+### v2.5.0 - FAQ Management System
+
+- ✅ **KnowledgeBase Model**: Database model linking FAQs, websites, and documents to assistants
+- ✅ **FAQ CRUD API**: Complete REST API for FAQ operations (GET, POST, PUT, DELETE)
+- ✅ **FAQ Creation**: Form-based FAQ creation with validation and character limits
+- ✅ **FAQ Editing**: Edit existing FAQs with pre-filled forms
+- ✅ **FAQ Deletion**: Delete FAQs with confirmation dialog
+- ✅ **FAQ Overview**: Comprehensive list view with search, sort, and pagination
+- ✅ **FAQ Preview**: Modal preview showing full FAQ content with formatting
+- ✅ **Bulk Import**: CSV upload for importing multiple FAQs at once
+  - CSV parsing with quoted field support
+  - Real-time validation with error reporting per row
+  - Progress tracking during import
+  - Batch processing for performance
+  - Support for question, answer, enabled, and order columns
+- ✅ **Search & Filter**: Search FAQs by question/answer content
+- ✅ **Sort Options**: Sort by question, creation date, or modification date
+- ✅ **Pagination**: Efficient handling of large FAQ lists
+- ✅ **Table & Card Views**: Toggle between table and card layout
+- ✅ **Enable/Disable Toggle**: Quick toggle for FAQ active status
+- ✅ **Order Management**: Set display order for FAQs
+- ✅ **Character Limits**: Validation for question (500 chars) and answer (5000 chars)
+- ✅ **Empty States**: User-friendly messages when no FAQs exist
+- ✅ **Authorization**: Full authorization checks ensuring users can only manage their own FAQs
+
 ### v2.4.0 - Security & Email Enhancements
 
 - ✅ **Two-Factor Authentication (2FA)**: Complete TOTP-based 2FA system with backup codes and email recovery
@@ -1195,6 +1251,10 @@ This project is licensed under the MIT License.
 
 ### Latest Updates
 
+- **FAQ Management System**: Complete FAQ CRUD operations with bulk import, preview, search, sort, and pagination
+- **KnowledgeBase Model**: Database model for linking FAQs, websites, and documents to assistants
+- **CSV Bulk Import**: Import multiple FAQs from CSV with validation and progress tracking
+- **FAQ Preview**: Modal preview showing full FAQ content with formatting
 - **Two-Factor Authentication (2FA)**: Complete TOTP-based 2FA system with QR code setup, backup codes, email recovery, and admin reset
 - **Email Verification**: Email verification on registration with 24-hour token expiration and resend functionality
 - **Brute Force Protection**: Account lockout system with reCAPTCHA integration after 3 attempts and full lockout after 10 attempts

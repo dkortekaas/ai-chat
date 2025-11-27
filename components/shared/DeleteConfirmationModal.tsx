@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { AlertTriangle } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface DeleteConfirmationModalProps {
   isOpen: boolean;
@@ -30,6 +31,8 @@ export function DeleteConfirmationModal({
   itemName,
   isLoading = false,
 }: DeleteConfirmationModalProps) {
+  const t = useTranslations();
+
   const handleConfirm = () => {
     onConfirm();
   };
@@ -60,7 +63,8 @@ export function DeleteConfirmationModal({
         <div className="py-4">
           <div className="rounded-lg bg-gray-50 p-4">
             <p className="text-sm text-gray-600">
-              <span className="font-medium">Item:</span> {itemName}
+              <span className="font-medium">{t("common.item") || "Item"}:</span>{" "}
+              {itemName || t("common.unnamed") || "Unnamed"}
             </p>
           </div>
         </div>
@@ -72,7 +76,7 @@ export function DeleteConfirmationModal({
             onClick={handleClose}
             disabled={isLoading}
           >
-            Cancel
+            {t("common.cancel")}
           </Button>
           <Button
             type="button"
@@ -80,7 +84,7 @@ export function DeleteConfirmationModal({
             onClick={handleConfirm}
             disabled={isLoading}
           >
-            {isLoading ? "Deleting..." : "Delete"}
+            {isLoading ? t("common.deleting") : t("common.delete")}
           </Button>
         </DialogFooter>
       </DialogContent>

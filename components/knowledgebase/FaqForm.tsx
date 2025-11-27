@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Button,
   Input,
@@ -26,6 +26,10 @@ interface FAQFormProps {
   faq?: FAQ | null;
 }
 
+// Validation constants
+const MAX_QUESTION_LENGTH = 500;
+const MAX_ANSWER_LENGTH = 5000;
+
 export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
   const t = useTranslations();
   const { currentAssistant } = useAssistant();
@@ -36,9 +40,51 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
     enabled: faq?.enabled ?? true,
     order: faq?.order || 0,
   });
+  const [errors, setErrors] = useState<{
+    question?: string;
+    answer?: string;
+  }>({});
   const { toast } = useToast();
 
   const isEditing = !!faq;
+
+  // Reset form when FAQ changes or modal opens/closes
+  useEffect(() => {
+    if (isOpen) {
+      setFormData({
+        question: faq?.question || "",
+        answer: faq?.answer || "",
+        enabled: faq?.enabled ?? true,
+        order: faq?.order || 0,
+      });
+      setErrors({});
+    }
+  }, [isOpen, faq]);
+
+  const validateForm = (): boolean => {
+    const newErrors: { question?: string; answer?: string } = {};
+
+    // Validate question
+    if (!formData.question.trim()) {
+      newErrors.question = t("forms.validation.required");
+    } else if (formData.question.length > MAX_QUESTION_LENGTH) {
+      newErrors.question = t("forms.validation.maxLength", {
+        max: MAX_QUESTION_LENGTH,
+      });
+    }
+
+    // Validate answer
+    if (!formData.answer.trim()) {
+      newErrors.answer = t("forms.validation.required");
+    } else if (formData.answer.length > MAX_ANSWER_LENGTH) {
+      newErrors.answer = t("forms.validation.maxLength", {
+        max: MAX_ANSWER_LENGTH,
+      });
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,6 +92,15 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
     if (!currentAssistant) {
       toast({
         description: t("error.knowledgebase.noAssistantSelected"),
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Validate form before submission
+    if (!validateForm()) {
+      toast({
+        description: t("error.missingFieldsDescription"),
         variant: "destructive",
       });
       return;
@@ -96,12 +151,14 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
 
   const handleClose = () => {
     if (!isLoading) {
+      // Reset form to original FAQ values or empty
       setFormData({
         question: faq?.question || "",
         answer: faq?.answer || "",
         enabled: faq?.enabled ?? true,
         order: faq?.order || 0,
       });
+      setErrors({});
       onClose();
     }
   };
@@ -122,32 +179,84 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="question">{t("knowledgebase.question")} *</Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="question">{t("knowledgebase.question")} *</Label>
+              <span
+                className={`text-xs ${
+                  formData.question.length > MAX_QUESTION_LENGTH
+                    ? "text-destructive"
+                    : "text-muted-foreground"
+                }`}
+              >
+                {formData.question.length}/{MAX_QUESTION_LENGTH}
+              </span>
+            </div>
             <Input
               id="question"
               placeholder={t("knowledgebase.questionPlaceholder")}
               value={formData.question}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, question: e.target.value }))
-              }
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value.length <= MAX_QUESTION_LENGTH) {
+                  setFormData((prev) => ({ ...prev, question: value }));
+                  if (errors.question) {
+                    setErrors((prev) => ({ ...prev, question: undefined }));
+                  }
+                }
+              }}
               required
               disabled={isLoading}
+              maxLength={MAX_QUESTION_LENGTH}
+              className={errors.question ? "border-destructive" : ""}
+              aria-invalid={!!errors.question}
+              aria-describedby={errors.question ? "question-error" : undefined}
             />
+            {errors.question && (
+              <p id="question-error" className="text-sm text-destructive">
+                {errors.question}
+              </p>
+            )}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="answer">{t("knowledgebase.answer")} *</Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="answer">{t("knowledgebase.answer")} *</Label>
+              <span
+                className={`text-xs ${
+                  formData.answer.length > MAX_ANSWER_LENGTH
+                    ? "text-destructive"
+                    : "text-muted-foreground"
+                }`}
+              >
+                {formData.answer.length}/{MAX_ANSWER_LENGTH}
+              </span>
+            </div>
             <Textarea
               id="answer"
               placeholder={t("knowledgebase.answerPlaceholder")}
               value={formData.answer}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, answer: e.target.value }))
-              }
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value.length <= MAX_ANSWER_LENGTH) {
+                  setFormData((prev) => ({ ...prev, answer: value }));
+                  if (errors.answer) {
+                    setErrors((prev) => ({ ...prev, answer: undefined }));
+                  }
+                }
+              }}
               required
               disabled={isLoading}
               rows={6}
+              maxLength={MAX_ANSWER_LENGTH}
+              className={errors.answer ? "border-destructive" : ""}
+              aria-invalid={!!errors.answer}
+              aria-describedby={errors.answer ? "answer-error" : undefined}
             />
+            {errors.answer && (
+              <p id="answer-error" className="text-sm text-destructive">
+                {errors.answer}
+              </p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -195,13 +304,19 @@ export function FAQForm({ isOpen, onClose, onSuccess, faq }: FAQFormProps) {
             </Button>
             <Button
               type="submit"
-              disabled={isLoading}
+              disabled={
+                isLoading ||
+                !formData.question.trim() ||
+                !formData.answer.trim() ||
+                formData.question.length > MAX_QUESTION_LENGTH ||
+                formData.answer.length > MAX_ANSWER_LENGTH
+              }
               className="bg-primary text-white hover:bg-primary/80"
             >
               {isLoading
                 ? t("common.saving")
                 : isEditing
-                  ? t("common.update")
+                  ? t("common.save")
                   : t("common.add")}
             </Button>
           </DialogFooter>
