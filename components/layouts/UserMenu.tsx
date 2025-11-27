@@ -8,13 +8,14 @@ import { useTranslations } from "next-intl";
 import {
   Button,
   Avatar,
+  AvatarImage,
+  AvatarFallback,
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/components/ui";
-import Image from "next/image";
 
 export default function UserMenu() {
   const { data: session } = useSession();
@@ -114,16 +115,16 @@ export default function UserMenu() {
           variant="ghost"
           className="flex items-center gap-2 px-3 py-2 h-auto"
         >
-          <Avatar className="w-8 h-8 bg-primary text-white flex items-center justify-center text-sm font-medium">
-            {session.user.image ? (
-              <Image
+          <Avatar className="w-8 h-8">
+            {session.user.image && (
+              <AvatarImage
                 src={session.user.image}
                 alt={session.user.name || t("common.user")}
-                className="w-full h-full rounded-full object-cover"
               />
-            ) : (
-              <span>{userInitials}</span>
             )}
+            <AvatarFallback className="bg-primary text-white text-sm font-medium">
+              {userInitials}
+            </AvatarFallback>
           </Avatar>
           <div className="flex flex-col items-start">
             <span className="text-sm font-medium text-gray-900">

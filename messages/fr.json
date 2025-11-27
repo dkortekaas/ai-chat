@@ -203,7 +203,10 @@
       "noAssistantSelected": "Aucun assistant sélectionné"
     },
     "emailNotVerified": "E-mail non vérifié",
-    "emailNotVerifiedDescription": "Votre adresse e-mail n'est pas vérifiée. Veuillez vérifier votre e-mail pour vérifier votre compte."
+    "emailNotVerifiedDescription": "Votre adresse e-mail n'est pas vérifiée. Veuillez vérifier votre e-mail pour vérifier votre compte.",
+    "invalidImageFile": "Seuls les fichiers image sont autorisés",
+    "errorUploadingAvatar": "Échec du téléchargement de la photo de profil",
+    "errorRemovingAvatar": "Échec de la suppression de la photo de profil"
   },
   "success": {
     "actionButton": "Bouton d'action ajouté avec succès",
@@ -240,7 +243,11 @@
     "assistantUpdatedSuccessfully": "Assistant mis à jour avec succès",
     "assistantDuplicatedDescription": "Assistant dupliqué avec succès",
     "assistantDeletedDescription": "Assistant supprimé avec succès",
-    "assistantCreatedSuccessfully": "Assistant créé avec succès"
+    "assistantCreatedSuccessfully": "Assistant créé avec succès",
+    "avatarUploaded": "Photo de profil téléchargée avec succès",
+    "avatarRemoved": "Photo de profil supprimée avec succès",
+    "personalDetailsSaved": "Détails personnels enregistrés avec succès",
+    "errorSavingPersonalDetails": "Échec de l'enregistrement des détails personnels"
   },
   "notFound": {
     "title": "Page non trouvée",
@@ -886,6 +893,9 @@
     "confirmNewPassword": "Confirmer le nouveau mot de passe",
     "firstName": "Prénom",
     "lastName": "Nom de famille",
+    "profilePicture": "Photo de profil",
+    "changeAvatar": "Changer",
+    "removeAvatar": "Supprimer",
     "changePassword": "Changer le mot de passe",
     "emailSettings": "Paramètres e-mail",
     "newEmail": "Nouvel e-mail",

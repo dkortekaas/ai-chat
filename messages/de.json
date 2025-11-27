@@ -203,7 +203,10 @@
       "noAssistantSelected": "Kein Assistent ausgewählt"
     },
     "emailNotVerified": "E-Mail nicht verifiziert",
-    "emailNotVerifiedDescription": "Ihre E-Mail-Adresse ist nicht verifiziert. Bitte überprüfen Sie Ihre E-Mail, um Ihr Konto zu verifizieren."
+    "emailNotVerifiedDescription": "Ihre E-Mail-Adresse ist nicht verifiziert. Bitte überprüfen Sie Ihre E-Mail, um Ihr Konto zu verifizieren.",
+    "invalidImageFile": "Nur Bilddateien sind erlaubt",
+    "errorUploadingAvatar": "Fehler beim Hochladen des Profilbilds",
+    "errorRemovingAvatar": "Fehler beim Entfernen des Profilbilds"
   },
   "success": {
     "actionButton": "Aktionstaste erfolgreich hinzugefügt",
@@ -240,7 +243,11 @@
     "assistantUpdatedSuccessfully": "Assistent erfolgreich aktualisiert",
     "assistantDuplicatedDescription": "Assistent erfolgreich dupliziert",
     "assistantDeletedDescription": "Assistent erfolgreich gelöscht",
-    "assistantCreatedSuccessfully": "Assistent erfolgreich erstellt"
+    "assistantCreatedSuccessfully": "Assistent erfolgreich erstellt",
+    "avatarUploaded": "Profilbild erfolgreich hochgeladen",
+    "avatarRemoved": "Profilbild erfolgreich entfernt",
+    "personalDetailsSaved": "Persönliche Daten erfolgreich gespeichert",
+    "errorSavingPersonalDetails": "Fehler beim Speichern der persönlichen Daten"
   },
   "notFound": {
     "title": "Seite nicht gefunden",
@@ -886,6 +893,9 @@
     "confirmNewPassword": "Neues Passwort bestätigen",
     "firstName": "Vorname",
     "lastName": "Nachname",
+    "profilePicture": "Profilbild",
+    "changeAvatar": "Ändern",
+    "removeAvatar": "Entfernen",
     "changePassword": "Passwort ändern",
     "emailSettings": "E-Mail-Einstellungen",
     "newEmail": "Neue E-Mail",

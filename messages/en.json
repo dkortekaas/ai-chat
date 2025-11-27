@@ -427,7 +427,10 @@
       "noAssistantSelected": "No assistant selected"
     },
     "emailNotVerified": "Email not verified",
-    "emailNotVerifiedDescription": "Your email address is not verified. Please check your email to verify your account."
+    "emailNotVerifiedDescription": "Your email address is not verified. Please check your email to verify your account.",
+    "invalidImageFile": "Only image files are allowed",
+    "errorUploadingAvatar": "Failed to upload avatar",
+    "errorRemovingAvatar": "Failed to remove avatar"
   },
   "success": {
     "actionButton": "Action button added successfully",
@@ -465,7 +468,11 @@
     "assistantDuplicatedDescription": "Assistant duplicated successfully",
     "assistantDeletedDescription": "Assistant deleted successfully",
     "assistantCreatedSuccessfully": "Assistant created successfully",
-    "accountCreated": "Account created successfully"
+    "accountCreated": "Account created successfully",
+    "avatarUploaded": "Avatar uploaded successfully",
+    "avatarRemoved": "Avatar removed successfully",
+    "personalDetailsSaved": "Personal details saved successfully",
+    "errorSavingPersonalDetails": "Failed to save personal details"
   },
   "notFound": {
     "title": "Page Not Found",
@@ -1085,6 +1092,9 @@
     "confirmNewPassword": "Confirm New Password",
     "firstName": "First Name",
     "lastName": "Last Name",
+    "profilePicture": "Profile Picture",
+    "changeAvatar": "Change",
+    "removeAvatar": "Remove",
     "changePassword": "Change Password",
     "emailSettings": "Email Settings",
     "newEmail": "New Email",

@@ -203,7 +203,10 @@
       "noAssistantSelected": "No se ha seleccionado ningún asistente"
     },
     "emailNotVerified": "Correo electrónico no verificado",
-    "emailNotVerifiedDescription": "Su correo electrónico no está verificado. Por favor, verifique su correo electrónico para verificar su cuenta."
+    "emailNotVerifiedDescription": "Su correo electrónico no está verificado. Por favor, verifique su correo electrónico para verificar su cuenta.",
+    "invalidImageFile": "Solo se permiten archivos de imagen",
+    "errorUploadingAvatar": "Error al subir la foto de perfil",
+    "errorRemovingAvatar": "Error al eliminar la foto de perfil"
   },
   "success": {
     "actionButton": "Botón de acción añadido con éxito",
@@ -240,7 +243,11 @@
     "assistantUpdatedSuccessfully": "Asistente actualizado con éxito",
     "assistantDuplicatedDescription": "Asistente duplicado con éxito",
     "assistantDeletedDescription": "Asistente eliminado con éxito",
-    "assistantCreatedSuccessfully": "Asistente creado con éxito"
+    "assistantCreatedSuccessfully": "Asistente creado con éxito",
+    "avatarUploaded": "Foto de perfil subida con éxito",
+    "avatarRemoved": "Foto de perfil eliminada con éxito",
+    "personalDetailsSaved": "Detalles personales guardados con éxito",
+    "errorSavingPersonalDetails": "Error al guardar los detalles personales"
   },
   "notFound": {
     "title": "Página no encontrada",
@@ -886,6 +893,9 @@
     "confirmNewPassword": "Confirmar nueva contraseña",
     "firstName": "Nombre",
     "lastName": "Apellido",
+    "profilePicture": "Foto de perfil",
+    "changeAvatar": "Cambiar",
+    "removeAvatar": "Eliminar",
     "changePassword": "Cambiar contraseña",
     "emailSettings": "Configuración de correo electrónico",
     "newEmail": "Nuevo correo electrónico",

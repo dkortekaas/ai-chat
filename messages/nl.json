@@ -427,7 +427,10 @@
       "noAssistantSelected": "Geen assistent geselecteerd"
     },
     "emailNotVerified": "E-mailadres niet geverifieerd",
-    "emailNotVerifiedDescription": "Uw e-mailadres is nog niet geverifieerd. Controleer uw e-mail om uw account te verifiëren."
+    "emailNotVerifiedDescription": "Uw e-mailadres is nog niet geverifieerd. Controleer uw e-mail om uw account te verifiëren.",
+    "invalidImageFile": "Alleen afbeeldingsbestanden zijn toegestaan",
+    "errorUploadingAvatar": "Fout bij uploaden profielfoto",
+    "errorRemovingAvatar": "Fout bij verwijderen profielfoto"
   },
   "success": {
     "actionButton": "Actieknop succesvol toegevoegd",
@@ -465,7 +468,11 @@
     "assistantDuplicatedDescription": "Assistent succesvol gedupliceerd",
     "assistantDeletedDescription": "Assistent succesvol verwijderd",
     "assistantCreatedSuccessfully": "Assistent succesvol aangemaakt",
-    "accountCreated": "Account succesvol aangemaakt"
+    "accountCreated": "Account succesvol aangemaakt",
+    "avatarUploaded": "Profielfoto succesvol geüpload",
+    "avatarRemoved": "Profielfoto succesvol verwijderd",
+    "personalDetailsSaved": "Persoonlijke gegevens succesvol opgeslagen",
+    "errorSavingPersonalDetails": "Fout bij opslaan persoonlijke gegevens"
   },
   "notFound": {
     "title": "Pagina niet gevonden",
@@ -1085,6 +1092,9 @@
     "confirmNewPassword": "Bevestig nieuw wachtwoord",
     "firstName": "Voornaam",
     "lastName": "Achternaam",
+    "profilePicture": "Profielfoto",
+    "changeAvatar": "Wijzigen",
+    "removeAvatar": "Verwijderen",
     "changePassword": "Wachtwoord wijzigen",
     "emailSettings": "E-mailinstellingen",
     "newEmail": "Nieuw e-mailadres",

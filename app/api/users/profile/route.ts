@@ -25,6 +25,7 @@ export async function GET(req: NextRequest) {
         id: true,
         name: true,
         email: true,
+        image: true,
         twoFactorEnabled: true,
         twoFactorMethod: true,
         twoFactorVerified: true,
@@ -53,6 +54,7 @@ const profileSchema = z.object({
   name: z.string().min(1, { message: "Naam is verplicht" }),
   department: z.string().optional(),
   language: z.string().optional(),
+  image: z.string().nullable().optional(),
 });
 
 export async function PATCH(req: NextRequest) {
@@ -78,7 +80,7 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
-    const { name, department, language } = validationResult.data;
+    const { name, department, language, image } = validationResult.data;
 
     const updatedUser = await db.user.update({
       where: {
@@ -86,6 +88,7 @@ export async function PATCH(req: NextRequest) {
       },
       data: {
         name,
+        ...(image !== undefined && { image }),
       },
     });
 
