@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -45,28 +45,31 @@ export function AssistantOverview() {
     session?.user?.role === "ADMIN" || session?.user?.role === "SUPERUSER";
 
   // Limit to 1 assistant for trial users (display only first one)
-  const displayAssistants = assistants.slice(0, 1);
+  const displayAssistants = useMemo(() => assistants.slice(0, 1), [assistants]);
+  const firstAssistantId = displayAssistants[0]?.id;
 
   useEffect(() => {
-    if (displayAssistants.length > 0 && displayAssistants[0].id) {
-      fetchEmbedCode(displayAssistants[0].id);
-    }
-  }, [displayAssistants]);
+    if (!firstAssistantId) return;
 
-  const fetchEmbedCode = async (assistantId: string) => {
-    setEmbedCodeLoading(true);
-    try {
-      const response = await fetch(`/api/assistants/${assistantId}/embed-code`);
-      if (response.ok) {
-        const data = await response.json();
-        setEmbedCode(data.embedCode);
+    const fetchEmbedCode = async (assistantId: string) => {
+      setEmbedCodeLoading(true);
+      try {
+        const response = await fetch(
+          `/api/assistants/${assistantId}/embed-code`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setEmbedCode(data.embedCode);
+        }
+      } catch (error) {
+        console.error("Error fetching embed code:", error);
+      } finally {
+        setEmbedCodeLoading(false);
       }
-    } catch (error) {
-      console.error("Error fetching embed code:", error);
-    } finally {
-      setEmbedCodeLoading(false);
-    }
-  };
+    };
+
+    fetchEmbedCode(firstAssistantId);
+  }, [firstAssistantId]);
 
   const handleCopyEmbedCode = async () => {
     if (!embedCode) return;
@@ -102,12 +105,9 @@ export function AssistantOverview() {
 
     setIsDeleting(true);
     try {
-      const response = await fetch(
-        `/api/assistants/${assistantToDelete.id}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const response = await fetch(`/api/assistants/${assistantToDelete.id}`, {
+        method: "DELETE",
+      });
 
       if (response.ok) {
         toast({
@@ -123,7 +123,9 @@ export function AssistantOverview() {
       } else {
         const error = await response.json();
         throw new Error(
-          error.error || t("error.failedToDeleteAssistant") || "Verwijderen mislukt"
+          error.error ||
+            t("error.failedToDeleteAssistant") ||
+            "Verwijderen mislukt"
         );
       }
     } catch (error) {
@@ -160,12 +162,11 @@ export function AssistantOverview() {
         const data = await response.json();
         toast({
           title: t("common.success") || "Success",
-          description:
-            data.isActive
-              ? t("success.assistantActivated") ||
-                "Assistent succesvol geactiveerd"
-              : t("success.assistantDeactivated") ||
-                "Assistent succesvol gedeactiveerd",
+          description: data.isActive
+            ? t("success.assistantActivated") ||
+              "Assistent succesvol geactiveerd"
+            : t("success.assistantDeactivated") ||
+              "Assistent succesvol gedeactiveerd",
           variant: "success",
         });
         // Refresh assistants to get updated state
@@ -398,4 +399,3 @@ export function AssistantOverview() {
     </>
   );
 }
-
