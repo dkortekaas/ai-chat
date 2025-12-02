@@ -12,7 +12,7 @@ import config from "@/config";
 
 const inter = Inter({
   subsets: ["latin"],
-  display: 'swap', // Prevent invisible text during font load
+  display: "swap", // Prevent invisible text during font load
   preload: true,
 });
 
@@ -111,8 +111,8 @@ export default async function RootLayout({
               />
               {/* Chatbot Widget - Deferred for better performance */}
               <Script
-                src="https://ai-chat-pi-blond.vercel.app/widget/loader.js"
-                data-chatbot-id="220c14b0-888e-42d5-8072-44b84f68688d"
+                src="https://ainexo.app/widget/loader.js"
+                data-chatbot-id="cbk_live_5c072cd7ff1b7380976d045e63f1e97310d98aa4487e6b7315e8ddfccd8ee728"
                 strategy="lazyOnload"
               />
             </AuthProvider>

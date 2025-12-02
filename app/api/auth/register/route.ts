@@ -13,6 +13,7 @@ const registerSchema = z.object({
   name: z.string().min(1),
   email: z.string().email(),
   password: z.string().min(6),
+  companyName: z.string().min(1).optional(),
   recaptchaToken: z.string().optional(),
 });
 
@@ -34,17 +35,20 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { name, email, password, recaptchaToken } = validationResult.data;
+    const { name, email, password, companyName, recaptchaToken } =
+      validationResult.data;
 
     // Verify reCAPTCHA token (bot protection)
     const recaptchaResult = await verifyRecaptchaToken(
       recaptchaToken,
-      'register',
+      "register",
       0.5 // Minimum score for registration
     );
 
     if (!recaptchaResult.success) {
-      logger.warn(`[REGISTER_POST] reCAPTCHA failed for ${email}: ${recaptchaResult.error}`);
+      logger.warn(
+        `[REGISTER_POST] reCAPTCHA failed for ${email}: ${recaptchaResult.error}`
+      );
       return NextResponse.json(
         {
           message: t("error.botDetected"),
@@ -71,11 +75,12 @@ export async function POST(req: NextRequest) {
     // Hash the password
     const hashedPassword = await hash(password, 12);
 
-    // Always create a default company for the registrant
-    const companyName = name ? `${name}'s Company` : `${email}'s Company`;
+    // Use provided company name, or fallback to default if not provided
+    const finalCompanyName =
+      companyName || (name ? `${name}'s Company` : `${email}'s Company`);
     const company = await db.company.create({
       data: {
-        name: companyName,
+        name: finalCompanyName,
         description: "Default company created at registration",
       },
     });
@@ -108,7 +113,8 @@ export async function POST(req: NextRequest) {
     });
 
     // Initialize trial subscription using CRUD function
-    const { initializeTrialSubscription } = await import("@/lib/subscription-crud");
+    const { initializeTrialSubscription } =
+      await import("@/lib/subscription-crud");
     await initializeTrialSubscription(user.id, 30);
 
     // Generate email verification token
@@ -131,10 +137,14 @@ export async function POST(req: NextRequest) {
         companyId: user.companyId,
         name: user.name,
       });
-      logger.info(`[REGISTER_POST] Verification email sent to ${email.substring(0, 3)}***`);
+      logger.info(
+        `[REGISTER_POST] Verification email sent to ${email.substring(0, 3)}***`
+      );
     } catch (emailError) {
       // Log error but don't fail the registration
-      logger.error(`[REGISTER_POST] Failed to send verification email: ${emailError}`);
+      logger.error(
+        `[REGISTER_POST] Failed to send verification email: ${emailError}`
+      );
     }
 
     return NextResponse.json(
